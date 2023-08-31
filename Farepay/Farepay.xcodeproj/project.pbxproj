@@ -21,6 +21,7 @@
 		F51193A62A97D19500554604 /* Font+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F51193A52A97D19500554604 /* Font+Extension.swift */; };
 		F51193A82A97DAAC00554604 /* Utility.swift in Sources */ = {isa = PBXBuildFile; fileRef = F51193A72A97DAAC00554604 /* Utility.swift */; };
 		F51193AA2A97DBA100554604 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F51193A92A97DBA100554604 /* LoginView.swift */; };
+		F5192AEB2AA11B8900DF5ED1 /* PayQRView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5192AEA2AA11B8900DF5ED1 /* PayQRView.swift */; };
 		F5500E1F2AA10CB400B39655 /* TapToPayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5500E1E2AA10CB400B39655 /* TapToPayView.swift */; };
 		F5500E212AA1136500B39655 /* TryAgainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5500E202AA1136500B39655 /* TryAgainView.swift */; };
 		F554AC162AA0FC03007EED59 /* PaymentDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F554AC152AA0FC03007EED59 /* PaymentDetailView.swift */; };
@@ -49,6 +50,7 @@
 		F51193A52A97D19500554604 /* Font+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Font+Extension.swift"; sourceTree = "<group>"; };
 		F51193A72A97DAAC00554604 /* Utility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utility.swift; sourceTree = "<group>"; };
 		F51193A92A97DBA100554604 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
+		F5192AEA2AA11B8900DF5ED1 /* PayQRView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayQRView.swift; sourceTree = "<group>"; };
 		F5500E1E2AA10CB400B39655 /* TapToPayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TapToPayView.swift; sourceTree = "<group>"; };
 		F5500E202AA1136500B39655 /* TryAgainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TryAgainView.swift; sourceTree = "<group>"; };
 		F554AC152AA0FC03007EED59 /* PaymentDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentDetailView.swift; sourceTree = "<group>"; };
@@ -202,6 +204,7 @@
 				F554AC152AA0FC03007EED59 /* PaymentDetailView.swift */,
 				F5500E1E2AA10CB400B39655 /* TapToPayView.swift */,
 				F5500E202AA1136500B39655 /* TryAgainView.swift */,
+				F5192AEA2AA11B8900DF5ED1 /* PayQRView.swift */,
 			);
 			path = Payment;
 			sourceTree = "<group>";
@@ -297,6 +300,7 @@
 				F51193AA2A97DBA100554604 /* LoginView.swift in Sources */,
 				F561E4192A991BA600599CE9 /* SignUpView.swift in Sources */,
 				F51193912A97C6ED00554604 /* SplashView.swift in Sources */,
+				F5192AEB2AA11B8900DF5ED1 /* PayQRView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -34,7 +34,7 @@ struct TapToPayView: View {
         }
         .navigationDestination(isPresented: $willMoveToTryAgain) {
             
-            TryAgainView().toolbar(.hidden, for: .navigationBar)
+            PayQRView().toolbar(.hidden, for: .navigationBar)
         }
     }
 }

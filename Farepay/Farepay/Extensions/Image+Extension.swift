@@ -15,7 +15,6 @@ extension UIImage{
     static let backArrow = UIImage(named: "backArrow") ?? .image_placeholder
     static let menuIcon = UIImage(named: "menuIcon") ?? .image_placeholder
     static let optionIcon = UIImage(named: "optionIcon") ?? .image_placeholder
-    
     static let AppleLogo = UIImage(named: "AppleLogo") ?? .image_placeholder
     static let GoogleLogo = UIImage(named: "GoogleLogo") ?? .image_placeholder
     static let ic_Email = UIImage(named: "ic_Email") ?? .image_placeholder
@@ -37,4 +36,8 @@ extension UIImage{
     static let ic_BackSpace = UIImage(named: "ic_BackSpace") ?? .image_placeholder
     static let ic_Tap = UIImage(named: "ic_Tap") ?? .image_placeholder
     static let ic_TryAgain = UIImage(named: "ic_TryAgain") ?? .image_placeholder
+    static let ic_Success = UIImage(named: "ic_Success") ?? .image_placeholder
+    static let ic_Home2 = UIImage(named: "ic_Home2") ?? .image_placeholder
+    static let ic_Discount = UIImage(named: "ic_Discount") ?? .image_placeholder
+    static let ic_Qr = UIImage(named: "ic_Qr") ?? .image_placeholder
 }
