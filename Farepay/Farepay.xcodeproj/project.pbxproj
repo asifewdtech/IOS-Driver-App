@@ -1,0 +1,506 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		F511937E2A97C4DF00554604 /* FarepayApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = F511937D2A97C4DF00554604 /* FarepayApp.swift */; };
+		F51193822A97C4E200554604 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F51193812A97C4E200554604 /* Assets.xcassets */; };
+		F51193852A97C4E200554604 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F51193842A97C4E200554604 /* Preview Assets.xcassets */; };
+		F51193912A97C6ED00554604 /* SplashView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F51193902A97C6ED00554604 /* SplashView.swift */; };
+		F51193952A97C97400554604 /* Colors+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F51193942A97C97400554604 /* Colors+Extension.swift */; };
+		F51193972A97C99F00554604 /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F51193962A97C99F00554604 /* String+Extension.swift */; };
+		F51193992A97C9EA00554604 /* Image+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F51193982A97C9EA00554604 /* Image+Extension.swift */; };
+		F511939D2A97CFC800554604 /* Poppins-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F511939C2A97CFC800554604 /* Poppins-Bold.ttf */; };
+		F511939F2A97CFDB00554604 /* Poppins-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F511939E2A97CFDB00554604 /* Poppins-Medium.ttf */; };
+		F51193A12A97CFF900554604 /* Poppins-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F51193A02A97CFF900554604 /* Poppins-SemiBold.ttf */; };
+		F51193A32A97D02B00554604 /* Poppins-Thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F51193A22A97D02B00554604 /* Poppins-Thin.ttf */; };
+		F51193A62A97D19500554604 /* Font+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F51193A52A97D19500554604 /* Font+Extension.swift */; };
+		F51193A82A97DAAC00554604 /* Utility.swift in Sources */ = {isa = PBXBuildFile; fileRef = F51193A72A97DAAC00554604 /* Utility.swift */; };
+		F51193AA2A97DBA100554604 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F51193A92A97DBA100554604 /* LoginView.swift */; };
+		F5500E1F2AA10CB400B39655 /* TapToPayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5500E1E2AA10CB400B39655 /* TapToPayView.swift */; };
+		F5500E212AA1136500B39655 /* TryAgainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5500E202AA1136500B39655 /* TryAgainView.swift */; };
+		F554AC162AA0FC03007EED59 /* PaymentDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F554AC152AA0FC03007EED59 /* PaymentDetailView.swift */; };
+		F561E4192A991BA600599CE9 /* SignUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F561E4182A991BA600599CE9 /* SignUpView.swift */; };
+		F561E41B2A991D5700599CE9 /* Navigation+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F561E41A2A991D5700599CE9 /* Navigation+Extension.swift */; };
+		F561E41D2A992B2B00599CE9 /* CompanyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F561E41C2A992B2B00599CE9 /* CompanyView.swift */; };
+		F5A8F3E72A9D0F69006C964E /* RepresentativeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5A8F3E62A9D0F69006C964E /* RepresentativeView.swift */; };
+		F5C18CEF2A9D047E00B05031 /* SplashScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F5C18CEE2A9D047E00B05031 /* SplashScreen.storyboard */; };
+		F5D118522A9FB6A100C027FA /* PaymentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5D118512A9FB6A000C027FA /* PaymentView.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		F511937A2A97C4DF00554604 /* Farepay.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Farepay.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		F511937D2A97C4DF00554604 /* FarepayApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FarepayApp.swift; sourceTree = "<group>"; };
+		F51193812A97C4E200554604 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		F51193842A97C4E200554604 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		F51193902A97C6ED00554604 /* SplashView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashView.swift; sourceTree = "<group>"; };
+		F51193942A97C97400554604 /* Colors+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Colors+Extension.swift"; sourceTree = "<group>"; };
+		F51193962A97C99F00554604 /* String+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extension.swift"; sourceTree = "<group>"; };
+		F51193982A97C9EA00554604 /* Image+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Image+Extension.swift"; sourceTree = "<group>"; };
+		F511939C2A97CFC800554604 /* Poppins-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Poppins-Bold.ttf"; sourceTree = "<group>"; };
+		F511939E2A97CFDB00554604 /* Poppins-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Poppins-Medium.ttf"; sourceTree = "<group>"; };
+		F51193A02A97CFF900554604 /* Poppins-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Poppins-SemiBold.ttf"; sourceTree = "<group>"; };
+		F51193A22A97D02B00554604 /* Poppins-Thin.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Poppins-Thin.ttf"; sourceTree = "<group>"; };
+		F51193A42A97D11200554604 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		F51193A52A97D19500554604 /* Font+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Font+Extension.swift"; sourceTree = "<group>"; };
+		F51193A72A97DAAC00554604 /* Utility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utility.swift; sourceTree = "<group>"; };
+		F51193A92A97DBA100554604 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
+		F5500E1E2AA10CB400B39655 /* TapToPayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TapToPayView.swift; sourceTree = "<group>"; };
+		F5500E202AA1136500B39655 /* TryAgainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TryAgainView.swift; sourceTree = "<group>"; };
+		F554AC152AA0FC03007EED59 /* PaymentDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentDetailView.swift; sourceTree = "<group>"; };
+		F561E4182A991BA600599CE9 /* SignUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpView.swift; sourceTree = "<group>"; };
+		F561E41A2A991D5700599CE9 /* Navigation+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Navigation+Extension.swift"; sourceTree = "<group>"; };
+		F561E41C2A992B2B00599CE9 /* CompanyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompanyView.swift; sourceTree = "<group>"; };
+		F5A8F3E62A9D0F69006C964E /* RepresentativeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepresentativeView.swift; sourceTree = "<group>"; };
+		F5C18CEE2A9D047E00B05031 /* SplashScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = SplashScreen.storyboard; sourceTree = "<group>"; };
+		F5D118512A9FB6A000C027FA /* PaymentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentView.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		F51193772A97C4DF00554604 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		F51193712A97C4DF00554604 = {
+			isa = PBXGroup;
+			children = (
+				F511937C2A97C4DF00554604 /* Farepay */,
+				F511937B2A97C4DF00554604 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		F511937B2A97C4DF00554604 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				F511937A2A97C4DF00554604 /* Farepay.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		F511937C2A97C4DF00554604 /* Farepay */ = {
+			isa = PBXGroup;
+			children = (
+				F51193A42A97D11200554604 /* Info.plist */,
+				F51193922A97C93900554604 /* AppUtility */,
+				F51193932A97C95F00554604 /* Extensions */,
+				F511938B2A97C69100554604 /* Resources */,
+				F511938D2A97C6AD00554604 /* Model */,
+				F511938C2A97C6A800554604 /* View */,
+				F511938E2A97C6B400554604 /* Controiller */,
+				F51193832A97C4E200554604 /* Preview Content */,
+			);
+			path = Farepay;
+			sourceTree = "<group>";
+		};
+		F51193832A97C4E200554604 /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				F51193842A97C4E200554604 /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		F511938B2A97C69100554604 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				F511939A2A97CC7E00554604 /* Fonts */,
+				F511939B2A97CC9600554604 /* Images */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		F511938C2A97C6A800554604 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				F511937D2A97C4DF00554604 /* FarepayApp.swift */,
+				F511938F2A97C6CD00554604 /* Auth */,
+				F5500E1D2AA10AB800B39655 /* Payment */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		F511938D2A97C6AD00554604 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		F511938E2A97C6B400554604 /* Controiller */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Controiller;
+			sourceTree = "<group>";
+		};
+		F511938F2A97C6CD00554604 /* Auth */ = {
+			isa = PBXGroup;
+			children = (
+				F5C18CEE2A9D047E00B05031 /* SplashScreen.storyboard */,
+				F51193902A97C6ED00554604 /* SplashView.swift */,
+				F51193A92A97DBA100554604 /* LoginView.swift */,
+				F561E4182A991BA600599CE9 /* SignUpView.swift */,
+				F561E41C2A992B2B00599CE9 /* CompanyView.swift */,
+				F5A8F3E62A9D0F69006C964E /* RepresentativeView.swift */,
+			);
+			path = Auth;
+			sourceTree = "<group>";
+		};
+		F51193922A97C93900554604 /* AppUtility */ = {
+			isa = PBXGroup;
+			children = (
+				F51193A72A97DAAC00554604 /* Utility.swift */,
+			);
+			path = AppUtility;
+			sourceTree = "<group>";
+		};
+		F51193932A97C95F00554604 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				F51193962A97C99F00554604 /* String+Extension.swift */,
+				F51193942A97C97400554604 /* Colors+Extension.swift */,
+				F51193982A97C9EA00554604 /* Image+Extension.swift */,
+				F51193A52A97D19500554604 /* Font+Extension.swift */,
+				F561E41A2A991D5700599CE9 /* Navigation+Extension.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		F511939A2A97CC7E00554604 /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				F511939C2A97CFC800554604 /* Poppins-Bold.ttf */,
+				F51193A02A97CFF900554604 /* Poppins-SemiBold.ttf */,
+				F511939E2A97CFDB00554604 /* Poppins-Medium.ttf */,
+				F51193A22A97D02B00554604 /* Poppins-Thin.ttf */,
+			);
+			path = Fonts;
+			sourceTree = "<group>";
+		};
+		F511939B2A97CC9600554604 /* Images */ = {
+			isa = PBXGroup;
+			children = (
+				F51193812A97C4E200554604 /* Assets.xcassets */,
+			);
+			path = Images;
+			sourceTree = "<group>";
+		};
+		F5500E1D2AA10AB800B39655 /* Payment */ = {
+			isa = PBXGroup;
+			children = (
+				F5D118512A9FB6A000C027FA /* PaymentView.swift */,
+				F554AC152AA0FC03007EED59 /* PaymentDetailView.swift */,
+				F5500E1E2AA10CB400B39655 /* TapToPayView.swift */,
+				F5500E202AA1136500B39655 /* TryAgainView.swift */,
+			);
+			path = Payment;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		F51193792A97C4DF00554604 /* Farepay */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F51193882A97C4E200554604 /* Build configuration list for PBXNativeTarget "Farepay" */;
+			buildPhases = (
+				F51193762A97C4DF00554604 /* Sources */,
+				F51193772A97C4DF00554604 /* Frameworks */,
+				F51193782A97C4DF00554604 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Farepay;
+			productName = Farepay;
+			productReference = F511937A2A97C4DF00554604 /* Farepay.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		F51193722A97C4DF00554604 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1420;
+				LastUpgradeCheck = 1420;
+				TargetAttributes = {
+					F51193792A97C4DF00554604 = {
+						CreatedOnToolsVersion = 14.2;
+					};
+				};
+			};
+			buildConfigurationList = F51193752A97C4DF00554604 /* Build configuration list for PBXProject "Farepay" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = F51193712A97C4DF00554604;
+			productRefGroup = F511937B2A97C4DF00554604 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				F51193792A97C4DF00554604 /* Farepay */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		F51193782A97C4DF00554604 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F51193A12A97CFF900554604 /* Poppins-SemiBold.ttf in Resources */,
+				F51193852A97C4E200554604 /* Preview Assets.xcassets in Resources */,
+				F511939F2A97CFDB00554604 /* Poppins-Medium.ttf in Resources */,
+				F51193A32A97D02B00554604 /* Poppins-Thin.ttf in Resources */,
+				F511939D2A97CFC800554604 /* Poppins-Bold.ttf in Resources */,
+				F51193822A97C4E200554604 /* Assets.xcassets in Resources */,
+				F5C18CEF2A9D047E00B05031 /* SplashScreen.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		F51193762A97C4DF00554604 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F554AC162AA0FC03007EED59 /* PaymentDetailView.swift in Sources */,
+				F51193A82A97DAAC00554604 /* Utility.swift in Sources */,
+				F51193992A97C9EA00554604 /* Image+Extension.swift in Sources */,
+				F5D118522A9FB6A100C027FA /* PaymentView.swift in Sources */,
+				F51193972A97C99F00554604 /* String+Extension.swift in Sources */,
+				F5500E1F2AA10CB400B39655 /* TapToPayView.swift in Sources */,
+				F5A8F3E72A9D0F69006C964E /* RepresentativeView.swift in Sources */,
+				F5500E212AA1136500B39655 /* TryAgainView.swift in Sources */,
+				F561E41B2A991D5700599CE9 /* Navigation+Extension.swift in Sources */,
+				F51193A62A97D19500554604 /* Font+Extension.swift in Sources */,
+				F51193952A97C97400554604 /* Colors+Extension.swift in Sources */,
+				F561E41D2A992B2B00599CE9 /* CompanyView.swift in Sources */,
+				F511937E2A97C4DF00554604 /* FarepayApp.swift in Sources */,
+				F51193AA2A97DBA100554604 /* LoginView.swift in Sources */,
+				F561E4192A991BA600599CE9 /* SignUpView.swift in Sources */,
+				F51193912A97C6ED00554604 /* SplashView.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		F51193862A97C4E200554604 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		F51193872A97C4E200554604 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		F51193892A97C4E200554604 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"Farepay/Preview Content\"";
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Farepay/Info.plist;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = SplashScreen.storyboard;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.Farepay.iOS.app.Farepay;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		F511938A2A97C4E200554604 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"Farepay/Preview Content\"";
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Farepay/Info.plist;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = SplashScreen.storyboard;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.Farepay.iOS.app.Farepay;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		F51193752A97C4DF00554604 /* Build configuration list for PBXProject "Farepay" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F51193862A97C4E200554604 /* Debug */,
+				F51193872A97C4E200554604 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		F51193882A97C4E200554604 /* Build configuration list for PBXNativeTarget "Farepay" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F51193892A97C4E200554604 /* Debug */,
+				F511938A2A97C4E200554604 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = F51193722A97C4DF00554604 /* Project object */;
+}
