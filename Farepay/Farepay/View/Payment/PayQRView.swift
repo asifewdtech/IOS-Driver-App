@@ -157,7 +157,7 @@ extension PayQRView{
             .overlay(
                 RoundedRectangle(cornerRadius: 8)
                     .stroke(style: StrokeStyle(lineWidth: 2, dash: [5]))
-                    .foregroundColor(Color(.darkBrownColor))
+                    .foregroundColor(Color(.darkGrayColor))
             )
             
         }
@@ -194,7 +194,7 @@ extension PayQRView{
         .overlay(
             RoundedRectangle(cornerRadius: 8)
                 .stroke(style: StrokeStyle(lineWidth: 2, dash: [5]))
-                .foregroundColor(Color(.darkBrownColor))
+                .foregroundColor(Color(.darkGrayColor))
         )
     }
 }

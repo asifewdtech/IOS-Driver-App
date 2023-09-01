@@ -13,7 +13,7 @@ extension UIColor {
     static let bgColor = UIColor(named: "bgColor")!
     static let buttonColor = UIColor(named: "buttonColor")!
     static let darkBlueColor = UIColor(named: "darkBlueColor")!
-    static let darkBrownColor = UIColor(named: "darkBrownColor")!
+    static let darkGrayColor = UIColor(named: "darkGrayColor")!
     static let ErrorColor = UIColor(named: "ErrorColor")!
     static let SuccessColor = UIColor(named: "SuccessColor")!
 }

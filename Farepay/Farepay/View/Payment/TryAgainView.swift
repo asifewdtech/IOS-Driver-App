@@ -71,7 +71,7 @@ extension TryAgainView{
                     
                     Text("$")
                         .font(.custom(.poppinsMedium, size: 25))
-                        .foregroundColor(Color(.darkBrownColor))
+                        .foregroundColor(Color(.darkGrayColor))
                     Spacer()
                     
                     TextField("", text: $farePriceText, prompt: Text("0.00").foregroundColor(Color(.white)))
@@ -106,7 +106,7 @@ extension TryAgainView{
                 .foregroundColor(Color(.ErrorColor))
                 .font(.custom(.poppinsBold, size: 25))
             Text("Payment could not be processed.\nPlease hold card here to try again")
-                .foregroundColor(Color(.darkBrownColor))
+                .foregroundColor(Color(.darkGrayColor))
                 .font(.custom(.poppinsSemiBold, size: 17))
         }
     }

@@ -73,7 +73,7 @@ extension PaymentDetailView{
                     
                     Text("$")
                         .font(.custom(.poppinsMedium, size: 25))
-                        .foregroundColor(Color(.darkBrownColor))
+                        .foregroundColor(Color(.darkGrayColor))
                     Spacer()
                     
                     TextField("", text: $farePriceText, prompt: Text("0.00").foregroundColor(Color(.white)))
@@ -96,7 +96,7 @@ extension PaymentDetailView{
                 HStack{
                     
                     Text("Fare Inc GST :")
-                        .foregroundColor(Color(.darkBrownColor))
+                        .foregroundColor(Color(.darkGrayColor))
                         .font(.custom(.poppinsMedium, size: 23))
                     Spacer()
                     Text("$ 42.68")
@@ -107,7 +107,7 @@ extension PaymentDetailView{
                 HStack{
                     
                     Text("Service Charges : ")
-                        .foregroundColor(Color(.darkBrownColor))
+                        .foregroundColor(Color(.darkGrayColor))
                         .font(.custom(.poppinsMedium, size: 23))
                     Spacer()
                     Text("$ 2.18")
@@ -118,7 +118,7 @@ extension PaymentDetailView{
                 HStack{
                     
                     Text("Service Fee GST")
-                        .foregroundColor(Color(.darkBrownColor))
+                        .foregroundColor(Color(.darkGrayColor))
                         .font(.custom(.poppinsMedium, size: 23))
                     Spacer()
                     Text("$ 0.21")

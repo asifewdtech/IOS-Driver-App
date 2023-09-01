@@ -65,8 +65,8 @@ extension CompanyView{
                 
                 Text("to get your own farepay account!")
                     .font(.custom(.poppinsMedium, size: 18))
-                    .foregroundColor(Color(.darkBrownColor))
-                Color(.darkBrownColor)
+                    .foregroundColor(Color(.darkGrayColor))
+                Color(.darkGrayColor)
                     .frame(maxWidth: 300)
                     .frame(height: 1)
             }
@@ -75,7 +75,7 @@ extension CompanyView{
                 
                 Color(.ErrorColor)
                     .frame(height: 5)
-                Color(.darkBrownColor)
+                Color(.darkGrayColor)
                     .frame(height: 5)
             }
             .frame(width: 250)
@@ -102,7 +102,7 @@ extension CompanyView{
                             .resizable()
                             .frame(width: 30, height: 30)
                         
-                        TextField("", text: $companyText, prompt: Text("\(.selectCompany)").foregroundColor(Color(.darkBrownColor)))
+                        TextField("", text: $companyText, prompt: Text("\(.selectCompany)").foregroundColor(Color(.darkGrayColor)))
                             .font(.custom(.poppinsMedium, size: 18))
                             .frame(height: 30)
                             .foregroundColor(.white)
@@ -123,7 +123,7 @@ extension CompanyView{
                             .resizable()
                             .frame(width: 30, height: 30)
                         
-                        TextField("", text: $cardText, prompt: Text("XYZ123456789").foregroundColor(Color(.darkBrownColor)))
+                        TextField("", text: $cardText, prompt: Text("XYZ123456789").foregroundColor(Color(.darkGrayColor)))
                             .font(.custom(.poppinsMedium, size: 18))
                             .frame(height: 30)
                             .foregroundColor(.white)
@@ -140,7 +140,7 @@ extension CompanyView{
                             .resizable()
                             .frame(width: 30, height: 30)
                         
-                        TextField("", text: $contactText, prompt: Text("XYZ123456789").foregroundColor(Color(.darkBrownColor)))
+                        TextField("", text: $contactText, prompt: Text("XYZ123456789").foregroundColor(Color(.darkGrayColor)))
                             .font(.custom(.poppinsMedium, size: 18))
                             .frame(height: 30)
                             .foregroundColor(.white)

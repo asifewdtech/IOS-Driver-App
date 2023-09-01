@@ -38,7 +38,7 @@ struct RepresentativeView: View {
         }
         .navigationDestination(isPresented: $willMoveToPaymentView) {
             
-            PaymentView().toolbar(.hidden, for: .navigationBar)
+            MainTabbedView().toolbar(.hidden, for: .navigationBar)
         }
     }
 }
@@ -63,8 +63,8 @@ extension RepresentativeView{
                 
                 Text("to get your own farepay account!")
                     .font(.custom(.poppinsMedium, size: 18))
-                    .foregroundColor(Color(.darkBrownColor))
-                Color(.darkBrownColor)
+                    .foregroundColor(Color(.darkGrayColor))
+                Color(.darkGrayColor)
                     .frame(maxWidth: 300)
                     .frame(height: 1)
             }
@@ -73,7 +73,7 @@ extension RepresentativeView{
                 
                 Color(.SuccessColor)
                     .frame(height: 5)
-                Color(.darkBrownColor)
+                Color(.darkGrayColor)
                     .frame(height: 5)
             }
             .frame(width: 250)
@@ -101,7 +101,7 @@ extension RepresentativeView{
                             .frame(width: 30, height: 30)
                         
                         TextField("", text: $userText, prompt:
-                                    Text("Type your name").foregroundColor(Color(.darkBrownColor)))
+                                    Text("Type your name").foregroundColor(Color(.darkGrayColor)))
                         .font(.custom(.poppinsMedium, size: 18))
                         .frame(height: 30)
                         .foregroundColor(.white)
@@ -119,7 +119,7 @@ extension RepresentativeView{
                             .frame(width: 30, height: 30)
                         
                         TextField("", text: $dateText, prompt:
-                                    Text("Type your Date of Birth").foregroundColor(Color(.darkBrownColor)))
+                                    Text("Type your Date of Birth").foregroundColor(Color(.darkGrayColor)))
                         .font(.custom(.poppinsMedium, size: 18))
                         .frame(height: 30)
                         .foregroundColor(.white)
@@ -138,7 +138,7 @@ extension RepresentativeView{
                             .frame(width: 30, height: 30)
                         
                         TextField("", text: $emailText, prompt:
-                                    Text("Type your email").foregroundColor(Color(.darkBrownColor)))
+                                    Text("Type your email").foregroundColor(Color(.darkGrayColor)))
                         .font(.custom(.poppinsMedium, size: 18))
                         .frame(height: 30)
                         .foregroundColor(.white)
@@ -158,7 +158,7 @@ extension RepresentativeView{
                         
                         TextField("", text: $businessNumberText, prompt:
                                     Text("Type Australian Business Number")
-                            .foregroundColor(Color(.darkBrownColor)))
+                            .foregroundColor(Color(.darkGrayColor)))
                         .font(.custom(.poppinsMedium, size: 18))
                         .frame(height: 30)
                         .foregroundColor(.white)
@@ -178,7 +178,7 @@ extension RepresentativeView{
                         
                         TextField("", text: $authorityNumberText, prompt:
                                     Text("Type your authority No")
-                            .foregroundColor(Color(.darkBrownColor)))
+                            .foregroundColor(Color(.darkGrayColor)))
                         .font(.custom(.poppinsMedium, size: 18))
                         .frame(height: 30)
                         .foregroundColor(.white)
@@ -198,7 +198,7 @@ extension RepresentativeView{
                         
                         TextField("", text: $mobileNumberText, prompt:
                                     Text("Type your mobile No")
-                            .foregroundColor(Color(.darkBrownColor)))
+                            .foregroundColor(Color(.darkGrayColor)))
                         .font(.custom(.poppinsMedium, size: 18))
                         .frame(height: 30)
                         .foregroundColor(.white)
@@ -228,7 +228,7 @@ extension RepresentativeView{
 
                                     Text(addressText == "" ? "Type your Postal Address" : "")
                                         .font(.custom(.poppinsMedium, size: 18))
-                                        .foregroundColor(Color(.darkBrownColor))
+                                        .foregroundColor(Color(.darkGrayColor))
                                     Spacer()
                                 },
                                 alignment: .leading
@@ -265,7 +265,7 @@ extension RepresentativeView{
                         .resizable()
                         .frame(width: 40, height: 30)
                     Text("Driver License Image")
-                        .foregroundColor(Color(.darkBrownColor))
+                        .foregroundColor(Color(.darkGrayColor))
                         .font(.custom(.poppinsMedium, size: 18))
                         
                 }

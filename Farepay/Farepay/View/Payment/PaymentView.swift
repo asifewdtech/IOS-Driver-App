@@ -12,6 +12,7 @@ struct PaymentView: View {
     //MARK: - Variables
     @State private var farePriceText: String = ""
     @State private var willMoveToPaymentDetail = false
+    @Binding var presentSideMenu: Bool
     
     //MARK: - Views
     var body: some View {
@@ -37,7 +38,7 @@ struct PaymentView: View {
 
 struct HomeView_Previews: PreviewProvider {
     static var previews: some View {
-        PaymentView()
+        PaymentView(presentSideMenu: .constant(false))
     }
 }
 
@@ -58,6 +59,10 @@ extension PaymentView{
                 Image(uiImage: .menuIcon)
                     .resizable()
                     .frame(width: 25, height: 25)
+                    .onTapGesture {
+                        
+                        presentSideMenu.toggle()
+                    }
                 Text("Charge Fare")
                     .font(.custom(.poppinsBold, size: 25))
                     .foregroundColor(.white)
@@ -70,7 +75,7 @@ extension PaymentView{
                     
                     Text("$")
                         .font(.custom(.poppinsMedium, size: 25))
-                        .foregroundColor(Color(.darkBrownColor))
+                        .foregroundColor(Color(.darkGrayColor))
                     Spacer()
                     
                     TextField("", text: $farePriceText, prompt: Text("0.00").foregroundColor(Color(.white)))

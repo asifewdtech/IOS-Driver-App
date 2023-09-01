@@ -74,7 +74,7 @@ extension TapToPayView{
                     
                     Text("$")
                         .font(.custom(.poppinsMedium, size: 25))
-                        .foregroundColor(Color(.darkBrownColor))
+                        .foregroundColor(Color(.darkGrayColor))
                     Spacer()
                     
                     TextField("", text: $farePriceText, prompt: Text("0.00").foregroundColor(Color(.white)))

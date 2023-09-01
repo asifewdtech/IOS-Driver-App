@@ -29,6 +29,11 @@
 		F561E41B2A991D5700599CE9 /* Navigation+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F561E41A2A991D5700599CE9 /* Navigation+Extension.swift */; };
 		F561E41D2A992B2B00599CE9 /* CompanyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F561E41C2A992B2B00599CE9 /* CompanyView.swift */; };
 		F5A8F3E72A9D0F69006C964E /* RepresentativeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5A8F3E62A9D0F69006C964E /* RepresentativeView.swift */; };
+		F5C15A982AA2562E0065DE0B /* MenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5C15A972AA2562E0065DE0B /* MenuView.swift */; };
+		F5C15A9C2AA26C180065DE0B /* SideMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5C15A9A2AA26C180065DE0B /* SideMenu.swift */; };
+		F5C15A9D2AA26C180065DE0B /* SideMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5C15A9B2AA26C180065DE0B /* SideMenuView.swift */; };
+		F5C15AA02AA26CC10065DE0B /* GiftCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5C15A9F2AA26CC10065DE0B /* GiftCardView.swift */; };
+		F5C15AA22AA26E6A0065DE0B /* MainTabbedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5C15AA12AA26E6A0065DE0B /* MainTabbedView.swift */; };
 		F5C18CEF2A9D047E00B05031 /* SplashScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F5C18CEE2A9D047E00B05031 /* SplashScreen.storyboard */; };
 		F5D118522A9FB6A100C027FA /* PaymentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5D118512A9FB6A000C027FA /* PaymentView.swift */; };
 /* End PBXBuildFile section */
@@ -58,6 +63,11 @@
 		F561E41A2A991D5700599CE9 /* Navigation+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Navigation+Extension.swift"; sourceTree = "<group>"; };
 		F561E41C2A992B2B00599CE9 /* CompanyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompanyView.swift; sourceTree = "<group>"; };
 		F5A8F3E62A9D0F69006C964E /* RepresentativeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepresentativeView.swift; sourceTree = "<group>"; };
+		F5C15A972AA2562E0065DE0B /* MenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuView.swift; sourceTree = "<group>"; };
+		F5C15A9A2AA26C180065DE0B /* SideMenu.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SideMenu.swift; sourceTree = "<group>"; };
+		F5C15A9B2AA26C180065DE0B /* SideMenuView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SideMenuView.swift; sourceTree = "<group>"; };
+		F5C15A9F2AA26CC10065DE0B /* GiftCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GiftCardView.swift; sourceTree = "<group>"; };
+		F5C15AA12AA26E6A0065DE0B /* MainTabbedView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainTabbedView.swift; sourceTree = "<group>"; };
 		F5C18CEE2A9D047E00B05031 /* SplashScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = SplashScreen.storyboard; sourceTree = "<group>"; };
 		F5D118512A9FB6A000C027FA /* PaymentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -126,7 +136,9 @@
 			children = (
 				F511937D2A97C4DF00554604 /* FarepayApp.swift */,
 				F511938F2A97C6CD00554604 /* Auth */,
+				F5C15A992AA26BF10065DE0B /* SideMenu */,
 				F5500E1D2AA10AB800B39655 /* Payment */,
+				F5C15A9E2AA26CA50065DE0B /* GiftCard */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -154,6 +166,7 @@
 				F561E4182A991BA600599CE9 /* SignUpView.swift */,
 				F561E41C2A992B2B00599CE9 /* CompanyView.swift */,
 				F5A8F3E62A9D0F69006C964E /* RepresentativeView.swift */,
+				F5C15A972AA2562E0065DE0B /* MenuView.swift */,
 			);
 			path = Auth;
 			sourceTree = "<group>";
@@ -207,6 +220,24 @@
 				F5192AEA2AA11B8900DF5ED1 /* PayQRView.swift */,
 			);
 			path = Payment;
+			sourceTree = "<group>";
+		};
+		F5C15A992AA26BF10065DE0B /* SideMenu */ = {
+			isa = PBXGroup;
+			children = (
+				F5C15AA12AA26E6A0065DE0B /* MainTabbedView.swift */,
+				F5C15A9A2AA26C180065DE0B /* SideMenu.swift */,
+				F5C15A9B2AA26C180065DE0B /* SideMenuView.swift */,
+			);
+			path = SideMenu;
+			sourceTree = "<group>";
+		};
+		F5C15A9E2AA26CA50065DE0B /* GiftCard */ = {
+			isa = PBXGroup;
+			children = (
+				F5C15A9F2AA26CC10065DE0B /* GiftCardView.swift */,
+			);
+			path = GiftCard;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -286,9 +317,11 @@
 			files = (
 				F554AC162AA0FC03007EED59 /* PaymentDetailView.swift in Sources */,
 				F51193A82A97DAAC00554604 /* Utility.swift in Sources */,
+				F5C15A9D2AA26C180065DE0B /* SideMenuView.swift in Sources */,
 				F51193992A97C9EA00554604 /* Image+Extension.swift in Sources */,
 				F5D118522A9FB6A100C027FA /* PaymentView.swift in Sources */,
 				F51193972A97C99F00554604 /* String+Extension.swift in Sources */,
+				F5C15AA02AA26CC10065DE0B /* GiftCardView.swift in Sources */,
 				F5500E1F2AA10CB400B39655 /* TapToPayView.swift in Sources */,
 				F5A8F3E72A9D0F69006C964E /* RepresentativeView.swift in Sources */,
 				F5500E212AA1136500B39655 /* TryAgainView.swift in Sources */,
@@ -297,10 +330,13 @@
 				F51193952A97C97400554604 /* Colors+Extension.swift in Sources */,
 				F561E41D2A992B2B00599CE9 /* CompanyView.swift in Sources */,
 				F511937E2A97C4DF00554604 /* FarepayApp.swift in Sources */,
+				F5C15A982AA2562E0065DE0B /* MenuView.swift in Sources */,
 				F51193AA2A97DBA100554604 /* LoginView.swift in Sources */,
+				F5C15A9C2AA26C180065DE0B /* SideMenu.swift in Sources */,
 				F561E4192A991BA600599CE9 /* SignUpView.swift in Sources */,
 				F51193912A97C6ED00554604 /* SplashView.swift in Sources */,
 				F5192AEB2AA11B8900DF5ED1 /* PayQRView.swift in Sources */,
+				F5C15AA22AA26E6A0065DE0B /* MainTabbedView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

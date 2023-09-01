@@ -63,7 +63,7 @@ extension SignUpView{
             
             Text("Please enter your detail to login")
                 .font(.custom(.poppinsMedium, size: 18))
-                .foregroundColor(Color(.darkBrownColor))
+                .foregroundColor(Color(.darkGrayColor))
             
             HStack(spacing: 15){
                 
@@ -107,7 +107,7 @@ extension SignUpView{
                             .resizable()
                             .frame(width: 30, height: 30)
                         
-                        TextField("", text: $nameText, prompt: Text("\(.namePlaceHolder)").foregroundColor(Color(.darkBrownColor)))
+                        TextField("", text: $nameText, prompt: Text("\(.namePlaceHolder)").foregroundColor(Color(.darkGrayColor)))
                             .font(.custom(.poppinsMedium, size: 18))
                             .frame(height: 30)
                             .foregroundColor(.white)
@@ -124,7 +124,7 @@ extension SignUpView{
                             .resizable()
                             .frame(width: 30, height: 30)
                         
-                        TextField("", text: $emailText, prompt: Text("\(.emailPlaceHolder)").foregroundColor(Color(.darkBrownColor)))
+                        TextField("", text: $emailText, prompt: Text("\(.emailPlaceHolder)").foregroundColor(Color(.darkGrayColor)))
                             .font(.custom(.poppinsMedium, size: 18))
                             .frame(height: 30)
                             .foregroundColor(.white)
@@ -142,14 +142,14 @@ extension SignUpView{
                             .frame(width: 30, height: 30)
                         
                         if isSecure {
-                            SecureField("", text: $passwordText, prompt: Text("\(.passwordPlaceHolder)").foregroundColor(Color(.darkBrownColor)))
+                            SecureField("", text: $passwordText, prompt: Text("\(.passwordPlaceHolder)").foregroundColor(Color(.darkGrayColor)))
                                 .font(.custom(.poppinsMedium, size: 18))
                                 .frame(height: 30)
                                 .foregroundColor(.white)
                         }
                         else {
                             
-                            TextField("", text: $passwordText, prompt: Text("\(.passwordPlaceHolder)").foregroundColor(Color(.darkBrownColor)))
+                            TextField("", text: $passwordText, prompt: Text("\(.passwordPlaceHolder)").foregroundColor(Color(.darkGrayColor)))
                                 .font(.custom(.poppinsMedium, size: 18))
                                 .frame(height: 30)
                                 .foregroundColor(.white)
@@ -175,14 +175,14 @@ extension SignUpView{
                             .frame(width: 30, height: 30)
                         
                         if isSecureReType {
-                            SecureField("", text: $ReTypePasswordText, prompt: Text("\(.reTypePasswordPlaceHolder)").foregroundColor(Color(.darkBrownColor)))
+                            SecureField("", text: $ReTypePasswordText, prompt: Text("\(.reTypePasswordPlaceHolder)").foregroundColor(Color(.darkGrayColor)))
                                 .font(.custom(.poppinsMedium, size: 18))
                                 .frame(height: 30)
                                 .foregroundColor(.white)
                         }
                         else {
                             
-                            TextField("", text: $ReTypePasswordText, prompt: Text("\(.reTypePasswordPlaceHolder)").foregroundColor(Color(.darkBrownColor)))
+                            TextField("", text: $ReTypePasswordText, prompt: Text("\(.reTypePasswordPlaceHolder)").foregroundColor(Color(.darkGrayColor)))
                                 .font(.custom(.poppinsMedium, size: 18))
                                 .frame(height: 30)
                                 .foregroundColor(.white)
@@ -254,7 +254,7 @@ extension SignUpView{
                 
                 Text("\(.dontHaveAccount)")
                     .font(.custom(.poppinsMedium, size: 18))
-                    .foregroundColor(Color(.darkBrownColor))
+                    .foregroundColor(Color(.darkGrayColor))
                 Text("\(.SignIn)")
                     .font(.custom(.poppinsBold, size: 20))
                     .foregroundColor(Color(.white))
