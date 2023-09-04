@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import NavigationStack
 
 struct CompanyView: View {
     
@@ -13,8 +14,6 @@ struct CompanyView: View {
     @State private var companyText: String = ""
     @State private var cardText: String = ""
     @State private var contactText: String = ""
-    @Environment(\.presentationMode) var presentationMode
-    @State private var willMoveToNextScreen = false
     
     //MARK: - Views
     var body: some View {
@@ -37,10 +36,6 @@ struct CompanyView: View {
                 }
             }
             
-        }
-        .navigationDestination(isPresented: $willMoveToNextScreen) {
-            
-            Farepay.RepresentativeView().toolbar(.hidden, for: .navigationBar)
         }
     }
 }
@@ -162,18 +157,15 @@ extension CompanyView{
         
         VStack(spacing: 25){
             
-            Text("Proceed")
-                .font(.custom(.poppinsBold, size: 25))
-                .foregroundColor(.white)
-                .frame(maxWidth: .infinity)
-                .frame(height: 60)
-                .background(Color(.buttonColor))
-                .cornerRadius(30)
-                .onTapGesture {
-                    
-                    willMoveToNextScreen.toggle()
-                }
-                
+            PushView(destination: RepresentativeView()) {
+                Text("Proceed")
+                    .font(.custom(.poppinsBold, size: 25))
+                    .foregroundColor(.white)
+                    .frame(maxWidth: .infinity)
+                    .frame(height: 60)
+                    .background(Color(.buttonColor))
+                    .cornerRadius(30)
+            }
         }
         .padding(.horizontal, 15)
     }

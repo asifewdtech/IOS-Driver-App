@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import NavigationStack
 
 struct LoginView: View {
     
@@ -13,9 +14,7 @@ struct LoginView: View {
     @State private var emailText: String = ""
     @State private var passwordText: String = ""
     @State private var isSecure = true
-    
-    @State private var willMoveToForm1 = false
-    @State private var willMoveToSignUp = false
+    @Binding var presentSideMenu: Bool
     
     //MARK: - Viewa
     var body: some View {
@@ -36,20 +35,12 @@ struct LoginView: View {
                 }
             }
         }
-        .navigationDestination(isPresented: $willMoveToForm1) {
-            
-            Farepay.CompanyView().toolbar(.hidden, for: .navigationBar)
-        }
-        .navigationDestination(isPresented: $willMoveToSignUp) {
-            
-            Farepay.SignUpView().toolbar(.hidden, for: .navigationBar)
-        }
     }
 }
 
 struct LoginView_Previews: PreviewProvider {
     static var previews: some View {
-        LoginView()
+        LoginView(presentSideMenu: .constant(false))
     }
 }
 
@@ -183,31 +174,30 @@ extension LoginView{
         
         VStack(spacing: 25){
             
-            Text("\(.SignIn)")
-                .font(.custom(.poppinsBold, size: 25))
-                .foregroundColor(.white)
-                .frame(maxWidth: .infinity)
-                .frame(height: 60)
-                .background(Color(.buttonColor))
-                .cornerRadius(30)
-                .onTapGesture {
-                    
-                    willMoveToForm1.toggle()
-                }
+            PushView(destination: CompanyView()){
+                
+                Text("\(.SignIn)")
+                    .font(.custom(.poppinsBold, size: 25))
+                    .foregroundColor(.white)
+                    .frame(maxWidth: .infinity)
+                    .frame(height: 60)
+                    .background(Color(.buttonColor))
+                    .cornerRadius(30)
+            }
             
             HStack{
                 
                 Text("\(.dontHaveAccount)")
                     .font(.custom(.poppinsMedium, size: 18))
                     .foregroundColor(Color(.darkGrayColor))
-                Text("\(.SignUp)")
-                    .font(.custom(.poppinsBold, size: 20))
-                    .foregroundColor(Color(.white))
-                    .underline()
-                    .onTapGesture {
-                        
-                        willMoveToSignUp.toggle()
-                    }
+                
+                PushView(destination: SignUpView()) {
+                    
+                    Text("\(.SignUp)")
+                        .font(.custom(.poppinsBold, size: 20))
+                        .foregroundColor(Color(.white))
+                        .underline()
+                }
             }
                 
         }

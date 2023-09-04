@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import NavigationStack
 
 enum SideMenuRowType: Int, CaseIterable{
     
@@ -69,13 +70,51 @@ struct SideMenuView: View {
             
             ZStack{
                 
-                VStack(alignment: .leading, spacing: 15) {
+                VStack(alignment: .leading, spacing: 10) {
                     
                     ForEach(SideMenuRowType.allCases, id: \.self){ row in
+                        
                         RowView(isSelected: selectedSideMenuTab == row.rawValue, img: row.iconName, title: row.title) {
                             selectedSideMenuTab = row.rawValue
                             presentSideMenu.toggle()
                         }
+                    }
+                    Color(.darkGrayColor)
+                        .frame(height: 2)
+                        .padding(.vertical, 30)
+                        .padding(.trailing, 40)
+                    VStack(spacing: 20){
+                        
+                        HStack(spacing: 20){
+                            
+                            Image(uiImage: .ic_Settings)
+                                .resizable()
+                                .frame(width: 25, height: 25)
+                            Text("Account")
+                                .font(.custom(.poppinsMedium, size: 22))
+                                .foregroundColor(.white)
+                            Spacer()
+                        }
+                        .padding(.leading, 15)
+                        
+                        HStack(spacing: 20){
+                            
+                            Image(uiImage: .ic_Logout)
+                                .resizable()
+                                .frame(width: 25, height: 25)
+                            Text("Logout")
+                                .font(.custom(.poppinsMedium, size: 22))
+                                .foregroundColor(.white)
+                            Spacer()
+                        }
+                        .padding(.leading, 15)
+                        .onTapGesture {
+                            
+                            UserDefaults.standard.set(false, forKey: .isUserLogin)
+                            selectedSideMenuTab = 8
+                            presentSideMenu.toggle()
+                        }
+                        
                     }
                     Spacer()
                 }

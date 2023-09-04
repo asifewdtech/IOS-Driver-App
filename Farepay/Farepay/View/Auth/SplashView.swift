@@ -6,12 +6,16 @@
 //
 
 import SwiftUI
+import NavigationStack
 
 struct SplashView: View {
     
+    //MARK: - Variables
     @State private var LoginView: String? = nil
-    @State private var willMoveToNextScreen = false
+    @State private var willMoveToLogin = false
+    @State private var willMoveToMainView = false
     
+    //MARK: - Views
     var body: some View {
         
         ZStack{
@@ -20,6 +24,13 @@ struct SplashView: View {
                 .edgesIgnoringSafeArea(.all)
             
             HStack{
+
+                PushView(destination: Farepay.LoginView(presentSideMenu: .constant(false)), isActive: $willMoveToLogin) {
+                    Text("")
+                }
+                PushView(destination: Farepay.MainTabbedView(), isActive: $willMoveToMainView) {
+                    Text("")
+                }
                 
                 Image(uiImage: .logo)
                     .resizable()
@@ -34,18 +45,20 @@ struct SplashView: View {
             
             navigateNext()
         }
-        .navigationDestination(isPresented: $willMoveToNextScreen) {
-            
-            Farepay.LoginView().toolbar(.hidden, for: .navigationBar)
-        }
         
     }
     
+    //MARK: - Functions Also Implement logic of login
     func navigateNext(){
-        
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
             
-            willMoveToNextScreen.toggle()
+            let isUserLogin = UserDefaults.standard.value(forKey: .isUserLogin) as? Bool ?? false
+            if isUserLogin{
+                willMoveToMainView.toggle()
+            }
+            else{
+                willMoveToLogin.toggle()
+            }
         }
     }
 }

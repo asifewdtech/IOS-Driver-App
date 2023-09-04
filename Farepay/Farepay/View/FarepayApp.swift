@@ -6,14 +6,13 @@
 //
 
 import SwiftUI
+import NavigationStack
 
 @main
 struct FarepayApp: App {
     var body: some Scene {
         WindowGroup {
-            
-            NavigationStack{
-                
+            NavigationStackView{
                 SplashView()
 //                MainTabbedView()
             }

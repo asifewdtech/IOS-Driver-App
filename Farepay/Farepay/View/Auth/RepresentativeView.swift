@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import NavigationStack
 
 struct RepresentativeView: View {
     
@@ -35,10 +36,6 @@ struct RepresentativeView: View {
                     Spacer(minLength: 20)
                 }
             }
-        }
-        .navigationDestination(isPresented: $willMoveToPaymentView) {
-            
-            MainTabbedView().toolbar(.hidden, for: .navigationBar)
         }
     }
 }
@@ -287,7 +284,10 @@ extension RepresentativeView{
     var buttonArea: some View{
         
         VStack(spacing: 25){
-            
+            PushView(destination: MainTabbedView(), isActive: $willMoveToPaymentView) {
+                
+                Text("")
+            }
             Text("Proceed")
                 .font(.custom(.poppinsBold, size: 25))
                 .foregroundColor(.white)
@@ -297,9 +297,10 @@ extension RepresentativeView{
                 .cornerRadius(30)
                 .onTapGesture {
                     
+                    UserDefaults.standard.set(true, forKey: .isUserLogin)
                     willMoveToPaymentView.toggle()
                 }
-                
+            
         }
         .padding(.horizontal, 15)
     }
