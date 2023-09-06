@@ -6,14 +6,14 @@
 //
 
 import SwiftUI
+import NavigationStack
 
 struct TryAgainView: View {
     
     //MARK: - Variables
     @State private var farePriceText: String = ""
     @State private var isDisabled: Bool = true
-    @Environment(\.presentationMode) var presentationMode
-    @State private var willMoveToTryAgain = false
+    @EnvironmentObject private var navigationStack: NavigationStackCompat
     
     //MARK: - Views
     var body: some View {
@@ -54,8 +54,7 @@ extension TryAgainView{
                     .resizable()
                     .frame(width: 35, height: 30)
                     .onTapGesture {
-                        
-                        presentationMode.wrappedValue.dismiss()
+                        navigationStack.pop()
                     }
                 
                 Text("Tap to Pay")

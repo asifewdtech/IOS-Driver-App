@@ -17,6 +17,7 @@ struct SignUpView: View {
     @State private var ReTypePasswordText: String = ""
     @State private var isSecure = true
     @State private var isSecureReType = true
+    @EnvironmentObject private var navigationStack: NavigationStackCompat
     
     //MARK: - Views
     var body: some View {
@@ -256,12 +257,14 @@ extension SignUpView{
                     .font(.custom(.poppinsMedium, size: 18))
                     .foregroundColor(Color(.darkGrayColor))
                 
-                PopView(destination: .previous) {
-                    Text("\(.SignIn)")
-                        .font(.custom(.poppinsBold, size: 20))
-                        .foregroundColor(Color(.white))
-                        .underline()
-                }
+                Text("\(.SignIn)")
+                    .font(.custom(.poppinsBold, size: 20))
+                    .foregroundColor(Color(.white))
+                    .underline()
+                    .onTapGesture {
+                        
+                        navigationStack.pop()
+                    }
             }
                 
         }

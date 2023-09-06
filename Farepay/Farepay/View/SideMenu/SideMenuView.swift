@@ -36,7 +36,6 @@ enum SideMenuRowType: Int, CaseIterable{
             return "Terms of Use"
         }
     }
-    
     var iconName: UIImage{
         switch self {
         case .chargeFare:
@@ -62,16 +61,14 @@ struct SideMenuView: View {
     //MARK: - Variables
     @Binding var selectedSideMenuTab: Int
     @Binding var presentSideMenu: Bool
+    @EnvironmentObject private var navigationStack: NavigationStackCompat
     
     //MARK: - Views
     var body: some View {
         
-        HStack {
-            
+        HStack{
             ZStack{
-                
                 VStack(alignment: .leading, spacing: 10) {
-                    
                     ForEach(SideMenuRowType.allCases, id: \.self){ row in
                         
                         RowView(isSelected: selectedSideMenuTab == row.rawValue, img: row.iconName, title: row.title) {
@@ -96,7 +93,7 @@ struct SideMenuView: View {
                             Spacer()
                         }
                         .padding(.leading, 15)
-                        
+                            
                         HStack(spacing: 20){
                             
                             Image(uiImage: .ic_Logout)
@@ -109,12 +106,9 @@ struct SideMenuView: View {
                         }
                         .padding(.leading, 15)
                         .onTapGesture {
-                            
-                            UserDefaults.standard.set(false, forKey: .isUserLogin)
-                            selectedSideMenuTab = 8
-                            presentSideMenu.toggle()
+                            setUserLogin(false)
+                            navigationStack.pop(to: .root)
                         }
-                        
                     }
                     Spacer()
                 }

@@ -28,4 +28,8 @@ extension String{
     static let selectCompany = "Select your Company type"
     
     static let isUserLogin = "isUserLogin"
+    static let mainTabView = "MainTabbedView"
+    static let loginView = "LoginView"
+    static let signUpView = "SignUpView"
+    static let representativeView = "RepresentativeView"
 }

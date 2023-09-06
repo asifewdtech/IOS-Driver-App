@@ -14,7 +14,6 @@ struct FarepayApp: App {
         WindowGroup {
             NavigationStackView{
                 SplashView()
-//                MainTabbedView()
             }
         }
     }

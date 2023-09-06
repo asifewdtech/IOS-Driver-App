@@ -14,6 +14,7 @@ struct CompanyView: View {
     @State private var companyText: String = ""
     @State private var cardText: String = ""
     @State private var contactText: String = ""
+    @EnvironmentObject private var navigationStack: NavigationStackCompat
     
     //MARK: - Views
     var body: some View {
@@ -156,16 +157,16 @@ extension CompanyView{
     var buttonArea: some View{
         
         VStack(spacing: 25){
-            
-            PushView(destination: RepresentativeView()) {
-                Text("Proceed")
-                    .font(.custom(.poppinsBold, size: 25))
-                    .foregroundColor(.white)
-                    .frame(maxWidth: .infinity)
-                    .frame(height: 60)
-                    .background(Color(.buttonColor))
-                    .cornerRadius(30)
-            }
+            Text("Proceed")
+                .font(.custom(.poppinsBold, size: 25))
+                .foregroundColor(.white)
+                .frame(maxWidth: .infinity)
+                .frame(height: 60)
+                .background(Color(.buttonColor))
+                .cornerRadius(30)
+                .onTapGesture {
+                    navigationStack.push(RepresentativeView(), withId: .representativeView)
+                }
         }
         .padding(.horizontal, 15)
     }

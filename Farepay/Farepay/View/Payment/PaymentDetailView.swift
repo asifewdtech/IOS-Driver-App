@@ -6,14 +6,14 @@
 //
 
 import SwiftUI
+import NavigationStack
 
 struct PaymentDetailView: View {
     
     //MARK: - Variables
     @State private var farePriceText: String = ""
     @State private var isDisabled: Bool = true
-    @Environment(\.presentationMode) var presentationMode
-    @State private var willMoveToPay = false
+    @EnvironmentObject private var navigationStack: NavigationStackCompat
     
     //MARK: - Views
     var body: some View {
@@ -30,10 +30,6 @@ struct PaymentDetailView: View {
                 buttonArea
             }
             .padding(.all, 20)
-        }
-        .navigationDestination(isPresented: $willMoveToPay) {
-            
-            TapToPayView().toolbar(.hidden, for: .navigationBar)
         }
     }
 }
@@ -56,8 +52,7 @@ extension PaymentDetailView{
                     .resizable()
                     .frame(width: 35, height: 30)
                     .onTapGesture {
-                        
-                        presentationMode.wrappedValue.dismiss()
+                        navigationStack.pop()
                     }
                 
                 Text("Charge Fare ")
@@ -147,7 +142,8 @@ extension PaymentDetailView{
                 }
             
             Button {
-                willMoveToPay.toggle()
+                navigationStack.push(TapToPayView())
+                
             } label: {
                 
                 Text("Confirm")

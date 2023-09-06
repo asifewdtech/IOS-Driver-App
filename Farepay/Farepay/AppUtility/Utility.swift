@@ -22,3 +22,19 @@ struct CustomRoundedRectangle: Shape {
         return Path(path.cgPath)
     }
 }
+
+let userDefault = UserDefaults.standard
+
+func isLogin() -> Bool{
+    
+    if userDefault.bool(forKey: .isUserLogin) == true{
+        return true
+    }
+    else{
+        return false
+    }
+}
+
+func setUserLogin(_ value: Bool){
+    userDefault.set(value, forKey: .isUserLogin)
+}

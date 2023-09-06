@@ -18,7 +18,7 @@ struct RepresentativeView: View {
     @State private var businessNumberText: String = ""
     @State private var authorityNumberText: String = ""
     @State private var mobileNumberText: String = ""
-    @State private var willMoveToPaymentView = false
+    @EnvironmentObject private var navigationStack: NavigationStackCompat
     
     //MARK: - Views
     var body: some View {
@@ -284,10 +284,6 @@ extension RepresentativeView{
     var buttonArea: some View{
         
         VStack(spacing: 25){
-            PushView(destination: MainTabbedView(), isActive: $willMoveToPaymentView) {
-                
-                Text("")
-            }
             Text("Proceed")
                 .font(.custom(.poppinsBold, size: 25))
                 .foregroundColor(.white)
@@ -297,8 +293,8 @@ extension RepresentativeView{
                 .cornerRadius(30)
                 .onTapGesture {
                     
-                    UserDefaults.standard.set(true, forKey: .isUserLogin)
-                    willMoveToPaymentView.toggle()
+                    setUserLogin(true)
+                    navigationStack.push(MainTabbedView(), withId: .mainTabView)
                 }
             
         }

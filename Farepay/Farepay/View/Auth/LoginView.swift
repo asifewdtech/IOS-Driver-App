@@ -14,16 +14,14 @@ struct LoginView: View {
     @State private var emailText: String = ""
     @State private var passwordText: String = ""
     @State private var isSecure = true
-    @Binding var presentSideMenu: Bool
+    @EnvironmentObject private var navigationStack: NavigationStackCompat
     
     //MARK: - Viewa
     var body: some View {
         
         ZStack{
-                        
             Color(.bgColor)
                 .edgesIgnoringSafeArea(.all)
-            
             ScrollView(.vertical, showsIndicators: false){
                 VStack{
                     topArea
@@ -40,7 +38,7 @@ struct LoginView: View {
 
 struct LoginView_Previews: PreviewProvider {
     static var previews: some View {
-        LoginView(presentSideMenu: .constant(false))
+        LoginView()
     }
 }
 
@@ -108,7 +106,7 @@ extension LoginView{
                             .font(.custom(.poppinsMedium, size: 18))
                             .frame(height: 30)
                             .foregroundColor(.white)
-                            
+                        
                     }
                     .padding([.leading, .trailing], 20)
                 }
@@ -133,7 +131,7 @@ extension LoginView{
                                 .font(.custom(.poppinsMedium, size: 18))
                                 .frame(height: 30)
                                 .foregroundColor(.white)
-                        }                        
+                        }
                         
                         Image(systemName: isSecure ? "eye.slash.fill" : "eye.fill")
                             .foregroundColor(.white)
@@ -141,7 +139,7 @@ extension LoginView{
                                 isSecure.toggle()
                                 print("Hahahahzcsacds")
                             }
-                            
+                        
                     }
                     .padding([.leading, .trailing], 20)
                 }
@@ -191,15 +189,16 @@ extension LoginView{
                     .font(.custom(.poppinsMedium, size: 18))
                     .foregroundColor(Color(.darkGrayColor))
                 
-                PushView(destination: SignUpView()) {
-                    
-                    Text("\(.SignUp)")
-                        .font(.custom(.poppinsBold, size: 20))
-                        .foregroundColor(Color(.white))
-                        .underline()
-                }
+                Text("\(.SignUp)")
+                    .font(.custom(.poppinsBold, size: 20))
+                    .foregroundColor(Color(.white))
+                    .underline()
+                    .onTapGesture {
+                        
+                        navigationStack.push(SignUpView(), withId: .signUpView)
+                    }
             }
-                
+            
         }
         .padding(.horizontal, 15)
     }

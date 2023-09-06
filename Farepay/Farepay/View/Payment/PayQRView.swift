@@ -6,12 +6,12 @@
 //
 
 import SwiftUI
+import NavigationStack
 
 struct PayQRView: View {
     
     //MARK: - Variables
-    @Environment(\.presentationMode) var presentationMode
-    
+    @EnvironmentObject private var navigationStack: NavigationStackCompat
     //MARK: - Views
     var body: some View {
         
@@ -56,8 +56,7 @@ extension PayQRView{
                     .resizable()
                     .frame(width: 35, height: 30)
                     .onTapGesture {
-                        
-                        presentationMode.wrappedValue.dismiss()
+                        navigationStack.pop()
                     }
                 Text("Receipt")
                     .foregroundColor(.white)
