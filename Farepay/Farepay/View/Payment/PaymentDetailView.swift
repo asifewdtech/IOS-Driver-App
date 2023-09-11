@@ -6,23 +6,24 @@
 //
 
 import SwiftUI
-import NavigationStack
 
 struct PaymentDetailView: View {
     
     //MARK: - Variables
     @State private var farePriceText: String = ""
     @State private var isDisabled: Bool = true
-    @EnvironmentObject private var navigationStack: NavigationStackCompat
+    @Environment(\.presentationMode) private var presentationMode: Binding<PresentationMode>
+    @State private var willMoveTapToPayView = false
     
     //MARK: - Views
     var body: some View {
         
         ZStack{
             
+            NavigationLink("", destination: TapToPayView().toolbar(.hidden, for: .navigationBar), isActive: $willMoveTapToPayView).isDetailLink(false)
+            
             Color(.bgColor)
                 .edgesIgnoringSafeArea(.all)
-            
             VStack{
                 
                 topArea
@@ -52,7 +53,7 @@ extension PaymentDetailView{
                     .resizable()
                     .frame(width: 35, height: 30)
                     .onTapGesture {
-                        navigationStack.pop()
+                        presentationMode.wrappedValue.dismiss()
                     }
                 
                 Text("Charge Fare ")
@@ -142,8 +143,7 @@ extension PaymentDetailView{
                 }
             
             Button {
-                navigationStack.push(TapToPayView())
-                
+                willMoveTapToPayView.toggle()
             } label: {
                 
                 Text("Confirm")

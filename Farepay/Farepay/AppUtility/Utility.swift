@@ -23,6 +23,24 @@ struct CustomRoundedRectangle: Shape {
     }
 }
 
+struct ClearBackgroundView: UIViewRepresentable {
+    func makeUIView(context: Context) -> UIView {
+        return InnerView()
+    }
+    
+    func updateUIView(_ uiView: UIView, context: Context) {
+    }
+    
+    private class InnerView: UIView {
+        override func didMoveToWindow() {
+            super.didMoveToWindow()
+            
+            superview?.superview?.backgroundColor = .clear
+        }
+        
+    }
+}
+
 let userDefault = UserDefaults.standard
 
 func isLogin() -> Bool{

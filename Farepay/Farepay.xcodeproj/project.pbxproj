@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		F50BE06E2AA641E500DD465A /* NavigationStack in Frameworks */ = {isa = PBXBuildFile; productRef = F50BE06D2AA641E500DD465A /* NavigationStack */; };
 		F50BE0712AA6503A00DD465A /* PayoutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F50BE0702AA6503A00DD465A /* PayoutView.swift */; };
 		F50BE0742AA658AB00DD465A /* TransactionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F50BE0732AA658AB00DD465A /* TransactionView.swift */; };
 		F50BE0772AA65A0000DD465A /* ReferAFriendView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F50BE0762AA65A0000DD465A /* ReferAFriendView.swift */; };
@@ -32,6 +31,9 @@
 		F561E4192A991BA600599CE9 /* SignUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F561E4182A991BA600599CE9 /* SignUpView.swift */; };
 		F561E41B2A991D5700599CE9 /* Navigation+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F561E41A2A991D5700599CE9 /* Navigation+Extension.swift */; };
 		F561E41D2A992B2B00599CE9 /* CompanyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F561E41C2A992B2B00599CE9 /* CompanyView.swift */; };
+		F56C08262AABA79700CE07C9 /* GiftCardDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F56C08252AABA79700CE07C9 /* GiftCardDetailView.swift */; };
+		F56C08282AABB63400CE07C9 /* GiftCardPopUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F56C08272AABB63400CE07C9 /* GiftCardPopUpView.swift */; };
+		F5A11EBE2AAF9D7A005FDEDB /* ErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5A11EBD2AAF9D7A005FDEDB /* ErrorView.swift */; };
 		F5A8F3E72A9D0F69006C964E /* RepresentativeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5A8F3E62A9D0F69006C964E /* RepresentativeView.swift */; };
 		F5C15A9C2AA26C180065DE0B /* SideMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5C15A9A2AA26C180065DE0B /* SideMenu.swift */; };
 		F5C15A9D2AA26C180065DE0B /* SideMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5C15A9B2AA26C180065DE0B /* SideMenuView.swift */; };
@@ -68,6 +70,9 @@
 		F561E4182A991BA600599CE9 /* SignUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpView.swift; sourceTree = "<group>"; };
 		F561E41A2A991D5700599CE9 /* Navigation+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Navigation+Extension.swift"; sourceTree = "<group>"; };
 		F561E41C2A992B2B00599CE9 /* CompanyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompanyView.swift; sourceTree = "<group>"; };
+		F56C08252AABA79700CE07C9 /* GiftCardDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GiftCardDetailView.swift; sourceTree = "<group>"; };
+		F56C08272AABB63400CE07C9 /* GiftCardPopUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GiftCardPopUpView.swift; sourceTree = "<group>"; };
+		F5A11EBD2AAF9D7A005FDEDB /* ErrorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorView.swift; sourceTree = "<group>"; };
 		F5A8F3E62A9D0F69006C964E /* RepresentativeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepresentativeView.swift; sourceTree = "<group>"; };
 		F5C15A9A2AA26C180065DE0B /* SideMenu.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SideMenu.swift; sourceTree = "<group>"; };
 		F5C15A9B2AA26C180065DE0B /* SideMenuView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SideMenuView.swift; sourceTree = "<group>"; };
@@ -82,7 +87,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F50BE06E2AA641E500DD465A /* NavigationStack in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -268,6 +272,9 @@
 			isa = PBXGroup;
 			children = (
 				F5C15A9F2AA26CC10065DE0B /* GiftCardView.swift */,
+				F56C08252AABA79700CE07C9 /* GiftCardDetailView.swift */,
+				F56C08272AABB63400CE07C9 /* GiftCardPopUpView.swift */,
+				F5A11EBD2AAF9D7A005FDEDB /* ErrorView.swift */,
 			);
 			path = GiftCard;
 			sourceTree = "<group>";
@@ -289,7 +296,6 @@
 			);
 			name = Farepay;
 			packageProductDependencies = (
-				F50BE06D2AA641E500DD465A /* NavigationStack */,
 			);
 			productName = Farepay;
 			productReference = F511937A2A97C4DF00554604 /* Farepay.app */;
@@ -320,7 +326,6 @@
 			);
 			mainGroup = F51193712A97C4DF00554604;
 			packageReferences = (
-				F50BE06C2AA641E500DD465A /* XCRemoteSwiftPackageReference "swiftui-navigation-stack" */,
 			);
 			productRefGroup = F511937B2A97C4DF00554604 /* Products */;
 			projectDirPath = "";
@@ -360,12 +365,15 @@
 				F51193992A97C9EA00554604 /* Image+Extension.swift in Sources */,
 				F50BE0712AA6503A00DD465A /* PayoutView.swift in Sources */,
 				F5D118522A9FB6A100C027FA /* PaymentView.swift in Sources */,
+				F5A11EBE2AAF9D7A005FDEDB /* ErrorView.swift in Sources */,
 				F51193972A97C99F00554604 /* String+Extension.swift in Sources */,
 				F5C15AA02AA26CC10065DE0B /* GiftCardView.swift in Sources */,
 				F5500E1F2AA10CB400B39655 /* TapToPayView.swift in Sources */,
 				F5A8F3E72A9D0F69006C964E /* RepresentativeView.swift in Sources */,
+				F56C08282AABB63400CE07C9 /* GiftCardPopUpView.swift in Sources */,
 				F5500E212AA1136500B39655 /* TryAgainView.swift in Sources */,
 				F561E41B2A991D5700599CE9 /* Navigation+Extension.swift in Sources */,
+				F56C08262AABA79700CE07C9 /* GiftCardDetailView.swift in Sources */,
 				F51193A62A97D19500554604 /* Font+Extension.swift in Sources */,
 				F51193952A97C97400554604 /* Colors+Extension.swift in Sources */,
 				F561E41D2A992B2B00599CE9 /* CompanyView.swift in Sources */,
@@ -581,25 +589,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCRemoteSwiftPackageReference section */
-		F50BE06C2AA641E500DD465A /* XCRemoteSwiftPackageReference "swiftui-navigation-stack" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/matteopuc/swiftui-navigation-stack";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 1.0.0;
-			};
-		};
-/* End XCRemoteSwiftPackageReference section */
-
-/* Begin XCSwiftPackageProductDependency section */
-		F50BE06D2AA641E500DD465A /* NavigationStack */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = F50BE06C2AA641E500DD465A /* XCRemoteSwiftPackageReference "swiftui-navigation-stack" */;
-			productName = NavigationStack;
-		};
-/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = F51193722A97C4DF00554604 /* Project object */;
 }

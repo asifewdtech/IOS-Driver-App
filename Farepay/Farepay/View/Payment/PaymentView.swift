@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import NavigationStack
 
 struct PaymentView: View {
     
@@ -14,12 +13,12 @@ struct PaymentView: View {
     @State private var farePriceText: String = ""
     @State private var willMoveToPaymentDetail = false
     @Binding var presentSideMenu: Bool
-    @EnvironmentObject private var navigationStack: NavigationStackCompat
     
     //MARK: - Views
     var body: some View {
         
         ZStack{
+            NavigationLink("", destination: PaymentDetailView().toolbar(.hidden, for: .navigationBar), isActive: $willMoveToPaymentDetail).isDetailLink(false)
             Color(.bgColor)
                 .edgesIgnoringSafeArea(.all)
             VStack{
@@ -195,9 +194,8 @@ extension PaymentView{
     var buttonArea: some View{
         
         VStack(spacing: 25){
-            
             Button {
-                navigationStack.push(PaymentDetailView())
+                willMoveToPaymentDetail.toggle()
             } label: {
                 
                 Text("Pay")

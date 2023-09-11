@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import NavigationStack
 
 struct CompanyView: View {
     
@@ -14,7 +13,7 @@ struct CompanyView: View {
     @State private var companyText: String = ""
     @State private var cardText: String = ""
     @State private var contactText: String = ""
-    @EnvironmentObject private var navigationStack: NavigationStackCompat
+    @State private var willMoveToRepresentativeView: Bool = false
     
     //MARK: - Views
     var body: some View {
@@ -157,6 +156,9 @@ extension CompanyView{
     var buttonArea: some View{
         
         VStack(spacing: 25){
+            
+            NavigationLink("", destination: RepresentativeView().toolbar(.hidden, for: .navigationBar), isActive: $willMoveToRepresentativeView).isDetailLink(false)
+            
             Text("Proceed")
                 .font(.custom(.poppinsBold, size: 25))
                 .foregroundColor(.white)
@@ -165,7 +167,7 @@ extension CompanyView{
                 .background(Color(.buttonColor))
                 .cornerRadius(30)
                 .onTapGesture {
-                    navigationStack.push(RepresentativeView(), withId: .representativeView)
+                    willMoveToRepresentativeView.toggle()
                 }
         }
         .padding(.horizontal, 15)

@@ -16,4 +16,5 @@ extension UIColor {
     static let darkGrayColor = UIColor(named: "darkGrayColor")!
     static let ErrorColor = UIColor(named: "ErrorColor")!
     static let SuccessColor = UIColor(named: "SuccessColor")!
+    static let lightPink = UIColor(named: "lightPink")!
 }

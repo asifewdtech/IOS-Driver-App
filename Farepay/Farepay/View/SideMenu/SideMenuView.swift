@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import NavigationStack
 
 enum SideMenuRowType: Int, CaseIterable{
     
@@ -61,7 +60,7 @@ struct SideMenuView: View {
     //MARK: - Variables
     @Binding var selectedSideMenuTab: Int
     @Binding var presentSideMenu: Bool
-    @EnvironmentObject private var navigationStack: NavigationStackCompat
+    @Environment(\.rootPresentationMode) private var rootPresentationMode: Binding<RootPresentationMode>
     
     //MARK: - Views
     var body: some View {
@@ -107,7 +106,7 @@ struct SideMenuView: View {
                         .padding(.leading, 15)
                         .onTapGesture {
                             setUserLogin(false)
-                            navigationStack.pop(to: .root)
+                            rootPresentationMode.wrappedValue.dismiss()
                         }
                     }
                     Spacer()
@@ -131,6 +130,7 @@ struct SideMenuView: View {
                     
                     Image(uiImage: img)
                         .resizable()
+                        .scaledToFit()
                         .frame(width: 25, height: 25)
                     Text(title)
                         .foregroundColor(.white)

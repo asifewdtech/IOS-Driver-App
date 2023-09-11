@@ -48,4 +48,9 @@ extension UIImage{
     static let ic_Refer = UIImage(named: "ic_Refer") ?? .image_placeholder
     static let ic_Settings = UIImage(named: "ic_Settings") ?? .image_placeholder
     static let ic_Logout = UIImage(named: "ic_Logout") ?? .image_placeholder
+    static let ic_Apple = UIImage(named: "ic_Apple") ?? .image_placeholder
+    
+    static let ic_SuccessTrue = UIImage(named: "ic_SuccessTrue") ?? .image_placeholder
+    static let ic_False = UIImage(named: "ic_False") ?? .image_placeholder
+    static let ErrorImage = UIImage(named: "ErrorImage") ?? .image_placeholder
 }

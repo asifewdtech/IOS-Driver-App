@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import NavigationStack
 
 struct LoginView: View {
     
@@ -14,7 +13,8 @@ struct LoginView: View {
     @State private var emailText: String = ""
     @State private var passwordText: String = ""
     @State private var isSecure = true
-    @EnvironmentObject private var navigationStack: NavigationStackCompat
+    @State var willMoveToCompanyView: Bool = false
+    @State var willMoveToSignUp: Bool = false
     
     //MARK: - Viewa
     var body: some View {
@@ -171,18 +171,20 @@ extension LoginView{
     var buttonArea: some View{
         
         VStack(spacing: 25){
+                        
+            NavigationLink("", destination: Farepay.SignUpView().toolbar(.hidden, for: .navigationBar), isActive: $willMoveToSignUp).isDetailLink(false)
+            NavigationLink("", destination: Farepay.CompanyView().toolbar(.hidden, for: .navigationBar), isActive: $willMoveToCompanyView).isDetailLink(false)
             
-            PushView(destination: CompanyView()){
-                
-                Text("\(.SignIn)")
-                    .font(.custom(.poppinsBold, size: 25))
-                    .foregroundColor(.white)
-                    .frame(maxWidth: .infinity)
-                    .frame(height: 60)
-                    .background(Color(.buttonColor))
-                    .cornerRadius(30)
-            }
-            
+            Text("\(.SignIn)")
+                .font(.custom(.poppinsBold, size: 25))
+                .foregroundColor(.white)
+                .frame(maxWidth: .infinity)
+                .frame(height: 60)
+                .background(Color(.buttonColor))
+                .cornerRadius(30)
+                .onTapGesture {
+                    willMoveToCompanyView.toggle()
+                }
             HStack{
                 
                 Text("\(.dontHaveAccount)")
@@ -194,8 +196,7 @@ extension LoginView{
                     .foregroundColor(Color(.white))
                     .underline()
                     .onTapGesture {
-                        
-                        navigationStack.push(SignUpView(), withId: .signUpView)
+                        willMoveToSignUp.toggle()
                     }
             }
             

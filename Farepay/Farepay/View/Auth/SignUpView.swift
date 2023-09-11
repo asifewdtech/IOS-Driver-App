@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import NavigationStack
 
 struct SignUpView: View {
     
@@ -17,7 +16,7 @@ struct SignUpView: View {
     @State private var ReTypePasswordText: String = ""
     @State private var isSecure = true
     @State private var isSecureReType = true
-    @EnvironmentObject private var navigationStack: NavigationStackCompat
+    @Environment(\.presentationMode) private var presentationMode: Binding<PresentationMode>
     
     //MARK: - Views
     var body: some View {
@@ -262,8 +261,7 @@ extension SignUpView{
                     .foregroundColor(Color(.white))
                     .underline()
                     .onTapGesture {
-                        
-                        navigationStack.pop()
+                        presentationMode.wrappedValue.dismiss()
                     }
             }
                 

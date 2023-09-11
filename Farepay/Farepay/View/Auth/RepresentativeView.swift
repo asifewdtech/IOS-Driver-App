@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import NavigationStack
 
 struct RepresentativeView: View {
     
@@ -18,7 +17,7 @@ struct RepresentativeView: View {
     @State private var businessNumberText: String = ""
     @State private var authorityNumberText: String = ""
     @State private var mobileNumberText: String = ""
-    @EnvironmentObject private var navigationStack: NavigationStackCompat
+    @State private var willMoveToMainView = false
     
     //MARK: - Views
     var body: some View {
@@ -284,6 +283,7 @@ extension RepresentativeView{
     var buttonArea: some View{
         
         VStack(spacing: 25){
+            NavigationLink("", destination: Farepay.MainTabbedView().toolbar(.hidden, for: .navigationBar), isActive: $willMoveToMainView ).isDetailLink(false)
             Text("Proceed")
                 .font(.custom(.poppinsBold, size: 25))
                 .foregroundColor(.white)
@@ -294,7 +294,7 @@ extension RepresentativeView{
                 .onTapGesture {
                     
                     setUserLogin(true)
-                    navigationStack.push(MainTabbedView(), withId: .mainTabView)
+                    willMoveToMainView.toggle()
                 }
             
         }
