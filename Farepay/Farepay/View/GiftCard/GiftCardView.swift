@@ -11,7 +11,7 @@ struct GiftCardView: View {
     
     //MARK: - Variables
     @Binding var presentSideMenu: Bool
-    @State var isBankTransfer: Bool = true
+    @State var isBankTransfer: Bool = false
     @State var willMoveToGiftCardDetailView: Bool = false
     
     //MARK: - Views

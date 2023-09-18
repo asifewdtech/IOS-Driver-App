@@ -10,7 +10,7 @@ import SwiftUI
 struct PaymentView: View {
     
     //MARK: - Variables
-    @State private var farePriceText: String = ""
+    @ObservedObject private var currencyManager = CurrencyManager(amount: 0)
     @State private var willMoveToPaymentDetail = false
     @Binding var presentSideMenu: Bool
     
@@ -42,11 +42,13 @@ extension PaymentView{
     var topArea: some View{
         
         VStack(spacing: 20){
-            HStack{
+            HStack(spacing: 20){
                 Image(uiImage: .logo)
                     .resizable()
                     .frame(width: 50, height: 50)
-                Spacer()
+                Text("FarePay")
+                    .font(.custom(.poppinsBold, size: 35))
+                    .foregroundColor(.white)
             }
             
             HStack(spacing: 20){
@@ -73,13 +75,12 @@ extension PaymentView{
                         .foregroundColor(Color(.darkGrayColor))
                     Spacer()
                     
-                    TextField("", text: $farePriceText, prompt: Text("0.00").foregroundColor(Color(.white)))
+                    TextField(currencyManager.string, text: $currencyManager.string)
                         .font(.custom(.poppinsBold, size: 40))
                         .frame(height: 30)
                         .foregroundColor(.white)
                         .multilineTextAlignment(.trailing)
-                        .lineLimit(1)
-                        .disabled(true)
+                        .onChange(of: currencyManager.string, perform: currencyManager.valueChanged)
                 }
                 .padding(.horizontal, 20)
             }
@@ -98,18 +99,17 @@ extension PaymentView{
             HStack{
                 
                 Group{
-                    
                     Text("1")
                         .onTapGesture {
-                            farePriceText += "1"
+                            currencyManager.string += "1"
                         }
                     Text("2")
                         .onTapGesture {
-                            farePriceText += "2"
+                            currencyManager.string += "2"
                         }
                     Text("3")
                         .onTapGesture {
-                            farePriceText += "3"
+                            currencyManager.string += "3"
                         }
                 }
                 .font(.custom(.poppinsBold, size: 35))
@@ -118,20 +118,19 @@ extension PaymentView{
             }
 
             HStack{
-                
                 Group{
                     
                     Text("4")
                         .onTapGesture {
-                            farePriceText += "4"
+                            currencyManager.string += "4"
                         }
                     Text("5")
                         .onTapGesture {
-                            farePriceText += "5"
+                            currencyManager.string += "5"
                         }
                     Text("6")
                         .onTapGesture {
-                            farePriceText += "6"
+                            currencyManager.string += "6"
                         }
                 }
                 .font(.custom(.poppinsBold, size: 35))
@@ -140,20 +139,19 @@ extension PaymentView{
             }
             
             HStack{
-                
                 Group{
                     
                     Text("7")
                         .onTapGesture {
-                            farePriceText += "7"
+                            currencyManager.string += "7"
                         }
                     Text("8")
                         .onTapGesture {
-                            farePriceText += "8"
+                            currencyManager.string += "8"
                         }
                     Text("9")
                         .onTapGesture {
-                            farePriceText += "9"
+                            currencyManager.string += "9"
                         }
                 }
                 .font(.custom(.poppinsBold, size: 35))
@@ -165,21 +163,18 @@ extension PaymentView{
                 
                 Group{
                     
-                    Text("*")
-                        .onTapGesture {
-                            farePriceText += "*"
-                        }
+                    Text("")
+                        
                     Text("0")
                         .onTapGesture {
-                            farePriceText += "0"
+                            currencyManager.string += "0"
                         }
                     Image(uiImage: .ic_BackSpace)
                         .resizable()
                         .frame(width: 50, height: 50)
                         .onTapGesture {
-                            
-                            if !farePriceText.isEmpty {
-                                farePriceText.removeLast()
+                            if !currencyManager.string.isEmpty{
+                                currencyManager.string.removeLast()
                             }
                         }
                 }
@@ -203,10 +198,10 @@ extension PaymentView{
                     .foregroundColor(.white)
                     .frame(maxWidth: .infinity)
                     .frame(height: 60)
-                    .background(farePriceText == "0" || farePriceText == "" ? Color(.buttonColor).opacity(0.5) : Color(.buttonColor))
+                    .background(currencyManager.string == "0.00" || currencyManager.string == "" ? Color(.buttonColor).opacity(0.5) : Color(.buttonColor))
                     .cornerRadius(30)
             }
-            .disabled(farePriceText == "0" || farePriceText == "" ? true : false)
+            .disabled(currencyManager.string == "0.00" || currencyManager.string == "" ? true : false)
         }
         .padding(.horizontal, 15)
         .padding(.bottom, 20)

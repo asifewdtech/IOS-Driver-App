@@ -92,6 +92,10 @@ struct SideMenuView: View {
                             Spacer()
                         }
                         .padding(.leading, 15)
+                        .onTapGesture {
+                            selectedSideMenuTab = 7
+                            presentSideMenu.toggle()
+                        }
                             
                         HStack(spacing: 20){
                             

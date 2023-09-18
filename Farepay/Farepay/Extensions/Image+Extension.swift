@@ -53,4 +53,8 @@ extension UIImage{
     static let ic_SuccessTrue = UIImage(named: "ic_SuccessTrue") ?? .image_placeholder
     static let ic_False = UIImage(named: "ic_False") ?? .image_placeholder
     static let ErrorImage = UIImage(named: "ErrorImage") ?? .image_placeholder
+    
+    static let ic_Link = UIImage(named: "ic_Link") ?? .image_placeholder
+    static let ic_Money = UIImage(named: "ic_Money") ?? .image_placeholder
+    static let ic_Edan = UIImage(named: "ic_Edan") ?? .image_placeholder
 }

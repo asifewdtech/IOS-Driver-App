@@ -25,6 +25,11 @@
 		F51193A82A97DAAC00554604 /* Utility.swift in Sources */ = {isa = PBXBuildFile; fileRef = F51193A72A97DAAC00554604 /* Utility.swift */; };
 		F51193AA2A97DBA100554604 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F51193A92A97DBA100554604 /* LoginView.swift */; };
 		F5192AEB2AA11B8900DF5ED1 /* PayQRView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5192AEA2AA11B8900DF5ED1 /* PayQRView.swift */; };
+		F523128D2AB8CFDF00E9AA2D /* AccountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F523128C2AB8CFDE00E9AA2D /* AccountView.swift */; };
+		F5449ABD2AB0D09000BE5AF4 /* Date+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5449ABC2AB0D09000BE5AF4 /* Date+Extension.swift */; };
+		F5449ABF2AB0D33D00BE5AF4 /* TransactionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5449ABE2AB0D33D00BE5AF4 /* TransactionModel.swift */; };
+		F5449AC12AB0DA8E00BE5AF4 /* ExportPopUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5449AC02AB0DA8E00BE5AF4 /* ExportPopUpView.swift */; };
+		F5449AC32AB0E02400BE5AF4 /* TransactionDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5449AC22AB0E02400BE5AF4 /* TransactionDetailView.swift */; };
 		F5500E1F2AA10CB400B39655 /* TapToPayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5500E1E2AA10CB400B39655 /* TapToPayView.swift */; };
 		F5500E212AA1136500B39655 /* TryAgainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5500E202AA1136500B39655 /* TryAgainView.swift */; };
 		F554AC162AA0FC03007EED59 /* PaymentDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F554AC152AA0FC03007EED59 /* PaymentDetailView.swift */; };
@@ -33,6 +38,8 @@
 		F561E41D2A992B2B00599CE9 /* CompanyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F561E41C2A992B2B00599CE9 /* CompanyView.swift */; };
 		F56C08262AABA79700CE07C9 /* GiftCardDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F56C08252AABA79700CE07C9 /* GiftCardDetailView.swift */; };
 		F56C08282AABB63400CE07C9 /* GiftCardPopUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F56C08272AABB63400CE07C9 /* GiftCardPopUpView.swift */; };
+		F59BCAAB2AB36E5900FC28B4 /* CurrencyManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F59BCAAA2AB36E5900FC28B4 /* CurrencyManager.swift */; };
+		F59BCAAD2AB3904300FC28B4 /* FriendlistView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F59BCAAC2AB3904300FC28B4 /* FriendlistView.swift */; };
 		F5A11EBE2AAF9D7A005FDEDB /* ErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5A11EBD2AAF9D7A005FDEDB /* ErrorView.swift */; };
 		F5A8F3E72A9D0F69006C964E /* RepresentativeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5A8F3E62A9D0F69006C964E /* RepresentativeView.swift */; };
 		F5C15A9C2AA26C180065DE0B /* SideMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5C15A9A2AA26C180065DE0B /* SideMenu.swift */; };
@@ -41,6 +48,9 @@
 		F5C15AA22AA26E6A0065DE0B /* MainTabbedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5C15AA12AA26E6A0065DE0B /* MainTabbedView.swift */; };
 		F5C18CEF2A9D047E00B05031 /* SplashScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F5C18CEE2A9D047E00B05031 /* SplashScreen.storyboard */; };
 		F5D118522A9FB6A100C027FA /* PaymentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5D118512A9FB6A000C027FA /* PaymentView.swift */; };
+		F5EA16BA2AB21F69000F9CCA /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5EA16B92AB21F69000F9CCA /* Constants.swift */; };
+		F5EA16BE2AB22FD7000F9CCA /* TermsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5EA16BD2AB22FD7000F9CCA /* TermsView.swift */; };
+		F5EA16C02AB23121000F9CCA /* PrivacyPolicyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5EA16BF2AB23121000F9CCA /* PrivacyPolicyView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -64,6 +74,11 @@
 		F51193A72A97DAAC00554604 /* Utility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utility.swift; sourceTree = "<group>"; };
 		F51193A92A97DBA100554604 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		F5192AEA2AA11B8900DF5ED1 /* PayQRView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayQRView.swift; sourceTree = "<group>"; };
+		F523128C2AB8CFDE00E9AA2D /* AccountView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountView.swift; sourceTree = "<group>"; };
+		F5449ABC2AB0D09000BE5AF4 /* Date+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extension.swift"; sourceTree = "<group>"; };
+		F5449ABE2AB0D33D00BE5AF4 /* TransactionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionModel.swift; sourceTree = "<group>"; };
+		F5449AC02AB0DA8E00BE5AF4 /* ExportPopUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExportPopUpView.swift; sourceTree = "<group>"; };
+		F5449AC22AB0E02400BE5AF4 /* TransactionDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionDetailView.swift; sourceTree = "<group>"; };
 		F5500E1E2AA10CB400B39655 /* TapToPayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TapToPayView.swift; sourceTree = "<group>"; };
 		F5500E202AA1136500B39655 /* TryAgainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TryAgainView.swift; sourceTree = "<group>"; };
 		F554AC152AA0FC03007EED59 /* PaymentDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentDetailView.swift; sourceTree = "<group>"; };
@@ -72,6 +87,8 @@
 		F561E41C2A992B2B00599CE9 /* CompanyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompanyView.swift; sourceTree = "<group>"; };
 		F56C08252AABA79700CE07C9 /* GiftCardDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GiftCardDetailView.swift; sourceTree = "<group>"; };
 		F56C08272AABB63400CE07C9 /* GiftCardPopUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GiftCardPopUpView.swift; sourceTree = "<group>"; };
+		F59BCAAA2AB36E5900FC28B4 /* CurrencyManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyManager.swift; sourceTree = "<group>"; };
+		F59BCAAC2AB3904300FC28B4 /* FriendlistView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendlistView.swift; sourceTree = "<group>"; };
 		F5A11EBD2AAF9D7A005FDEDB /* ErrorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorView.swift; sourceTree = "<group>"; };
 		F5A8F3E62A9D0F69006C964E /* RepresentativeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepresentativeView.swift; sourceTree = "<group>"; };
 		F5C15A9A2AA26C180065DE0B /* SideMenu.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SideMenu.swift; sourceTree = "<group>"; };
@@ -80,6 +97,9 @@
 		F5C15AA12AA26E6A0065DE0B /* MainTabbedView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainTabbedView.swift; sourceTree = "<group>"; };
 		F5C18CEE2A9D047E00B05031 /* SplashScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = SplashScreen.storyboard; sourceTree = "<group>"; };
 		F5D118512A9FB6A000C027FA /* PaymentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentView.swift; sourceTree = "<group>"; };
+		F5EA16B92AB21F69000F9CCA /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		F5EA16BD2AB22FD7000F9CCA /* TermsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsView.swift; sourceTree = "<group>"; };
+		F5EA16BF2AB23121000F9CCA /* PrivacyPolicyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivacyPolicyView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -105,6 +125,8 @@
 			isa = PBXGroup;
 			children = (
 				F50BE0732AA658AB00DD465A /* TransactionView.swift */,
+				F5449AC02AB0DA8E00BE5AF4 /* ExportPopUpView.swift */,
+				F5449AC22AB0E02400BE5AF4 /* TransactionDetailView.swift */,
 			);
 			path = Transaction;
 			sourceTree = "<group>";
@@ -113,6 +135,7 @@
 			isa = PBXGroup;
 			children = (
 				F50BE0762AA65A0000DD465A /* ReferAFriendView.swift */,
+				F59BCAAC2AB3904300FC28B4 /* FriendlistView.swift */,
 			);
 			path = ReferAFriend;
 			sourceTree = "<group>";
@@ -138,7 +161,9 @@
 			children = (
 				F51193A42A97D11200554604 /* Info.plist */,
 				F51193922A97C93900554604 /* AppUtility */,
+				F59BCAA92AB36E2900FC28B4 /* Manager */,
 				F51193932A97C95F00554604 /* Extensions */,
+				F5EA16B82AB21F4F000F9CCA /* Constants */,
 				F511938B2A97C69100554604 /* Resources */,
 				F511938D2A97C6AD00554604 /* Model */,
 				F511938C2A97C6A800554604 /* View */,
@@ -176,6 +201,9 @@
 				F50BE06F2AA6501C00DD465A /* Payout */,
 				F50BE0722AA6588500DD465A /* Transaction */,
 				F50BE0752AA659E700DD465A /* ReferAFriend */,
+				F523128B2AB8CFAE00E9AA2D /* Account */,
+				F5EA16BC2AB22FAB000F9CCA /* PrivacyPoilicy */,
+				F5EA16BB2AB22F94000F9CCA /* Terms */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -183,6 +211,7 @@
 		F511938D2A97C6AD00554604 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				F5449ABE2AB0D33D00BE5AF4 /* TransactionModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -223,6 +252,7 @@
 				F51193982A97C9EA00554604 /* Image+Extension.swift */,
 				F51193A52A97D19500554604 /* Font+Extension.swift */,
 				F561E41A2A991D5700599CE9 /* Navigation+Extension.swift */,
+				F5449ABC2AB0D09000BE5AF4 /* Date+Extension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -246,6 +276,14 @@
 			path = Images;
 			sourceTree = "<group>";
 		};
+		F523128B2AB8CFAE00E9AA2D /* Account */ = {
+			isa = PBXGroup;
+			children = (
+				F523128C2AB8CFDE00E9AA2D /* AccountView.swift */,
+			);
+			path = Account;
+			sourceTree = "<group>";
+		};
 		F5500E1D2AA10AB800B39655 /* Payment */ = {
 			isa = PBXGroup;
 			children = (
@@ -256,6 +294,14 @@
 				F5192AEA2AA11B8900DF5ED1 /* PayQRView.swift */,
 			);
 			path = Payment;
+			sourceTree = "<group>";
+		};
+		F59BCAA92AB36E2900FC28B4 /* Manager */ = {
+			isa = PBXGroup;
+			children = (
+				F59BCAAA2AB36E5900FC28B4 /* CurrencyManager.swift */,
+			);
+			path = Manager;
 			sourceTree = "<group>";
 		};
 		F5C15A992AA26BF10065DE0B /* SideMenu */ = {
@@ -277,6 +323,30 @@
 				F5A11EBD2AAF9D7A005FDEDB /* ErrorView.swift */,
 			);
 			path = GiftCard;
+			sourceTree = "<group>";
+		};
+		F5EA16B82AB21F4F000F9CCA /* Constants */ = {
+			isa = PBXGroup;
+			children = (
+				F5EA16B92AB21F69000F9CCA /* Constants.swift */,
+			);
+			path = Constants;
+			sourceTree = "<group>";
+		};
+		F5EA16BB2AB22F94000F9CCA /* Terms */ = {
+			isa = PBXGroup;
+			children = (
+				F5EA16BD2AB22FD7000F9CCA /* TermsView.swift */,
+			);
+			path = Terms;
+			sourceTree = "<group>";
+		};
+		F5EA16BC2AB22FAB000F9CCA /* PrivacyPoilicy */ = {
+			isa = PBXGroup;
+			children = (
+				F5EA16BF2AB23121000F9CCA /* PrivacyPolicyView.swift */,
+			);
+			path = PrivacyPoilicy;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -364,14 +434,21 @@
 				F50BE0742AA658AB00DD465A /* TransactionView.swift in Sources */,
 				F51193992A97C9EA00554604 /* Image+Extension.swift in Sources */,
 				F50BE0712AA6503A00DD465A /* PayoutView.swift in Sources */,
+				F5449AC32AB0E02400BE5AF4 /* TransactionDetailView.swift in Sources */,
+				F5EA16BA2AB21F69000F9CCA /* Constants.swift in Sources */,
 				F5D118522A9FB6A100C027FA /* PaymentView.swift in Sources */,
 				F5A11EBE2AAF9D7A005FDEDB /* ErrorView.swift in Sources */,
+				F5EA16BE2AB22FD7000F9CCA /* TermsView.swift in Sources */,
 				F51193972A97C99F00554604 /* String+Extension.swift in Sources */,
 				F5C15AA02AA26CC10065DE0B /* GiftCardView.swift in Sources */,
 				F5500E1F2AA10CB400B39655 /* TapToPayView.swift in Sources */,
 				F5A8F3E72A9D0F69006C964E /* RepresentativeView.swift in Sources */,
 				F56C08282AABB63400CE07C9 /* GiftCardPopUpView.swift in Sources */,
+				F523128D2AB8CFDF00E9AA2D /* AccountView.swift in Sources */,
+				F59BCAAB2AB36E5900FC28B4 /* CurrencyManager.swift in Sources */,
 				F5500E212AA1136500B39655 /* TryAgainView.swift in Sources */,
+				F59BCAAD2AB3904300FC28B4 /* FriendlistView.swift in Sources */,
+				F5EA16C02AB23121000F9CCA /* PrivacyPolicyView.swift in Sources */,
 				F561E41B2A991D5700599CE9 /* Navigation+Extension.swift in Sources */,
 				F56C08262AABA79700CE07C9 /* GiftCardDetailView.swift in Sources */,
 				F51193A62A97D19500554604 /* Font+Extension.swift in Sources */,
@@ -381,10 +458,13 @@
 				F50BE0772AA65A0000DD465A /* ReferAFriendView.swift in Sources */,
 				F51193AA2A97DBA100554604 /* LoginView.swift in Sources */,
 				F5C15A9C2AA26C180065DE0B /* SideMenu.swift in Sources */,
+				F5449ABF2AB0D33D00BE5AF4 /* TransactionModel.swift in Sources */,
 				F561E4192A991BA600599CE9 /* SignUpView.swift in Sources */,
 				F51193912A97C6ED00554604 /* SplashView.swift in Sources */,
+				F5449ABD2AB0D09000BE5AF4 /* Date+Extension.swift in Sources */,
 				F5192AEB2AA11B8900DF5ED1 /* PayQRView.swift in Sources */,
 				F5C15AA22AA26E6A0065DE0B /* MainTabbedView.swift in Sources */,
+				F5449AC12AB0DA8E00BE5AF4 /* ExportPopUpView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

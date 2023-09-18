@@ -16,20 +16,19 @@ struct LoginView: View {
     @State var willMoveToCompanyView: Bool = false
     @State var willMoveToSignUp: Bool = false
     
-    //MARK: - Viewa
+    //MARK: - Views
     var body: some View {
         
         ZStack{
             Color(.bgColor)
                 .edgesIgnoringSafeArea(.all)
-            ScrollView(.vertical, showsIndicators: false){
-                VStack{
-                    topArea
-                    Spacer(minLength: 50)
-                    textArea
-                    Spacer(minLength: 50)
-                    buttonArea
-                    Spacer(minLength: 20)
+            VStack{
+                ScrollView(.vertical, showsIndicators: false){
+                    VStack(spacing: 50){
+                        topArea
+                        textArea
+                        buttonArea
+                    }
                 }
             }
         }

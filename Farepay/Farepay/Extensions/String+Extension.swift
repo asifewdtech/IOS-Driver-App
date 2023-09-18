@@ -32,4 +32,14 @@ extension String{
     static let loginView = "LoginView"
     static let signUpView = "SignUpView"
     static let representativeView = "RepresentativeView"
+    
+    static let giftCard = "Gift Card"
+    static let chargeFare = "Charge Fare"
+    static let bankTransfer = "Bank Transfer"
+    
+    func widthOfString(usingFont font: UIFont) -> CGFloat {
+        let fontAttributes = [NSAttributedString.Key.font: font]
+        let size = self.size(withAttributes: fontAttributes)
+        return size.width
+    }
 }

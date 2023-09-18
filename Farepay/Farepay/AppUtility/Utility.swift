@@ -56,3 +56,9 @@ func isLogin() -> Bool{
 func setUserLogin(_ value: Bool){
     userDefault.set(value, forKey: .isUserLogin)
 }
+
+func formatDate(_ date: Date) -> String {
+    let formatter = DateFormatter()
+    formatter.dateFormat = "EEEE dd, yyyy"
+    return formatter.string(from: date)
+}

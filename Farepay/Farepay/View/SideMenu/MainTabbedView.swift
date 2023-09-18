@@ -31,6 +31,15 @@ struct MainTabbedView: View {
             case 4:
                 ReferAFriendView(presentSideMenu: $presentSideMenu)
                     .tag(4)
+            case 5:
+                PrivacyPolicyView(presentSideMenu: $presentSideMenu)
+                    .tag(5)
+            case 6:
+                TermsView(presentSideMenu: $presentSideMenu)
+                    .tag(6)
+            case 7:
+                AccountView(presentSideMenu: $presentSideMenu)
+                    .tag(7)
             default:
                 PaymentView(presentSideMenu: $presentSideMenu)
                     .tag(0)
