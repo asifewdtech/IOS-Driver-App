@@ -23,18 +23,19 @@ struct RepresentativeView: View {
     var body: some View {
         
         ZStack{
-            Color(.bgColor)
-                .ignoresSafeArea(.all)
-            ScrollView(.vertical, showsIndicators: false){
-                VStack{
-                    topArea
-                    Spacer(minLength: 50)
-                    textArea
-                    Spacer(minLength: 50)
-                    buttonArea
-                    Spacer(minLength: 20)
+            NavigationLink("", destination: Farepay.MainTabbedView().toolbar(.hidden, for: .navigationBar), isActive: $willMoveToMainView ).isDetailLink(false)
+            Color(.bgColor).ignoresSafeArea(.all)
+            VStack{
+                
+                ScrollView(showsIndicators: false){
+                    VStack(spacing: 40){
+                        topArea
+                        textArea
+                        buttonArea
+                    }
                 }
             }
+            .padding(.all, 15)
         }
     }
 }
@@ -49,7 +50,7 @@ extension RepresentativeView{
     
     var topArea: some View{
         
-        VStack(spacing: 25){
+        VStack(spacing: 20){
             
             Text("Fill in the form below")
                 .font(.custom(.poppinsBold, size: 25))
@@ -79,12 +80,11 @@ extension RepresentativeView{
                 .foregroundColor(.white)
             
         }
-        .padding(.horizontal, 15)
     }
     
     var textArea: some View{
         
-        VStack(alignment: .leading, spacing: 25){
+        VStack(alignment: .leading, spacing: 20){
             
             Group{
                 
@@ -277,13 +277,12 @@ extension RepresentativeView{
             )
             
         }
-        .padding(.horizontal, 15)
     }
     
     var buttonArea: some View{
         
-        VStack(spacing: 25){
-            NavigationLink("", destination: Farepay.MainTabbedView().toolbar(.hidden, for: .navigationBar), isActive: $willMoveToMainView ).isDetailLink(false)
+        VStack(spacing: 20){
+            
             Text("Proceed")
                 .font(.custom(.poppinsBold, size: 25))
                 .foregroundColor(.white)
@@ -296,8 +295,6 @@ extension RepresentativeView{
                     setUserLogin(true)
                     willMoveToMainView.toggle()
                 }
-            
         }
-        .padding(.horizontal, 15)
     }
 }

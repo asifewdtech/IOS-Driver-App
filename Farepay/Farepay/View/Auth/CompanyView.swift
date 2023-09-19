@@ -20,22 +20,18 @@ struct CompanyView: View {
         
         ZStack{
             
-            Color(.bgColor)
-                .edgesIgnoringSafeArea(.all)
+            NavigationLink("", destination: RepresentativeView().toolbar(.hidden, for: .navigationBar), isActive: $willMoveToRepresentativeView).isDetailLink(false)
+            Color(.bgColor).edgesIgnoringSafeArea(.all)
             
-            ScrollView(.vertical, showsIndicators: false){
-                
-                VStack{
-                    
-                    topArea
-                    Spacer(minLength: 50)
+            VStack(spacing: 40){
+                topArea
+                ScrollView(showsIndicators: false){
                     textArea
-                    Spacer(minLength: 50)
-                    buttonArea
-                    Spacer(minLength: 20)
                 }
+                .disabled(true)
+                buttonArea
             }
-            
+            .padding(.all, 15)
         }
     }
 }
@@ -50,7 +46,7 @@ extension CompanyView{
     
     var topArea: some View{
         
-        VStack(spacing: 25){
+        VStack(spacing: 20){
             
             Text("Fill in the form below")
                 .font(.custom(.poppinsBold, size: 25))
@@ -80,12 +76,11 @@ extension CompanyView{
                 .foregroundColor(.white)
             
         }
-        .padding(.horizontal, 15)
     }
     
     var textArea: some View{
         
-        VStack(alignment: .leading, spacing: 25){
+        VStack(alignment: .leading, spacing: 20){
             
             Group{
                 
@@ -150,15 +145,12 @@ extension CompanyView{
             .cornerRadius(10)
             
         }
-        .padding(.horizontal, 15)
     }
     
     var buttonArea: some View{
         
-        VStack(spacing: 25){
-            
-            NavigationLink("", destination: RepresentativeView().toolbar(.hidden, for: .navigationBar), isActive: $willMoveToRepresentativeView).isDetailLink(false)
-            
+        VStack(spacing: 20){
+ 
             Text("Proceed")
                 .font(.custom(.poppinsBold, size: 25))
                 .foregroundColor(.white)
@@ -170,6 +162,5 @@ extension CompanyView{
                     willMoveToRepresentativeView.toggle()
                 }
         }
-        .padding(.horizontal, 15)
     }
 }

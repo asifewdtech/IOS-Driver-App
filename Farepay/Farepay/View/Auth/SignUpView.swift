@@ -25,17 +25,17 @@ struct SignUpView: View {
 
             Color(.bgColor)
                 .edgesIgnoringSafeArea(.all)
-            
-            ScrollView(.vertical, showsIndicators: false){
-                VStack{
-                    topArea
-                    Spacer(minLength: 50)
-                    textArea
-                    Spacer(minLength: 50)
-                    buttonArea
-                    Spacer(minLength: 20)
+            VStack{
+                ScrollView(showsIndicators: false){
+                    VStack(spacing: 40){
+                        topArea
+                        textArea
+                        buttonArea
+                    }
                 }
             }
+            .padding(.all, 15)
+            
         }
     }
 }
@@ -51,7 +51,7 @@ extension SignUpView{
     
     var topArea: some View{
         
-        VStack(spacing: 25){
+        VStack(spacing: 20){
             
             Image(uiImage: .logo)
                 .resizable()
@@ -89,13 +89,12 @@ extension SignUpView{
                 .background(Color(.darkBlueColor))
                 .cornerRadius(10)
             }
-            .padding(.horizontal, 15)
         }
     }
     
     var textArea: some View{
         
-        VStack(alignment: .leading, spacing: 25){
+        VStack(alignment: .leading, spacing: 20){
             
             Group{
                 
@@ -192,7 +191,6 @@ extension SignUpView{
                             .foregroundColor(.white)
                             .onTapGesture {
                                 isSecureReType.toggle()
-                                print("Hahahahzcsacds")
                             }
                             
                     }
@@ -215,32 +213,17 @@ extension SignUpView{
                         print("Agree")
                     }
                 
-                HStack {
-                    
-                    Text("I agree with")
-                        .font(.custom(.poppinsMedium, size: 18))
-                        .foregroundColor(.white)
-                    Text("terms")
-                        .font(.custom(.poppinsBold, size: 20))
-                        .foregroundColor(.white)
-                        .underline()
-                   Text("and")
-                        .font(.custom(.poppinsMedium, size: 18))
-                        .foregroundColor(.white)
-                    Text("privacy")
-                         .font(.custom(.poppinsBold, size: 20))
-                         .foregroundColor(.white)
-                         .underline()
-                }
+                Text("I agree with terms and privacy")
+                    .font(.custom(.poppinsMedium, size: 18))
+                    .foregroundColor(.white)
             }
             
         }
-        .padding(.horizontal, 15)
     }
     
     var buttonArea: some View{
         
-        VStack(spacing: 25){
+        VStack(spacing: 20){
             
             Text("\(.SignUp)")
                 .font(.custom(.poppinsBold, size: 25))
@@ -266,6 +249,5 @@ extension SignUpView{
             }
                 
         }
-        .padding(.horizontal, 15)
     }
 }

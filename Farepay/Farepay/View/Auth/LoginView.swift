@@ -28,9 +28,10 @@ struct LoginView: View {
                 .edgesIgnoringSafeArea(.all)
             VStack(spacing: 40){
                 topArea
-                ScrollView(.vertical, showsIndicators: false){
-                        textArea
+                ScrollView(showsIndicators: false){
+                    textArea
                 }
+                .disabled(true)
                 buttonArea
             }
             .padding(.all, 15)
