@@ -91,6 +91,7 @@ struct SideMenuView: View {
                                 .foregroundColor(.white)
                             Spacer()
                         }
+                        .frame(height: 50)
                         .padding(.leading, 15)
                         .onTapGesture {
                             selectedSideMenuTab = 7

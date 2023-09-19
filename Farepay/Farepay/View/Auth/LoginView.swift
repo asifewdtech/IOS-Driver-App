@@ -20,17 +20,20 @@ struct LoginView: View {
     var body: some View {
         
         ZStack{
+            
+            NavigationLink("", destination: Farepay.SignUpView().toolbar(.hidden, for: .navigationBar), isActive: $willMoveToSignUp).isDetailLink(false)
+            NavigationLink("", destination: Farepay.CompanyView().toolbar(.hidden, for: .navigationBar), isActive: $willMoveToCompanyView).isDetailLink(false)
+            
             Color(.bgColor)
                 .edgesIgnoringSafeArea(.all)
-            VStack{
+            VStack(spacing: 40){
+                topArea
                 ScrollView(.vertical, showsIndicators: false){
-                    VStack(spacing: 50){
-                        topArea
                         textArea
-                        buttonArea
-                    }
                 }
+                buttonArea
             }
+            .padding(.all, 15)
         }
     }
 }
@@ -83,13 +86,12 @@ extension LoginView{
                 .background(Color(.darkBlueColor))
                 .cornerRadius(10)
             }
-            .padding(.horizontal, 15)
         }
     }
     
     var textArea: some View{
         
-        VStack(alignment: .leading, spacing: 25){
+        VStack(alignment: .leading, spacing: 20){
             
             Group{
                 
@@ -164,16 +166,12 @@ extension LoginView{
             }
             
         }
-        .padding(.horizontal, 15)
     }
     
     var buttonArea: some View{
         
-        VStack(spacing: 25){
+        VStack(spacing: 20){
                         
-            NavigationLink("", destination: Farepay.SignUpView().toolbar(.hidden, for: .navigationBar), isActive: $willMoveToSignUp).isDetailLink(false)
-            NavigationLink("", destination: Farepay.CompanyView().toolbar(.hidden, for: .navigationBar), isActive: $willMoveToCompanyView).isDetailLink(false)
-            
             Text("\(.SignIn)")
                 .font(.custom(.poppinsBold, size: 25))
                 .foregroundColor(.white)
@@ -198,8 +196,6 @@ extension LoginView{
                         willMoveToSignUp.toggle()
                     }
             }
-            
         }
-        .padding(.horizontal, 15)
     }
 }
