@@ -53,6 +53,8 @@
 		F5EA16BA2AB21F69000F9CCA /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5EA16B92AB21F69000F9CCA /* Constants.swift */; };
 		F5EA16BE2AB22FD7000F9CCA /* TermsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5EA16BD2AB22FD7000F9CCA /* TermsView.swift */; };
 		F5EA16C02AB23121000F9CCA /* PrivacyPolicyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5EA16BF2AB23121000F9CCA /* PrivacyPolicyView.swift */; };
+		F5F8EFF42ABB68E2000C23F8 /* ChangePasswordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5F8EFF32ABB68E2000C23F8 /* ChangePasswordView.swift */; };
+		F5F8EFF72ABB6D79000C23F8 /* BankAccountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5F8EFF62ABB6D79000C23F8 /* BankAccountView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -104,6 +106,8 @@
 		F5EA16B92AB21F69000F9CCA /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		F5EA16BD2AB22FD7000F9CCA /* TermsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsView.swift; sourceTree = "<group>"; };
 		F5EA16BF2AB23121000F9CCA /* PrivacyPolicyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivacyPolicyView.swift; sourceTree = "<group>"; };
+		F5F8EFF32ABB68E2000C23F8 /* ChangePasswordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangePasswordView.swift; sourceTree = "<group>"; };
+		F5F8EFF62ABB6D79000C23F8 /* BankAccountView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BankAccountView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -285,6 +289,7 @@
 			children = (
 				F59196EF2ABA265900D8F15D /* AccountInfo */,
 				F59196F22ABA2E8600D8F15D /* ChangePassword */,
+				F5F8EFF52ABB6D62000C23F8 /* BankAccount */,
 			);
 			path = Account;
 			sourceTree = "<group>";
@@ -314,6 +319,7 @@
 		F59196F22ABA2E8600D8F15D /* ChangePassword */ = {
 			isa = PBXGroup;
 			children = (
+				F5F8EFF32ABB68E2000C23F8 /* ChangePasswordView.swift */,
 			);
 			path = ChangePassword;
 			sourceTree = "<group>";
@@ -369,6 +375,14 @@
 				F5EA16BF2AB23121000F9CCA /* PrivacyPolicyView.swift */,
 			);
 			path = PrivacyPoilicy;
+			sourceTree = "<group>";
+		};
+		F5F8EFF52ABB6D62000C23F8 /* BankAccount */ = {
+			isa = PBXGroup;
+			children = (
+				F5F8EFF62ABB6D79000C23F8 /* BankAccountView.swift */,
+			);
+			path = BankAccount;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -457,6 +471,7 @@
 				F51193992A97C9EA00554604 /* Image+Extension.swift in Sources */,
 				F50BE0712AA6503A00DD465A /* PayoutView.swift in Sources */,
 				F59196F12ABA26A300D8F15D /* EditAccountView.swift in Sources */,
+				F5F8EFF42ABB68E2000C23F8 /* ChangePasswordView.swift in Sources */,
 				F5449AC32AB0E02400BE5AF4 /* TransactionDetailView.swift in Sources */,
 				F5EA16BA2AB21F69000F9CCA /* Constants.swift in Sources */,
 				F5D118522A9FB6A100C027FA /* PaymentView.swift in Sources */,
@@ -472,6 +487,7 @@
 				F59BCAAB2AB36E5900FC28B4 /* CurrencyManager.swift in Sources */,
 				F5500E212AA1136500B39655 /* TryAgainView.swift in Sources */,
 				F59BCAAD2AB3904300FC28B4 /* FriendlistView.swift in Sources */,
+				F5F8EFF72ABB6D79000C23F8 /* BankAccountView.swift in Sources */,
 				F5EA16C02AB23121000F9CCA /* PrivacyPolicyView.swift in Sources */,
 				F561E41B2A991D5700599CE9 /* Navigation+Extension.swift in Sources */,
 				F56C08262AABA79700CE07C9 /* GiftCardDetailView.swift in Sources */,

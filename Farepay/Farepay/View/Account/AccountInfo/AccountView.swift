@@ -21,6 +21,8 @@ struct AccountView: View {
         ZStack{
             
             NavigationLink("", destination: AccountInfoView().toolbar(.hidden, for: .navigationBar), isActive: $willMoveToAccountInfo).isDetailLink(false)
+            NavigationLink("", destination: ChangePasswordView().toolbar(.hidden, for: .navigationBar), isActive: $willMoveToChangePassword).isDetailLink(false)
+            NavigationLink("", destination: BankAccountView().toolbar(.hidden, for: .navigationBar), isActive: $willMoveToBankAccount).isDetailLink(false)
             
             Color(.bgColor).edgesIgnoringSafeArea(.all)
             VStack(spacing: 40){

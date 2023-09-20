@@ -128,7 +128,6 @@ extension LoginView{
                                 .foregroundColor(.white)
                         }
                         else {
-                            
                             TextField("", text: $passwordText, prompt: Text("\(.passwordPlaceHolder)").foregroundColor(Color(.darkGrayColor)))
                                 .font(.custom(.poppinsMedium, size: 18))
                                 .frame(height: 30)
@@ -141,7 +140,6 @@ extension LoginView{
                                 isSecure.toggle()
                                 print("Hahahahzcsacds")
                             }
-                        
                     }
                     .padding([.leading, .trailing], 20)
                 }
