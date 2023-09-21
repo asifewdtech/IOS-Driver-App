@@ -26,6 +26,8 @@
 		F51193AA2A97DBA100554604 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F51193A92A97DBA100554604 /* LoginView.swift */; };
 		F5192AEB2AA11B8900DF5ED1 /* PayQRView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5192AEA2AA11B8900DF5ED1 /* PayQRView.swift */; };
 		F523128D2AB8CFDF00E9AA2D /* AccountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F523128C2AB8CFDE00E9AA2D /* AccountView.swift */; };
+		F5404A482ABCA864002E00A0 /* AddNewBankAccountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5404A472ABCA864002E00A0 /* AddNewBankAccountView.swift */; };
+		F5404A4A2ABCB197002E00A0 /* OtpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5404A492ABCB197002E00A0 /* OtpView.swift */; };
 		F5449ABD2AB0D09000BE5AF4 /* Date+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5449ABC2AB0D09000BE5AF4 /* Date+Extension.swift */; };
 		F5449ABF2AB0D33D00BE5AF4 /* TransactionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5449ABE2AB0D33D00BE5AF4 /* TransactionModel.swift */; };
 		F5449AC12AB0DA8E00BE5AF4 /* ExportPopUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5449AC02AB0DA8E00BE5AF4 /* ExportPopUpView.swift */; };
@@ -79,6 +81,8 @@
 		F51193A92A97DBA100554604 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		F5192AEA2AA11B8900DF5ED1 /* PayQRView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayQRView.swift; sourceTree = "<group>"; };
 		F523128C2AB8CFDE00E9AA2D /* AccountView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountView.swift; sourceTree = "<group>"; };
+		F5404A472ABCA864002E00A0 /* AddNewBankAccountView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNewBankAccountView.swift; sourceTree = "<group>"; };
+		F5404A492ABCB197002E00A0 /* OtpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OtpView.swift; sourceTree = "<group>"; };
 		F5449ABC2AB0D09000BE5AF4 /* Date+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extension.swift"; sourceTree = "<group>"; };
 		F5449ABE2AB0D33D00BE5AF4 /* TransactionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionModel.swift; sourceTree = "<group>"; };
 		F5449AC02AB0DA8E00BE5AF4 /* ExportPopUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExportPopUpView.swift; sourceTree = "<group>"; };
@@ -125,6 +129,7 @@
 			isa = PBXGroup;
 			children = (
 				F50BE0702AA6503A00DD465A /* PayoutView.swift */,
+				F5404A492ABCB197002E00A0 /* OtpView.swift */,
 			);
 			path = Payout;
 			sourceTree = "<group>";
@@ -287,6 +292,7 @@
 		F523128B2AB8CFAE00E9AA2D /* Account */ = {
 			isa = PBXGroup;
 			children = (
+				F523128C2AB8CFDE00E9AA2D /* AccountView.swift */,
 				F59196EF2ABA265900D8F15D /* AccountInfo */,
 				F59196F22ABA2E8600D8F15D /* ChangePassword */,
 				F5F8EFF52ABB6D62000C23F8 /* BankAccount */,
@@ -309,7 +315,6 @@
 		F59196EF2ABA265900D8F15D /* AccountInfo */ = {
 			isa = PBXGroup;
 			children = (
-				F523128C2AB8CFDE00E9AA2D /* AccountView.swift */,
 				F59196ED2ABA1D3900D8F15D /* AccountInfoView.swift */,
 				F59196F02ABA26A200D8F15D /* EditAccountView.swift */,
 			);
@@ -381,6 +386,7 @@
 			isa = PBXGroup;
 			children = (
 				F5F8EFF62ABB6D79000C23F8 /* BankAccountView.swift */,
+				F5404A472ABCA864002E00A0 /* AddNewBankAccountView.swift */,
 			);
 			path = BankAccount;
 			sourceTree = "<group>";
@@ -483,8 +489,10 @@
 				F5500E1F2AA10CB400B39655 /* TapToPayView.swift in Sources */,
 				F5A8F3E72A9D0F69006C964E /* RepresentativeView.swift in Sources */,
 				F56C08282AABB63400CE07C9 /* GiftCardPopUpView.swift in Sources */,
+				F5404A4A2ABCB197002E00A0 /* OtpView.swift in Sources */,
 				F523128D2AB8CFDF00E9AA2D /* AccountView.swift in Sources */,
 				F59BCAAB2AB36E5900FC28B4 /* CurrencyManager.swift in Sources */,
+				F5404A482ABCA864002E00A0 /* AddNewBankAccountView.swift in Sources */,
 				F5500E212AA1136500B39655 /* TryAgainView.swift in Sources */,
 				F59BCAAD2AB3904300FC28B4 /* FriendlistView.swift in Sources */,
 				F5F8EFF72ABB6D79000C23F8 /* BankAccountView.swift in Sources */,

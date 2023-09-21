@@ -16,6 +16,9 @@ struct BankAccountView: View {
     //MARK: - Views
     var body: some View {
         ZStack{
+            
+            NavigationLink("", destination: AddNewBankAccountView().toolbar(.hidden, for: .navigationBar), isActive: $willMoveToNewAccount).isDetailLink(false)
+            
             Color(.bgColor).edgesIgnoringSafeArea(.all)
             VStack(spacing: 10){
                 topArea

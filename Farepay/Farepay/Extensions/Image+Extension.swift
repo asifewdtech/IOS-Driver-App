@@ -63,4 +63,9 @@ extension UIImage{
     static let ic_BankAccount = UIImage(named: "ic_BankAccount") ?? .image_placeholder
     static let ic_StarFilled = UIImage(named: "ic_StarFilled") ?? .image_placeholder
     static let ic_StarUnFilled = UIImage(named: "ic_StarUnFilled") ?? .image_placeholder
+    
+    static let ic_Bank = UIImage(named: "ic_Bank") ?? .image_placeholder
+    static let ic_AccountNumber = UIImage(named: "ic_AccountNumber") ?? .image_placeholder
+    static let ic_BSB = UIImage(named: "ic_BSB") ?? .image_placeholder
+    static let ic_AccountHolder = UIImage(named: "ic_AccountHolder") ?? .image_placeholder
 }
