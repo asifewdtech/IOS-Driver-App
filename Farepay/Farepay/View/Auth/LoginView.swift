@@ -13,16 +13,11 @@ struct LoginView: View {
     @State private var emailText: String = ""
     @State private var passwordText: String = ""
     @State private var isSecure = true
-    @State var willMoveToCompanyView: Bool = false
-    @State var willMoveToSignUp: Bool = false
     
     //MARK: - Views
     var body: some View {
         
         ZStack{
-            
-            NavigationLink("", destination: Farepay.SignUpView().toolbar(.hidden, for: .navigationBar), isActive: $willMoveToSignUp).isDetailLink(false)
-            NavigationLink("", destination: Farepay.CompanyView().toolbar(.hidden, for: .navigationBar), isActive: $willMoveToCompanyView).isDetailLink(false)
             
             Color(.bgColor)
                 .edgesIgnoringSafeArea(.all)
@@ -58,6 +53,9 @@ extension LoginView{
             Text("\(.SignIn)")
                 .font(.custom(.poppinsBold, size: 20))
                 .foregroundColor(.white)
+                .onAppear(){
+                    setMainView(false)
+                }
             
             Text("Please enter your detail to login")
                 .font(.custom(.poppinsMedium, size: 18))
@@ -156,7 +154,6 @@ extension LoginView{
                     .resizable()
                     .frame(width: 30, height: 30)
                     .onTapGesture {
-                        
                         print("Remember Me")
                     }
                 Text("\(.RememberMe)")
@@ -171,29 +168,32 @@ extension LoginView{
         
         VStack(spacing: 20){
                         
-            Text("\(.SignIn)")
-                .font(.custom(.poppinsBold, size: 25))
-                .foregroundColor(.white)
-                .frame(maxWidth: .infinity)
-                .frame(height: 60)
-                .background(Color(.buttonColor))
-                .cornerRadius(30)
-                .onTapGesture {
-                    willMoveToCompanyView.toggle()
-                }
+            NavigationLink {
+                Farepay.CompanyView().toolbar(.hidden, for: .navigationBar)
+            } label: {
+                Text("\(.SignIn)")
+                    .font(.custom(.poppinsBold, size: 25))
+                    .foregroundColor(.white)
+                    .frame(maxWidth: .infinity)
+                    .frame(height: 60)
+                    .background(Color(.buttonColor))
+                    .cornerRadius(30)
+            }
+
             HStack{
                 
                 Text("\(.dontHaveAccount)")
                     .font(.custom(.poppinsMedium, size: 18))
                     .foregroundColor(Color(.darkGrayColor))
                 
-                Text("\(.SignUp)")
-                    .font(.custom(.poppinsBold, size: 20))
-                    .foregroundColor(Color(.white))
-                    .underline()
-                    .onTapGesture {
-                        willMoveToSignUp.toggle()
-                    }
+                NavigationLink(destination: {
+                    Farepay.SignUpView().toolbar(.hidden, for: .navigationBar)
+                }, label: {
+                    Text("\(.SignUp)")
+                        .font(.custom(.poppinsBold, size: 20))
+                        .foregroundColor(Color(.white))
+                        .underline()
+                })
             }
         }
     }

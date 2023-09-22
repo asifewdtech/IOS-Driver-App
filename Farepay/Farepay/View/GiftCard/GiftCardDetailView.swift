@@ -12,29 +12,25 @@ struct GiftCardDetailView: View {
     //MARK: - Variables
     @State var giftValue: Int = 0
     @State var presentingModal = false
-    @State var willMoveToErrorView = false
     @Environment(\.presentationMode) private var presentationMode: Binding<PresentationMode>
     
     //MARK: - Views
     var body: some View {
         ZStack{
+                        
+            Color(.bgColor).edgesIgnoringSafeArea(.all)
             
-            NavigationLink("", destination: ErrorView().toolbar(.hidden, for: .navigationBar), isActive: $willMoveToErrorView).isDetailLink(false)
-            
-            Color(.bgColor)
-                .edgesIgnoringSafeArea(.all)
-            VStack{
+            VStack(spacing: 15){
                 topArea
-                Spacer()
-                priceView
-                Spacer()
-                Spacer()
+                VStack{
+                    ScrollView(showsIndicators: false) {
+                        priceView
+                    }
+                    .disabled(true)
+                }
                 buttonArea
             }
-            .padding([.horizontal, .bottom], 15)
-            .onAppear(){
-                print("giftValue: ", giftValue)
-            }
+            .padding(.all, 15)
         }
     }
     
@@ -69,43 +65,43 @@ extension GiftCardDetailView{
     
     var priceView: some View{
         
-        VStack(spacing: 30){
+        VStack(spacing: 20){
             
             ZStack{
                 Image(uiImage: .ic_Apple)
                     .resizable()
                     .scaledToFit()
-                    .frame(width: 80, height: 80)
+                    .frame(width: 60, height: 60)
             }
-            .frame(width: 120, height: 120)
+            .frame(width: 100, height: 100)
             .background(.white)
             .cornerRadius(60)
-            
+
             Text("Apple eGift")
-                .font(.custom(.poppinsSemiBold, size: 25))
+                .font(.custom(.poppinsSemiBold, size: 22))
                 .foregroundColor(.white)
             VStack(spacing: 10){
                 Text("3% Discount")
-                    .font(.custom(.poppinsMedium, size: 22))
+                    .font(.custom(.poppinsMedium, size: 20))
                     .foregroundColor(.white)
                 Text("$ 500.00")
-                    .font(.custom(.poppinsBold, size: 60))
+                    .font(.custom(.poppinsBold, size: 50))
                     .foregroundColor(.white)
                 Color(.darkGrayColor)
                     .frame(maxWidth: .infinity)
                     .frame(height: 1)
                     .padding(.horizontal, 40)
                 Text("You will save $15")
-                    .font(.custom(.poppinsSemiBold, size: 25))
+                    .font(.custom(.poppinsSemiBold, size: 22))
                     .foregroundColor(.white)
                 Text("$485.00 will be deducted from  today’s Fares")
-                    .font(.custom(.poppinsMedium, size: 20))
+                    .font(.custom(.poppinsMedium, size: 18))
                     .foregroundColor(.white)
                     .multilineTextAlignment(.center)
                     .lineLimit(2)
             }
             .frame(maxWidth: .infinity)
-            .frame(height: 300)
+            .frame(width: UIScreen.main.bounds.width - 50, height: 270)
             .background(Color(.darkBlueColor))
             .cornerRadius(5)
             .overlay(
@@ -120,20 +116,21 @@ extension GiftCardDetailView{
     var buttonArea: some View{
         
         VStack(spacing: 25){
-            Text("Confirm")
-                .font(.custom(.poppinsBold, size: 25))
-                .foregroundColor(.white)
-                .frame(maxWidth: .infinity)
-                .frame(height: 65)
-                .background(Color(.buttonColor))
-                .cornerRadius(30)
-                .onTapGesture {
-                    willMoveToErrorView.toggle()
-//                    presentingModal.toggle()
-                }
-                .fullScreenCover(isPresented: $presentingModal, content: {
-                    GiftCardPopUpView(presentedAsModal: $presentingModal, isTryAgain: false)
-                })
+            
+            NavigationLink {
+                ErrorView().toolbar(.hidden, for: .navigationBar)
+            } label: {
+                Text("Confirm")
+                    .font(.custom(.poppinsBold, size: 25))
+                    .foregroundColor(.white)
+                    .frame(maxWidth: .infinity)
+                    .frame(height: 65)
+                    .background(Color(.buttonColor))
+                    .cornerRadius(30)
+            }
+            .fullScreenCover(isPresented: $presentingModal, content: {
+                GiftCardPopUpView(presentedAsModal: $presentingModal, isTryAgain: false)
+            })
         }
     }
 }

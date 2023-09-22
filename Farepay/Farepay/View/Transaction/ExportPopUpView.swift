@@ -26,7 +26,7 @@ struct ExportPopUpView: View {
                     .foregroundColor(Color(.darkGrayColor))
                     .multilineTextAlignment(.center)
                 
-                HStack(spacing: 20){
+                HStack(spacing: 10){
                     Text("Cancel")
                         .font(.custom(.poppinsMedium, size: 18))
                         .frame(width: 130, height: 50)
@@ -47,7 +47,7 @@ struct ExportPopUpView: View {
                         .cornerRadius(width/2)
                 }
             }
-            .frame(width: 350, height: 200)
+            .frame(width: UIScreen.main.bounds.width - 65, height: 200)
             .padding()
             .background(.white)
             .cornerRadius(15)

@@ -15,10 +15,12 @@ extension UINavigationController: UIGestureRecognizerDelegate {
     }
 
     public func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
-        return viewControllers.count > 2
+        
+        return viewControllers.count > 2 && !isMainView()
     }
 }
 
+//MARK: -
 struct RootPresentationModeKey: EnvironmentKey {
     static let defaultValue: Binding<RootPresentationMode> = .constant(RootPresentationMode())
 }

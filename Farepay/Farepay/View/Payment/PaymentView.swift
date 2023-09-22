@@ -19,6 +19,7 @@ struct PaymentView: View {
         
         ZStack{
             NavigationLink("", destination: PaymentDetailView().toolbar(.hidden, for: .navigationBar), isActive: $willMoveToPaymentDetail).isDetailLink(false)
+            
             Color(.bgColor)
                 .edgesIgnoringSafeArea(.all)
             VStack{
@@ -49,6 +50,9 @@ extension PaymentView{
                 Text("FarePay")
                     .font(.custom(.poppinsBold, size: 35))
                     .foregroundColor(.white)
+                    .onAppear(){
+                        setMainView(true)
+                    }
             }
             
             HStack(spacing: 20){
@@ -190,6 +194,7 @@ extension PaymentView{
         
         VStack(spacing: 25){
             Button {
+                setMainView(false)
                 willMoveToPaymentDetail.toggle()
             } label: {
                 

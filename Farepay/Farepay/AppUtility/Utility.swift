@@ -57,6 +57,20 @@ func setUserLogin(_ value: Bool){
     userDefault.set(value, forKey: .isUserLogin)
 }
 
+func isMainView() -> Bool{
+    
+    if userDefault.bool(forKey: .isMainView) == true{
+        return true
+    }
+    else{
+        return false
+    }
+}
+
+func setMainView(_ value: Bool){
+    userDefault.set(value, forKey: .isMainView)
+}
+
 func formatDate(_ date: Date) -> String {
     let formatter = DateFormatter()
     formatter.dateFormat = "EEEE dd, yyyy"

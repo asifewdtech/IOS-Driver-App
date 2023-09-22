@@ -23,7 +23,9 @@ struct RepresentativeView: View {
     var body: some View {
         
         ZStack{
+            
             NavigationLink("", destination: Farepay.MainTabbedView().toolbar(.hidden, for: .navigationBar), isActive: $willMoveToMainView ).isDetailLink(false)
+            
             Color(.bgColor).ignoresSafeArea(.all)
             VStack{
                 
@@ -249,7 +251,7 @@ extension RepresentativeView{
                         print("Tick if Same as physical Address")
                     }
                 Text("Tick if Same as physical Address")
-                    .font(.custom(.poppinsMedium, size: 20))
+                    .font(.custom(.poppinsMedium, size: 17))
                     .foregroundColor(.white)
             }
             
@@ -268,7 +270,7 @@ extension RepresentativeView{
                 
             }
             .frame(maxWidth: .infinity)
-            .frame(height: 100)
+            .frame(height: 200)
             .background(Color(.darkBlueColor))
             .overlay(
                 RoundedRectangle(cornerRadius: 8)
@@ -291,7 +293,6 @@ extension RepresentativeView{
                 .background(Color(.buttonColor))
                 .cornerRadius(30)
                 .onTapGesture {
-                    
                     setUserLogin(true)
                     willMoveToMainView.toggle()
                 }

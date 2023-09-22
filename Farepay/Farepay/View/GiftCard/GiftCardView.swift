@@ -12,14 +12,11 @@ struct GiftCardView: View {
     //MARK: - Variables
     @Binding var presentSideMenu: Bool
     @State var isBankTransfer: Bool = false
-    @State var willMoveToGiftCardDetailView: Bool = false
     
     //MARK: - Views
     var body: some View {
         
         ZStack{
-            
-            NavigationLink("", destination: GiftCardDetailView().toolbar(.hidden, for: .navigationBar), isActive: $willMoveToGiftCardDetailView).isDetailLink(false)
             
             Color(.bgColor)
                 .edgesIgnoringSafeArea(.all)
@@ -150,36 +147,37 @@ extension GiftCardView{
                         
 //                        let index = i+j+i
                         let width = (UIScreen.main.bounds.width/CGFloat(2))-25
-                        VStack{
-                            Image(uiImage: .ic_Apple)
-                                .resizable()
-                                .frame(width: 60, height: 60)
-                                .padding(.top, 20)
-                                .padding(.bottom, 10)
-                            
+                        NavigationLink {
+                            GiftCardDetailView().toolbar(.hidden, for: .navigationBar)
+                        } label: {
                             VStack{
-                                HStack{
-                                    VStack(alignment: .leading, spacing: 10){
-                                        Text("Apple Store")
-                                            .font(.custom(.poppinsSemiBold, size: 22))
-                                            .foregroundColor(.white)
-                                        Text("eGift (7)")
-                                            .font(.custom(.poppinsMedium, size: 18))
-                                            .foregroundColor(Color(.darkGrayColor))
+                                Image(uiImage: .ic_Apple)
+                                    .resizable()
+                                    .frame(width: 60, height: 60)
+                                    .padding(.top, 20)
+                                    .padding(.bottom, 10)
+                                
+                                VStack{
+                                    HStack{
+                                        VStack(alignment: .leading, spacing: 10){
+                                            Text("Apple Store")
+                                                .font(.custom(.poppinsSemiBold, size: 22))
+                                                .foregroundColor(.white)
+                                            Text("eGift (7)")
+                                                .font(.custom(.poppinsMedium, size: 18))
+                                                .foregroundColor(Color(.darkGrayColor))
+                                        }
+                                        Spacer()
                                     }
-                                    Spacer()
+                                    .padding(.horizontal, 10)
                                 }
-                                .padding(.horizontal, 10)
+                                .frame(maxWidth: .infinity)
+                                .frame(height: 100)
+                                .background(Color(.darkBlueColor))
                             }
-                            .frame(maxWidth: .infinity)
-                            .frame(height: 100)
-                            .background(Color(.darkBlueColor))
-                        }
-                        .frame(width: width, height: width)
-                        .background(.white)
-                        .cornerRadius(10)
-                        .onTapGesture {
-                            willMoveToGiftCardDetailView.toggle()
+                            .frame(width: width, height: width)
+                            .background(.white)
+                            .cornerRadius(10)
                         }
                     }
                 }
