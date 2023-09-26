@@ -44,6 +44,9 @@
 		F59196F12ABA26A300D8F15D /* EditAccountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F59196F02ABA26A200D8F15D /* EditAccountView.swift */; };
 		F59BCAAB2AB36E5900FC28B4 /* CurrencyManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F59BCAAA2AB36E5900FC28B4 /* CurrencyManager.swift */; };
 		F59BCAAD2AB3904300FC28B4 /* FriendlistView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F59BCAAC2AB3904300FC28B4 /* FriendlistView.swift */; };
+		F59F81ED2AC3407700A51AC6 /* StepsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F59F81EC2AC3407700A51AC6 /* StepsView.swift */; };
+		F59F81EF2AC3463800A51AC6 /* NotificationCenter+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F59F81EE2AC3463800A51AC6 /* NotificationCenter+Extension.swift */; };
+		F59F81F12AC3569400A51AC6 /* ImagePreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F59F81F02AC3569400A51AC6 /* ImagePreView.swift */; };
 		F5A11EBE2AAF9D7A005FDEDB /* ErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5A11EBD2AAF9D7A005FDEDB /* ErrorView.swift */; };
 		F5A8F3E72A9D0F69006C964E /* RepresentativeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5A8F3E62A9D0F69006C964E /* RepresentativeView.swift */; };
 		F5C15A9C2AA26C180065DE0B /* SideMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5C15A9A2AA26C180065DE0B /* SideMenu.swift */; };
@@ -99,6 +102,9 @@
 		F59196F02ABA26A200D8F15D /* EditAccountView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditAccountView.swift; sourceTree = "<group>"; };
 		F59BCAAA2AB36E5900FC28B4 /* CurrencyManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyManager.swift; sourceTree = "<group>"; };
 		F59BCAAC2AB3904300FC28B4 /* FriendlistView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendlistView.swift; sourceTree = "<group>"; };
+		F59F81EC2AC3407700A51AC6 /* StepsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepsView.swift; sourceTree = "<group>"; };
+		F59F81EE2AC3463800A51AC6 /* NotificationCenter+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NotificationCenter+Extension.swift"; sourceTree = "<group>"; };
+		F59F81F02AC3569400A51AC6 /* ImagePreView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePreView.swift; sourceTree = "<group>"; };
 		F5A11EBD2AAF9D7A005FDEDB /* ErrorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorView.swift; sourceTree = "<group>"; };
 		F5A8F3E62A9D0F69006C964E /* RepresentativeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepresentativeView.swift; sourceTree = "<group>"; };
 		F5C15A9A2AA26C180065DE0B /* SideMenu.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SideMenu.swift; sourceTree = "<group>"; };
@@ -244,7 +250,9 @@
 				F51193A92A97DBA100554604 /* LoginView.swift */,
 				F561E4182A991BA600599CE9 /* SignUpView.swift */,
 				F561E41C2A992B2B00599CE9 /* CompanyView.swift */,
+				F59F81EC2AC3407700A51AC6 /* StepsView.swift */,
 				F5A8F3E62A9D0F69006C964E /* RepresentativeView.swift */,
+				F59F81F02AC3569400A51AC6 /* ImagePreView.swift */,
 			);
 			path = Auth;
 			sourceTree = "<group>";
@@ -266,6 +274,7 @@
 				F51193A52A97D19500554604 /* Font+Extension.swift */,
 				F561E41A2A991D5700599CE9 /* Navigation+Extension.swift */,
 				F5449ABC2AB0D09000BE5AF4 /* Date+Extension.swift */,
+				F59F81EE2AC3463800A51AC6 /* NotificationCenter+Extension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -478,6 +487,7 @@
 				F50BE0712AA6503A00DD465A /* PayoutView.swift in Sources */,
 				F59196F12ABA26A300D8F15D /* EditAccountView.swift in Sources */,
 				F5F8EFF42ABB68E2000C23F8 /* ChangePasswordView.swift in Sources */,
+				F59F81ED2AC3407700A51AC6 /* StepsView.swift in Sources */,
 				F5449AC32AB0E02400BE5AF4 /* TransactionDetailView.swift in Sources */,
 				F5EA16BA2AB21F69000F9CCA /* Constants.swift in Sources */,
 				F5D118522A9FB6A100C027FA /* PaymentView.swift in Sources */,
@@ -499,8 +509,10 @@
 				F5EA16C02AB23121000F9CCA /* PrivacyPolicyView.swift in Sources */,
 				F561E41B2A991D5700599CE9 /* Navigation+Extension.swift in Sources */,
 				F56C08262AABA79700CE07C9 /* GiftCardDetailView.swift in Sources */,
+				F59F81F12AC3569400A51AC6 /* ImagePreView.swift in Sources */,
 				F51193A62A97D19500554604 /* Font+Extension.swift in Sources */,
 				F51193952A97C97400554604 /* Colors+Extension.swift in Sources */,
+				F59F81EF2AC3463800A51AC6 /* NotificationCenter+Extension.swift in Sources */,
 				F561E41D2A992B2B00599CE9 /* CompanyView.swift in Sources */,
 				F511937E2A97C4DF00554604 /* FarepayApp.swift in Sources */,
 				F50BE0772AA65A0000DD465A /* ReferAFriendView.swift in Sources */,

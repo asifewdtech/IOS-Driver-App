@@ -68,4 +68,8 @@ extension UIImage{
     static let ic_AccountNumber = UIImage(named: "ic_AccountNumber") ?? .image_placeholder
     static let ic_BSB = UIImage(named: "ic_BSB") ?? .image_placeholder
     static let ic_AccountHolder = UIImage(named: "ic_AccountHolder") ?? .image_placeholder
+    static let newsImage = UIImage(named: "newsImage") ?? .image_placeholder
+    static let stepsImage = UIImage(named: "stepsImage") ?? .image_placeholder
+    static let ic_UploadImage = UIImage(named: "ic_UploadImage") ?? .image_placeholder
+    static let licenseImage = UIImage(named: "licenseImage") ?? .image_placeholder
 }

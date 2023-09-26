@@ -14,6 +14,7 @@ struct CompanyView: View {
     @State private var cardText: String = ""
     @State private var contactText: String = ""
     @State private var willMoveToRepresentativeView: Bool = false
+    @State private var isPresentedPopUp: Bool = false
     
     //MARK: - Views
     var body: some View {
@@ -21,6 +22,7 @@ struct CompanyView: View {
         ZStack{
             
             NavigationLink("", destination: RepresentativeView().toolbar(.hidden, for: .navigationBar), isActive: $willMoveToRepresentativeView).isDetailLink(false)
+            
             Color(.bgColor).edgesIgnoringSafeArea(.all)
             
             VStack(spacing: 40){
@@ -32,6 +34,10 @@ struct CompanyView: View {
                 buttonArea
             }
             .padding(.all, 15)
+        }
+        .onReceive(NotificationCenter.default.publisher(for: .proceedNext)) { _ in
+            print("Received Custom Notification")
+            willMoveToRepresentativeView.toggle()
         }
     }
 }
@@ -150,7 +156,6 @@ extension CompanyView{
     var buttonArea: some View{
         
         VStack(spacing: 20){
- 
             Text("Proceed")
                 .font(.custom(.poppinsBold, size: 25))
                 .foregroundColor(.white)
@@ -159,7 +164,10 @@ extension CompanyView{
                 .background(Color(.buttonColor))
                 .cornerRadius(30)
                 .onTapGesture {
-                    willMoveToRepresentativeView.toggle()
+                    isPresentedPopUp.toggle()
+                }
+                .fullScreenCover(isPresented: $isPresentedPopUp) {
+                    StepsView(presentedAsModal: $isPresentedPopUp)
                 }
         }
     }

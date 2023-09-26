@@ -19,6 +19,13 @@ struct RepresentativeView: View {
     @State private var mobileNumberText: String = ""
     @State private var willMoveToMainView = false
     
+    @State private var licenseFrontImage: UIImage? = nil
+    @State private var islicenseFrontImagePickerPresented = false
+    @State private var licenseBackImage: UIImage? = nil
+    @State private var islicenseBackImagePickerPresented = false
+    
+    @State private var isPresentedPreview = false
+    
     //MARK: - Views
     var body: some View {
         
@@ -150,46 +157,6 @@ extension RepresentativeView{
                     
                     HStack(spacing: 10){
                         
-                        Image(uiImage: .ic_Number)
-                            .resizable()
-                            .frame(width: 30, height: 30)
-                        
-                        TextField("", text: $businessNumberText, prompt:
-                                    Text("Type Australian Business Number")
-                            .foregroundColor(Color(.darkGrayColor)))
-                        .font(.custom(.poppinsMedium, size: 18))
-                        .frame(height: 30)
-                        .foregroundColor(.white)
-                        
-                    }
-                    .padding([.leading, .trailing], 20)
-                }
-                .frame(height: 60)
-                
-                ZStack{
-                    
-                    HStack(spacing: 10){
-                        
-                        Image(uiImage: .ic_Authority)
-                            .resizable()
-                            .frame(width: 30, height: 30)
-                        
-                        TextField("", text: $authorityNumberText, prompt:
-                                    Text("Type your authority No")
-                            .foregroundColor(Color(.darkGrayColor)))
-                        .font(.custom(.poppinsMedium, size: 18))
-                        .frame(height: 30)
-                        .foregroundColor(.white)
-                        
-                    }
-                    .padding([.leading, .trailing], 20)
-                }
-                .frame(height: 60)
-                
-                ZStack{
-                    
-                    HStack(spacing: 10){
-                        
                         Image(uiImage: .ic_Mobile)
                             .resizable()
                             .frame(width: 30, height: 30)
@@ -206,11 +173,80 @@ extension RepresentativeView{
                 }
                 .frame(height: 60)
                 
+//                ZStack{
+//
+//                    HStack(spacing: 10){
+//
+//                        Image(uiImage: .ic_Number)
+//                            .resizable()
+//                            .frame(width: 30, height: 30)
+//
+//                        TextField("", text: $businessNumberText, prompt:
+//                                    Text("Type Australian Business Number")
+//                            .foregroundColor(Color(.darkGrayColor)))
+//                        .font(.custom(.poppinsMedium, size: 18))
+//                        .frame(height: 30)
+//                        .foregroundColor(.white)
+//
+//                    }
+//                    .padding([.leading, .trailing], 20)
+//                }
+//                .frame(height: 60)
+                
+                ZStack{
+                    
+                    HStack(spacing: 10){
+                        
+                        Image(uiImage: .ic_Authority)
+                            .resizable()
+                            .frame(width: 30, height: 30)
+                        
+                        TextField("", text: $authorityNumberText, prompt:
+                                    Text("Type your driver authority No")
+                            .foregroundColor(Color(.darkGrayColor)))
+                        .font(.custom(.poppinsMedium, size: 18))
+                        .frame(height: 30)
+                        .foregroundColor(.white)
+                        
+                    }
+                    .padding([.leading, .trailing], 20)
+                }
+                .frame(height: 60)
+                
                 ZStack{
 
                     HStack(alignment: .top, spacing: 10){
                         
-                        Image(uiImage: .ic_Mobile)
+                        Image(uiImage: .ic_Home)
+                            .resizable()
+                            .frame(width: 30, height: 30)
+                        
+                        
+                        TextEditor(text: $addressText)
+                            .font(.custom(.poppinsMedium, size: 18))
+                            .foregroundColor(.white)
+                            .scrollContentBackground(.hidden)
+                            .padding(.vertical, -10)
+                            .overlay(
+
+                                VStack{
+
+                                    Text(addressText == "" ? "Type your Physical Address" : "")
+                                        .font(.custom(.poppinsMedium, size: 18))
+                                        .foregroundColor(Color(.darkGrayColor))
+                                    Spacer()
+                                },
+                                alignment: .leading
+                            )
+                    }
+                    .padding([.all], 20)
+                }
+                .frame(height: 100)
+                ZStack{
+
+                    HStack(alignment: .top, spacing: 10){
+                        
+                        Image(uiImage: .ic_Home)
                             .resizable()
                             .frame(width: 30, height: 30)
                         
@@ -255,29 +291,152 @@ extension RepresentativeView{
                     .foregroundColor(.white)
             }
             
-            HStack{
-                
-                VStack(spacing: 20){
-                    
-                    Image(uiImage: .ic_Upload)
+            HStack(spacing: 15){
+                ZStack{
+//                    if licenseFrontImage != nil{
+//                        Image(uiImage: $licenseFrontImage)
+//                            .resizable()
+//                            .frame(width: 80, height: 80)
+//                    }
+//                    else{
+//                        Image(uiImage: .ic_UploadImage)
+//                            .resizable()
+//                            .frame(width: 30, height: 25)
+//                    }
+                    Image(uiImage: .ic_UploadImage)
                         .resizable()
-                        .frame(width: 40, height: 30)
-                    Text("Driver License Image")
-                        .foregroundColor(Color(.darkGrayColor))
-                        .font(.custom(.poppinsMedium, size: 18))
-                        
+                        .frame(width: 30, height: 25)
                 }
+                .frame(maxWidth: .infinity)
+                .frame(width: 80, height: 80)
+                .background(Color(.darkBlueColor))
+                .onTapGesture {
+                    islicenseFrontImagePickerPresented.toggle()
+                }
+                .fullScreenCover(isPresented: $islicenseFrontImagePickerPresented) {
+                    ImagePicker(selectedImage: $licenseFrontImage)
+                }
+                .overlay(
+                    RoundedRectangle(cornerRadius: 8)
+                        .stroke(style: StrokeStyle(lineWidth: 2, dash: [5]))
+                        .foregroundColor(Color(.buttonColor))
+                )
                 
+                if licenseFrontImage != nil{
+                    VStack(alignment: .leading, spacing: 12){
+                        Text("imageName.jpg")
+                            .foregroundColor(.white)
+                            .font(.custom(.poppinsMedium, size: 16))
+                            .lineLimit(1)
+                        HStack(spacing: 15){
+                            Text("Delete")
+                                .frame(width: 90, height: 30)
+                                .foregroundColor(Color(.ErrorColor))
+                                .font(.custom(.poppinsMedium, size: 16))
+                                .overlay{
+                                    RoundedRectangle(cornerRadius: 100)
+                                        .stroke(Color(.ErrorColor), lineWidth: 1)
+                                }
+                                .onTapGesture {
+                                    licenseFrontImage = nil
+                                }
+                            Text("View")
+                                .frame(width: 90, height: 30)
+                                .foregroundColor(Color(.buttonColor))
+                                .font(.custom(.poppinsMedium, size: 16))
+                                .overlay{
+                                    RoundedRectangle(cornerRadius: 100)
+                                        .stroke(Color(.buttonColor), lineWidth: 1)
+                                }
+                                .onTapGesture {
+                                    isPresentedPreview.toggle()
+                                }
+                                .fullScreenCover(isPresented: $isPresentedPreview) {
+                                    ImagePreView(presentedAsModal: $isPresentedPreview)
+                                }
+                        }
+                    }
+                }
+                else{
+                    Text("Driver License Image \n(Front)")
+                        .foregroundColor(Color(.darkGrayColor))
+                        .font(.custom(.poppinsMedium, size: 16))
+                }
             }
-            .frame(maxWidth: .infinity)
-            .frame(height: 200)
-            .background(Color(.darkBlueColor))
-            .overlay(
-                RoundedRectangle(cornerRadius: 8)
-                    .stroke(style: StrokeStyle(lineWidth: 2, dash: [5]))
-                    .foregroundColor(Color(.buttonColor))
-            )
             
+            HStack(spacing: 15){
+                ZStack{
+                    
+//                    if licenseBackImage != nil{
+//                        Image(uiImage: $licenseBackImage)
+//                            .resizable()
+//                            .frame(width: 80, height: 80)
+//                    }
+//                    else{
+//                        Image(uiImage: .ic_UploadImage)
+//                            .resizable()
+//                            .frame(width: 30, height: 25)
+//                    }
+                    Image(uiImage: .ic_UploadImage)
+                        .resizable()
+                        .frame(width: 30, height: 25)
+                }
+                .frame(maxWidth: .infinity)
+                .frame(width: 80, height: 80)
+                .background(Color(.darkBlueColor))
+                .onTapGesture {
+                    islicenseBackImagePickerPresented.toggle()
+                }
+                .fullScreenCover(isPresented: $islicenseBackImagePickerPresented) {
+                    ImagePicker(selectedImage: $licenseBackImage)
+                }
+                .overlay(
+                    RoundedRectangle(cornerRadius: 8)
+                        .stroke(style: StrokeStyle(lineWidth: 2, dash: [5]))
+                        .foregroundColor(Color(.buttonColor))
+                )
+                
+                if licenseBackImage != nil{
+                    VStack(alignment: .leading, spacing: 12){
+                        Text("imageName.jpg")
+                            .foregroundColor(.white)
+                            .font(.custom(.poppinsMedium, size: 16))
+                            .lineLimit(1)
+                        HStack(spacing: 15){
+                            Text("Delete")
+                                .frame(width: 90, height: 30)
+                                .foregroundColor(Color(.ErrorColor))
+                                .font(.custom(.poppinsMedium, size: 16))
+                                .overlay{
+                                    RoundedRectangle(cornerRadius: 100)
+                                        .stroke(Color(.ErrorColor), lineWidth: 1)
+                                }
+                                .onTapGesture {
+                                    licenseBackImage = nil
+                                }
+                            Text("View")
+                                .frame(width: 90, height: 30)
+                                .foregroundColor(Color(.buttonColor))
+                                .font(.custom(.poppinsMedium, size: 16))
+                                .overlay{
+                                    RoundedRectangle(cornerRadius: 100)
+                                        .stroke(Color(.buttonColor), lineWidth: 1)
+                                }
+                                .onTapGesture {
+                                    isPresentedPreview.toggle()
+                                }
+                                .fullScreenCover(isPresented: $isPresentedPreview) {
+                                    ImagePreView(presentedAsModal: $isPresentedPreview)
+                                }
+                        }
+                    }
+                }
+                else{
+                    Text("Driver License Image \n(Back)")
+                        .foregroundColor(Color(.darkGrayColor))
+                        .font(.custom(.poppinsMedium, size: 16))
+                }
+            }
         }
     }
     
@@ -285,8 +444,8 @@ extension RepresentativeView{
         
         VStack(spacing: 20){
             
-            Text("Proceed")
-                .font(.custom(.poppinsBold, size: 25))
+            Text("Create Connect Account")
+                .font(.custom(.poppinsBold, size: 22))
                 .foregroundColor(.white)
                 .frame(maxWidth: .infinity)
                 .frame(height: 60)
