@@ -17,13 +17,11 @@ struct RepresentativeView: View {
     @State private var businessNumberText: String = ""
     @State private var authorityNumberText: String = ""
     @State private var mobileNumberText: String = ""
-    @State private var willMoveToMainView = false
     
     @State private var licenseFrontImage: UIImage? = nil
     @State private var islicenseFrontImagePickerPresented = false
     @State private var licenseBackImage: UIImage? = nil
     @State private var islicenseBackImagePickerPresented = false
-    
     @State private var isPresentedPreview = false
     
     //MARK: - Views
@@ -31,9 +29,7 @@ struct RepresentativeView: View {
         
         ZStack{
             
-            NavigationLink("", destination: Farepay.MainTabbedView().toolbar(.hidden, for: .navigationBar), isActive: $willMoveToMainView ).isDetailLink(false)
-            
-            Color(.bgColor).ignoresSafeArea(.all)
+            Color(.bgColor).edgesIgnoringSafeArea(.all)
             VStack{
                 
                 ScrollView(showsIndicators: false){
@@ -319,7 +315,7 @@ extension RepresentativeView{
                 .overlay(
                     RoundedRectangle(cornerRadius: 8)
                         .stroke(style: StrokeStyle(lineWidth: 2, dash: [5]))
-                        .foregroundColor(Color(.buttonColor))
+                        .foregroundColor(licenseFrontImage != nil ? Color(.darkGrayColor) : Color(.buttonColor))
                 )
                 
                 if licenseFrontImage != nil{
@@ -393,7 +389,7 @@ extension RepresentativeView{
                 .overlay(
                     RoundedRectangle(cornerRadius: 8)
                         .stroke(style: StrokeStyle(lineWidth: 2, dash: [5]))
-                        .foregroundColor(Color(.buttonColor))
+                        .foregroundColor(licenseBackImage != nil ? Color(.darkGrayColor) : Color(.buttonColor))
                 )
                 
                 if licenseBackImage != nil{
@@ -444,17 +440,17 @@ extension RepresentativeView{
         
         VStack(spacing: 20){
             
-            Text("Create Connect Account")
-                .font(.custom(.poppinsBold, size: 22))
-                .foregroundColor(.white)
-                .frame(maxWidth: .infinity)
-                .frame(height: 60)
-                .background(Color(.buttonColor))
-                .cornerRadius(30)
-                .onTapGesture {
-                    setUserLogin(true)
-                    willMoveToMainView.toggle()
-                }
+            NavigationLink(destination: {
+                NewsView().toolbar(.hidden, for: .navigationBar)
+            }, label: {
+                Text("Create Connect Account")
+                    .font(.custom(.poppinsBold, size: 22))
+                    .foregroundColor(.white)
+                    .frame(maxWidth: .infinity)
+                    .frame(height: 60)
+                    .background(Color(.buttonColor))
+                    .cornerRadius(30)
+            })
         }
     }
 }

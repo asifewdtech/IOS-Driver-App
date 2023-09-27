@@ -147,13 +147,18 @@ extension AddNewBankAccountView{
         
         VStack(spacing: 20){
                         
-            Text("Confirm")
-                .font(.custom(.poppinsBold, size: 25))
-                .foregroundColor(.white)
-                .frame(maxWidth: .infinity)
-                .frame(height: 60)
-                .background(Color(.buttonColor))
-                .cornerRadius(30)
+            NavigationLink {
+                OtpView().toolbar(.hidden, for: .navigationBar)
+            } label: {
+                Text("Confirm")
+                    .font(.custom(.poppinsBold, size: 25))
+                    .foregroundColor(.white)
+                    .frame(maxWidth: .infinity)
+                    .frame(height: 60)
+                    .background(Color(.buttonColor))
+                    .cornerRadius(30)
+            }
+
         }
     }
 }

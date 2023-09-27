@@ -13,7 +13,6 @@ struct PayoutView: View {
     @Binding var presentSideMenu: Bool
     @State var isBankTransfer: Bool = true
     @State var willMoveToGiftCardDetailView: Bool = false
-    @State var willMoveToOtpView: Bool = false
     
     //MARK: - View
     var body: some View {
@@ -21,7 +20,6 @@ struct PayoutView: View {
         ZStack{
             
             NavigationLink("", destination: GiftCardDetailView().toolbar(.hidden, for: .navigationBar), isActive: $willMoveToGiftCardDetailView).isDetailLink(false)
-            NavigationLink("", destination: OtpView().toolbar(.hidden, for: .navigationBar), isActive: $willMoveToOtpView).isDetailLink(false)
             
             Color(.bgColor)
                 .edgesIgnoringSafeArea(.all)
@@ -141,9 +139,6 @@ extension PayoutView{
             .font(.custom(.poppinsMedium, size: 20))
             .foregroundColor(Color(.darkGrayColor))
             .multilineTextAlignment(.center)
-            .onTapGesture {
-                willMoveToOtpView.toggle()
-            }
     }
     
     var giftCardView: some View{

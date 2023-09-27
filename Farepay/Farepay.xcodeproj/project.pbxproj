@@ -40,6 +40,7 @@
 		F561E41D2A992B2B00599CE9 /* CompanyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F561E41C2A992B2B00599CE9 /* CompanyView.swift */; };
 		F56C08262AABA79700CE07C9 /* GiftCardDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F56C08252AABA79700CE07C9 /* GiftCardDetailView.swift */; };
 		F56C08282AABB63400CE07C9 /* GiftCardPopUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F56C08272AABB63400CE07C9 /* GiftCardPopUpView.swift */; };
+		F570AE7B2AC48DDB004AED7E /* NewsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F570AE7A2AC48DDB004AED7E /* NewsView.swift */; };
 		F59196EE2ABA1D3900D8F15D /* AccountInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F59196ED2ABA1D3900D8F15D /* AccountInfoView.swift */; };
 		F59196F12ABA26A300D8F15D /* EditAccountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F59196F02ABA26A200D8F15D /* EditAccountView.swift */; };
 		F59BCAAB2AB36E5900FC28B4 /* CurrencyManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F59BCAAA2AB36E5900FC28B4 /* CurrencyManager.swift */; };
@@ -98,6 +99,7 @@
 		F561E41C2A992B2B00599CE9 /* CompanyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompanyView.swift; sourceTree = "<group>"; };
 		F56C08252AABA79700CE07C9 /* GiftCardDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GiftCardDetailView.swift; sourceTree = "<group>"; };
 		F56C08272AABB63400CE07C9 /* GiftCardPopUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GiftCardPopUpView.swift; sourceTree = "<group>"; };
+		F570AE7A2AC48DDB004AED7E /* NewsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsView.swift; sourceTree = "<group>"; };
 		F59196ED2ABA1D3900D8F15D /* AccountInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountInfoView.swift; sourceTree = "<group>"; };
 		F59196F02ABA26A200D8F15D /* EditAccountView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditAccountView.swift; sourceTree = "<group>"; };
 		F59BCAAA2AB36E5900FC28B4 /* CurrencyManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyManager.swift; sourceTree = "<group>"; };
@@ -135,7 +137,6 @@
 			isa = PBXGroup;
 			children = (
 				F50BE0702AA6503A00DD465A /* PayoutView.swift */,
-				F5404A492ABCB197002E00A0 /* OtpView.swift */,
 			);
 			path = Payout;
 			sourceTree = "<group>";
@@ -253,6 +254,7 @@
 				F59F81EC2AC3407700A51AC6 /* StepsView.swift */,
 				F5A8F3E62A9D0F69006C964E /* RepresentativeView.swift */,
 				F59F81F02AC3569400A51AC6 /* ImagePreView.swift */,
+				F570AE7A2AC48DDB004AED7E /* NewsView.swift */,
 			);
 			path = Auth;
 			sourceTree = "<group>";
@@ -396,6 +398,7 @@
 			children = (
 				F5F8EFF62ABB6D79000C23F8 /* BankAccountView.swift */,
 				F5404A472ABCA864002E00A0 /* AddNewBankAccountView.swift */,
+				F5404A492ABCB197002E00A0 /* OtpView.swift */,
 			);
 			path = BankAccount;
 			sourceTree = "<group>";
@@ -507,6 +510,7 @@
 				F59BCAAD2AB3904300FC28B4 /* FriendlistView.swift in Sources */,
 				F5F8EFF72ABB6D79000C23F8 /* BankAccountView.swift in Sources */,
 				F5EA16C02AB23121000F9CCA /* PrivacyPolicyView.swift in Sources */,
+				F570AE7B2AC48DDB004AED7E /* NewsView.swift in Sources */,
 				F561E41B2A991D5700599CE9 /* Navigation+Extension.swift in Sources */,
 				F56C08262AABA79700CE07C9 /* GiftCardDetailView.swift in Sources */,
 				F59F81F12AC3569400A51AC6 /* ImagePreView.swift in Sources */,

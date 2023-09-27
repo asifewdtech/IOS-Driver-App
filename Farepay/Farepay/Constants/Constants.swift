@@ -7,3 +7,7 @@
 
 import Foundation
 import SwiftUI
+
+enum FocusPin {
+    case  pinOne, pinTwo, pinThree, pinFour
+}

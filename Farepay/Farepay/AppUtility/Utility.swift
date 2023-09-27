@@ -8,6 +8,7 @@
 import Foundation
 import SwiftUI
 import UIKit
+import Combine
 
 struct CustomRoundedRectangle: Shape {
     var cornerRadius: CGFloat
@@ -74,6 +75,32 @@ struct ImagePicker: UIViewControllerRepresentable {
         func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
             parent.presentationMode.wrappedValue.dismiss()
         }
+    }
+}
+
+struct OtpModifer: ViewModifier {
+    
+    @Binding var pin : String
+    
+    var textLimt = 1
+    
+    func limitText(_ upper : Int) {
+        if pin.count > upper {
+            self.pin = String(pin.prefix(upper))
+        }
+    }
+    
+    func body(content: Content) -> some View {
+        content
+            .foregroundColor(.white)
+            .multilineTextAlignment(.center)
+            .keyboardType(.numberPad)
+            .onReceive(Just(pin)) {_ in limitText(textLimt)}
+            .frame(width: 50, height: 55)
+            .overlay(
+                RoundedRectangle(cornerRadius: 5)
+                    .stroke(pin == "" ? Color(.darkGrayColor) : Color(.SuccessColor), lineWidth: 2)
+            )
     }
 }
 
