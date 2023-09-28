@@ -93,16 +93,13 @@ extension LoginView{
         VStack(alignment: .leading, spacing: 20){
             
             Group{
-                
                 ZStack{
-                    
                     HStack(spacing: 10){
-                        
                         Image(uiImage: .ic_Email)
                             .resizable()
                             .frame(width: 30, height: 30)
                         
-                        TextField("", text: $emailText, prompt: Text("\(.emailPlaceHolder)").foregroundColor(Color(.darkGrayColor)))
+                        TextField("\(Text("\(.emailPlaceHolder)").foregroundColor(Color(.darkGrayColor)))", text: $emailText)
                             .font(.custom(.poppinsMedium, size: 18))
                             .frame(height: 30)
                             .foregroundColor(.white)

@@ -85,6 +85,7 @@ extension PaymentView{
                         .foregroundColor(.white)
                         .multilineTextAlignment(.trailing)
                         .onChange(of: currencyManager.string, perform: currencyManager.valueChanged)
+                        .disabled(true)
                 }
                 .padding(.horizontal, 20)
             }
