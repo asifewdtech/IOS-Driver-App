@@ -26,7 +26,7 @@ struct LoginView: View {
                 ScrollView(showsIndicators: false){
                     textArea
                 }
-                .disabled(true)
+                .scrollDisabled(true)
                 buttonArea
             }
             .padding(.all, 15)
@@ -92,58 +92,81 @@ extension LoginView{
         
         VStack(alignment: .leading, spacing: 20){
             
-            Group{
-                ZStack{
-                    HStack(spacing: 10){
-                        Image(uiImage: .ic_Email)
-                            .resizable()
-                            .frame(width: 30, height: 30)
-                        
-                        TextField("\(Text("\(.emailPlaceHolder)").foregroundColor(Color(.darkGrayColor)))", text: $emailText)
-                            .font(.custom(.poppinsMedium, size: 18))
-                            .frame(height: 30)
-                            .foregroundColor(.white)
-                        
-                    }
-                    .padding([.leading, .trailing], 20)
-                }
-                
-                ZStack{
-                    
-                    HStack(spacing: 10){
-                        
-                        Image(uiImage: .ic_Password)
-                            .resizable()
-                            .frame(width: 30, height: 30)
-                        
-                        if isSecure {
-                            SecureField("", text: $passwordText, prompt: Text("\(.passwordPlaceHolder)").foregroundColor(Color(.darkGrayColor)))
-                                .font(.custom(.poppinsMedium, size: 18))
-                                .frame(height: 30)
-                                .foregroundColor(.white)
-                        }
-                        else {
-                            TextField("", text: $passwordText, prompt: Text("\(.passwordPlaceHolder)").foregroundColor(Color(.darkGrayColor)))
-                                .font(.custom(.poppinsMedium, size: 18))
-                                .frame(height: 30)
-                                .foregroundColor(.white)
-                        }
-                        
-                        Image(systemName: isSecure ? "eye.slash.fill" : "eye.fill")
-                            .foregroundColor(.white)
-                            .onTapGesture {
-                                isSecure.toggle()
-                                print("Hahahahzcsacds")
-                            }
-                    }
-                    .padding([.leading, .trailing], 20)
-                }
-                
-            }
-            .frame(maxWidth: .infinity)
-            .frame(height: 60)
-            .background(Color(.darkBlueColor))
-            .cornerRadius(10)
+            MDCFilledTextFieldWrapper(leadingImage: .constant(.ic_Email), text: $emailText, placHolderText: .constant("Enter your Email Address"), isSecure: .constant(false))
+            
+            MDCFilledTextFieldWrapper(leadingImage: .constant(.ic_Password), text: $passwordText, placHolderText: .constant("Type your password"), isSecure: $isSecure)
+            
+//            if isSecure{
+//                MDCFilledTextFieldWrapper(leadingImage: .constant(.ic_Password), text: $passwordText, placHolderText: .constant("Type your password"), isSecure: $isSecure)
+//            }
+//            else{
+//                MDCFilledTextFieldWrapper(leadingImage: .constant(.ic_Password), text: $passwordText, placHolderText: .constant("Type your password"), isSecure: .constant(false))
+//            }
+           
+            
+//            HStack{
+//                MDCFilledTextFieldWrapper(leadingImage: .constant(.ic_Email), text: $passwordText, placHolderText: .constant("Type your password"), isSecure: $isSecure)
+//                Image(systemName: isSecure ? "eye.slash.fill" : "eye.fill")
+//                    .foregroundColor(.white)
+//                    .onTapGesture {
+//                        isSecure.toggle()
+//                        print("Hahahahzcsacds")
+//                    }
+//            }
+//            .padding(.trailing, 10)
+//            .background(Color(.darkBlueColor))
+//            .cornerRadius(10)
+            
+//            Group{
+//                ZStack{
+//                    HStack(spacing: 10){
+//                        Image(uiImage: .ic_Email)
+//                            .resizable()
+//                            .frame(width: 30, height: 30)
+//
+//                        TextField("\(Text("\(.emailPlaceHolder)").foregroundColor(Color(.darkGrayColor)))", text: $emailText)
+//                            .font(.custom(.poppinsMedium, size: 18))
+//                            .frame(height: 30)
+//                            .foregroundColor(.white)
+//                    }
+//                    .padding([.leading, .trailing], 20)
+//                }
+//
+//                ZStack{
+//                    HStack(spacing: 10){
+//
+//                        Image(uiImage: .ic_Password)
+//                            .resizable()
+//                            .frame(width: 30, height: 30)
+//
+//                        if isSecure {
+//                            SecureField("", text: $passwordText, prompt: Text("\(.passwordPlaceHolder)").foregroundColor(Color(.darkGrayColor)))
+//                                .font(.custom(.poppinsMedium, size: 18))
+//                                .frame(height: 30)
+//                                .foregroundColor(.white)
+//                        }
+//                        else {
+//                            TextField("", text: $passwordText, prompt: Text("\(.passwordPlaceHolder)").foregroundColor(Color(.darkGrayColor)))
+//                                .font(.custom(.poppinsMedium, size: 18))
+//                                .frame(height: 30)
+//                                .foregroundColor(.white)
+//                        }
+//
+//                        Image(systemName: isSecure ? "eye.slash.fill" : "eye.fill")
+//                            .foregroundColor(.white)
+//                            .onTapGesture {
+//                                isSecure.toggle()
+//                                print("Hahahahzcsacds")
+//                            }
+//                    }
+//                    .padding([.leading, .trailing], 20)
+//                }
+//
+//            }
+//            .frame(maxWidth: .infinity)
+//            .frame(height: 60)
+//            .background(Color(.darkBlueColor))
+//            .cornerRadius(10)
             
             HStack(spacing: 10){
                 
