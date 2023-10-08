@@ -97,114 +97,46 @@ extension SignUpView{
         VStack(alignment: .leading, spacing: 20){
             
             Group{
-                
-                ZStack{
-                    
-                    HStack(spacing: 10){
-                        
-                        Image(uiImage: .ic_Email)
-                            .resizable()
-                            .frame(width: 30, height: 30)
-                        
-                        TextField("", text: $nameText, prompt: Text("\(.namePlaceHolder)").foregroundColor(Color(.darkGrayColor)))
-                            .font(.custom(.poppinsMedium, size: 18))
-                            .frame(height: 30)
-                            .foregroundColor(.white)
-                            
+                MDCFilledTextFieldWrapper(leadingImage: .constant(.ic_Email), text: $nameText, placHolderText: .constant("Type your username"), isSecure: .constant(false))
+                MDCFilledTextFieldWrapper(leadingImage: .constant(.ic_Email), text: $emailText, placHolderText: .constant("Enter your Email Address"), isSecure: .constant(false))
+                Group{
+                    if isSecure{
+                        MDCFilledTextFieldWrapper(leadingImage: .constant(.ic_Password), isTrailingImage: true, text: $passwordText, placHolderText: .constant("Type your password"), isSecure: .constant(true))
                     }
-                    .padding([.leading, .trailing], 20)
-                }
-                
-                ZStack{
-                    
-                    HStack(spacing: 10){
-                        
-                        Image(uiImage: .ic_Email)
-                            .resizable()
-                            .frame(width: 30, height: 30)
-                        
-                        TextField("", text: $emailText, prompt: Text("\(.emailPlaceHolder)").foregroundColor(Color(.darkGrayColor)))
-                            .font(.custom(.poppinsMedium, size: 18))
-                            .frame(height: 30)
-                            .foregroundColor(.white)
-                            
+                    else{
+                        MDCFilledTextFieldWrapper(leadingImage: .constant(.ic_Password), isTrailingImage: true, text: $passwordText, placHolderText: .constant("Type your password"), isSecure: .constant(false))
                     }
-                    .padding([.leading, .trailing], 20)
                 }
-                
-                ZStack{
-                    
-                    HStack(spacing: 10){
-                        
-                        Image(uiImage: .ic_Password)
-                            .resizable()
-                            .frame(width: 30, height: 30)
-                        
-                        if isSecure {
-                            SecureField("", text: $passwordText, prompt: Text("\(.passwordPlaceHolder)").foregroundColor(Color(.darkGrayColor)))
-                                .font(.custom(.poppinsMedium, size: 18))
-                                .frame(height: 30)
-                                .foregroundColor(.white)
+                .overlay{
+                    Text("    ")
+                        .frame(width: 50, height: 50)
+                        .padding(.leading, UIScreen.main.bounds.width - 90)
+                        .onTapGesture {
+                            isSecure.toggle()
                         }
-                        else {
-                            
-                            TextField("", text: $passwordText, prompt: Text("\(.passwordPlaceHolder)").foregroundColor(Color(.darkGrayColor)))
-                                .font(.custom(.poppinsMedium, size: 18))
-                                .frame(height: 30)
-                                .foregroundColor(.white)
-                        }
-                        
-                        Image(systemName: isSecure ? "eye.slash.fill" : "eye.fill")
-                            .foregroundColor(.white)
-                            .onTapGesture {
-                                isSecure.toggle()
-                                print("Hahahahzcsacds")
-                            }
-                            
+                }
+                Group{
+                    if isSecureReType{
+                        MDCFilledTextFieldWrapper(leadingImage: .constant(.ic_Password), isTrailingImage: true, text: $ReTypePasswordText, placHolderText: .constant("Re-Type your password"), isSecure: .constant(true))
                     }
-                    .padding([.leading, .trailing], 20)
-                }
-                
-                ZStack{
-                    
-                    HStack(spacing: 10){
-                        
-                        Image(uiImage: .ic_Password)
-                            .resizable()
-                            .frame(width: 30, height: 30)
-                        
-                        if isSecureReType {
-                            SecureField("", text: $ReTypePasswordText, prompt: Text("\(.reTypePasswordPlaceHolder)").foregroundColor(Color(.darkGrayColor)))
-                                .font(.custom(.poppinsMedium, size: 18))
-                                .frame(height: 30)
-                                .foregroundColor(.white)
-                        }
-                        else {
-                            
-                            TextField("", text: $ReTypePasswordText, prompt: Text("\(.reTypePasswordPlaceHolder)").foregroundColor(Color(.darkGrayColor)))
-                                .font(.custom(.poppinsMedium, size: 18))
-                                .frame(height: 30)
-                                .foregroundColor(.white)
-                        }
-                        
-                        Image(systemName: isSecure ? "eye.slash.fill" : "eye.fill")
-                            .foregroundColor(.white)
-                            .onTapGesture {
-                                isSecureReType.toggle()
-                            }
-                            
+                    else{
+                        MDCFilledTextFieldWrapper(leadingImage: .constant(.ic_Password), isTrailingImage: true, text: $ReTypePasswordText, placHolderText: .constant("Re-Type your password"), isSecure: .constant(false))
                     }
-                    .padding([.leading, .trailing], 20)
                 }
-                
+                .overlay{
+                    Text("    ")
+                        .frame(width: 50, height: 50)
+                        .padding(.leading, UIScreen.main.bounds.width - 90)
+                        .onTapGesture {
+                            isSecureReType.toggle()
+                        }
+                }
             }
             .frame(maxWidth: .infinity)
-            .frame(height: 60)
             .background(Color(.darkBlueColor))
             .cornerRadius(10)
             
             HStack(spacing: 10){
-                
                 Image(uiImage: .ic_Box)
                     .resizable()
                     .frame(width: 30, height: 30)
@@ -212,12 +144,10 @@ extension SignUpView{
                         
                         print("Agree")
                     }
-                
                 Text("I agree with terms and privacy")
                     .font(.custom(.poppinsMedium, size: 18))
                     .foregroundColor(.white)
             }
-            
         }
     }
     

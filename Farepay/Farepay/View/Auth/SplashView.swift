@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import ActivityIndicatorView
 
 struct SplashView: View {
     
@@ -13,6 +14,7 @@ struct SplashView: View {
     @State private var LoginView: String? = nil
     @State private var willMoveToLogin = false
     @State private var willMoveToMainView = false
+    @State private var showLoadingIndicator: Bool = true
     
     //MARK: - Views
     var body: some View {
@@ -33,6 +35,11 @@ struct SplashView: View {
                         .frame(width: 235, height: 50)
                         .foregroundColor(.white)
                 }
+                
+                ActivityIndicatorView(isVisible: $showLoadingIndicator, type: .growingArc(.white, lineWidth: 5))
+                    .frame(width: 50.0, height: 50.0)
+                    .foregroundColor(.white)
+                    .padding(.top, 350)
             }
             .onAppear(){
                 navigateNext()
@@ -46,8 +53,8 @@ struct SplashView: View {
     //MARK: - Functions Also Implement logic of login
     func navigateNext(){
         DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+            showLoadingIndicator.toggle()
             if isLogin(){
-                
                 willMoveToMainView.toggle()
             }
             else{

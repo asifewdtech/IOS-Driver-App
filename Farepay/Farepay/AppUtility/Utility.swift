@@ -109,6 +109,7 @@ struct OtpModifer: ViewModifier {
 struct MDCFilledTextFieldWrapper: UIViewRepresentable {
     
     @Binding var leadingImage: UIImage
+    @State var isTrailingImage: Bool?
     @Binding var text: String
     @Binding var placHolderText: String
     @Binding var isSecure: Bool
@@ -122,7 +123,7 @@ struct MDCFilledTextFieldWrapper: UIViewRepresentable {
         textField.leadingViewMode = .always
         
         // Right Image
-        if isSecure{
+        if isTrailingImage == true{
             textField.trailingView = UIImageView(image: UIImage(systemName: isSecure ? "eye.slash.fill" : "eye.fill"))
             textField.trailingView?.tintColor = .white
             textField.trailingView?.frame = CGRect(x: 0, y: 0, width: 30, height: 20)
@@ -137,6 +138,7 @@ struct MDCFilledTextFieldWrapper: UIViewRepresentable {
         
         // Text
         textField.setTextColor(.white, for: .normal)
+        textField.font = UIFont(name: .poppinsMedium, size: 18)
         textField.setTextColor(.white, for: .editing)
         
         // BackGround and Underline

@@ -59,60 +59,12 @@ extension EditAccountView{
         
         VStack(alignment: .leading, spacing: 20){
             
-            Group{
-                ZStack{
-                    HStack(spacing: 10){
-                        
-                        Image(uiImage: .ic_User)
-                            .resizable()
-                            .frame(width: 25, height: 25)
-                            .foregroundColor(Color(.darkGrayColor))
-                        
-                        TextField("", text: $emailText, prompt: Text("Type your Name").foregroundColor(Color(.darkGrayColor)))
-                            .font(.custom(.poppinsMedium, size: 18))
-                            .frame(height: 30)
-                            .foregroundColor(.white)
-                        
-                    }
-                    .padding([.leading, .trailing], 20)
-                }
-                ZStack{
-                    HStack(spacing: 10){
-                        
-                        Image(uiImage: .ic_Phone)
-                            .resizable()
-                            .frame(width: 25, height: 25)
-                            .foregroundColor(Color(.darkGrayColor))
-                        
-                        TextField("", text: $emailText, prompt: Text("Type your Phone Number").foregroundColor(Color(.darkGrayColor)))
-                            .font(.custom(.poppinsMedium, size: 18))
-                            .frame(height: 30)
-                            .foregroundColor(.white)
-                        
-                    }
-                    .padding([.leading, .trailing], 20)
-                }
-                ZStack{
-                    HStack(spacing: 10){
-                        
-                        Image(uiImage: .ic_Email)
-                            .resizable()
-                            .frame(width: 25, height: 25)
-                            .foregroundColor(Color(.darkGrayColor))
-                        
-                        TextField("", text: $emailText, prompt: Text("Type your Email").foregroundColor(Color(.darkGrayColor)))
-                            .font(.custom(.poppinsMedium, size: 18))
-                            .frame(height: 30)
-                            .foregroundColor(.white)
-                        
-                    }
-                    .padding([.leading, .trailing], 20)
-                }
-            }
-            .frame(maxWidth: .infinity)
-            .frame(height: 60)
-            .background(Color(.darkBlueColor))
-            .cornerRadius(10)
+            MDCFilledTextFieldWrapper(leadingImage: .constant(.ic_User), text: $nameText, placHolderText: .constant("Type your Name"), isSecure: .constant(false))
+                .frame(height: 70)
+            MDCFilledTextFieldWrapper(leadingImage: .constant(.ic_Phone), text: $phoneText, placHolderText: .constant("Type your Phone Number"), isSecure: .constant(false))
+                .frame(height: 70)
+            MDCFilledTextFieldWrapper(leadingImage: .constant(.ic_Email), text: $emailText, placHolderText: .constant("Type your Email"), isSecure: .constant(false))
+                .frame(height: 70)
         }
     }
     

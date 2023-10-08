@@ -60,86 +60,38 @@ extension AddNewBankAccountView{
         
         VStack(alignment: .leading, spacing: 20){
             
-            Group{
-                ZStack{
-                    HStack(spacing: 10){
-                        
-                        Image(uiImage: .ic_Bank)
-                            .resizable()
-                            .frame(width: 25, height: 25)
-                            .foregroundColor(Color(.darkGrayColor))
-                        
-                        TextField("", text: $bankName, prompt: Text("Select your bank").foregroundColor(Color(.darkGrayColor)))
-                            .font(.custom(.poppinsMedium, size: 18))
-                            .frame(height: 30)
-                            .foregroundColor(.white)
-                        Spacer()
-                        Text("\(Image(systemName: "chevron.down"))")
-                            .font(.custom(.poppinsMedium, size: 20))
-                            .foregroundColor(.white)
-                        
-                    }
-                    .padding([.leading, .trailing], 20)
+            ZStack{
+                HStack(spacing: 10){
+
+                    Image(uiImage: .ic_Bank)
+                        .resizable()
+                        .frame(width: 25, height: 25)
+                        .foregroundColor(Color(.darkGrayColor))
+
+                    TextField("", text: $bankName, prompt: Text("Select your bank").foregroundColor(Color(.darkGrayColor)))
+                        .font(.custom(.poppinsMedium, size: 18))
+                        .frame(height: 30)
+                        .foregroundColor(.white)
+                        .disabled(true)
+                    Spacer()
+                    Text("\(Image(systemName: "chevron.down"))")
+                        .font(.custom(.poppinsMedium, size: 20))
+                        .foregroundColor(.white)
+
                 }
-                
-                ZStack{
-                    HStack(spacing: 10){
-                        
-                        Image(uiImage: .ic_AccountNumber)
-                            .resizable()
-                            .frame(width: 25, height: 25)
-                            .foregroundColor(Color(.darkGrayColor))
-                        
-                        
-                        TextField("", text: $bankName, prompt: Text("Type account number").foregroundColor(Color(.darkGrayColor)))
-                            .font(.custom(.poppinsMedium, size: 18))
-                            .frame(height: 30)
-                            .foregroundColor(.white)
-                        
-                    }
-                    .padding([.leading, .trailing], 20)
-                }
-                
-                ZStack{
-                    HStack(spacing: 10){
-                        
-                        Image(uiImage: .ic_BSB)
-                            .resizable()
-                            .frame(width: 25, height: 25)
-                            .foregroundColor(Color(.darkGrayColor))
-                        
-                        
-                        TextField("", text: $bankName, prompt: Text("Type BSB number").foregroundColor(Color(.darkGrayColor)))
-                            .font(.custom(.poppinsMedium, size: 18))
-                            .frame(height: 30)
-                            .foregroundColor(.white)
-                        
-                    }
-                    .padding([.leading, .trailing], 20)
-                }
-                
-                ZStack{
-                    HStack(spacing: 10){
-                        
-                        Image(uiImage: .ic_AccountHolder)
-                            .resizable()
-                            .frame(width: 25, height: 25)
-                            .foregroundColor(Color(.darkGrayColor))
-                        
-                        
-                        TextField("", text: $bankName, prompt: Text("Type account holder's name").foregroundColor(Color(.darkGrayColor)))
-                            .font(.custom(.poppinsMedium, size: 18))
-                            .frame(height: 30)
-                            .foregroundColor(.white)
-                        
-                    }
-                    .padding([.leading, .trailing], 20)
-                }
+                .padding([.leading, .trailing], 20)
             }
             .frame(maxWidth: .infinity)
             .frame(height: 60)
             .background(Color(.darkBlueColor))
             .cornerRadius(10)
+            
+            MDCFilledTextFieldWrapper(leadingImage: .constant(.ic_AccountNumber), text: $accountNumber, placHolderText: .constant("Type account number"), isSecure: .constant(false))
+                .frame(height: 70)
+            MDCFilledTextFieldWrapper(leadingImage: .constant(.ic_BSB), text: $bsbNumber, placHolderText: .constant("Type BSB number"), isSecure: .constant(false))
+                .frame(height: 70)
+            MDCFilledTextFieldWrapper(leadingImage: .constant(.ic_AccountHolder), text: $accountHolderName, placHolderText: .constant("Type account holder's name"), isSecure: .constant(false))
+                .frame(height: 70)
         }
     }
     

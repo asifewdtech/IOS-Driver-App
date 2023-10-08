@@ -62,98 +62,58 @@ extension ChangePasswordView{
         VStack(alignment: .leading, spacing: 20){
             
             Group{
-                ZStack{
-                    HStack(spacing: 10){
-                        
-                        Image(uiImage: .ic_Password)
-                            .resizable()
-                            .frame(width: 25, height: 25)
-                            .foregroundColor(Color(.darkGrayColor))
-                        
-                        if isSecureOldPassword{
-                            SecureField("", text: $oldPasswordText, prompt: Text("Type your old password").foregroundColor(Color(.darkGrayColor)))
-                                .font(.custom(.poppinsMedium, size: 18))
-                                .frame(height: 30)
-                                .foregroundColor(.white)
-                        }
-                        else{
-                            TextField("", text: $oldPasswordText, prompt: Text("Type your old password").foregroundColor(Color(.darkGrayColor)))
-                                .font(.custom(.poppinsMedium, size: 18))
-                                .frame(height: 30)
-                                .foregroundColor(.white)
-                        }
-                        
-                        Image(systemName: isSecureOldPassword ? "eye.slash.fill" : "eye.fill")
-                            .foregroundColor(.white)
-                            .onTapGesture {
-                                isSecureOldPassword.toggle()
-                            }
+                Group{
+                    if isSecureOldPassword{
+                        MDCFilledTextFieldWrapper(leadingImage: .constant(.ic_Password), isTrailingImage: true, text: $oldPasswordText, placHolderText: .constant("Type your old password"), isSecure: .constant(true))
                     }
-                    .padding([.leading, .trailing], 20)
+                    else{
+                        MDCFilledTextFieldWrapper(leadingImage: .constant(.ic_Password), isTrailingImage: true, text: $oldPasswordText, placHolderText: .constant("Type your old password"), isSecure: .constant(false))
+                    }
                 }
-                ZStack{
-                    HStack(spacing: 10){
-                        
-                        Image(uiImage: .ic_Password)
-                            .resizable()
-                            .frame(width: 25, height: 25)
-                            .foregroundColor(Color(.darkGrayColor))
-                        
-                        if isSecureNewPassword{
-                            SecureField("", text: $newPasswordText, prompt: Text("Type your new password").foregroundColor(Color(.darkGrayColor)))
-                                .font(.custom(.poppinsMedium, size: 18))
-                                .frame(height: 30)
-                                .foregroundColor(.white)
+                .overlay{
+                    Text("    ")
+                        .frame(width: 50, height: 50)
+                        .padding(.leading, UIScreen.main.bounds.width - 90)
+                        .onTapGesture {
+                            isSecureOldPassword.toggle()
                         }
-                        else{
-                            TextField("", text: $newPasswordText, prompt: Text("Type your new password").foregroundColor(Color(.darkGrayColor)))
-                                .font(.custom(.poppinsMedium, size: 18))
-                                .frame(height: 30)
-                                .foregroundColor(.white)
-                        }
-                        
-                        Image(systemName: isSecureNewPassword ? "eye.slash.fill" : "eye.fill")
-                            .foregroundColor(.white)
-                            .onTapGesture {
-                                isSecureNewPassword.toggle()
-                            }
-                    }
-                    .padding([.leading, .trailing], 20)
                 }
-                ZStack{
-                    HStack(spacing: 10){
-                        
-                        Image(uiImage: .ic_Password)
-                            .resizable()
-                            .frame(width: 25, height: 25)
-                            .foregroundColor(Color(.darkGrayColor))
-                        
-                        if isSecureReTypePassword{
-                            SecureField("", text: $reTypePasswordText, prompt: Text("Re-Type your password").foregroundColor(Color(.darkGrayColor)))
-                                .font(.custom(.poppinsMedium, size: 18))
-                                .frame(height: 30)
-                                .foregroundColor(.white)
-                        }
-                        else{
-                            TextField("", text: $reTypePasswordText, prompt: Text("Re-Type your password").foregroundColor(Color(.darkGrayColor)))
-                                .font(.custom(.poppinsMedium, size: 18))
-                                .frame(height: 30)
-                                .foregroundColor(.white)
-                        }
-                        
-                        Image(systemName: isSecureReTypePassword ? "eye.slash.fill" : "eye.fill")
-                            .foregroundColor(.white)
-                            .onTapGesture {
-                                isSecureReTypePassword.toggle()
-                            }
+                
+                Group{
+                    if isSecureNewPassword{
+                        MDCFilledTextFieldWrapper(leadingImage: .constant(.ic_Password), isTrailingImage: true, text: $newPasswordText, placHolderText: .constant("Type your new password"), isSecure: .constant(true))
                     }
-                    .padding([.leading, .trailing], 20)
+                    else{
+                        MDCFilledTextFieldWrapper(leadingImage: .constant(.ic_Password), isTrailingImage: true, text: $newPasswordText, placHolderText: .constant("Type your new password"), isSecure: .constant(false))
+                    }
+                }
+                .overlay{
+                    Text("    ")
+                        .frame(width: 50, height: 50)
+                        .padding(.leading, UIScreen.main.bounds.width - 90)
+                        .onTapGesture {
+                            isSecureNewPassword.toggle()
+                        }
+                }
+                
+                Group{
+                    if isSecureReTypePassword{
+                        MDCFilledTextFieldWrapper(leadingImage: .constant(.ic_Password), isTrailingImage: true, text: $reTypePasswordText, placHolderText: .constant("Re-Type your password"), isSecure: .constant(true))
+                    }
+                    else{
+                        MDCFilledTextFieldWrapper(leadingImage: .constant(.ic_Password), isTrailingImage: true, text: $reTypePasswordText, placHolderText: .constant("Re-Type your password"), isSecure: .constant(false))
+                    }
+                }
+                .overlay{
+                    Text("    ")
+                        .frame(width: 50, height: 50)
+                        .padding(.leading, UIScreen.main.bounds.width - 90)
+                        .onTapGesture {
+                            isSecureReTypePassword.toggle()
+                        }
                 }
             }
-            .frame(maxWidth: .infinity)
-            .frame(height: 60)
-            .background(Color(.darkBlueColor))
-            .cornerRadius(10)
+            .frame(height: 70)
         }
     }
     

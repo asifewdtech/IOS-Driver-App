@@ -92,123 +92,12 @@ extension RepresentativeView{
         VStack(alignment: .leading, spacing: 20){
             
             Group{
-                
-                ZStack{
-                    
-                    HStack(spacing: 10){
-                        
-                        Image(uiImage: .ic_User)
-                            .resizable()
-                            .frame(width: 30, height: 30)
-                        
-                        TextField("", text: $userText, prompt:
-                                    Text("Type your name").foregroundColor(Color(.darkGrayColor)))
-                        .font(.custom(.poppinsMedium, size: 18))
-                        .frame(height: 30)
-                        .foregroundColor(.white)
-                    }
-                    .padding([.leading, .trailing], 20)
-                }
-                .frame(height: 60)
-                
-                ZStack{
-                    
-                    HStack(spacing: 10){
-                        
-                        Image(uiImage: .ic_Calander)
-                            .resizable()
-                            .frame(width: 30, height: 30)
-                        
-                        TextField("", text: $dateText, prompt:
-                                    Text("Type your Date of Birth").foregroundColor(Color(.darkGrayColor)))
-                        .font(.custom(.poppinsMedium, size: 18))
-                        .frame(height: 30)
-                        .foregroundColor(.white)
-                        
-                    }
-                    .padding([.leading, .trailing], 20)
-                }
-                .frame(height: 60)
-                
-                ZStack{
-                    
-                    HStack(spacing: 10){
-                        
-                        Image(uiImage: .ic_Email)
-                            .resizable()
-                            .frame(width: 30, height: 30)
-                        
-                        TextField("", text: $emailText, prompt:
-                                    Text("Type your email").foregroundColor(Color(.darkGrayColor)))
-                        .font(.custom(.poppinsMedium, size: 18))
-                        .frame(height: 30)
-                        .foregroundColor(.white)
-                        
-                    }
-                    .padding([.leading, .trailing], 20)
-                }
-                .frame(height: 60)
-                
-                ZStack{
-                    
-                    HStack(spacing: 10){
-                        
-                        Image(uiImage: .ic_Mobile)
-                            .resizable()
-                            .frame(width: 30, height: 30)
-                        
-                        TextField("", text: $mobileNumberText, prompt:
-                                    Text("Type your mobile No")
-                            .foregroundColor(Color(.darkGrayColor)))
-                        .font(.custom(.poppinsMedium, size: 18))
-                        .frame(height: 30)
-                        .foregroundColor(.white)
-                        
-                    }
-                    .padding([.leading, .trailing], 20)
-                }
-                .frame(height: 60)
-                
-//                ZStack{
-//
-//                    HStack(spacing: 10){
-//
-//                        Image(uiImage: .ic_Number)
-//                            .resizable()
-//                            .frame(width: 30, height: 30)
-//
-//                        TextField("", text: $businessNumberText, prompt:
-//                                    Text("Type Australian Business Number")
-//                            .foregroundColor(Color(.darkGrayColor)))
-//                        .font(.custom(.poppinsMedium, size: 18))
-//                        .frame(height: 30)
-//                        .foregroundColor(.white)
-//
-//                    }
-//                    .padding([.leading, .trailing], 20)
-//                }
-//                .frame(height: 60)
-                
-                ZStack{
-                    
-                    HStack(spacing: 10){
-                        
-                        Image(uiImage: .ic_Authority)
-                            .resizable()
-                            .frame(width: 30, height: 30)
-                        
-                        TextField("", text: $authorityNumberText, prompt:
-                                    Text("Type your driver authority No")
-                            .foregroundColor(Color(.darkGrayColor)))
-                        .font(.custom(.poppinsMedium, size: 18))
-                        .frame(height: 30)
-                        .foregroundColor(.white)
-                        
-                    }
-                    .padding([.leading, .trailing], 20)
-                }
-                .frame(height: 60)
-                
+
+                MDCFilledTextFieldWrapper(leadingImage: .constant(.ic_User), text: $userText, placHolderText: .constant("Type your name"), isSecure: .constant(false))
+                MDCFilledTextFieldWrapper(leadingImage: .constant(.ic_Calander), text: $dateText, placHolderText: .constant("Type your Date of Birth"), isSecure: .constant(false))
+                MDCFilledTextFieldWrapper(leadingImage: .constant(.ic_Email), text: $emailText, placHolderText: .constant("Type your email"), isSecure: .constant(false))
+                MDCFilledTextFieldWrapper(leadingImage: .constant(.ic_Mobile), text: $mobileNumberText, placHolderText: .constant("Type your mobile No"), isSecure: .constant(false))
+                MDCFilledTextFieldWrapper(leadingImage: .constant(.ic_Authority), text: $authorityNumberText, placHolderText: .constant("Type your driver authority No"), isSecure: .constant(false))
                 ZStack{
 
                     HStack(alignment: .top, spacing: 10){
@@ -239,7 +128,6 @@ extension RepresentativeView{
                 }
                 .frame(height: 100)
                 ZStack{
-
                     HStack(alignment: .top, spacing: 10){
                         
                         Image(uiImage: .ic_Home)

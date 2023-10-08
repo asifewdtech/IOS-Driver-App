@@ -56,6 +56,7 @@
 		F5C15AA02AA26CC10065DE0B /* GiftCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5C15A9F2AA26CC10065DE0B /* GiftCardView.swift */; };
 		F5C15AA22AA26E6A0065DE0B /* MainTabbedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5C15AA12AA26E6A0065DE0B /* MainTabbedView.swift */; };
 		F5C18CEF2A9D047E00B05031 /* SplashScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F5C18CEE2A9D047E00B05031 /* SplashScreen.storyboard */; };
+		F5CB43CF2ACDCFFA00EAA2BB /* ActivityIndicatorView in Frameworks */ = {isa = PBXBuildFile; productRef = F5CB43CE2ACDCFFA00EAA2BB /* ActivityIndicatorView */; };
 		F5D118522A9FB6A100C027FA /* PaymentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5D118512A9FB6A000C027FA /* PaymentView.swift */; };
 		F5EA16BA2AB21F69000F9CCA /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5EA16B92AB21F69000F9CCA /* Constants.swift */; };
 		F5EA16BE2AB22FD7000F9CCA /* TermsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5EA16BD2AB22FD7000F9CCA /* TermsView.swift */; };
@@ -131,6 +132,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F5CB43CF2ACDCFFA00EAA2BB /* ActivityIndicatorView in Frameworks */,
 				C64486A3CD83CA62EA3D7D65 /* Pods_Farepay.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -152,7 +154,6 @@
 				A2A38D63393BBCF5CD6DDAAE /* Pods-Farepay.debug.xcconfig */,
 				8EABFA1ADBD71A24CD39AD52 /* Pods-Farepay.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -246,9 +247,9 @@
 				F50BE06F2AA6501C00DD465A /* Payout */,
 				F50BE0722AA6588500DD465A /* Transaction */,
 				F50BE0752AA659E700DD465A /* ReferAFriend */,
-				F523128B2AB8CFAE00E9AA2D /* Account */,
 				F5EA16BC2AB22FAB000F9CCA /* PrivacyPoilicy */,
 				F5EA16BB2AB22F94000F9CCA /* Terms */,
+				F523128B2AB8CFAE00E9AA2D /* Account */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -446,6 +447,9 @@
 			dependencies = (
 			);
 			name = Farepay;
+			packageProductDependencies = (
+				F5CB43CE2ACDCFFA00EAA2BB /* ActivityIndicatorView */,
+			);
 			productName = Farepay;
 			productReference = F511937A2A97C4DF00554604 /* Farepay.app */;
 			productType = "com.apple.product-type.application";
@@ -474,6 +478,9 @@
 				Base,
 			);
 			mainGroup = F51193712A97C4DF00554604;
+			packageReferences = (
+				F5CB43CD2ACDCFFA00EAA2BB /* XCRemoteSwiftPackageReference "ActivityIndicatorView" */,
+			);
 			productRefGroup = F511937B2A97C4DF00554604 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -800,6 +807,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		F5CB43CD2ACDCFFA00EAA2BB /* XCRemoteSwiftPackageReference "ActivityIndicatorView" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/exyte/ActivityIndicatorView.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		F5CB43CE2ACDCFFA00EAA2BB /* ActivityIndicatorView */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F5CB43CD2ACDCFFA00EAA2BB /* XCRemoteSwiftPackageReference "ActivityIndicatorView" */;
+			productName = ActivityIndicatorView;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = F51193722A97C4DF00554604 /* Project object */;
 }

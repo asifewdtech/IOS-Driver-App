@@ -24,13 +24,13 @@ struct CompanyView: View {
             NavigationLink("", destination: RepresentativeView().toolbar(.hidden, for: .navigationBar), isActive: $willMoveToRepresentativeView).isDetailLink(false)
             
             Color(.bgColor).edgesIgnoringSafeArea(.all)
-            
-            VStack(spacing: 40){
-                topArea
+            VStack{
                 ScrollView(showsIndicators: false){
-                    textArea
+                    VStack(spacing: 40) {
+                        topArea
+                        textArea
+                    }
                 }
-                .disabled(true)
                 buttonArea
             }
             .padding(.all, 15)
@@ -102,7 +102,8 @@ extension CompanyView{
                             .font(.custom(.poppinsMedium, size: 18))
                             .frame(height: 30)
                             .foregroundColor(.white)
-                            
+                            .disabled(true)
+                        
                         Image(uiImage: .ic_DropDown)
                             .resizable()
                             .frame(width: 30, height: 30)
@@ -110,46 +111,15 @@ extension CompanyView{
                     }
                     .padding([.leading, .trailing], 20)
                 }
+                .frame(height: 60)
                 
-                ZStack{
-                    
-                    HStack(spacing: 10){
-                        
-                        Image(uiImage: .ic_Card)
-                            .resizable()
-                            .frame(width: 30, height: 30)
-                        
-                        TextField("", text: $cardText, prompt: Text("XYZ123456789").foregroundColor(Color(.darkGrayColor)))
-                            .font(.custom(.poppinsMedium, size: 18))
-                            .frame(height: 30)
-                            .foregroundColor(.white)
-                        
-                    }
-                    .padding([.leading, .trailing], 20)
-                }
+                MDCFilledTextFieldWrapper(leadingImage: .constant(.ic_Card), text: $cardText, placHolderText: .constant("XYZ123456789"), isSecure: .constant(false))
+                MDCFilledTextFieldWrapper(leadingImage: .constant(.ic_Contact), text: $contactText, placHolderText: .constant("XYZ123456789"), isSecure: .constant(false))
                 
-                ZStack{
-                    
-                    HStack(spacing: 10){
-                        
-                        Image(uiImage: .ic_Contact)
-                            .resizable()
-                            .frame(width: 30, height: 30)
-                        
-                        TextField("", text: $contactText, prompt: Text("XYZ123456789").foregroundColor(Color(.darkGrayColor)))
-                            .font(.custom(.poppinsMedium, size: 18))
-                            .frame(height: 30)
-                            .foregroundColor(.white)
-                        
-                    }
-                    .padding([.leading, .trailing], 20)
-                }
             }
             .frame(maxWidth: .infinity)
-            .frame(height: 60)
             .background(Color(.darkBlueColor))
             .cornerRadius(10)
-            
         }
     }
     
