@@ -2,6 +2,27 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>200787587375-p84ci5307vvk1e8fqm380shfbc4ufkem.apps.googleusercontent.com</string>
+			</array>
+		</dict>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>com.googleusercontent.apps.200787587375-p84ci5307vvk1e8fqm380shfbc4ufkem</string>
+			</array>
+		</dict>
+	</array>
+	<key>GIDClientID</key>
+	<string>200787587375-p84ci5307vvk1e8fqm380shfbc4ufkem.apps.googleusercontent.com</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>Poppins-Bold.ttf</string>
@@ -9,9 +30,5 @@
 		<string>Poppins-Medium.ttf</string>
 		<string>Poppins-Thin.ttf</string>
 	</array>
-    <key>NSCameraUsageDescription</key>
-    <string>We need access to your camera to take photos.</string>
-    <key>NSPhotoLibraryUsageDescription</key>
-    <string>We need access to your photo library to select images.</string>
 </dict>
 </plist>

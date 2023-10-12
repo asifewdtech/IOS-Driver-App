@@ -6,13 +6,17 @@
 //
 
 import SwiftUI
-
+import GoogleSignIn
+import FirebaseAuth
 struct LoginView: View {
     
     //MARK: - Variables
     @State private var emailText: String = ""
     @State private var passwordText: String = ""
     @State private var isSecure = true
+    @StateObject var userAuth =  UserAuthViewModel()
+    @State private var toast: Toast? = nil
+    @State private var showCompany = false
     
     //MARK: - Views
     var body: some View {
@@ -29,7 +33,22 @@ struct LoginView: View {
                 }
                 buttonArea
             }
+            
+            .toastView(toast: $toast)
             .padding(.all, 15)
+            .onAppear(perform: {
+                
+                NotificationCenter.default.addObserver(forName: NSNotification.Name("SIGNIN"), object: nil, queue: .main) { (_) in
+                    
+                    
+                    if userAuth.isLoggedIn == false  {
+                        toast = Toast(style: .error, message: userAuth.errorMessage)
+                    }else {
+                        showCompany.toggle()
+                    }
+                        
+                }
+            })
         }
     }
 }
@@ -62,30 +81,45 @@ extension LoginView{
                 .foregroundColor(Color(.darkGrayColor))
             
             HStack(spacing: 15){
+                // Google Apple Sign in
+                Button(action: {
+                    userAuth.performAppleSignIn()
                 
-                ZStack{
-                    
-                    Image(uiImage: .AppleLogo)
-                        .resizable()
-                        .frame(width: 35, height: 35)
-                }
-                .frame(maxWidth: .infinity)
-                .frame(height: 55)
-                .background(Color(.darkBlueColor))
-                .cornerRadius(10)
+                }, label: {
+                    ZStack{
+                        
+                        Image(uiImage: .AppleLogo)
+                            .resizable()
+                            .frame(width: 35, height: 35)
+                    }
+                    .frame(maxWidth: .infinity)
+                    .frame(height: 55)
+                    .background(Color(.darkBlueColor))
+                    .cornerRadius(10)
+                })
                 
-                ZStack{
-                    
-                    Image(uiImage: .GoogleLogo)
-                        .resizable()
-                        .frame(width: 35, height: 35)
-                }
-                .frame(maxWidth: .infinity)
-                .frame(height: 55)
-                .background(Color(.darkBlueColor))
-                .cornerRadius(10)
+                // Google Sign In
+                Button(action: {
+                    userAuth.signIn()
+                  
+                }, label: {
+                    ZStack{
+                        
+                        Image(uiImage: .GoogleLogo)
+                            .resizable()
+                            .frame(width: 35, height: 35)
+                    }
+                    .frame(maxWidth: .infinity)
+                    .frame(height: 55)
+                    .background(Color(.darkBlueColor))
+                    .cornerRadius(10)
+                })
+                
             }
+            
         }
+        
+     
     }
     
     var textArea: some View{
@@ -132,10 +166,25 @@ extension LoginView{
     var buttonArea: some View{
         
         VStack(spacing: 20){
-                        
-            NavigationLink {
-                Farepay.CompanyView().toolbar(.hidden, for: .navigationBar)
-            } label: {
+            
+            NavigationLink("", destination: CompanyView().toolbar(.hidden, for: .navigationBar), isActive: $showCompany).isDetailLink(false)
+            
+            Button(action: {
+                if !emailText.isEmpty && passwordText.count >= 6 {
+                    Task {
+                        await userAuth.signIn(email:emailText,password:passwordText,isSignup:false)
+                        if userAuth.isLoggedIn == false  {
+                            toast = Toast(style: .error, message: userAuth.errorMessage)
+                        }else {
+                            showCompany.toggle()
+                        }
+                    }
+                                    
+                }else {
+                    toast = Toast(style: .error, message: "Please Enter and Password Should be minium 6 character")
+                }
+
+            }, label: {
                 Text("\(.SignIn)")
                     .font(.custom(.poppinsBold, size: 25))
                     .foregroundColor(.white)
@@ -143,8 +192,7 @@ extension LoginView{
                     .frame(height: 60)
                     .background(Color(.buttonColor))
                     .cornerRadius(30)
-            }
-
+            })
             HStack{
                 
                 Text("\(.dontHaveAccount)")
@@ -163,6 +211,18 @@ extension LoginView{
         }
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
 
 //MARK: - Drop Down
 struct DropdownOption: Hashable {
@@ -270,33 +330,33 @@ struct DropdownSelector: View {
     }
 }
 
-struct DropdownSelector_Previews: PreviewProvider {
-    @State private static var address: String = ""
-
-    static var uniqueKey: String {
-        UUID().uuidString
-    }
-
-    static let options: [DropdownOption] = [
-        DropdownOption(key: uniqueKey, value: "Sunday"),
-        DropdownOption(key: uniqueKey, value: "Monday"),
-        DropdownOption(key: uniqueKey, value: "Tuesday"),
-        DropdownOption(key: uniqueKey, value: "Wednesday"),
-        DropdownOption(key: uniqueKey, value: "Thursday"),
-        DropdownOption(key: uniqueKey, value: "Friday"),
-        DropdownOption(key: uniqueKey, value: "Saturday")
-    ]
-    static var previews: some View {
-        
-        VStack(spacing: 20) {
-            DropdownSelector(
-                placeholder: "Day of the week",
-                options: options,
-                onOptionSelected: { option in
-                    print(option)
-            })
-            .padding(.horizontal)
-            .zIndex(1)
-        }
-    }
-}
+//struct DropdownSelector_Previews: PreviewProvider {
+//    @State private static var address: String = ""
+//
+//    static var uniqueKey: String {
+//        UUID().uuidString
+//    }
+//
+//    static let options: [DropdownOption] = [
+//        DropdownOption(key: uniqueKey, value: "Sunday"),
+//        DropdownOption(key: uniqueKey, value: "Monday"),
+//        DropdownOption(key: uniqueKey, value: "Tuesday"),
+//        DropdownOption(key: uniqueKey, value: "Wednesday"),
+//        DropdownOption(key: uniqueKey, value: "Thursday"),
+//        DropdownOption(key: uniqueKey, value: "Friday"),
+//        DropdownOption(key: uniqueKey, value: "Saturday")
+//    ]
+//    static var previews: some View {
+//        
+//        VStack(spacing: 20) {
+//            DropdownSelector(
+//                placeholder: "Day of the week",
+//                options: options,
+//                onOptionSelected: { option in
+//                    print(option)
+//            })
+//            .padding(.horizontal)
+//            .zIndex(1)
+//        }
+//    }
+//}

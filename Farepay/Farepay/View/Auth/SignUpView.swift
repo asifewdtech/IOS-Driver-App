@@ -17,7 +17,9 @@ struct SignUpView: View {
     @State private var isSecure = true
     @State private var isSecureReType = true
     @Environment(\.presentationMode) private var presentationMode: Binding<PresentationMode>
-    
+    @State private var toast: Toast? = nil
+    @State private var showCompany = false
+    @StateObject var userAuth =  UserAuthViewModel()
     //MARK: - Views
     var body: some View {
         
@@ -34,6 +36,7 @@ struct SignUpView: View {
                     }
                 }
             }
+            .toastView(toast: $toast)
             .padding(.all, 15)
             
         }
@@ -155,13 +158,21 @@ extension SignUpView{
         
         VStack(spacing: 20){
             
-            Text("\(.SignUp)")
-                .font(.custom(.poppinsBold, size: 25))
-                .foregroundColor(.white)
-                .frame(maxWidth: .infinity)
-                .frame(height: 60)
-                .background(Color(.buttonColor))
-                .cornerRadius(30)
+            NavigationLink("", destination: CompanyView().toolbar(.hidden, for: .navigationBar), isActive: $showCompany).isDetailLink(false)
+            Button(action: {
+                callFirebaseRegisterAuth()
+                
+                
+            }, label: {
+                Text("\(.SignUp)")
+                    .font(.custom(.poppinsBold, size: 25))
+                    .foregroundColor(.white)
+                    .frame(maxWidth: .infinity)
+                    .frame(height: 60)
+                    .background(Color(.buttonColor))
+                    .cornerRadius(30)
+            })
+            
             
             HStack{
                 
@@ -179,5 +190,33 @@ extension SignUpView{
             }
                 
         }
+    }
+
+    // Create USer on Firebase
+    func callFirebaseRegisterAuth()  {
+        if nameText.isEmpty {
+            toast = Toast(style: .error, message: "Please Enter Name")
+            
+        }else if !emailText.isValidEmail(emailText) {
+            toast = Toast(style: .error, message: "Please Enter Valid Email")
+        } else if passwordText.count <= 6 {
+            toast = Toast(style: .error, message: "Password Should be minimun 6 Character")
+        }else {
+            if passwordText != ReTypePasswordText {
+                toast = Toast(style: .error, message: "Password not matched")
+            }else {
+                Task {
+                    await userAuth.signIn(email:emailText,password:passwordText,isSignup:true)
+                    if userAuth.isLoggedIn == false  {
+                        toast = Toast(style: .error, message: userAuth.errorMessage)
+                    }else {
+                        showCompany.toggle()
+                    }
+                }
+            }
+                
+        }
+        
+
     }
 }

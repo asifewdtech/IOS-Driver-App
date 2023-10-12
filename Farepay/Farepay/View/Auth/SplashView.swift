@@ -7,7 +7,7 @@
 
 import SwiftUI
 import ActivityIndicatorView
-
+import FirebaseAuth
 struct SplashView: View {
     
     //MARK: - Variables
@@ -22,7 +22,7 @@ struct SplashView: View {
             ZStack{
                 
                 NavigationLink("", destination: Farepay.LoginView().toolbar(.hidden, for: .navigationBar), isActive: $willMoveToLogin ).isDetailLink(false)
-                NavigationLink("", destination: Farepay.MainTabbedView().toolbar(.hidden, for: .navigationBar), isActive: $willMoveToMainView ).isDetailLink(false)
+                NavigationLink("", destination: Farepay.CompanyView().toolbar(.hidden, for: .navigationBar), isActive: $willMoveToMainView ).isDetailLink(false)
                 
                 Color(.bgColor)
                     .edgesIgnoringSafeArea(.all)
@@ -42,6 +42,14 @@ struct SplashView: View {
                     .padding(.top, 350)
             }
             .onAppear(){
+                
+                do {
+                    
+                   try  Auth.auth().signOut()
+                    
+                } catch  {
+                    print("error")
+                }
                 navigateNext()
             }
         }
@@ -54,7 +62,8 @@ struct SplashView: View {
     func navigateNext(){
         DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
             showLoadingIndicator.toggle()
-            if isLogin(){
+            
+            if Auth.auth().currentUser != nil{
                 willMoveToMainView.toggle()
             }
             else{
