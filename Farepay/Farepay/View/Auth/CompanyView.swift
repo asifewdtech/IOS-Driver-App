@@ -19,25 +19,27 @@ struct CompanyView: View {
     //MARK: - Views
     var body: some View {
         
-        ZStack{
-            
-            NavigationLink("", destination: RepresentativeView().toolbar(.hidden, for: .navigationBar), isActive: $willMoveToRepresentativeView).isDetailLink(false)
-            
-            Color(.bgColor).edgesIgnoringSafeArea(.all)
-            VStack{
-                ScrollView(showsIndicators: false){
-                    VStack(spacing: 40) {
-                        topArea
-                        textArea
+        NavigationStack {
+            ZStack{
+                
+                NavigationLink("", destination: RepresentativeView().toolbar(.hidden, for: .navigationBar), isActive: $willMoveToRepresentativeView).isDetailLink(false)
+                
+                Color(.bgColor).edgesIgnoringSafeArea(.all)
+                VStack{
+                    ScrollView(showsIndicators: false){
+                        VStack(spacing: 40) {
+                            topArea
+                            textArea
+                        }
                     }
+                    buttonArea
                 }
-                buttonArea
+                .padding(.all, 15)
             }
-            .padding(.all, 15)
-        }
-        .onReceive(NotificationCenter.default.publisher(for: .proceedNext)) { _ in
-            print("Received Custom Notification")
-            willMoveToRepresentativeView.toggle()
+            .onReceive(NotificationCenter.default.publisher(for: .proceedNext)) { _ in
+                print("Received Custom Notification")
+                willMoveToRepresentativeView.toggle()
+            }
         }
     }
 }

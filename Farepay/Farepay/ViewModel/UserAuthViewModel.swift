@@ -20,19 +20,11 @@ class UserAuthViewModel:NSObject, ObservableObject,ASAuthorizationControllerDele
     @Published var isLoggedIn: Bool = false
     @Published var errorMessage: String = ""
     @Published var nonce: String = ""
-    
     @Published var isGoogleLogin = false
-    @Published var authUser :GIDGoogleUser?
-    
+
     override init(){
         super.init()
-        do {
-            
-           try  Auth.auth().signOut()
-            
-        } catch  {
-            print("error")
-        }
+   
     }
     
     func checkStatus(){
@@ -91,12 +83,9 @@ class UserAuthViewModel:NSObject, ObservableObject,ASAuthorizationControllerDele
             }
             else {
                 guard let auth = result?.user else { return }
-                self.authUser = auth
                 
-                
-                
+
                 let credentials = GoogleAuthProvider.credential(withIDToken: auth.idToken?.tokenString ?? "", accessToken: auth.accessToken.tokenString)
-                
                 Auth.auth().signIn(with: credentials) { result, error in
                     if let error = error {
                         print("error\(error)")
@@ -167,6 +156,8 @@ class UserAuthViewModel:NSObject, ObservableObject,ASAuthorizationControllerDele
         controller.performRequests()
     }
 }
+
+
 
 
 

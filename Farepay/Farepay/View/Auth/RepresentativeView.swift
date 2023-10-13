@@ -177,19 +177,17 @@ extension RepresentativeView{
             
             HStack(spacing: 15){
                 ZStack{
-//                    if licenseFrontImage != nil{
-//                        Image(uiImage: $licenseFrontImage)
-//                            .resizable()
-//                            .frame(width: 80, height: 80)
-//                    }
-//                    else{
-//                        Image(uiImage: .ic_UploadImage)
-//                            .resizable()
-//                            .frame(width: 30, height: 25)
-//                    }
-                    Image(uiImage: .ic_UploadImage)
-                        .resizable()
-                        .frame(width: 30, height: 25)
+                    if let image = licenseFrontImage {
+                        Image(uiImage: image)
+                            .resizable()
+                            .frame(width: 80, height: 80)
+                    }
+                    else{
+                        Image(uiImage: .ic_UploadImage)
+                            .resizable()
+                            .frame(width: 30, height: 25)
+                    }
+
                 }
                 .frame(maxWidth: .infinity)
                 .frame(width: 80, height: 80)
@@ -236,7 +234,7 @@ extension RepresentativeView{
                                     isPresentedPreview.toggle()
                                 }
                                 .fullScreenCover(isPresented: $isPresentedPreview) {
-                                    ImagePreView(presentedAsModal: $isPresentedPreview)
+                                    ImagePreView(presentedAsModal: $isPresentedPreview,image: $licenseFrontImage)
                                 }
                         }
                     }
@@ -251,19 +249,17 @@ extension RepresentativeView{
             HStack(spacing: 15){
                 ZStack{
                     
-//                    if licenseBackImage != nil{
-//                        Image(uiImage: $licenseBackImage)
-//                            .resizable()
-//                            .frame(width: 80, height: 80)
-//                    }
-//                    else{
-//                        Image(uiImage: .ic_UploadImage)
-//                            .resizable()
-//                            .frame(width: 30, height: 25)
-//                    }
-                    Image(uiImage: .ic_UploadImage)
-                        .resizable()
-                        .frame(width: 30, height: 25)
+                    if let image = licenseBackImage{
+                        Image(uiImage: image)
+                            .resizable()
+                            .frame(width: 80, height: 80)
+                    }
+                    else{
+                        Image(uiImage: .ic_UploadImage)
+                            .resizable()
+                            .frame(width: 30, height: 25)
+                    }
+               
                 }
                 .frame(maxWidth: .infinity)
                 .frame(width: 80, height: 80)
@@ -310,7 +306,7 @@ extension RepresentativeView{
                                     isPresentedPreview.toggle()
                                 }
                                 .fullScreenCover(isPresented: $isPresentedPreview) {
-                                    ImagePreView(presentedAsModal: $isPresentedPreview)
+                                    ImagePreView(presentedAsModal: $isPresentedPreview,image: $licenseBackImage)
                                 }
                         }
                     }

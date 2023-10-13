@@ -10,7 +10,7 @@ import SwiftUI
 struct ImagePreView: View {
     //MARK: - Variables
     @Binding var presentedAsModal: Bool
-    
+    @Binding  var image :UIImage?
     //MARK: - Views
     var body: some View {
         ZStack{
@@ -18,9 +18,11 @@ struct ImagePreView: View {
             VStack(spacing: 25){
                 Text("Preview Image")
                     .font(.custom(.poppinsSemiBold, size: 20))
-                Image(uiImage: .licenseImage)
-                    .resizable()
-                    .frame(width: 300, height: 200)
+                if let image = image {
+                    Image(uiImage: image)
+                        .resizable()
+                        .frame(width: 300, height: 200)
+                }
                 HStack(spacing: 15){
                     Text("Delete")
                         .frame(width: 120, height: 40)
@@ -31,6 +33,7 @@ struct ImagePreView: View {
                                 .stroke(Color(.ErrorColor), lineWidth: 1)
                         }
                         .onTapGesture {
+                            image = nil 
                             presentedAsModal.dismiss()
                         }
                     Text("Replace")
@@ -50,8 +53,8 @@ struct ImagePreView: View {
     }
 }
 
-struct ImagePreView_Previews: PreviewProvider {
-    static var previews: some View {
-        ImagePreView(presentedAsModal: .constant(false))
-    }
-}
+//struct ImagePreView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        ImagePreView(presentedAsModal: .constant(false))
+//    }
+//}
