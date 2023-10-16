@@ -113,15 +113,18 @@ struct MDCFilledTextFieldWrapper: UIViewRepresentable {
     @Binding var text: String
     @Binding var placHolderText: String
     @Binding var isSecure: Bool
+    @State var isNumberPad: Bool?
+    
+    
     
     func makeUIView(context: Context) -> MDCFilledTextField {
-        let textField = MDCFilledTextField()
+        var  textField = MDCFilledTextField()
         
         // Left Image
         textField.leadingView = UIImageView(image: leadingImage)
         textField.leadingView?.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
         textField.leadingViewMode = .always
-        
+        textField.keyboardType = isNumberPad == true  ? .numberPad : .default
         // Right Image
         if isTrailingImage == true{
             textField.trailingView = UIImageView(image: UIImage(systemName: isSecure ? "eye.slash.fill" : "eye.fill"))
@@ -173,6 +176,8 @@ struct MDCFilledTextFieldWrapper: UIViewRepresentable {
         func textFieldDidChangeSelection(_ textField: UITextField) {
             parent.text = textField.text ?? ""
         }
+        
+        
     }
 }
 struct CharacterInputCell: View {

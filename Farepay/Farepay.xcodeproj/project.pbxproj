@@ -15,6 +15,7 @@
 		32888C962AD686B800A39C8B /* ToastStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32888C932AD686B800A39C8B /* ToastStyle.swift */; };
 		32888C992AD686C800A39C8B /* View_toastView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32888C972AD686C800A39C8B /* View_toastView.swift */; };
 		32888C9A2AD686C800A39C8B /* View_Glow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32888C982AD686C800A39C8B /* View_Glow.swift */; };
+		3294382F2ADD0DAB000C18B8 /* OtpViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3294382E2ADD0DAB000C18B8 /* OtpViewModel.swift */; };
 		32E005CA2AD51B6E008CA8ED /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = 32E005C92AD51B6E008CA8ED /* GoogleSignIn */; };
 		32E005CC2AD51B6E008CA8ED /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 32E005CB2AD51B6E008CA8ED /* GoogleSignInSwift */; };
 		32E005CE2AD51DFF008CA8ED /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 32E005CD2AD51DFF008CA8ED /* GoogleService-Info.plist */; };
@@ -109,6 +110,7 @@
 		32888C932AD686B800A39C8B /* ToastStyle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToastStyle.swift; sourceTree = "<group>"; };
 		32888C972AD686C800A39C8B /* View_toastView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = View_toastView.swift; sourceTree = "<group>"; };
 		32888C982AD686C800A39C8B /* View_Glow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = View_Glow.swift; sourceTree = "<group>"; };
+		3294382E2ADD0DAB000C18B8 /* OtpViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OtpViewModel.swift; sourceTree = "<group>"; };
 		32E005CD2AD51DFF008CA8ED /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		32E006012AD524A7008CA8ED /* UserAuthViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserAuthViewModel.swift; sourceTree = "<group>"; };
 		8EABFA1ADBD71A24CD39AD52 /* Pods-Farepay.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Farepay.release.xcconfig"; path = "Target Support Files/Pods-Farepay/Pods-Farepay.release.xcconfig"; sourceTree = "<group>"; };
@@ -236,6 +238,7 @@
 			isa = PBXGroup;
 			children = (
 				32E006012AD524A7008CA8ED /* UserAuthViewModel.swift */,
+				3294382E2ADD0DAB000C18B8 /* OtpViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -725,6 +728,7 @@
 				32888C9A2AD686C800A39C8B /* View_Glow.swift in Sources */,
 				F5449ABD2AB0D09000BE5AF4 /* Date+Extension.swift in Sources */,
 				F5192AEB2AA11B8900DF5ED1 /* PayQRView.swift in Sources */,
+				3294382F2ADD0DAB000C18B8 /* OtpViewModel.swift in Sources */,
 				F5C15AA22AA26E6A0065DE0B /* MainTabbedView.swift in Sources */,
 				F5449AC12AB0DA8E00BE5AF4 /* ExportPopUpView.swift in Sources */,
 			);

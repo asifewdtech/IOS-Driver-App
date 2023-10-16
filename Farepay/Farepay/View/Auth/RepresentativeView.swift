@@ -6,13 +6,13 @@
 //
 
 import SwiftUI
-
+import FirebaseAuth
 struct RepresentativeView: View {
     
     //MARK: - Variable
     @State private var userText: String = ""
     @State private var dateText: String = ""
-    @State private var emailText: String = ""
+    @State private var emailText: String = Auth.auth().currentUser?.email ?? ""
     @State private var addressText: String = ""
     @State private var businessNumberText: String = ""
     @State private var authorityNumberText: String = ""
@@ -96,8 +96,10 @@ extension RepresentativeView{
                 MDCFilledTextFieldWrapper(leadingImage: .constant(.ic_User), text: $userText, placHolderText: .constant("Type your name"), isSecure: .constant(false))
                 MDCFilledTextFieldWrapper(leadingImage: .constant(.ic_Calander), text: $dateText, placHolderText: .constant("Type your Date of Birth"), isSecure: .constant(false))
                 MDCFilledTextFieldWrapper(leadingImage: .constant(.ic_Email), text: $emailText, placHolderText: .constant("Type your email"), isSecure: .constant(false))
-                MDCFilledTextFieldWrapper(leadingImage: .constant(.ic_Mobile), text: $mobileNumberText, placHolderText: .constant("Type your mobile No"), isSecure: .constant(false))
-                MDCFilledTextFieldWrapper(leadingImage: .constant(.ic_Authority), text: $authorityNumberText, placHolderText: .constant("Type your driver authority No"), isSecure: .constant(false))
+                    .allowsHitTesting(false)
+                    
+                MDCFilledTextFieldWrapper(leadingImage: .constant(.ic_Mobile), text: $mobileNumberText, placHolderText: .constant("Type your mobile No"), isSecure: .constant(false),isNumberPad: true)
+                MDCFilledTextFieldWrapper(leadingImage: .constant(.ic_Authority), text: $authorityNumberText, placHolderText: .constant("Type your driver authority No"), isSecure: .constant(false),isNumberPad: true)
                 ZStack{
 
                     HStack(alignment: .top, spacing: 10){

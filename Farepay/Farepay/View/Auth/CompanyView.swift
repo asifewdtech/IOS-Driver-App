@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Combine
 
 struct CompanyView: View {
     
@@ -15,6 +16,7 @@ struct CompanyView: View {
     @State private var contactText: String = ""
     @State private var willMoveToRepresentativeView: Bool = false
     @State private var isPresentedPopUp: Bool = false
+
     
     //MARK: - Views
     var body: some View {
@@ -115,15 +117,26 @@ extension CompanyView{
                 }
                 .frame(height: 60)
                 
-                MDCFilledTextFieldWrapper(leadingImage: .constant(.ic_Card), text: $cardText, placHolderText: .constant("XYZ123456789"), isSecure: .constant(false))
-                MDCFilledTextFieldWrapper(leadingImage: .constant(.ic_Contact), text: $contactText, placHolderText: .constant("XYZ123456789"), isSecure: .constant(false))
+                MDCFilledTextFieldWrapper(leadingImage: .constant(.ic_Card), text: $cardText.max(11), placHolderText: .constant("XYZ123456789"), isSecure: .constant(false),isNumberPad: true)
+                    
+                MDCFilledTextFieldWrapper(leadingImage: .constant(.ic_Contact), text: $contactText.max(9), placHolderText: .constant("XYZ123456789"), isSecure: .constant(false),isNumberPad: true)
                 
             }
             .frame(maxWidth: .infinity)
             .background(Color(.darkBlueColor))
             .cornerRadius(10)
         }
+        
+        
     }
+    
+//    //Function to keep text length in limits
+//    func limitText(_ upper: Int) {
+//           if cardText.count > upper {
+//               cardText = String(cardText.prefix(upper))
+//           }
+//       }
+    
     
     var buttonArea: some View{
         
@@ -142,5 +155,17 @@ extension CompanyView{
                     StepsView(presentedAsModal: $isPresentedPopUp)
                 }
         }
+    }
+}
+
+
+extension Binding where Value == String {
+    func max(_ limit: Int) -> Self {
+        if self.wrappedValue.count > limit {
+            DispatchQueue.main.async {
+                self.wrappedValue = String(self.wrappedValue.dropLast())
+            }
+        }
+        return self
     }
 }
