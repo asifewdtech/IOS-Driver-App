@@ -125,6 +125,7 @@ struct MDCFilledTextFieldWrapper: UIViewRepresentable {
         textField.leadingView?.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
         textField.leadingViewMode = .always
         textField.keyboardType = isNumberPad == true  ? .numberPad : .default
+        
         // Right Image
         if isTrailingImage == true{
             textField.trailingView = UIImageView(image: UIImage(systemName: isSecure ? "eye.slash.fill" : "eye.fill"))
@@ -132,6 +133,9 @@ struct MDCFilledTextFieldWrapper: UIViewRepresentable {
             textField.trailingView?.frame = CGRect(x: 0, y: 0, width: 30, height: 20)
             textField.trailingViewMode = .always
         }
+        
+        
+        
         
         // PlaceHolder
         textField.label.text = placHolderText

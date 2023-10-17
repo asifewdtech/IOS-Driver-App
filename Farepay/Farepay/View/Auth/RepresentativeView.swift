@@ -24,6 +24,9 @@ struct RepresentativeView: View {
     @State private var islicenseBackImagePickerPresented = false
     @State private var isPresentedPreview = false
     
+    @State var showDatePicker: Bool = false
+    @State var savedDate: Date = Date().noon
+    
     //MARK: - Views
     var body: some View {
         
@@ -41,6 +44,12 @@ struct RepresentativeView: View {
                 }
             }
             .padding(.all, 15)
+            
+            if showDatePicker {
+                DatePickerWithButtons(showDatePicker: $showDatePicker, savedDate: $savedDate, selectedDate: savedDate, dateText: $dateText)
+                    
+                    .transition(.opacity)
+            }
         }
     }
 }
@@ -95,11 +104,33 @@ extension RepresentativeView{
 
                 MDCFilledTextFieldWrapper(leadingImage: .constant(.ic_User), text: $userText, placHolderText: .constant("Type your name"), isSecure: .constant(false))
                 MDCFilledTextFieldWrapper(leadingImage: .constant(.ic_Calander), text: $dateText, placHolderText: .constant("Type your Date of Birth"), isSecure: .constant(false))
+                    .onTapGesture {
+                        showDatePicker.toggle()
+                    }
+                
                 MDCFilledTextFieldWrapper(leadingImage: .constant(.ic_Email), text: $emailText, placHolderText: .constant("Type your email"), isSecure: .constant(false))
                     .allowsHitTesting(false)
                     
-                MDCFilledTextFieldWrapper(leadingImage: .constant(.ic_Mobile), text: $mobileNumberText, placHolderText: .constant("Type your mobile No"), isSecure: .constant(false),isNumberPad: true)
-                MDCFilledTextFieldWrapper(leadingImage: .constant(.ic_Authority), text: $authorityNumberText, placHolderText: .constant("Type your driver authority No"), isSecure: .constant(false),isNumberPad: true)
+//                MDCFilledTextFieldWrapper(leadingImage: .constant(.ic_Mobile), text: $mobileNumberText.max(11), placHolderText: .constant("Type your mobile No"), isSecure: .constant(false),isNumberPad: true)
+                HStack {
+                    Image(uiImage: .ic_Mobile)
+                        .resizable()
+                        .frame(width: 30, height: 30)
+                    HStack {
+                        Text("+61")
+                            .foregroundStyle(Color.white)
+                        TextField(
+                            "Type your mobile No",
+                            text: $mobileNumberText.max(11)
+                        )
+                        .keyboardType(.numberPad)
+                        .foregroundStyle(Color.white)
+                    }
+                    
+                }
+                .frame(height: 60)
+                .padding(.horizontal,10)
+                MDCFilledTextFieldWrapper(leadingImage: .constant(.ic_Authority), text: $authorityNumberText.max(10), placHolderText: .constant("Type your driver authority No"), isSecure: .constant(false),isNumberPad: true)
                 ZStack{
 
                     HStack(alignment: .top, spacing: 10){
@@ -326,9 +357,19 @@ extension RepresentativeView{
         
         VStack(spacing: 20){
             
-            NavigationLink(destination: {
-                NewsView().toolbar(.hidden, for: .navigationBar)
-            }, label: {
+            Button {
+
+                if let index = userText.firstIndex(of: " ") {
+                    let firstPart = userText.prefix(upTo: index)
+
+                    print(firstPart)
+                    print(userText[index...])
+                    
+                    
+                }
+                
+              
+            } label: {
                 Text("Create Connect Account")
                     .font(.custom(.poppinsBold, size: 22))
                     .foregroundColor(.white)
@@ -336,7 +377,97 @@ extension RepresentativeView{
                     .frame(height: 60)
                     .background(Color(.buttonColor))
                     .cornerRadius(30)
-            })
+            }
+
+//            NavigationLink(destination: {
+//                NewsView().toolbar(.hidden, for: .navigationBar)
+//            }, label: {
+//                Text("Create Connect Account")
+//                    .font(.custom(.poppinsBold, size: 22))
+//                    .foregroundColor(.white)
+//                    .frame(maxWidth: .infinity)
+//                    .frame(height: 60)
+//                    .background(Color(.buttonColor))
+//                    .cornerRadius(30)
+//            })
         }
     }
 }
+
+
+
+struct DatePickerWithButtons: View {
+    
+    @Binding var showDatePicker: Bool
+    @Binding var savedDate: Date
+    @State var selectedDate: Date = Date()
+    @Binding var dateText:String
+    var minimumDate: Date {
+        let calendar = Calendar.current
+        return calendar.date(byAdding: .year, value: -18, to: Date.now)!
+    }
+
+
+    var body: some View {
+        ZStack {
+            
+            Color.black.opacity(0.3)
+                .edgesIgnoringSafeArea(.all)
+            
+            
+            VStack {
+                DatePicker("Test", selection: $selectedDate,in: ...minimumDate, displayedComponents: [.date])
+                    .datePickerStyle(GraphicalDatePickerStyle())
+                
+                Divider()
+                HStack {
+                    
+                    Button(action: {
+                        showDatePicker = false
+                    }, label: {
+                        Text("Cancel")
+                    })
+                    
+                    Spacer()
+                    
+                    Button(action: {
+                        savedDate = selectedDate
+                        dateText = savedDate.dateToString()
+                        showDatePicker = false
+                        
+                    }, label: {
+                        Text("Save".uppercased())
+                            .bold()
+                    })
+                    
+                }
+                .padding(.horizontal)
+
+            }
+            .padding()
+            .background(
+                Color.white
+                    .cornerRadius(30)
+            )
+
+            
+        }
+
+    }
+}
+
+
+
+extension Date {
+    
+    func dateToString() -> String {
+        let dateFormatter = DateFormatter()
+        // Set Date Format
+        dateFormatter.dateFormat = "dd-MM-YYYY"
+        // Convert Date to String
+        return dateFormatter.string(from: self)
+    }
+    
+}
+
+

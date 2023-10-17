@@ -247,7 +247,7 @@ struct DropdownRow: View {
             HStack {
                 Text(self.option.value)
                     .font(.system(size: 14))
-                    .foregroundColor(Color.black)
+                    .foregroundColor(Color.white)
                 Spacer()
             }
         }
@@ -270,7 +270,7 @@ struct Dropdown: View {
         }
         .frame(minHeight: CGFloat(options.count) * 30, maxHeight: 250)
         .padding(.vertical, 5)
-        .background(Color.white)
+        .background(Color(.bgColor))
         .cornerRadius(5)
         .overlay(
             RoundedRectangle(cornerRadius: 5)
@@ -283,36 +283,15 @@ struct DropdownSelector: View {
     @State private var shouldShowDropdown = false
     @State private var selectedOption: DropdownOption? = nil
     var placeholder: String
+    var leftImage :UIImage
     var options: [DropdownOption]
     var onOptionSelected: ((_ option: DropdownOption) -> Void)?
-    private let buttonHeight: CGFloat = 45
+    private let buttonHeight: CGFloat = 60
 
     var body: some View {
-        Button(action: {
-            self.shouldShowDropdown.toggle()
-        }) {
-            HStack {
-                Text(selectedOption == nil ? placeholder : selectedOption!.value)
-                    .font(.system(size: 14))
-                    .foregroundColor(selectedOption == nil ? Color.gray: Color.black)
-
-                Spacer()
-
-                Image(systemName: self.shouldShowDropdown ? "arrowtriangle.up.fill" : "arrowtriangle.down.fill")
-                    .resizable()
-                    .frame(width: 9, height: 5)
-                    .font(Font.system(size: 9, weight: .medium))
-                    .foregroundColor(Color.black)
-            }
-        }
-        .padding(.horizontal)
-        .cornerRadius(5)
-        .frame(width: .infinity, height: self.buttonHeight)
-        .overlay(
-            RoundedRectangle(cornerRadius: 5)
-                .stroke(Color.gray, lineWidth: 1)
-        )
-        .overlay(
+        ZStack(alignment:.top) {
+            
+            
             VStack {
                 if self.shouldShowDropdown {
                     Spacer(minLength: buttonHeight + 10)
@@ -322,11 +301,57 @@ struct DropdownSelector: View {
                         self.onOptionSelected?(option)
                     })
                 }
-            }, alignment: .topLeading
-        )
-        .background(
-            RoundedRectangle(cornerRadius: 5).fill(Color.white)
-        )
+            }
+//            .padding(
+//                // Check if options list is open or not
+//                .bottom, self.shouldShowDropdown
+//                // If options list is open, then check if options size is greater
+//                // than 300 (MAX HEIGHT - CONSTANT), or not
+//                ? CGFloat(self.options.count * 15) > 100
+//                // IF true, then set padding to max height 300 points
+//                ? 50 + 30 // max height + more padding to set space between borders and text
+//                // IF false, then calculate options size and set padding
+//                : CGFloat(self.options.count * 15) + 30
+//                // If option list is closed, then don't set any padding.
+//                : 0
+//            )
+            
+            
+            Button(action: {
+                withAnimation {
+                    self.shouldShowDropdown.toggle()
+                }
+                
+            }) {
+                HStack {
+                    
+                    Image(uiImage: .ic_Company)
+                        .resizable()
+                        .frame(width: 30, height: 30)
+                    
+                    Text(selectedOption == nil ? placeholder : selectedOption!.value)
+                        .font(.system(size: 14))
+                        .foregroundColor(Color.gray)
+                    
+                    Spacer()
+                    
+                    Image(systemName: self.shouldShowDropdown ? "arrowtriangle.up.fill" : "arrowtriangle.down.fill")
+                        .resizable()
+                        .frame(width: 9, height: 5)
+                        .font(Font.system(size: 9, weight: .medium))
+                        .foregroundColor(Color.white)
+                }
+            }
+            .padding(.horizontal)
+            .cornerRadius(5)
+            .frame( height: self.buttonHeight)
+            .frame(maxWidth:.infinity)
+            
+            
+        }
+//        .background(
+////            RoundedRectangle(cornerRadius: 5).fill(Color(.clear))
+//        )
     }
 }
 
@@ -360,3 +385,9 @@ struct DropdownSelector: View {
 //        }
 //    }
 //}
+
+
+let businessType: [DropdownOption] = [
+        DropdownOption(key: UUID().uuidString, value: "individual"),
+        DropdownOption(key: UUID().uuidString, value: "Business")
+    ]

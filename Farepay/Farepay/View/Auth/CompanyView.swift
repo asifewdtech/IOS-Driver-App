@@ -16,6 +16,7 @@ struct CompanyView: View {
     @State private var contactText: String = ""
     @State private var willMoveToRepresentativeView: Bool = false
     @State private var isPresentedPopUp: Bool = false
+    @State var disableBtn = false
 
     
     //MARK: - Views
@@ -94,28 +95,41 @@ extension CompanyView{
             
             Group{
                 
-                ZStack{
+//                ZStack{
+//                    
+//                    HStack(spacing: 10){
+//                        
+//                        Image(uiImage: .ic_Company)
+//                            .resizable()
+//                            .frame(width: 30, height: 30)
+//                        
+//                        TextField("", text: $companyText, prompt: Text("\(.selectCompany)").foregroundColor(Color(.darkGrayColor)))
+//                            .font(.custom(.poppinsMedium, size: 18))
+//                            .frame(height: 30)
+//                            .foregroundColor(.white)
+//                            .disabled(true)
+//                        
+//                        Image(uiImage: .ic_DropDown)
+//                            .resizable()
+//                            .frame(width: 30, height: 30)
+//                        
+//                    }
+//                    .padding([.leading, .trailing], 20)
+//                }
+//                .frame(height: 60)
+                
+                HStack(spacing: 10){
                     
-                    HStack(spacing: 10){
-                        
-                        Image(uiImage: .ic_Company)
-                            .resizable()
-                            .frame(width: 30, height: 30)
-                        
-                        TextField("", text: $companyText, prompt: Text("\(.selectCompany)").foregroundColor(Color(.darkGrayColor)))
-                            .font(.custom(.poppinsMedium, size: 18))
-                            .frame(height: 30)
-                            .foregroundColor(.white)
-                            .disabled(true)
-                        
-                        Image(uiImage: .ic_DropDown)
-                            .resizable()
-                            .frame(width: 30, height: 30)
-                        
-                    }
-                    .padding([.leading, .trailing], 20)
+                    DropdownSelector(
+                        placeholder: .selectCompany, leftImage: .ic_Company,
+                        options: businessType,
+                        onOptionSelected: { option in
+                            print(option)
+                            self.companyText = option.value
+                        })
+                    
                 }
-                .frame(height: 60)
+                          
                 
                 MDCFilledTextFieldWrapper(leadingImage: .constant(.ic_Card), text: $cardText.max(11), placHolderText: .constant("XYZ123456789"), isSecure: .constant(false),isNumberPad: true)
                     
@@ -130,13 +144,7 @@ extension CompanyView{
         
     }
     
-//    //Function to keep text length in limits
-//    func limitText(_ upper: Int) {
-//           if cardText.count > upper {
-//               cardText = String(cardText.prefix(upper))
-//           }
-//       }
-    
+
     
     var buttonArea: some View{
         
@@ -148,7 +156,13 @@ extension CompanyView{
                 .frame(height: 60)
                 .background(Color(.buttonColor))
                 .cornerRadius(30)
+                .disabled(disableBtn )
                 .onTapGesture {
+//                    if companyText.isEmpty && cardText.isEmpty && contactText.isEmpty {
+//                        disableBtn = true
+//                    }else {
+//                        disableBtn = false
+//                    }
                     isPresentedPopUp.toggle()
                 }
                 .fullScreenCover(isPresented: $isPresentedPopUp) {
