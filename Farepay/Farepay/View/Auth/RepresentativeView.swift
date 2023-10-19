@@ -356,20 +356,20 @@ extension RepresentativeView{
     var buttonArea: some View{
         
         VStack(spacing: 20){
-            
-            Button {
 
-                if let index = userText.firstIndex(of: " ") {
-                    let firstPart = userText.prefix(upTo: index)
+            // Split first and last name
+            //                if let index = userText.firstIndex(of: " ") {
+            //                    let firstPart = userText.prefix(upTo: index)
+            //
+            //                    print(firstPart)
+            //                    print(userText[index...])
+            //
+            //
+            //                }
 
-                    print(firstPart)
-                    print(userText[index...])
-                    
-                    
-                }
-                
-              
-            } label: {
+            NavigationLink(destination: {
+                NewsView().toolbar(.hidden, for: .navigationBar)
+            }, label: {
                 Text("Create Connect Account")
                     .font(.custom(.poppinsBold, size: 22))
                     .foregroundColor(.white)
@@ -377,19 +377,7 @@ extension RepresentativeView{
                     .frame(height: 60)
                     .background(Color(.buttonColor))
                     .cornerRadius(30)
-            }
-
-//            NavigationLink(destination: {
-//                NewsView().toolbar(.hidden, for: .navigationBar)
-//            }, label: {
-//                Text("Create Connect Account")
-//                    .font(.custom(.poppinsBold, size: 22))
-//                    .foregroundColor(.white)
-//                    .frame(maxWidth: .infinity)
-//                    .frame(height: 60)
-//                    .background(Color(.buttonColor))
-//                    .cornerRadius(30)
-//            })
+            })
         }
     }
 }

@@ -44,23 +44,27 @@ PODS:
     - "MaterialComponents/private/TextControlsPrivate+FilledStyle"
     - "MaterialComponents/TextControls+BaseTextFields"
   - MDFInternationalization (3.0.0)
+  - StripeTerminal (3.1.0)
 
 DEPENDENCIES:
   - IQKeyboardManagerSwift
   - "MaterialComponents/TextControls+FilledTextAreas"
   - "MaterialComponents/TextControls+FilledTextFields"
+  - StripeTerminal (~> 3.0)
 
 SPEC REPOS:
   trunk:
     - IQKeyboardManagerSwift
     - MaterialComponents
     - MDFInternationalization
+    - StripeTerminal
 
 SPEC CHECKSUMS:
   IQKeyboardManagerSwift: 52962c76ab33532f15ad9f3ff4e5715eda5335bb
   MaterialComponents: 1a9b2d9d45b1601ae544de85089adc4c464306d4
   MDFInternationalization: d697c55307816222a55685c4ccb1044ffb030c12
+  StripeTerminal: fa064cf68a7a3df7c2ee1b2e6d33c8866d1e6aef
 
-PODFILE CHECKSUM: 9948ef242a14e03b06073f5b038ee87d65d0749f
+PODFILE CHECKSUM: e95140c9809d9cbd3a8d91d24c217d0be4c54ca3
 
 COCOAPODS: 1.13.0

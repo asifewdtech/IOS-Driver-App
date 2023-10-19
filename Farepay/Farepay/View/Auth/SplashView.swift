@@ -43,13 +43,13 @@ struct SplashView: View {
             }
             .onAppear(){
                 
-//                do {
-//                    
-//                   try  Auth.auth().signOut()
-//                    
-//                } catch  {
-//                    print("error")
-//                }
+                do {
+                    
+                   try  Auth.auth().signOut()
+                    
+                } catch  {
+                    print("error")
+                }
                 navigateNext()
             }
         }

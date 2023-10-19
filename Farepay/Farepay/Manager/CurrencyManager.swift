@@ -10,7 +10,7 @@ import UIKit
 class CurrencyManager: ObservableObject {
     
     @Published var string: String = ""
-    private var amount: Decimal = .zero
+    @Published  var amount: Decimal = .zero
     private let formatter = NumberFormatter(numberStyle: .currency)
     private var maximum: Decimal = 999_999_999.99
     private var lastValue: String = ""

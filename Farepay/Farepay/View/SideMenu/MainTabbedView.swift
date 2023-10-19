@@ -19,27 +19,27 @@ struct MainTabbedView: View {
             case 0:
                 PaymentView(presentSideMenu: $presentSideMenu)
                     .tag(0)
+//            case 1:
+//                GiftCardView(presentSideMenu: $presentSideMenu)
+//                    .tag(1)
             case 1:
-                GiftCardView(presentSideMenu: $presentSideMenu)
-                    .tag(1)
-            case 2:
                 PayoutView(presentSideMenu: $presentSideMenu)
                     .tag(2)
-            case 3:
+            case 2:
                 TransactionView(presentSideMenu: $presentSideMenu)
+                    .tag(2)
+            case 3:
+                ReferAFriendView(presentSideMenu: $presentSideMenu)
                     .tag(3)
             case 4:
-                ReferAFriendView(presentSideMenu: $presentSideMenu)
+                PrivacyPolicyView(presentSideMenu: $presentSideMenu)
                     .tag(4)
             case 5:
-                PrivacyPolicyView(presentSideMenu: $presentSideMenu)
+                TermsView(presentSideMenu: $presentSideMenu)
                     .tag(5)
             case 6:
-                TermsView(presentSideMenu: $presentSideMenu)
-                    .tag(6)
-            case 7:
                 AccountView(presentSideMenu: $presentSideMenu)
-                    .tag(7)
+                    .tag(6)
             default:
                 PaymentView(presentSideMenu: $presentSideMenu)
                     .tag(0)

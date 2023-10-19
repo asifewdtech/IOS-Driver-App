@@ -18,7 +18,7 @@ struct PaymentView: View {
     var body: some View {
         
         ZStack{
-            NavigationLink("", destination: PaymentDetailView().toolbar(.hidden, for: .navigationBar), isActive: $willMoveToPaymentDetail).isDetailLink(false)
+            NavigationLink("", destination: PaymentDetailView(farePriceText: $currencyManager.string).toolbar(.hidden, for: .navigationBar), isActive: $willMoveToPaymentDetail).isDetailLink(false)
             
             Color(.bgColor)
                 .edgesIgnoringSafeArea(.all)
@@ -197,6 +197,8 @@ extension PaymentView{
             Button {
                 setMainView(false)
                 willMoveToPaymentDetail.toggle()
+                print(currencyManager.string)
+                
             } label: {
                 
                 Text("Pay")

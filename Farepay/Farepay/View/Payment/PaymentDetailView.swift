@@ -10,10 +10,15 @@ import SwiftUI
 struct PaymentDetailView: View {
     
     //MARK: - Variables
-    @State private var farePriceText: String = ""
+    @Binding var farePriceText: String
     @State private var isDisabled: Bool = true
     @Environment(\.presentationMode) private var presentationMode: Binding<PresentationMode>
     @State private var willMoveTapToPayView = false
+    @State private var totalChargresWithTax = 0.0
+    @State private var totalAmount = 0.0
+    @State private var serviceFee = 0.0
+    @State private var serviceFeeGst = 0.0
+    
     
     //MARK: - Views
     var body: some View {
@@ -30,6 +35,23 @@ struct PaymentDetailView: View {
                 Spacer()
                 buttonArea
             }
+            .onAppear(perform: {
+                if let cost = Double(farePriceText) {
+                    totalAmount = cost
+                    let amountWithFivePercent = cost * 5 / 100
+                    print("amountWithFivePercent \(amountWithFivePercent)")
+                    serviceFee = (amountWithFivePercent / 1.1).roundToDecimal(2)
+                    print("serviceFee\(serviceFee)")
+                    
+                    serviceFeeGst = (amountWithFivePercent - serviceFee).roundToDecimal(2)
+                    
+                    print("serviceFeeGst \(serviceFeeGst)")
+                    totalChargresWithTax = (serviceFee + serviceFeeGst + cost).roundToDecimal(2)
+                    print("totalCharges \(totalChargresWithTax)")
+                    
+                }
+                
+            })
             .padding(.all, 20)
         }
     }
@@ -37,7 +59,7 @@ struct PaymentDetailView: View {
 
 struct PaymentDetailView_Previews: PreviewProvider {
     static var previews: some View {
-        PaymentDetailView()
+        PaymentDetailView(farePriceText: .constant("0.0"))
     }
 }
 
@@ -72,7 +94,9 @@ extension PaymentDetailView{
                         .foregroundColor(Color(.darkGrayColor))
                     Spacer()
                     
-                    TextField("", text: $farePriceText, prompt: Text("0.00").foregroundColor(Color(.white)))
+                    //                    TextField("", text: $totalChargresWithTax, prompt: Text("0.00").foregroundColor(Color(.white)))
+                    
+                    Text(totalChargresWithTax.description)
                         .font(.custom(.poppinsBold, size: 40))
                         .frame(height: 30)
                         .foregroundColor(.white)
@@ -88,14 +112,14 @@ extension PaymentDetailView{
             .cornerRadius(10)
             
             VStack(spacing: 30){
-            
+                
                 HStack{
                     
                     Text("Fare Inc GST :")
                         .foregroundColor(Color(.darkGrayColor))
                         .font(.custom(.poppinsMedium, size: 23))
                     Spacer()
-                    Text("$ 42.68")
+                    Text("$ \(totalAmount.description)")
                         .foregroundColor(Color(.white))
                         .font(.custom(.poppinsBold, size: 23))
                 }
@@ -106,7 +130,7 @@ extension PaymentDetailView{
                         .foregroundColor(Color(.darkGrayColor))
                         .font(.custom(.poppinsMedium, size: 23))
                     Spacer()
-                    Text("$ 2.18")
+                    Text("$ \(serviceFee.description)")
                         .foregroundColor(Color(.white))
                         .font(.custom(.poppinsBold, size: 23))
                 }
@@ -117,7 +141,7 @@ extension PaymentDetailView{
                         .foregroundColor(Color(.darkGrayColor))
                         .font(.custom(.poppinsMedium, size: 23))
                     Spacer()
-                    Text("$ 0.21")
+                    Text("$ \(serviceFeeGst.description)")
                         .foregroundColor(Color(.white))
                         .font(.custom(.poppinsBold, size: 23))
                 }
@@ -139,7 +163,9 @@ extension PaymentDetailView{
                 .onTapGesture {
                     
                     print("Edit")
-                    isDisabled = false
+                    
+                    presentationMode.wrappedValue.dismiss()
+                    
                 }
             
             Button {
@@ -151,13 +177,21 @@ extension PaymentDetailView{
                     .foregroundColor(.white)
                     .frame(maxWidth: .infinity)
                     .frame(height: 60)
-//                    .background(farePriceText == "0" || farePriceText == "" ? Color(.buttonColor).opacity(0.5) : Color(.buttonColor))
+                //                    .background(farePriceText == "0" || farePriceText == "" ? Color(.buttonColor).opacity(0.5) : Color(.buttonColor))
                     .background(Color(.buttonColor))
                     .cornerRadius(30)
             }
-//            .disabled(farePriceText == "0" || farePriceText == "" ? true : false)
-                
+            //            .disabled(farePriceText == "0" || farePriceText == "" ? true : false)
+            
         }
         .padding(.bottom, 20)
+    }
+}
+
+
+extension Double {
+    func roundToDecimal(_ fractionDigits: Int) -> Double {
+        let multiplier = pow(10, Double(fractionDigits))
+        return Darwin.round(self * multiplier) / multiplier
     }
 }

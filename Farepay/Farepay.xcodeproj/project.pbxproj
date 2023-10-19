@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		3230C1322AD3C74C005E182B /* SplashView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F51193902A97C6ED00554604 /* SplashView.swift */; };
-		32888C8D2AD66BD300A39C8B /* client_200787587375-p84ci5307vvk1e8fqm380shfbc4ufkem.apps.googleusercontent.com.plist in Resources */ = {isa = PBXBuildFile; fileRef = 32888C8C2AD66BD300A39C8B /* client_200787587375-p84ci5307vvk1e8fqm380shfbc4ufkem.apps.googleusercontent.com.plist */; };
 		32888C902AD686AB00A39C8B /* Toast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32888C8F2AD686AB00A39C8B /* Toast.swift */; };
 		32888C942AD686B800A39C8B /* ToastModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32888C912AD686B800A39C8B /* ToastModifier.swift */; };
 		32888C952AD686B800A39C8B /* ToastView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32888C922AD686B800A39C8B /* ToastView.swift */; };
@@ -618,7 +617,6 @@
 				F51193A12A97CFF900554604 /* Poppins-SemiBold.ttf in Resources */,
 				32E005CE2AD51DFF008CA8ED /* GoogleService-Info.plist in Resources */,
 				F51193852A97C4E200554604 /* Preview Assets.xcassets in Resources */,
-				32888C8D2AD66BD300A39C8B /* client_200787587375-p84ci5307vvk1e8fqm380shfbc4ufkem.apps.googleusercontent.com.plist in Resources */,
 				F511939F2A97CFDB00554604 /* Poppins-Medium.ttf in Resources */,
 				F51193A32A97D02B00554604 /* Poppins-Thin.ttf in Resources */,
 				F511939D2A97CFC800554604 /* Poppins-Bold.ttf in Resources */,
@@ -873,7 +871,9 @@
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = SplashScreen.storyboard;
+				INFOPLIST_KEY_UIRequiresFullScreen = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -911,7 +911,9 @@
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = SplashScreen.storyboard;
+				INFOPLIST_KEY_UIRequiresFullScreen = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
