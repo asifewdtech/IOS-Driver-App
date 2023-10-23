@@ -16,7 +16,7 @@ struct CompanyView: View {
     @State private var contactText: String = ""
     @State private var willMoveToRepresentativeView: Bool = false
     @State private var isPresentedPopUp: Bool = false
-    @State var disableBtn = false
+    @State var disableBtn = true
 
     
     //MARK: - Views
@@ -131,9 +131,9 @@ extension CompanyView{
                 }
                           
                 
-                MDCFilledTextFieldWrapper(leadingImage: .constant(.ic_Card), text: $cardText.max(11), placHolderText: .constant("XYZ123456789"), isSecure: .constant(false),isNumberPad: true)
+                MDCFilledTextFieldWrapper(leadingImage: .constant(.ic_Card), text: $cardText.max(11), placHolderText: .constant("ABN"), isSecure: .constant(false),isNumberPad: true)
                     
-                MDCFilledTextFieldWrapper(leadingImage: .constant(.ic_Contact), text: $contactText.max(9), placHolderText: .constant("XYZ123456789"), isSecure: .constant(false),isNumberPad: true)
+                MDCFilledTextFieldWrapper(leadingImage: .constant(.ic_Contact), text: $contactText.max(9), placHolderText: .constant("Tax ID"), isSecure: .constant(false),isNumberPad: true)
                 
             }
             .frame(maxWidth: .infinity)
@@ -149,22 +149,24 @@ extension CompanyView{
     var buttonArea: some View{
         
         VStack(spacing: 20){
-            Text("Proceed")
-                .font(.custom(.poppinsBold, size: 25))
-                .foregroundColor(.white)
-                .frame(maxWidth: .infinity)
-                .frame(height: 60)
-                .background(Color(.buttonColor))
-                .cornerRadius(30)
-                .disabled(disableBtn )
-                .onTapGesture {
-//                    if companyText.isEmpty && cardText.isEmpty && contactText.isEmpty {
-//                        disableBtn = true
-//                    }else {
-//                        disableBtn = false
-//                    }
-                    isPresentedPopUp.toggle()
-                }
+            Button(action: {
+                                        isPresentedPopUp.toggle()
+            }, label: {
+                Text("Proceed")
+                    .font(.custom(.poppinsBold, size: 25))
+                    .foregroundColor(.white)
+                    .frame(maxWidth: .infinity)
+                    .frame(height: 60)
+                    .background((companyText.isEmpty || cardText.count < 11 || contactText.count < 9) ? Color.gray : Color(.buttonColor))
+                    .cornerRadius(30)
+                    
+                    
+            })
+            .disabled(companyText.isEmpty || cardText.count < 11 || contactText.count < 9 )
+          
+
+                
+
                 .fullScreenCover(isPresented: $isPresentedPopUp) {
                     StepsView(presentedAsModal: $isPresentedPopUp)
                 }

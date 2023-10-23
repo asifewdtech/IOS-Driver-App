@@ -60,27 +60,40 @@ extension AddNewBankAccountView{
         
         VStack(alignment: .leading, spacing: 20){
             
-            ZStack{
+//            ZStack{
+//                HStack(spacing: 10){
+//
+//                    Image(uiImage: .ic_Bank)
+//                        .resizable()
+//                        .frame(width: 25, height: 25)
+//                        .foregroundColor(Color(.darkGrayColor))
+//
+//                    TextField("", text: $bankName, prompt: Text("Select your bank").foregroundColor(Color(.darkGrayColor)))
+//                        .font(.custom(.poppinsMedium, size: 18))
+//                        .frame(height: 30)
+//                        .foregroundColor(.white)
+//                        .disabled(true)
+//                    Spacer()
+//                    Text("\(Image(systemName: "chevron.down"))")
+//                        .font(.custom(.poppinsMedium, size: 20))
+//                        .foregroundColor(.white)
+//
+//                }
+                
                 HStack(spacing: 10){
-
-                    Image(uiImage: .ic_Bank)
-                        .resizable()
-                        .frame(width: 25, height: 25)
-                        .foregroundColor(Color(.darkGrayColor))
-
-                    TextField("", text: $bankName, prompt: Text("Select your bank").foregroundColor(Color(.darkGrayColor)))
-                        .font(.custom(.poppinsMedium, size: 18))
-                        .frame(height: 30)
-                        .foregroundColor(.white)
-                        .disabled(true)
-                    Spacer()
-                    Text("\(Image(systemName: "chevron.down"))")
-                        .font(.custom(.poppinsMedium, size: 20))
-                        .foregroundColor(.white)
-
+                    
+                    DropdownSelector(
+                        placeholder: "Select your bank", leftImage: .ic_Bank,
+                        options: businessType,
+                        onOptionSelected: { option in
+                            print(option)
+//
+                        })
+                    
                 }
-                .padding([.leading, .trailing], 20)
-            }
+                  
+
+//            }
             .frame(maxWidth: .infinity)
             .frame(height: 60)
             .background(Color(.darkBlueColor))

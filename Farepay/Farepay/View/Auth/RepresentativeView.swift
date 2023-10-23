@@ -7,6 +7,8 @@
 
 import SwiftUI
 import FirebaseAuth
+import Combine
+import ActivityIndicatorView
 struct RepresentativeView: View {
     
     //MARK: - Variable
@@ -25,8 +27,17 @@ struct RepresentativeView: View {
     @State private var isPresentedPreview = false
     
     @State var showDatePicker: Bool = false
+    
+    @State var apicalled = false
+    @State var uploadFrontImage : Bool?
+    @State var uploadBackImage : Bool?
+    @State var goToNextView = false
     @State var savedDate: Date = Date().noon
     
+    @State var frontImageId = ""
+    @State var backImageId = ""
+    @StateObject var completeFormViewModel = CompleteFormViewModel()
+    @State private var toast: Toast? = nil
     //MARK: - Views
     var body: some View {
         
@@ -44,11 +55,19 @@ struct RepresentativeView: View {
                 }
             }
             .padding(.all, 15)
+            .toastView(toast: $toast)
             
             if showDatePicker {
                 DatePickerWithButtons(showDatePicker: $showDatePicker, savedDate: $savedDate, selectedDate: savedDate, dateText: $dateText)
                     
                     .transition(.opacity)
+            }
+            
+            if apicalled {
+                ActivityIndicatorView(isVisible: $apicalled, type: .growingArc(.white, lineWidth: 5))
+                    .frame(width: 50.0, height: 50.0)
+                    .foregroundColor(.white)
+                    .padding(.top, 350)
             }
         }
     }
@@ -121,7 +140,7 @@ extension RepresentativeView{
                             .foregroundStyle(Color.white)
                         TextField(
                             "Type your mobile No",
-                            text: $mobileNumberText.max(11)
+                            text: $mobileNumberText.max(9)
                         )
                         .keyboardType(.numberPad)
                         .foregroundStyle(Color.white)
@@ -225,9 +244,23 @@ extension RepresentativeView{
                 .frame(maxWidth: .infinity)
                 .frame(width: 80, height: 80)
                 .background(Color(.darkBlueColor))
+                
+                .onReceive(Just(licenseFrontImage)) { newImage in
+                    if let newImage = newImage {
+                        
+                        if frontImageId == "" && uploadFrontImage == nil  {
+
+                            
+                            uploadImage(image: newImage, isFront: true)
+                        }
+
+                    }
+                }
                 .onTapGesture {
+                    uploadFrontImage = nil
                     islicenseFrontImagePickerPresented.toggle()
                 }
+                
                 .fullScreenCover(isPresented: $islicenseFrontImagePickerPresented) {
                     ImagePicker(selectedImage: $licenseFrontImage)
                 }
@@ -254,6 +287,8 @@ extension RepresentativeView{
                                 }
                                 .onTapGesture {
                                     licenseFrontImage = nil
+                                    frontImageId = ""
+                                    uploadFrontImage = nil
                                 }
                             Text("View")
                                 .frame(width: 90, height: 30)
@@ -297,7 +332,19 @@ extension RepresentativeView{
                 .frame(maxWidth: .infinity)
                 .frame(width: 80, height: 80)
                 .background(Color(.darkBlueColor))
+                .onReceive(Just(licenseBackImage)) { newImage in
+                    if let newImage = newImage {
+                        
+                        
+                        if backImageId == "" && uploadBackImage  == nil  {
+                            uploadImage(image: newImage, isFront: false)
+                            
+                        }
+
+                    }
+                }
                 .onTapGesture {
+                    uploadBackImage = nil
                     islicenseBackImagePickerPresented.toggle()
                 }
                 .fullScreenCover(isPresented: $islicenseBackImagePickerPresented) {
@@ -326,6 +373,8 @@ extension RepresentativeView{
                                 }
                                 .onTapGesture {
                                     licenseBackImage = nil
+                                    backImageId = ""
+                                    uploadBackImage = nil
                                 }
                             Text("View")
                                 .frame(width: 90, height: 30)
@@ -358,18 +407,53 @@ extension RepresentativeView{
         VStack(spacing: 20){
 
             // Split first and last name
-            //                if let index = userText.firstIndex(of: " ") {
-            //                    let firstPart = userText.prefix(upTo: index)
-            //
-            //                    print(firstPart)
-            //                    print(userText[index...])
-            //
-            //
-            //                }
+                            
 
-            NavigationLink(destination: {
-                NewsView().toolbar(.hidden, for: .navigationBar)
-            }, label: {
+            
+            
+            NavigationLink("", destination: NewsView().toolbar(.hidden, for: .navigationBar), isActive: $goToNextView).isDetailLink(false)
+            
+            
+            Button {
+                
+                
+                
+                guard let index = userText.firstIndex(of: " ") else {return }
+                let firstPart = userText.prefix(upTo: index)
+                if frontImageId != "" && backImageId != "" && !userText.isEmpty && !dateText.isEmpty && !mobileNumberText.isEmpty {
+
+                    
+                    
+                    Task {
+
+                        try  await completeFormViewModel.postData(url:"\(uploadInformationUrl)username=default&userEmail=\(Auth.auth().currentUser?.email ?? "")&firstname=\(firstPart.string)&day=3&month=10&year=2000&address=\(addressText)&phone=61\(mobileNumberText)&lastname=\(userText[index...].string)&frontimgid=\(frontImageId)&backimgid=\(backImageId)",method:.post)
+                        
+                        DispatchQueue.main.async {
+                            if completeFormViewModel.goToAccountScreen {
+                                goToNextView = true
+                            }else {
+                                toast = Toast(style: .error, message: "Server Error")
+                                frontImageId = ""
+                                backImageId = ""
+                                uploadFrontImage = nil
+                                
+                                uploadBackImage = nil
+                                licenseFrontImage = nil
+                                licenseBackImage  = nil
+                            }
+                        }
+                        
+                    }
+                }else {
+                    toast = Toast(style: .error, message: "Please Upload Front and Back Image and all Information")
+                 
+                }
+
+                
+                
+                
+               
+            } label: {
                 Text("Create Connect Account")
                     .font(.custom(.poppinsBold, size: 22))
                     .foregroundColor(.white)
@@ -377,7 +461,73 @@ extension RepresentativeView{
                     .frame(height: 60)
                     .background(Color(.buttonColor))
                     .cornerRadius(30)
-            })
+            }
+
+        }
+    }
+    
+ 
+    
+    
+    func uploadImage(image:UIImage,isFront:Bool) {
+        
+    
+
+        apicalled = true
+        if isFront {
+            uploadFrontImage = true
+        }else {
+            uploadBackImage = true
+        }
+
+        if let imageData = image.jpegData(compressionQuality: 1.0) {
+            let base64String = imageData.base64EncodedString()
+
+            // Create an API request with the Base64 image data
+            if let url = URL(string: imageUploadStripeUrl) {
+                var request = URLRequest(url: url)
+                request.httpMethod = "POST"
+                request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+
+                let imageUploadData = ["image": base64String]
+//                print(imageUploadData)
+                if let jsonData = try? JSONSerialization.data(withJSONObject: imageUploadData) {
+                    request.httpBody = jsonData
+                    
+                }
+
+                URLSession.shared.dataTask(with: request) { data, response, error in
+
+                    
+                    guard let data = data else { return  }
+                    print(String(data: data, encoding: .utf8))
+                    
+                    do {
+                        // make sure this JSON is in the format we expect
+                        if let json = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] {
+                            // try to read out a string array
+                            if let imageId = json["id"] as? String {
+                                print(imageId)
+                                if isFront {
+                                    frontImageId = imageId
+//                                    uploadFrontImage = true
+                                }else {
+                                    backImageId = imageId
+//                                    uploadBackImage = true
+                                }
+                            }
+                        }
+                        apicalled = false
+                    } catch let error as NSError {
+                        print("Failed to load: \(error.localizedDescription)")
+                        apicalled = false
+                        
+                    }
+                    
+//                    apicalled = false
+                    
+                }.resume()
+            }
         }
     }
 }
@@ -406,6 +556,9 @@ struct DatePickerWithButtons: View {
             VStack {
                 DatePicker("Test", selection: $selectedDate,in: ...minimumDate, displayedComponents: [.date])
                     .datePickerStyle(GraphicalDatePickerStyle())
+                    .colorInvert()
+                    .colorMultiply(Color.blue)
+                            
                 
                 Divider()
                 HStack {
@@ -442,6 +595,8 @@ struct DatePickerWithButtons: View {
         }
 
     }
+    
+   
 }
 
 
