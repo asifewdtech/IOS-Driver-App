@@ -96,7 +96,7 @@ struct SideMenuView: View {
                             .frame(height: 50)
                             .padding(.leading, 15)
                             .onTapGesture {
-                                selectedSideMenuTab = 7
+                                selectedSideMenuTab = 6
                                 presentSideMenu.toggle()
                             }
                                 

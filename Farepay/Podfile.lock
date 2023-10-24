@@ -50,7 +50,7 @@ DEPENDENCIES:
   - IQKeyboardManagerSwift
   - "MaterialComponents/TextControls+FilledTextAreas"
   - "MaterialComponents/TextControls+FilledTextFields"
-  - StripeTerminal (~> 3.0)
+  - StripeTerminal
 
 SPEC REPOS:
   trunk:
@@ -65,6 +65,6 @@ SPEC CHECKSUMS:
   MDFInternationalization: d697c55307816222a55685c4ccb1044ffb030c12
   StripeTerminal: fa064cf68a7a3df7c2ee1b2e6d33c8866d1e6aef
 
-PODFILE CHECKSUM: e95140c9809d9cbd3a8d91d24c217d0be4c54ca3
+PODFILE CHECKSUM: 3016b4feb9d5a3f8f8793f9af4d393ed32a3dcd5
 
 COCOAPODS: 1.13.0

@@ -10,6 +10,7 @@ import GoogleSignIn
 import AuthenticationServices
 import FirebaseAuth
 import FirebaseCore
+import FirebaseFirestore
 import CryptoKit
 
 
@@ -21,6 +22,7 @@ class UserAuthViewModel:NSObject, ObservableObject,ASAuthorizationControllerDele
     @Published var errorMessage: String = ""
     @Published var nonce: String = ""
     @Published var isGoogleLogin = false
+    @Published var isAccountCreated = false
 
     override init(){
         super.init()
@@ -58,7 +60,13 @@ class UserAuthViewModel:NSObject, ObservableObject,ASAuthorizationControllerDele
         do {
             
             let authDataResult = try  await  isSignup  ? Auth.auth().createUser(withEmail: email, password: password) : Auth.auth().signIn(withEmail: email, password: password)
-            self.isLoggedIn  = true
+            if isSignup == false  {
+                self.checkUserAccountCreated()
+            }else {
+                self.isLoggedIn = true
+                
+            }
+            
              
             
         }
@@ -70,6 +78,24 @@ class UserAuthViewModel:NSObject, ObservableObject,ASAuthorizationControllerDele
     }
     
     
+    
+    func checkUserAccountCreated()  {
+        Firestore.firestore().collection("Users").document(Auth.auth().currentUser?.uid ?? "").getDocument { snapShot, error in
+            if let error = error {
+                print(error.localizedDescription)
+                self.isLoggedIn  = false
+            }else {
+                
+                guard let snap = snapShot else { return  }
+                self.isAccountCreated = snap.get("isAccountCreated") as? Bool ?? false
+                print(self.isAccountCreated)
+                self.isLoggedIn  = true
+            }
+            
+            
+            
+        }
+    }
     func SocialLogin() async  {
       
         
@@ -91,7 +117,8 @@ class UserAuthViewModel:NSObject, ObservableObject,ASAuthorizationControllerDele
                         print("error\(error)")
                         self.errorMessage = "error: \(error.localizedDescription)"
                     }else {
-                        self.isLoggedIn  = true
+//                        self.isLoggedIn  = true
+                        self.checkUserAccountCreated()
                         
                         NotificationCenter.default.post(name: NSNotification.Name("SIGNIN"), object: nil)
                     }

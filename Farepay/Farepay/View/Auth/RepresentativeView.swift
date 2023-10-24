@@ -500,7 +500,7 @@ extension RepresentativeView{
 
                     
                     guard let data = data else { return  }
-                    print(String(data: data, encoding: .utf8))
+                    
                     
                     do {
                         // make sure this JSON is in the format we expect
@@ -510,10 +510,10 @@ extension RepresentativeView{
                                 print(imageId)
                                 if isFront {
                                     frontImageId = imageId
-//                                    uploadFrontImage = true
+
                                 }else {
                                     backImageId = imageId
-//                                    uploadBackImage = true
+
                                 }
                             }
                         }

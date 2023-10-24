@@ -8,10 +8,13 @@
 import SwiftUI
 import ActivityIndicatorView
 import FirebaseAuth
+import FirebaseFirestore
 struct SplashView: View {
     
     //MARK: - Variables
     @State private var LoginView: String? = nil
+    @State private var isAccountCreated: Bool = false
+    @State private var isBankCreated: Bool = false
     @State private var willMoveToLogin = false
     @State private var willMoveToMainView = false
     @State private var showLoadingIndicator: Bool = true
@@ -21,8 +24,10 @@ struct SplashView: View {
         NavigationView {
             ZStack{
                 
-                NavigationLink("", destination: Farepay.AddNewBankAccountView().toolbar(.hidden, for: .navigationBar), isActive: $willMoveToLogin ).isDetailLink(false)
+                NavigationLink("", destination: Farepay.LoginView().toolbar(.hidden, for: .navigationBar), isActive: $willMoveToLogin ).isDetailLink(false)
                 NavigationLink("", destination: Farepay.CompanyView().toolbar(.hidden, for: .navigationBar), isActive: $willMoveToMainView ).isDetailLink(false)
+                
+                NavigationLink("", destination: Farepay.AddNewBankAccountView().toolbar(.hidden, for: .navigationBar), isActive: $isAccountCreated ).isDetailLink(false)
                 
                 Color(.bgColor)
                     .edgesIgnoringSafeArea(.all)
@@ -43,19 +48,29 @@ struct SplashView: View {
             }
             .onAppear(){
                 
-                do {
-                    
-                   try  Auth.auth().signOut()
-                    
-                } catch  {
-                    print("error")
+//                do {
+//                    
+//                   try  Auth.auth().signOut()
+//                    
+//                } catch  {
+//                    print("error")
+//                }
+//                
+//                
+                if Auth.auth().currentUser != nil {
+                    checkUserConnectAccount()
+                }else {
+                    navigateNext()
                 }
-                navigateNext()
+                
+                    
+                
             }
         }
         .navigationViewStyle(StackNavigationViewStyle())
         .environment(\.rootPresentationMode, $willMoveToLogin)
         .environment(\.rootPresentationMode, $willMoveToMainView)
+        .environment(\.rootPresentationMode, $isAccountCreated)
     }
     
     //MARK: - Functions Also Implement logic of login
@@ -63,12 +78,33 @@ struct SplashView: View {
         DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
             showLoadingIndicator.toggle()
             
-            if Auth.auth().currentUser != nil{
+            if Auth.auth().currentUser != nil {
+                
+                
+                    
                 willMoveToMainView.toggle()
             }
+            
             else{
                 willMoveToLogin.toggle()
             }
+        }
+    }
+    
+    func checkUserConnectAccount()  {
+        Firestore.firestore().collection("Users").document(Auth.auth().currentUser?.uid ?? "").getDocument { snapShot, error in
+            if let error = error {
+                print(error.localizedDescription)
+            }else {
+                
+                guard let snap = snapShot else { return  }
+                isAccountCreated = snap.get("isAccountCreated") as? Bool ?? false
+                if isAccountCreated == false {
+                    navigateNext()
+                }
+            }
+            
+            
         }
     }
 }

@@ -7,10 +7,11 @@
 
 import Foundation
 import SwiftUI
-
+import FirebaseFirestore
+import FirebaseAuth
 class CompleteFormViewModel: ObservableObject {
     @Published var goToAccountScreen = false
-    
+    let db = Firestore.firestore()
     @MainActor
     func postData(url:String,method:Methods)  async throws{
         guard let url = URL(string: url) else {
@@ -34,8 +35,9 @@ class CompleteFormViewModel: ObservableObject {
             if httpResponse.statusCode == 200 {
                 self.goToAccountScreen = true
             }else {
-                self.goToAccountScreen = false
+                self.goToAccountScreen = true
             }
+            self.setUserCompleteConnectOnFireStore()
         }
       
         
@@ -44,6 +46,14 @@ class CompleteFormViewModel: ObservableObject {
         
         
 
+    }
+    
+    func setUserCompleteConnectOnFireStore()  {
+         db.collection("Users").document(Auth.auth().currentUser?.uid ?? "").setData(["isAccountCreated" : true])
+        
+        
+    
+        
     }
 }
 

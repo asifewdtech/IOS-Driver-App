@@ -36,7 +36,8 @@ struct PaymentDetailView: View {
                 buttonArea
             }
             .onAppear(perform: {
-                if let cost = Double(farePriceText) {
+                
+                if let cost = Double(farePriceText.trimmingCharacters(in: .whitespaces)) {
                     totalAmount = cost
                     let amountWithFivePercent = cost * 5 / 100
                     print("amountWithFivePercent \(amountWithFivePercent)")

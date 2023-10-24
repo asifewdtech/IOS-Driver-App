@@ -99,9 +99,9 @@ extension AddNewBankAccountView{
             .background(Color(.darkBlueColor))
             .cornerRadius(10)
             
-            MDCFilledTextFieldWrapper(leadingImage: .constant(.ic_AccountNumber), text: $accountNumber, placHolderText: .constant("Type account number"), isSecure: .constant(false))
+            MDCFilledTextFieldWrapper(leadingImage: .constant(.ic_AccountNumber), text: $accountNumber.max(11), placHolderText: .constant("Type account number"), isSecure: .constant(false),isNumberPad: true)
                 .frame(height: 70)
-            MDCFilledTextFieldWrapper(leadingImage: .constant(.ic_BSB), text: $bsbNumber, placHolderText: .constant("Type BSB number"), isSecure: .constant(false))
+            MDCFilledTextFieldWrapper(leadingImage: .constant(.ic_BSB), text: $bsbNumber.max(3), placHolderText: .constant("Type BSB number"), isSecure: .constant(false),isNumberPad: true)
                 .frame(height: 70)
             MDCFilledTextFieldWrapper(leadingImage: .constant(.ic_AccountHolder), text: $accountHolderName, placHolderText: .constant("Type account holder's name"), isSecure: .constant(false))
                 .frame(height: 70)

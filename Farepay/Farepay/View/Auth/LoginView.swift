@@ -36,6 +36,7 @@ struct LoginView: View {
             
             .toastView(toast: $toast)
             .padding(.all, 15)
+            .environment(\.rootPresentationMode, $userAuth.isAccountCreated)
             .onAppear(perform: {
                 
                 NotificationCenter.default.addObserver(forName: NSNotification.Name("SIGNIN"), object: nil, queue: .main) { (_) in
@@ -44,7 +45,12 @@ struct LoginView: View {
                     if userAuth.isLoggedIn == false  {
                         toast = Toast(style: .error, message: userAuth.errorMessage)
                     }else {
-                        showCompany.toggle()
+                        
+                        if userAuth.isAccountCreated {
+                            showCompany = false
+                        }else {
+                            showCompany.toggle()
+                        }
                     }
                         
                 }
@@ -169,6 +175,8 @@ extension LoginView{
             
             NavigationLink("", destination: CompanyView().toolbar(.hidden, for: .navigationBar), isActive: $showCompany).isDetailLink(false)
             
+            NavigationLink("", destination: AddNewBankAccountView().toolbar(.hidden, for: .navigationBar), isActive: $userAuth.isAccountCreated).isDetailLink(false)
+            
             Button(action: {
                 if !emailText.isEmpty && passwordText.count >= 6 {
                     Task {
@@ -176,7 +184,12 @@ extension LoginView{
                         if userAuth.isLoggedIn == false  {
                             toast = Toast(style: .error, message: userAuth.errorMessage)
                         }else {
-                            showCompany.toggle()
+                            if userAuth.isAccountCreated {
+                                showCompany = false 
+                            }else {
+                                showCompany.toggle()
+                            }
+                            
                         }
                     }
                                     
