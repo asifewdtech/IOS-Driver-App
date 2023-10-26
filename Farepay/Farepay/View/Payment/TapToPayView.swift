@@ -15,7 +15,8 @@ struct TapToPayView: View {
     @State private var isDisabled: Bool = true
     @Environment(\.presentationMode) private var presentationMode: Binding<PresentationMode>
     @State private var willMoveToQr = false
-
+    @StateObject var readerDiscoverModel = ReaderDiscoverModel()
+    
 
     //MARK: - Views
     var body: some View {
@@ -36,11 +37,30 @@ struct TapToPayView: View {
                 Spacer()
                 Button {
                     print("Connect")
+                    Task {
+                        try readerDiscoverModel.discoverReadersAction()
+                        
+                    }
                     
 
                 } label: {
                     Text("Connect")
                         .foregroundStyle(Color.white)
+                }
+                
+                if readerDiscoverModel.showPay {
+                    Button {
+                        print("Connect")
+                        Task {
+                            try readerDiscoverModel.checkoutAction()
+                            
+                        }
+                        
+                        
+                    } label: {
+                        Text("Pay")
+                            .foregroundStyle(Color.white)
+                    }
                 }
             }
             .padding(.all, 20)
@@ -130,8 +150,77 @@ extension TapToPayView{
 
 
 
+class ReaderDiscoverModel:NSObject,ObservableObject ,DiscoveryDelegate, BluetoothReaderDelegate{
+  
+   
+    
+    
+    @Published var discoverCancelable: Cancelable?
+    @Published var readerMsgLbl = ""
+    @Published var showPay = false
+    
+    func discoverReadersAction() throws {
+        let config = try BluetoothScanDiscoveryConfigurationBuilder().setSimulated(true).build()
+        self.discoverCancelable = Terminal.shared.discoverReaders(config, delegate: self, completion: { error in
+            if let error = error {
+                print("discoverReaders failed: \(error)")
+            } else {
+                print("discoverReaders succeeded")
+                self.showPay = true
+            }
+        })
+    }
+    
+    func terminal(_ terminal: Terminal, didUpdateDiscoveredReaders readers: [Reader]) {
+//        print("readers")
+//        print(readers)
+        guard let selectedReader = readers.first else {return}
+        guard let locationId = selectedReader.locationId else { return }
+        guard terminal.connectionStatus == .notConnected else { return }
+        
+        let connectionConfigs = BluetoothConnectionConfigurationBuilder(locationId: locationId)
+        do {
+            let configss = try connectionConfigs.build()
+            Terminal.shared.connectBluetoothReader(selectedReader, delegate: self, connectionConfig: configss ) {  reader, error in
+                if let reader = reader {
+                    print("Successfully connected to reader: \(reader)")
+                } else if let error = error {
+                    print("connectReader failed: \(error)")
+                }
+            }
+            
+        }catch  {
+            print(error.localizedDescription)
+        }
+        
+        
+        
+    }
+    
+    func checkoutAction() throws {
+         let params = try PaymentIntentParametersBuilder(amount: 1000, currency: "gbp").build()
+         Terminal.shared.createPaymentIntent(params) { createResult, createError in
+             if let error = createError {
+                 print("createPaymentIntent failed: \(error)")
+             }
+             else if let paymentIntent = createResult {
+                 print("createPaymentIntent succeeded")
+                 self.discoverCancelable = Terminal.shared.collectPaymentMethod(paymentIntent) { collectResult, collectError in
+                     if let error = collectError {
+                         print("collectPaymentMethod failed: \(error)")
+                     }
+                     else if let paymentIntent = collectResult {
+                         print("collectPaymentMethod succeeded")
+                         // ... Confirm the payment
+                     }
+                 }
+             }
 
-class ReaderDiscoveryViewController:NSObject, DiscoveryDelegate,BluetoothReaderDelegate {
+         }
+     }
+
+    
+    
     func reader(_ reader: Reader, didReportAvailableUpdate update: ReaderSoftwareUpdate) {
         print("didReportAvailableUpdate")
     }
@@ -150,79 +239,13 @@ class ReaderDiscoveryViewController:NSObject, DiscoveryDelegate,BluetoothReaderD
     
     func reader(_ reader: Reader, didRequestReaderInput inputOptions: ReaderInputOptions = []) {
         print("didRequestReaderInput")
+        readerMsgLbl = Terminal.stringFromReaderInputOptions(inputOptions)
     }
     
     func reader(_ reader: Reader, didRequestReaderDisplayMessage displayMessage: ReaderDisplayMessage) {
         print("didRequestReaderDisplayMessage")
+        readerMsgLbl = Terminal.stringFromReaderDisplayMessage(displayMessage)
     }
     
-
-    var discoverCancelable: Cancelable?
-
-    // ...
-
-    // Action for a "Discover Readers" button
-    func discoverReadersAction() throws {
-        let config = try BluetoothScanDiscoveryConfigurationBuilder().setSimulated(true).build()
-        self.discoverCancelable = Terminal.shared.discoverReaders(config, delegate: self) { error in
-            if let error = error {
-                print("discoverReaders failed: \(error)")
-            } else {
-                print("discoverReaders succeeded")
-            }
-        }
-    }
-
-    // ...
-
-    // MARK: DiscoveryDelegate
-
-    // This delegate method can get called multiple times throughout the discovery process.
-    // You might want to update a UITableView and display all available readers.
-    // Here, we're automatically connecting to the first reader we discover.
-    func terminal(_ terminal: Terminal, didUpdateDiscoveredReaders readers: [Reader]) {
-
-        // Select the first reader we discover
-        guard let selectedReader = readers.first else { return }
-
-        // Since the simulated reader is not associated with a real location, we recommend
-        // specifying its existing mock location.
-        guard let locationId = selectedReader.locationId else { return }
-
-        // Only connect if we aren't currently connected.
-        guard terminal.connectionStatus == .notConnected else { return }
-        
-//        let connectionConfig = BluetoothConnectionConfiguration(
-//          // When connecting to a physical reader, your integration should specify either the
-//          // same location as the last connection (selectedReader.locationId) or a new location
-//          // of your user's choosing.
-//          //
-//           
-//        )
-        
-//        let connectionConfig = BluetoothConnectionConfiguration
-        
-        
-        
-        
-
-        // Note `readerDelegate` should be provided by your application.
-        // See our Quickstart guide at https://stripe.com/docs/terminal/quickstart
-        // for more example code.
-        
-//        Terminal.shared.connectBluetoothReader(selectedReader, delegate: self, connectionConfig: connectionConfig) { <#Reader?#>, <#Error?#> in
-//            if let reader = reader {
-//                print("Successfully connected to reader: \(reader)")
-//            } else if let error = error {
-//                print("connectReader failed: \(error)")
-//            }
-//        }
-//        Terminal.shared.connectBluetoothReader(selectedReader, delegate: self, connectionConfig: connectionConfig) { reader, error in
-//            if let reader = reader {
-//                print("Successfully connected to reader: \(reader)")
-//            } else if let error = error {
-//                print("connectReader failed: \(error)")
-//            }
-//        }
-    }
 }
+
