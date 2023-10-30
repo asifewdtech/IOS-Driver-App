@@ -15,4 +15,5 @@ enum FocusPin {
 
 let imageUploadStripeUrl = "https://yf476ojrmb.execute-api.eu-north-1.amazonaws.com/default/FileUploadFromStripe"
 let uploadInformationUrl = "https://koc5ifvqi7.execute-api.eu-north-1.amazonaws.com/default/Test?"
+let addBankAccountUrl = "https://eqhs4ooew2.execute-api.eu-north-1.amazonaws.com/default/CreateBankAccount"
 

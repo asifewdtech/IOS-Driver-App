@@ -23,6 +23,7 @@ class UserAuthViewModel:NSObject, ObservableObject,ASAuthorizationControllerDele
     @Published var nonce: String = ""
     @Published var isGoogleLogin = false
     @Published var isAccountCreated = false
+    @Published var bankAccced = false
 
     override init(){
         super.init()
@@ -61,7 +62,13 @@ class UserAuthViewModel:NSObject, ObservableObject,ASAuthorizationControllerDele
             
             let authDataResult = try  await  isSignup  ? Auth.auth().createUser(withEmail: email, password: password) : Auth.auth().signIn(withEmail: email, password: password)
             if isSignup == false  {
-                self.checkUserAccountCreated()
+                
+                DispatchQueue.main.async {
+                    self.errorMessage = ""
+                    self.checkUserAccountCreated()
+
+                }
+                
             }else {
                 self.isLoggedIn = true
                 
@@ -87,9 +94,14 @@ class UserAuthViewModel:NSObject, ObservableObject,ASAuthorizationControllerDele
             }else {
                 
                 guard let snap = snapShot else { return  }
-                self.isAccountCreated = snap.get("isAccountCreated") as? Bool ?? false
-                print(self.isAccountCreated)
-                self.isLoggedIn  = true
+                
+                DispatchQueue.main.async {
+                    self.isAccountCreated = snap.get("isAccountCreated") as? Bool ?? false
+                    self.bankAccced = snap.get("bankAccced") as? Bool ?? false
+                    self.isLoggedIn = true
+                }
+                
+                
             }
             
             
@@ -117,7 +129,7 @@ class UserAuthViewModel:NSObject, ObservableObject,ASAuthorizationControllerDele
                         print("error\(error)")
                         self.errorMessage = "error: \(error.localizedDescription)"
                     }else {
-//                        self.isLoggedIn  = true
+
                         self.checkUserAccountCreated()
                         
                         NotificationCenter.default.post(name: NSNotification.Name("SIGNIN"), object: nil)

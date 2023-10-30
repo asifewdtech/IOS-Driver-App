@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-
+import FirebaseAuth
 enum SideMenuRowType: Int, CaseIterable{
     
     case chargeFare = 0
@@ -113,6 +113,14 @@ struct SideMenuView: View {
                             .padding(.leading, 15)
                             .onTapGesture {
                                 setUserLogin(false)
+                                                do {
+                                
+                                                   try  Auth.auth().signOut()
+                                
+                                                } catch  {
+                                                    print("error")
+                                                }
+                                
                                 rootPresentationMode.wrappedValue.dismiss()
                             }
                         }

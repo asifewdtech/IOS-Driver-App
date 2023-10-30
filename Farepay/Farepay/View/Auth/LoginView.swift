@@ -8,6 +8,7 @@
 import SwiftUI
 import GoogleSignIn
 import FirebaseAuth
+import FirebaseFirestore
 struct LoginView: View {
     
     //MARK: - Variables
@@ -17,6 +18,7 @@ struct LoginView: View {
     @StateObject var userAuth =  UserAuthViewModel()
     @State private var toast: Toast? = nil
     @State private var showCompany = false
+    @State private var goToHome = false
     
     //MARK: - Views
     var body: some View {
@@ -46,17 +48,26 @@ struct LoginView: View {
                         toast = Toast(style: .error, message: userAuth.errorMessage)
                     }else {
                         
-                        if userAuth.isAccountCreated {
-                            showCompany = false
+                        
+                        if userAuth.isAccountCreated  && userAuth.bankAccced {
+                            goToHome = true
+                            
                         }else {
-                            showCompany.toggle()
+                            
+                            showCompany = true
                         }
+                        
                     }
                         
                 }
             })
         }
+        
+        .environment(\.rootPresentationMode, $goToHome)
+        .environment(\.rootPresentationMode, $showCompany)
     }
+    
+    
 }
 
 struct LoginView_Previews: PreviewProvider {
@@ -175,20 +186,29 @@ extension LoginView{
             
             NavigationLink("", destination: CompanyView().toolbar(.hidden, for: .navigationBar), isActive: $showCompany).isDetailLink(false)
             
-            NavigationLink("", destination: AddNewBankAccountView().toolbar(.hidden, for: .navigationBar), isActive: $userAuth.isAccountCreated).isDetailLink(false)
+            NavigationLink("", destination: MainTabbedView().toolbar(.hidden, for: .navigationBar), isActive: $goToHome).isDetailLink(false)
             
             Button(action: {
                 if !emailText.isEmpty && passwordText.count >= 6 {
                     Task {
                         await userAuth.signIn(email:emailText,password:passwordText,isSignup:false)
-                        if userAuth.isLoggedIn == false  {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                        if userAuth.errorMessage != "" {
                             toast = Toast(style: .error, message: userAuth.errorMessage)
                         }else {
-                            if userAuth.isAccountCreated {
-                                showCompany = false 
-                            }else {
-                                showCompany.toggle()
+                            
+                            
+                                if userAuth.isAccountCreated  && userAuth.bankAccced  {
+                                    goToHome = true
+                                    
+                                }else {
+                                    
+                                    showCompany = true
+                                }
+                                
                             }
+                                
+                            
                             
                         }
                     }

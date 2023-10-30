@@ -12,16 +12,18 @@ struct AddNewBankAccountView: View {
     //MARK: - Variables
     @Environment(\.presentationMode) private var presentationMode: Binding<PresentationMode>
     @State var bankName: String = ""
+    @State var goToHome = false
     @State var accountNumber: String = ""
     @State var bsbNumber: String = ""
     @State var accountHolderName: String = ""
-    
+    @ObservedObject var completeFormViewModel = CompleteFormViewModel()
     //MARK: - Views
     var body: some View {
         
         ZStack{
             Color(.bgColor).edgesIgnoringSafeArea(.all)
             VStack(spacing: 40){
+                NavigationLink("", destination: Farepay.MainTabbedView().toolbar(.hidden, for: .navigationBar), isActive: $goToHome ).isDetailLink(false)
                 topArea
                 textArea
                 Spacer()
@@ -59,50 +61,27 @@ extension AddNewBankAccountView{
     var textArea: some View{
         
         VStack(alignment: .leading, spacing: 20){
-            
-//            ZStack{
-//                HStack(spacing: 10){
-//
-//                    Image(uiImage: .ic_Bank)
-//                        .resizable()
-//                        .frame(width: 25, height: 25)
-//                        .foregroundColor(Color(.darkGrayColor))
-//
-//                    TextField("", text: $bankName, prompt: Text("Select your bank").foregroundColor(Color(.darkGrayColor)))
-//                        .font(.custom(.poppinsMedium, size: 18))
-//                        .frame(height: 30)
-//                        .foregroundColor(.white)
-//                        .disabled(true)
-//                    Spacer()
-//                    Text("\(Image(systemName: "chevron.down"))")
-//                        .font(.custom(.poppinsMedium, size: 20))
-//                        .foregroundColor(.white)
-//
-//                }
-                
-                HStack(spacing: 10){
-                    
-                    DropdownSelector(
-                        placeholder: "Select your bank", leftImage: .ic_Bank,
-                        options: businessType,
-                        onOptionSelected: { option in
-                            print(option)
-//
-                        })
-                    
-                }
-                  
 
-//            }
-            .frame(maxWidth: .infinity)
-            .frame(height: 60)
-            .background(Color(.darkBlueColor))
-            .cornerRadius(10)
-            
-            MDCFilledTextFieldWrapper(leadingImage: .constant(.ic_AccountNumber), text: $accountNumber.max(11), placHolderText: .constant("Type account number"), isSecure: .constant(false),isNumberPad: true)
+//                HStack(spacing: 10){
+//                    
+//                    DropdownSelector(
+//                        placeholder: "Select your bank", leftImage: .ic_Bank,
+//                        options: businessType,
+//                        onOptionSelected: { option in
+//                            print(option)
+//
+//                        })
+//                    
+//                }
+//            .frame(maxWidth: .infinity)
+//            .frame(height: 60)
+//            .background(Color(.darkBlueColor))
+//            .cornerRadius(10)
+             
+            MDCFilledTextFieldWrapper(leadingImage: .constant(.ic_AccountNumber), text: $accountNumber.max(9), placHolderText: .constant("Type account number"), isSecure: .constant(false),isNumberPad: true)
                 .frame(height: 70)
-            MDCFilledTextFieldWrapper(leadingImage: .constant(.ic_BSB), text: $bsbNumber.max(3), placHolderText: .constant("Type BSB number"), isSecure: .constant(false),isNumberPad: true)
-                .frame(height: 70)
+//            MDCFilledTextFieldWrapper(leadingImage: .constant(.ic_BSB), text: $bsbNumber.max(3), placHolderText: .constant("Type BSB number"), isSecure: .constant(false),isNumberPad: true)
+//                .frame(height: 70)
             MDCFilledTextFieldWrapper(leadingImage: .constant(.ic_AccountHolder), text: $accountHolderName, placHolderText: .constant("Type account holder's name"), isSecure: .constant(false))
                 .frame(height: 70)
         }
@@ -112,9 +91,36 @@ extension AddNewBankAccountView{
         
         VStack(spacing: 20){
                         
-            NavigationLink {
-                OtpView().toolbar(.hidden, for: .navigationBar)
-            } label: {
+
+         
+            Button(action: {
+                if accountNumber.count == 9 && !accountNumber.isEmpty  {
+                    Task {
+                        
+                        let param = [
+                            "object": "bank_account",
+                             "country": "AU",
+                             "currency": "aud",
+                             "account_holder_name": accountHolderName,
+                             "account_holder_type": "individual",
+                             "account_number": accountNumber,
+                             "routing_number": "110000",
+                             "account_id": "acct_1O70EOPILg6rc9x8"
+                        
+                        
+                        ]
+                        try await completeFormViewModel.addBankAccount(url:addBankAccountUrl,method:.post,param:param)
+                        DispatchQueue.main.async {
+                            if completeFormViewModel.goToHomeScreen {
+                                self.goToHome = true
+                            }
+                        }
+                        
+                    }
+                }else {
+                    
+                }
+            }, label: {
                 Text("Confirm")
                     .font(.custom(.poppinsBold, size: 25))
                     .foregroundColor(.white)
@@ -122,8 +128,9 @@ extension AddNewBankAccountView{
                     .frame(height: 60)
                     .background(Color(.buttonColor))
                     .cornerRadius(30)
-            }
 
+            })
+      
         }
     }
 }
