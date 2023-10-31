@@ -32,6 +32,7 @@ struct RepresentativeView: View {
     @State var uploadFrontImage : Bool?
     @State var uploadBackImage : Bool?
     @State var goToNextView = false
+    @State var isChecked = false
     @State var savedDate: Date = Date().noon
     
     @State var frontImageId = ""
@@ -215,12 +216,14 @@ extension RepresentativeView{
             
             HStack(spacing: 10){
                 
-                Image(uiImage: .ic_Box)
+//                Image(uiImage: .ic_Box)
+                Image(systemName: isChecked ? "checkmark.square.fill" : "square")
                     .resizable()
-                    .frame(width: 30, height: 30)
+                    .frame(width: 20, height: 20)
+                    .foregroundStyle(.white)
                     .onTapGesture {
                         
-                        print("Tick if Same as physical Address")
+                        isChecked.toggle()
                     }
                 Text("Tick if Same as physical Address")
                     .font(.custom(.poppinsMedium, size: 17))
@@ -426,7 +429,7 @@ extension RepresentativeView{
                     
                     Task {
 
-                        try  await completeFormViewModel.postData(url:"\(uploadInformationUrl)username=default&userEmail=\(Auth.auth().currentUser?.email ?? "")&firstname=\(firstPart.string)&day=3&month=10&year=2000&address=\(addressText)&phone=61\(mobileNumberText)&lastname=\(userText[index...].string)&frontimgid=\(frontImageId)&backimgid=\(backImageId)",method:.post)
+                        try  await completeFormViewModel.postData(url:"\(uploadInformationUrl)username=default&userEmail=\(Auth.auth().currentUser?.email ?? "")&firstname=\(firstPart.string)&day=3&month=10&year=2000&address=\(addressText)&phone=61\(mobileNumberText)&lastname=\(userText[index...].string)&frontimgid=\(frontImageId)&backimgid=\(backImageId)",method:.post,name: userText,phone: mobileNumberText)
                         
                         DispatchQueue.main.async {
                             if completeFormViewModel.goToAccountScreen {

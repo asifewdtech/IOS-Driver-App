@@ -44,18 +44,45 @@ struct LoginView: View {
                 NotificationCenter.default.addObserver(forName: NSNotification.Name("SIGNIN"), object: nil, queue: .main) { (_) in
                     
                     
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                     if userAuth.isLoggedIn == false  {
                         toast = Toast(style: .error, message: userAuth.errorMessage)
                     }else {
-                        
-                        
-                        if userAuth.isAccountCreated  && userAuth.bankAccced {
-                            goToHome = true
+                        Firestore.firestore().collection("Users").document(Auth.auth().currentUser?.uid ?? "").getDocument { snapShot, error in
+                            if let error = error {
+                                print(error.localizedDescription)
+                                
+                            }else {
+                                
+                                guard let snap = snapShot else { return  }
+                                
+                                DispatchQueue.main.async {
+                                    let isAccountCreated = snap.get("isAccountCreated") as? Bool ?? false
+                                    let bankAccced = snap.get("bankAccced") as? Bool ?? false
+                                    if isAccountCreated  && bankAccced {
+                                        goToHome = true
+                                        
+                                    }else {
+                                        
+                                        showCompany = true
+                                    }
+                                    
+                                    
+                                }
+                                
+                                
+                            }
                             
-                        }else {
                             
-                            showCompany = true
+                            
                         }
+
+                        
+                           
+                            
+                        }
+                            
+                        
                         
                     }
                         
@@ -193,18 +220,40 @@ extension LoginView{
                     Task {
                         await userAuth.signIn(email:emailText,password:passwordText,isSignup:false)
                         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                        if userAuth.errorMessage != "" {
+                        if userAuth.isLoggedIn == false  {
                             toast = Toast(style: .error, message: userAuth.errorMessage)
                         }else {
-                            
-                            
-                                if userAuth.isAccountCreated  && userAuth.bankAccced  {
-                                    goToHome = true
+                            Firestore.firestore().collection("Users").document(Auth.auth().currentUser?.uid ?? "").getDocument { snapShot, error in
+                                if let error = error {
+                                    print(error.localizedDescription)
                                     
                                 }else {
                                     
-                                    showCompany = true
+                                    guard let snap = snapShot else { return  }
+                                    
+                                    DispatchQueue.main.async {
+                                        let isAccountCreated = snap.get("isAccountCreated") as? Bool ?? false
+                                        let bankAccced = snap.get("bankAccced") as? Bool ?? false
+                                        if isAccountCreated  && bankAccced {
+                                            goToHome = true
+                                            
+                                        }else {
+                                            
+                                            showCompany = true
+                                        }
+                                        
+                                        
+                                    }
+                                    
+                                    
                                 }
+                                
+                                
+                                
+                            }
+
+                            
+                               
                                 
                             }
                                 

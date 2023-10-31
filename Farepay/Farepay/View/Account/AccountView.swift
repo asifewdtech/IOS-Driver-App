@@ -6,7 +6,9 @@
 //
 
 import SwiftUI
-
+import FirebaseAuth
+import SDWebImageSwiftUI
+import FirebaseFirestore
 struct AccountView: View {
     
     //MARK: - Variables
@@ -14,6 +16,7 @@ struct AccountView: View {
     @State var willMoveToAccountInfo: Bool = false
     @State var willMoveToChangePassword: Bool = false
     @State var willMoveToBankAccount: Bool = false
+
     
     // MARK: - Views
     var body: some View {
@@ -31,6 +34,7 @@ struct AccountView: View {
                 listView
                 Spacer()
             }
+            
             .padding(.all, 15)
         }
     }
@@ -67,14 +71,23 @@ extension AccountView{
     var profileView: some View{
         
         VStack(spacing: 5){
-            Image(uiImage: .image_placeholder)
-                .resizable()
-                .frame(width: 150, height: 150)
-                .cornerRadius(75)
-            Text("Tommy Jason")
+//            Image(uiImage: .image_placeholder)
+//                .resizable()
+//                .frame(width: 150, height: 150)
+//                .cornerRadius(75)
+            
+            if let url =  Auth.auth().currentUser?.photoURL {
+//                Image(uiImage: .image_placeholder)
+                WebImage(url: url)
+                    .resizable()
+                    .frame(width: 100, height: 100)
+                    .cornerRadius(50)
+                
+            }
+            Text(Auth.auth().currentUser?.displayName ?? "")
                 .font(.custom(.poppinsBold, size: 25))
                 .foregroundColor(.white)
-            Text(verbatim: "tommyjason@gmail.com")
+            Text(verbatim: Auth.auth().currentUser?.email ?? "")
                 .font(.custom(.poppinsThin, size: 18))
                 .foregroundColor(.white)
         }
@@ -101,23 +114,25 @@ extension AccountView{
                 willMoveToAccountInfo.toggle()
             }
             
-            HStack{
-                HStack(spacing: 20){
-                    Image(uiImage: .ic_ChangePassword)
-                        .resizable()
-                        .scaledToFit()
-                        .frame(width: 40, height: 40)
-                    Text("Change Password")
-                        .font(.custom(.poppinsMedium, size: 18))
-                        .foregroundColor(.white)
+            if Auth.auth().currentUser?.photoURL  == nil {
+                HStack{
+                    HStack(spacing: 20){
+                        Image(uiImage: .ic_ChangePassword)
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 40, height: 40)
+                        Text("Change Password")
+                            .font(.custom(.poppinsMedium, size: 18))
+                            .foregroundColor(.white)
+                    }
+                    Spacer()
+                    Image(systemName: "chevron.right")
+                        .foregroundColor(Color(.darkGrayColor))
+                }.onTapGesture {
+                    willMoveToChangePassword.toggle()
                 }
-                Spacer()
-                Image(systemName: "chevron.right")
-                    .foregroundColor(Color(.darkGrayColor))
-            }.onTapGesture {
-                willMoveToChangePassword.toggle()
+                
             }
-            
             HStack{
                 HStack(spacing: 20){
                     Image(uiImage: .ic_BankAccount)

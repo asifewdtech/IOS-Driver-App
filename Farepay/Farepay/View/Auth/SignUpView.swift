@@ -19,6 +19,7 @@ struct SignUpView: View {
     @Environment(\.presentationMode) private var presentationMode: Binding<PresentationMode>
     @State private var toast: Toast? = nil
     @State private var showCompany = false
+    @State private var isChecked = false
     @StateObject var userAuth =  UserAuthViewModel()
     //MARK: - Views
     var body: some View {
@@ -140,11 +141,12 @@ extension SignUpView{
             .cornerRadius(10)
             
             HStack(spacing: 10){
-                Image(uiImage: .ic_Box)
+                Image(systemName: isChecked ? "checkmark.square.fill" : "square")
                     .resizable()
-                    .frame(width: 30, height: 30)
+                    .frame(width: 20, height: 20)
+                    .foregroundStyle(.white)
                     .onTapGesture {
-                        
+                        isChecked.toggle()
                         print("Agree")
                     }
                 Text("I agree with terms and privacy")
@@ -204,7 +206,8 @@ extension SignUpView{
         }else {
             if passwordText != ReTypePasswordText {
                 toast = Toast(style: .error, message: "Password not matched")
-            }else {
+            }else if isChecked {
+                
                 Task {
                     await userAuth.signIn(email:emailText,password:passwordText,isSignup:true)
                     if userAuth.isLoggedIn == false  {
@@ -213,6 +216,8 @@ extension SignUpView{
                         showCompany.toggle()
                     }
                 }
+            }else {
+                toast = Toast(style: .error, message: "Accept the Term and Privacy")
             }
                 
         }

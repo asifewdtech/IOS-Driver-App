@@ -6,7 +6,8 @@
 //
 
 import SwiftUI
-
+import FirebaseAuth
+import FirebaseFirestore
 struct EditAccountView: View {
     
     //MARK: - Variables
@@ -26,6 +27,22 @@ struct EditAccountView: View {
                 Spacer()
                 buttonArea
             }
+            .onAppear(perform: {
+                Firestore.firestore().collection("Users").document(Auth.auth().currentUser?.uid ?? "").getDocument { snapShot, error in
+                    if let error = error {
+                        print(error.localizedDescription)
+                    }else {
+                        
+                        guard let snap = snapShot else { return  }
+                        nameText  = snap.get("name") as? String ?? ""
+                        phoneText = snap.get("phone") as? String ?? ""
+                        
+
+                    }
+                    
+                    
+                }
+            })
             .padding(.all, 15)
         }
     }
@@ -61,24 +78,56 @@ extension EditAccountView{
             
             MDCFilledTextFieldWrapper(leadingImage: .constant(.ic_User), text: $nameText, placHolderText: .constant("Type your Name"), isSecure: .constant(false))
                 .frame(height: 70)
-            MDCFilledTextFieldWrapper(leadingImage: .constant(.ic_Phone), text: $phoneText, placHolderText: .constant("Type your Phone Number"), isSecure: .constant(false))
+//            MDCFilledTextFieldWrapper(leadingImage: .constant(.ic_Phone), text: $phoneText, placHolderText: .constant("Type your Phone Number"), isSecure: .constant(false))
+//                .frame(height: 70)
+//            
+            
+            
+            HStack {
+                Image(uiImage: .ic_Mobile)
+                    .resizable()
+                    .frame(width: 30, height: 30)
+                HStack {
+                    Text("+61")
+                        .foregroundStyle(Color.white)
+                    TextField(
+                        "Type your mobile No",
+                        text: $phoneText.max(9)
+                    )
+                    .keyboardType(.numberPad)
+                    .foregroundStyle(Color.white)
+                }
+                
+            }
+            .padding(.horizontal,10)
+            .frame(height: 70)
+            .background(Color(.darkBlueColor))
+            .cornerRadius(10)
+            MDCFilledTextFieldWrapper(leadingImage: .constant(.ic_Email), text: .constant(Auth.auth().currentUser?.email ?? ""), placHolderText: .constant(Auth.auth().currentUser?.email ?? ""), isSecure: .constant(false),isUserInteractionEnable:false)
                 .frame(height: 70)
-            MDCFilledTextFieldWrapper(leadingImage: .constant(.ic_Email), text: $emailText, placHolderText: .constant("Type your Email"), isSecure: .constant(false))
-                .frame(height: 70)
+            
         }
     }
     
     var buttonArea: some View{
         
         VStack(spacing: 20){
-                        
-            Text("Save")
-                .font(.custom(.poppinsBold, size: 25))
-                .foregroundColor(.white)
-                .frame(maxWidth: .infinity)
-                .frame(height: 60)
-                .background(Color(.buttonColor))
-                .cornerRadius(30)
+            Button(action: {
+                if !nameText.isEmpty && phoneText.count == 9  {
+                    Firestore.firestore().collection("Users").document(Auth.auth().currentUser?.uid ?? "").updateData(["name":nameText,
+                                                                                                                       "phone":phoneText])
+                }
+                
+            }, label: {
+                Text("Save")
+                    .font(.custom(.poppinsBold, size: 25))
+                    .foregroundColor(.white)
+                    .frame(maxWidth: .infinity)
+                    .frame(height: 60)
+                    .background(Color(.buttonColor))
+                    .cornerRadius(30)
+            })
+          
         }
     }
 }

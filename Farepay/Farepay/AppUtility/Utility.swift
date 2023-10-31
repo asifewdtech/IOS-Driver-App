@@ -114,6 +114,7 @@ struct MDCFilledTextFieldWrapper: UIViewRepresentable {
     @Binding var placHolderText: String
     @Binding var isSecure: Bool
     @State var isNumberPad: Bool?
+    @State var isUserInteractionEnable: Bool?
     
     
     
@@ -125,7 +126,9 @@ struct MDCFilledTextFieldWrapper: UIViewRepresentable {
         textField.leadingView?.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
         textField.leadingViewMode = .always
         textField.keyboardType = isNumberPad == true  ? .numberPad : .default
-        
+        if isUserInteractionEnable == false  {
+            textField.isUserInteractionEnabled = false 
+        }
         // Right Image
         if isTrailingImage == true{
             textField.trailingView = UIImageView(image: UIImage(systemName: isSecure ? "eye.slash.fill" : "eye.fill"))

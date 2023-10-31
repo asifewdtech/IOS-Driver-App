@@ -51,6 +51,13 @@ struct SplashView: View {
                     .padding(.top, 350)
             }
             .onAppear(){
+//                do {
+//
+//                   try  Auth.auth().signOut()
+//
+//                } catch  {
+//                    print("error")
+//                }
 
 
                 if Auth.auth().currentUser != nil {
@@ -101,8 +108,7 @@ struct SplashView: View {
                 guard let snap = snapShot else { return  }
                 isAccountCreated = snap.get("isAccountCreated") as? Bool ?? false
                 isBankCreated = snap.get("bankAccced") as? Bool ?? false
-
-                    navigateNext()
+                navigateNext()
 
             }
             

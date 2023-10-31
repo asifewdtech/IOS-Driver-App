@@ -16,7 +16,7 @@ class CompleteFormViewModel: ObservableObject {
     
     let db = Firestore.firestore()
     @MainActor
-    func postData(url:String,method:Methods)  async throws{
+    func postData(url:String,method:Methods,name:String,phone:String)  async throws{
         guard let url = URL(string: url) else {
             throw URLError(.badURL)
         }
@@ -44,7 +44,15 @@ class CompleteFormViewModel: ObservableObject {
                     guard let id = account["id"] as? String else {return}
                     self.accountId = id
                     self.goToAccountScreen = true
-                    self.setUserCompleteConnectOnFireStore()
+                    
+                    
+                    self.db.collection("Users").document(Auth.auth().currentUser?.uid ?? "").setData(["isAccountCreated" : true,
+                                                                                                 "accoundId":self.accountId,
+                                                                                                 "name":name,
+                                                                                                 "phone":phone
+                                                                                                ])
+                   
+                    
                 } catch {
                     print("errorMsg")
                 }
@@ -97,15 +105,7 @@ class CompleteFormViewModel: ObservableObject {
 
     }
     
-    func setUserCompleteConnectOnFireStore()  {
-         db.collection("Users").document(Auth.auth().currentUser?.uid ?? "").setData(["isAccountCreated" : true,
-                                                                                      "accoundId":accountId,
-                                                                                     ])
-        
-        
-    
-        
-    }
+
 }
 
 

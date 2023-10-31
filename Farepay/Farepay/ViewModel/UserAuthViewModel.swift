@@ -63,11 +63,13 @@ class UserAuthViewModel:NSObject, ObservableObject,ASAuthorizationControllerDele
             let authDataResult = try  await  isSignup  ? Auth.auth().createUser(withEmail: email, password: password) : Auth.auth().signIn(withEmail: email, password: password)
             if isSignup == false  {
                 
-                DispatchQueue.main.async {
-                    self.errorMessage = ""
-                    self.checkUserAccountCreated()
-
-                }
+//                DispatchQueue.main.async {
+//                    self.errorMessage = ""
+//                    self.checkUserAccountCreated()
+//
+//                }
+                
+                self.isLoggedIn = true
                 
             }else {
                 self.isLoggedIn = true

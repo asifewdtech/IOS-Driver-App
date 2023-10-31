@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import FirebaseAuth
 
 struct ChangePasswordView: View {
     
@@ -17,7 +18,10 @@ struct ChangePasswordView: View {
     @State private var isSecureNewPassword: Bool = true
     @State private var reTypePasswordText: String = ""
     @State private var isSecureReTypePassword: Bool = true
-    
+    let user = Auth.auth().currentUser
+    var credential: AuthCredential?
+    @State private var toast: Toast? = nil
+
     //MARK: - Views
     var body: some View {
         ZStack{
@@ -28,16 +32,17 @@ struct ChangePasswordView: View {
                 Spacer()
                 buttonArea
             }
+            .toastView(toast: $toast)
             .padding(.all, 15)
         }
     }
 }
 
-struct ChangePasswordView_Previews: PreviewProvider {
-    static var previews: some View {
-        ChangePasswordView()
-    }
-}
+//struct ChangePasswordView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        ChangePasswordView()
+//    }
+//}
 
 extension ChangePasswordView{
     
@@ -78,7 +83,7 @@ extension ChangePasswordView{
                             isSecureOldPassword.toggle()
                         }
                 }
-                
+//                
                 Group{
                     if isSecureNewPassword{
                         MDCFilledTextFieldWrapper(leadingImage: .constant(.ic_Password), isTrailingImage: true, text: $newPasswordText, placHolderText: .constant("Type your new password"), isSecure: .constant(true))
@@ -117,17 +122,65 @@ extension ChangePasswordView{
         }
     }
     
+    
     var buttonArea: some View{
+        
+        
         
         VStack(spacing: 20){
                         
-            Text("Confirm")
-                .font(.custom(.poppinsBold, size: 25))
-                .foregroundColor(.white)
-                .frame(maxWidth: .infinity)
-                .frame(height: 60)
-                .background(Color(.buttonColor))
-                .cornerRadius(30)
+            Button(action: {
+                
+
+                // Prompt the user to re-provide their sign-in credentials
+//                guard let credential else {return}
+                
+                if oldPasswordText.count != 0 && newPasswordText.count >= 6  {
+                    if newPasswordText == reTypePasswordText {
+                        updatePass()
+                    }
+                }
+            
+
+                
+            }, label: {
+                Text("Confirm")
+                    .font(.custom(.poppinsBold, size: 25))
+                    .foregroundColor(.white)
+                    .frame(maxWidth: .infinity)
+                    .frame(height: 60)
+                    .background(Color(.buttonColor))
+                    .cornerRadius(30)
+            })
+            
         }
+    }
+    
+    
+    
+    func updatePass()  {
+        let cred = EmailAuthProvider.credential(withEmail: Auth.auth().currentUser?.email ?? "", password: oldPasswordText)
+        user?.reauthenticate(with: cred, completion: { auths, errors in
+            if let errors = errors {
+                toast = Toast(style: .error, message: errors.localizedDescription)
+            }else {
+                user?.updatePassword(to: newPasswordText, completion: { error in
+                    if let err = error {
+                        
+                        toast = Toast(style: .error, message: err.localizedDescription)
+                    }else {
+                        
+                        toast = Toast(style: .success, message: "Password Changed Successfully")
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                            presentationMode.wrappedValue.dismiss()
+                        }
+                    }
+                         
+                })
+            }
+            
+        })
+       
+
     }
 }

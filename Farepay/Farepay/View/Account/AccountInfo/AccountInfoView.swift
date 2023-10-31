@@ -6,13 +6,16 @@
 //
 
 import SwiftUI
-
+import FirebaseAuth
+import SDWebImageSwiftUI
+import FirebaseFirestore
 struct AccountInfoView: View {
     
     //MARK: - Variables
     @Environment(\.presentationMode) private var presentationMode: Binding<PresentationMode>
     @State var willMoveToEditInfo: Bool = false
-    
+    @State var userName: String = ""
+    @State var phone: String = ""
     // MARK: - Views
     var body: some View {
         
@@ -31,6 +34,23 @@ struct AccountInfoView: View {
                 }
                 buttonArea
             }
+            .onAppear(perform: {
+                Firestore.firestore().collection("Users").document(Auth.auth().currentUser?.uid ?? "").getDocument { snapShot, error in
+                    if let error = error {
+                        print(error.localizedDescription)
+                    }else {
+                        
+                        guard let snap = snapShot else { return  }
+                       userName  = snap.get("name") as? String ?? ""
+                        phone = snap.get("phone") as? String ?? ""
+                        
+
+                    }
+                    
+                    
+                }
+
+            })
             .padding(.all, 15)
         }
     }
@@ -47,12 +67,14 @@ extension AccountInfoView{
     var topArea: some View{
         
         HStack(spacing: 20){
-            Image(uiImage: .backArrow)
-                .resizable()
-                .frame(width: 35, height: 30)
-                .onTapGesture {
-                    presentationMode.wrappedValue.dismiss()
-                }
+            
+                Image(uiImage: .backArrow)
+                    .resizable()
+                    .frame(width: 35, height: 30)
+                    .onTapGesture {
+                        presentationMode.wrappedValue.dismiss()
+                    }
+            
             Text("Account info")
                 .font(.custom(.poppinsBold, size: 25))
                 .foregroundColor(.white)
@@ -63,14 +85,18 @@ extension AccountInfoView{
     var profileView: some View{
         
         VStack(spacing: 5){
-            Image(uiImage: .image_placeholder)
-                .resizable()
-                .frame(width: 100, height: 100)
-                .cornerRadius(50)
-            Text("Tommy Jason")
+            if let url =  Auth.auth().currentUser?.photoURL {
+//                Image(uiImage: .image_placeholder)
+                WebImage(url: url)
+                    .resizable()
+                    .frame(width: 100, height: 100)
+                    .cornerRadius(50)
+                
+            }
+            Text(Auth.auth().currentUser?.displayName ?? "")
                 .font(.custom(.poppinsBold, size: 25))
                 .foregroundColor(.white)
-            Text(verbatim: "tommyjason@gmail.com")
+            Text(verbatim: Auth.auth().currentUser?.email ?? "")
                 .font(.custom(.poppinsThin, size: 18))
                 .foregroundColor(.white)
         }
@@ -91,7 +117,7 @@ extension AccountInfoView{
                     .font(.custom(.poppinsMedium, size: 15))
                     .foregroundColor(.white)
                 Spacer()
-                Text("Tommy Jason")
+                Text(userName)
                     .font(.custom(.poppinsMedium, size: 15))
                     .foregroundColor(.white)
             }
@@ -109,7 +135,7 @@ extension AccountInfoView{
                         .font(.custom(.poppinsMedium, size: 15))
                         .foregroundColor(.white)
                     Spacer()
-                    Text("(1) 3256 8456 888")
+                    Text("+61 \(phone)")
                         .font(.custom(.poppinsMedium, size: 15))
                         .foregroundColor(.white)
                 }
@@ -118,7 +144,7 @@ extension AccountInfoView{
                         .font(.custom(.poppinsMedium, size: 15))
                         .foregroundColor(.white)
                     Spacer()
-                    Text(verbatim: "tommyjason@mail.com")
+                    Text(verbatim: Auth.auth().currentUser?.email ?? "")
                         .font(.custom(.poppinsMedium, size: 15))
                         .foregroundColor(.white)
                 }
