@@ -6,11 +6,14 @@
 //
 
 import SwiftUI
-
+import UniformTypeIdentifiers
 struct TransactionView: View {
     //MARK: - Variables
     @Binding var presentSideMenu: Bool
     @State var transactionType: String = "All Transactions"
+    @State var isExporting = false
+    @State private var showingOptions = false
+       @State private var selection = "None"
     var arrTransaction: [transactionModel] = [
         
         transactionModel(date: Date(), transactions: ["Charge Fare", "Bank Transfer", "Gift Card"]),
@@ -79,22 +82,31 @@ extension TransactionView{
                             .background(Color(.buttonColor))
                             .cornerRadius(10)
                             .onTapGesture {
-                                isPresentedExport.toggle()
+//                                isPresentedExport.toggle()
+                                isExporting = true
                             }
-                            .fullScreenCover(isPresented: $isPresentedExport) {
-                                ExportPopUpView(presentedAsModal: $isPresentedExport)
-                            }
+//                            .fullScreenCover(isPresented: $isPresentedExport) {
+//                                ExportPopUpView(presentedAsModal: $isPresentedExport)
+//                            }
+                            .fileExporter(isPresented: $isExporting, document: CSVFile(initialText: "Item 1, Item2, Item3"), contentType: UTType.commaSeparatedText) { result in
+                                        }
                         
-                        let width = "All".widthOfString(usingFont: UIFont(name: .poppinsMedium, size: 20)!) + 40.0
-                        Text("All  \(Image(systemName: "chevron.down"))")
-                            .font(.custom(.poppinsMedium, size: 20))
-                            .foregroundColor(.white)
-                            .frame(width: width, height: 50)
-                            .padding(.horizontal)
-                            .overlay(
-                                RoundedRectangle(cornerRadius: 10)
-                                    .stroke(Color(.darkGrayColor), lineWidth: 2)
-                            )
+                        Button {
+                            showingOptions = true
+                        } label: {
+                            let width = "All".widthOfString(usingFont: UIFont(name: .poppinsMedium, size: 20)!) + 40.0
+                            Text("All  \(Image(systemName: "chevron.down"))")
+                                .font(.custom(.poppinsMedium, size: 20))
+                                .foregroundColor(.white)
+                                .frame(width: width, height: 50)
+                                .padding(.horizontal)
+                                .overlay(
+                                    RoundedRectangle(cornerRadius: 10)
+                                        .stroke(Color(.darkGrayColor), lineWidth: 2)
+                                )
+                        }
+
+                        
                         
                     }
                 }
@@ -103,6 +115,29 @@ extension TransactionView{
                     .frame(height: 2)
             }
         }
+        .confirmationDialog("Select", isPresented: $showingOptions) {
+            Button("Today") {
+                
+                print(Date())
+            }
+            
+            Button("This Week") {
+                
+                let last7days = Date.getDates(forLastNDays: 7)
+                print(last7days)
+            }
+            
+            Button("Last 3 Months") {
+                
+                let last7days = Date.getDates(forLastNDays: 90)
+                print(last7days)
+            }
+            
+            Button("Lifetime Transactions") {
+                print("All")
+            }
+        }
+        
     }
     
     var listView: some View{
@@ -159,5 +194,57 @@ extension TransactionView{
                 }
             }
         }
+    }
+}
+
+
+extension Date {
+    static func getDates(forLastNDays nDays: Int) -> [String] {
+        let cal = Calendar.current
+        // start with today
+        var date = cal.startOfDay(for: Date())
+
+        var arrDates = [String]()
+
+        for _ in 1 ... nDays {
+            // move back in time by one day:
+            date = cal.date(byAdding: Calendar.Component.day, value: -1, to: date)!
+
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "yyyy-MM-dd"
+            let dateString = dateFormatter.string(from: date)
+            arrDates.append(dateString)
+        }
+        
+        return arrDates
+    }
+}
+
+
+
+struct CSVFile: FileDocument {
+    // tell the system we support only plain text
+    static var readableContentTypes = [UTType.commaSeparatedText]
+    static var writableContentTypes = [UTType.commaSeparatedText]
+
+    // by default our document is empty
+    var text = ""
+
+    // a simple initializer that creates new, empty documents
+    init(initialText: String = "") {
+        text = initialText
+    }
+
+    // this initializer loads data that has been saved previously
+    init(configuration: ReadConfiguration) throws {
+        if let data = configuration.file.regularFileContents {
+            text = String(decoding: data, as: UTF8.self)
+        }
+    }
+
+    // this will be called when the system wants to write our data to disk
+    func fileWrapper(configuration: WriteConfiguration) throws -> FileWrapper {
+        let data = Data(text.utf8)
+        return FileWrapper(regularFileWithContents: data)
     }
 }

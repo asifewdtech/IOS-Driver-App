@@ -39,6 +39,7 @@ struct RepresentativeView: View {
     @State var backImageId = ""
     @StateObject var completeFormViewModel = CompleteFormViewModel()
     @State private var toast: Toast? = nil
+    @AppStorage("username") var username: String = ""
     //MARK: - Views
     var body: some View {
         
@@ -55,6 +56,9 @@ struct RepresentativeView: View {
                     }
                 }
             }
+            .onAppear(perform: {
+                userText = username
+            })
             .padding(.all, 15)
             .toastView(toast: $toast)
             

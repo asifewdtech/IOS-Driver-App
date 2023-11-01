@@ -14,10 +14,42 @@
             filePath = "Farepay/View/Payment/TapToPayView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "186"
-            endingLineNumber = "186"
+            startingLineNumber = "189"
+            endingLineNumber = "189"
             landmarkName = "terminal(_:didUpdateDiscoveredReaders:)"
             landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "5CB87823-0526-4ED7-80BC-91E64BDACA07 - 6fd0bfdbaf8ada7"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Swift.Optional&lt;__C.SCPReader&gt;, Swift.Optional&lt;Swift.Error&gt;) -&gt; () in Farepay.ReaderDiscoverModel.terminal(_: __C.SCPTerminal, didUpdateDiscoveredReaders: Swift.Array&lt;__C.SCPReader&gt;) -&gt; ()"
+                  moduleName = "Farepay"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/mapmac/Documents/GitHub/IOS-FarePay/Farepay/Farepay/View/Payment/TapToPayView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "189"
+                  endingLineNumber = "189"
+                  offsetFromSymbolStart = "892">
+               </Location>
+               <Location
+                  uuid = "5CB87823-0526-4ED7-80BC-91E64BDACA07 - 6fd0bfdbaf8ada7"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Swift.Optional&lt;__C.SCPReader&gt;, Swift.Optional&lt;Swift.Error&gt;) -&gt; () in Farepay.ReaderDiscoverModel.terminal(_: __C.SCPTerminal, didUpdateDiscoveredReaders: Swift.Array&lt;__C.SCPReader&gt;) -&gt; ()"
+                  moduleName = "Farepay"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/mapmac/Documents/GitHub/IOS-FarePay/Farepay/Farepay/View/Payment/TapToPayView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "189"
+                  endingLineNumber = "189"
+                  offsetFromSymbolStart = "200">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -30,10 +62,42 @@
             filePath = "Farepay/View/Payment/TapToPayView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "214"
-            endingLineNumber = "214"
+            startingLineNumber = "217"
+            endingLineNumber = "217"
             landmarkName = "checkoutAction()"
             landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "A68A7AC8-763E-404A-B971-5F6B71492F6E - cc47d663b80cbdae"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Swift.Optional&lt;__C.SCPPaymentIntent&gt;, Swift.Optional&lt;Swift.Error&gt;) -&gt; () in Farepay.ReaderDiscoverModel.checkoutAction() throws -&gt; ()"
+                  moduleName = "Farepay"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/mapmac/Documents/GitHub/IOS-FarePay/Farepay/Farepay/View/Payment/TapToPayView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "217"
+                  endingLineNumber = "217"
+                  offsetFromSymbolStart = "936">
+               </Location>
+               <Location
+                  uuid = "A68A7AC8-763E-404A-B971-5F6B71492F6E - 5defa1b3ab3ab55d"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Swift.Optional&lt;__C.SCPPaymentIntent&gt;, Swift.Optional&lt;Swift.Error&gt;) -&gt; () in closure #1 (Swift.Optional&lt;__C.SCPPaymentIntent&gt;, Swift.Optional&lt;Swift.Error&gt;) -&gt; () in Farepay.ReaderDiscoverModel.checkoutAction() throws -&gt; ()"
+                  moduleName = "Farepay"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/mapmac/Documents/GitHub/IOS-FarePay/Farepay/Farepay/View/Payment/TapToPayView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "218"
+                  endingLineNumber = "218"
+                  offsetFromSymbolStart = "696">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -46,10 +110,42 @@
             filePath = "Farepay/View/Payment/TapToPayView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "211"
-            endingLineNumber = "211"
+            startingLineNumber = "214"
+            endingLineNumber = "214"
             landmarkName = "checkoutAction()"
             landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "A879BCE2-8914-45A5-93D6-37D513E010DA - 5defa1b3ab3ab5e2"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Swift.Optional&lt;__C.SCPPaymentIntent&gt;, Swift.Optional&lt;Swift.Error&gt;) -&gt; () in closure #1 (Swift.Optional&lt;__C.SCPPaymentIntent&gt;, Swift.Optional&lt;Swift.Error&gt;) -&gt; () in Farepay.ReaderDiscoverModel.checkoutAction() throws -&gt; ()"
+                  moduleName = "Farepay"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/mapmac/Documents/GitHub/IOS-FarePay/Farepay/Farepay/View/Payment/TapToPayView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "215"
+                  endingLineNumber = "215"
+                  offsetFromSymbolStart = "696">
+               </Location>
+               <Location
+                  uuid = "A879BCE2-8914-45A5-93D6-37D513E010DA - 5defa1b3ab3ab5c1"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Swift.Optional&lt;__C.SCPPaymentIntent&gt;, Swift.Optional&lt;Swift.Error&gt;) -&gt; () in closure #1 (Swift.Optional&lt;__C.SCPPaymentIntent&gt;, Swift.Optional&lt;Swift.Error&gt;) -&gt; () in Farepay.ReaderDiscoverModel.checkoutAction() throws -&gt; ()"
+                  moduleName = "Farepay"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/mapmac/Documents/GitHub/IOS-FarePay/Farepay/Farepay/View/Payment/TapToPayView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "214"
+                  endingLineNumber = "214"
+                  offsetFromSymbolStart = "500">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -62,10 +158,42 @@
             filePath = "Farepay/View/Payment/TapToPayView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "189"
-            endingLineNumber = "189"
+            startingLineNumber = "192"
+            endingLineNumber = "192"
             landmarkName = "terminal(_:didUpdateDiscoveredReaders:)"
             landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "415B26DD-5EE8-4B29-A06F-1CD47C356DC9 - 181ccc56445f0bef"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Farepay.ReaderDiscoverModel.terminal(_: __C.SCPTerminal, didUpdateDiscoveredReaders: Swift.Array&lt;__C.SCPReader&gt;) -&gt; ()"
+                  moduleName = "Farepay"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/mapmac/Documents/GitHub/IOS-FarePay/Farepay/Farepay/View/Payment/TapToPayView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "192"
+                  endingLineNumber = "192"
+                  offsetFromSymbolStart = "1104">
+               </Location>
+               <Location
+                  uuid = "415B26DD-5EE8-4B29-A06F-1CD47C356DC9 - 6fd0bfdbaf8ac44"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Swift.Optional&lt;__C.SCPReader&gt;, Swift.Optional&lt;Swift.Error&gt;) -&gt; () in Farepay.ReaderDiscoverModel.terminal(_: __C.SCPTerminal, didUpdateDiscoveredReaders: Swift.Array&lt;__C.SCPReader&gt;) -&gt; ()"
+                  moduleName = "Farepay"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/mapmac/Documents/GitHub/IOS-FarePay/Farepay/Farepay/View/Payment/TapToPayView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "192"
+                  endingLineNumber = "192"
+                  offsetFromSymbolStart = "892">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -78,10 +206,42 @@
             filePath = "Farepay/View/Payment/TapToPayView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "166"
-            endingLineNumber = "166"
+            startingLineNumber = "169"
+            endingLineNumber = "169"
             landmarkName = "discoverReadersAction()"
             landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "BFE69AF1-8791-412B-B8AF-01594141B76F - f972a4856473b2be"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Swift.Optional&lt;Swift.Error&gt;) -&gt; () in Farepay.ReaderDiscoverModel.discoverReadersAction() throws -&gt; ()"
+                  moduleName = "Farepay"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/mapmac/Documents/GitHub/IOS-FarePay/Farepay/Farepay/View/Payment/TapToPayView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "169"
+                  endingLineNumber = "169"
+                  offsetFromSymbolStart = "276">
+               </Location>
+               <Location
+                  uuid = "BFE69AF1-8791-412B-B8AF-01594141B76F - f972a4856473b2be"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Swift.Optional&lt;Swift.Error&gt;) -&gt; () in Farepay.ReaderDiscoverModel.discoverReadersAction() throws -&gt; ()"
+                  moduleName = "Farepay"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/mapmac/Documents/GitHub/IOS-FarePay/Farepay/Farepay/View/Payment/TapToPayView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "169"
+                  endingLineNumber = "169"
+                  offsetFromSymbolStart = "372">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -94,10 +254,42 @@
             filePath = "Farepay/View/Payment/TapToPayView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "169"
-            endingLineNumber = "169"
+            startingLineNumber = "172"
+            endingLineNumber = "172"
             landmarkName = "discoverReadersAction()"
             landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "82B0A81D-D8DA-44AD-8A24-8CF8B07E37DE - 5d9cbef43f721010"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Farepay.ReaderDiscoverModel.discoverReadersAction() throws -&gt; ()"
+                  moduleName = "Farepay"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/mapmac/Documents/GitHub/IOS-FarePay/Farepay/Farepay/View/Payment/TapToPayView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "172"
+                  endingLineNumber = "172"
+                  offsetFromSymbolStart = "548">
+               </Location>
+               <Location
+                  uuid = "82B0A81D-D8DA-44AD-8A24-8CF8B07E37DE - f972a4856473b25d"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Swift.Optional&lt;Swift.Error&gt;) -&gt; () in Farepay.ReaderDiscoverModel.discoverReadersAction() throws -&gt; ()"
+                  moduleName = "Farepay"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/mapmac/Documents/GitHub/IOS-FarePay/Farepay/Farepay/View/Payment/TapToPayView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "172"
+                  endingLineNumber = "172"
+                  offsetFromSymbolStart = "276">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -110,10 +302,42 @@
             filePath = "Farepay/View/Payment/TapToPayView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "176"
-            endingLineNumber = "176"
+            startingLineNumber = "179"
+            endingLineNumber = "179"
             landmarkName = "terminal(_:didUpdateDiscoveredReaders:)"
             landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "5D75BA63-5852-4A1E-BFE4-7EFF62683C9A - 181ccc56445f0952"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Farepay.ReaderDiscoverModel.terminal(_: __C.SCPTerminal, didUpdateDiscoveredReaders: Swift.Array&lt;__C.SCPReader&gt;) -&gt; ()"
+                  moduleName = "Farepay"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/mapmac/Documents/GitHub/IOS-FarePay/Farepay/Farepay/View/Payment/TapToPayView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "179"
+                  endingLineNumber = "179"
+                  offsetFromSymbolStart = "600">
+               </Location>
+               <Location
+                  uuid = "5D75BA63-5852-4A1E-BFE4-7EFF62683C9A - 181ccc56445f0973"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Farepay.ReaderDiscoverModel.terminal(_: __C.SCPTerminal, didUpdateDiscoveredReaders: Swift.Array&lt;__C.SCPReader&gt;) -&gt; ()"
+                  moduleName = "Farepay"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/mapmac/Documents/GitHub/IOS-FarePay/Farepay/Farepay/View/Payment/TapToPayView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "180"
+                  endingLineNumber = "180"
+                  offsetFromSymbolStart = "124">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -126,13 +350,13 @@
             filePath = "Farepay/View/Payment/TapToPayView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "193"
-            endingLineNumber = "193"
+            startingLineNumber = "196"
+            endingLineNumber = "196"
             landmarkName = "terminal(_:didUpdateDiscoveredReaders:)"
             landmarkType = "7">
             <Locations>
                <Location
-                  uuid = "B06E4389-C474-4D85-903B-C2C4E33B1449 - 181ccc56445f0b80"
+                  uuid = "B06E4389-C474-4D85-903B-C2C4E33B1449 - 181ccc56445f0b25"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
@@ -142,12 +366,12 @@
                   urlString = "file:///Users/mapmac/Documents/GitHub/IOS-FarePay/Farepay/Farepay/View/Payment/TapToPayView.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "193"
-                  endingLineNumber = "193"
-                  offsetFromSymbolStart = "1544">
+                  startingLineNumber = "198"
+                  endingLineNumber = "198"
+                  offsetFromSymbolStart = "1156">
                </Location>
                <Location
-                  uuid = "B06E4389-C474-4D85-903B-C2C4E33B1449 - 181ccc56445f0b80"
+                  uuid = "B06E4389-C474-4D85-903B-C2C4E33B1449 - 181ccc56445f0b63"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
@@ -157,8 +381,8 @@
                   urlString = "file:///Users/mapmac/Documents/GitHub/IOS-FarePay/Farepay/Farepay/View/Payment/TapToPayView.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "193"
-                  endingLineNumber = "193"
+                  startingLineNumber = "196"
+                  endingLineNumber = "196"
                   offsetFromSymbolStart = "1516">
                </Location>
             </Locations>

@@ -63,6 +63,9 @@ struct TapToPayView: View {
                     }
                 }
             }
+            .onAppear(perform: {
+                farePriceText = AmountDetail.instance.totalChargresWithTax.description
+            })
             .padding(.all, 20)
         }
         

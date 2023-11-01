@@ -12,7 +12,8 @@ import FirebaseAuth
 class CompleteFormViewModel: ObservableObject {
     @Published var goToAccountScreen = false
     @Published var goToHomeScreen = false
-    var accountId = ""
+    @AppStorage("accountId") var accountId: String = ""
+//    var accountId = ""
     
     let db = Firestore.firestore()
     @MainActor

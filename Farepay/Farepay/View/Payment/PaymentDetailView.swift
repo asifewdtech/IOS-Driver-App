@@ -39,15 +39,20 @@ struct PaymentDetailView: View {
                 
                 if let cost = Double(farePriceText.trimmingCharacters(in: .whitespaces)) {
                     totalAmount = cost
+                    AmountDetail.instance.totalAmount = cost
                     let amountWithFivePercent = cost * 5 / 100
                     print("amountWithFivePercent \(amountWithFivePercent)")
                     serviceFee = (amountWithFivePercent / 1.1).roundToDecimal(2)
+                    
+                    AmountDetail.instance.serviceFee = serviceFee
                     print("serviceFee\(serviceFee)")
                     
                     serviceFeeGst = (amountWithFivePercent - serviceFee).roundToDecimal(2)
-                    
+                    AmountDetail.instance.serviceFeeGst = serviceFeeGst
                     print("serviceFeeGst \(serviceFeeGst)")
                     totalChargresWithTax = (serviceFee + serviceFeeGst + cost).roundToDecimal(2)
+                    
+                    AmountDetail.instance.totalChargresWithTax = totalChargresWithTax
                     print("totalCharges \(totalChargresWithTax)")
                     
                 }
@@ -195,4 +200,21 @@ extension Double {
         let multiplier = pow(10, Double(fractionDigits))
         return Darwin.round(self * multiplier) / multiplier
     }
+}
+
+
+class AmountDetail {
+
+    static let instance = AmountDetail()
+    var totalChargresWithTax = 0.0
+    
+    
+    var serviceFeeGst = 0.0
+    var totalAmount = 0.0
+    
+    
+
+    var serviceFee = 0.0
+    
+    
 }

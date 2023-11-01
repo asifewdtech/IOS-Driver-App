@@ -17,6 +17,7 @@ struct AddNewBankAccountView: View {
     @State var bsbNumber: String = ""
     @State var accountHolderName: String = ""
     @ObservedObject var completeFormViewModel = CompleteFormViewModel()
+    @AppStorage("accountId") var accountId: String = ""
     //MARK: - Views
     var body: some View {
         
@@ -105,7 +106,7 @@ extension AddNewBankAccountView{
                              "account_holder_type": "individual",
                              "account_number": accountNumber,
                              "routing_number": "110000",
-                             "account_id": "acct_1O70EOPILg6rc9x8"
+                             "account_id": accountId
                         
                         
                         ]

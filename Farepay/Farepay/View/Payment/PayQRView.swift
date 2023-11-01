@@ -84,7 +84,7 @@ extension PayQRView{
             Text("Payment Successful")
                 .foregroundColor(.white)
                 .font(.custom(.poppinsBold, size: 25))
-            Text("44.68")
+            Text("\(AmountDetail.instance.totalChargresWithTax.description)")
                 .foregroundColor(.white)
                 .font(.custom(.poppinsBold, size: 50))
         }
@@ -109,7 +109,7 @@ extension PayQRView{
                             .font(.custom(.poppinsBold, size: 20))
                     }
                     Spacer()
-                    Text("$ 42.68")
+                    Text("\(AmountDetail.instance.totalAmount.description)")
                         .foregroundColor(.white)
                         .font(.custom(.poppinsBold, size: 20))
                 }
@@ -126,7 +126,7 @@ extension PayQRView{
                             .font(.custom(.poppinsBold, size: 20))
                     }
                     Spacer()
-                    Text("$ 2.12")
+                    Text("\(AmountDetail.instance.serviceFee.description)")
                         .foregroundColor(.white)
                         .font(.custom(.poppinsBold, size: 20))
                 }
@@ -143,7 +143,7 @@ extension PayQRView{
                             .font(.custom(.poppinsBold, size: 20))
                     }
                     Spacer()
-                    Text("$ 0.21")
+                    Text("\(AmountDetail.instance.serviceFeeGst.description)")
                         .foregroundColor(.white)
                         .font(.custom(.poppinsBold, size: 20))
                 }
@@ -167,9 +167,14 @@ extension PayQRView{
             
             VStack(spacing: 40){
                 
-                Image(uiImage: .ic_Qr)
-                    .resizable()
-                    .frame(width: 175, height: 175)
+                
+                
+                    
+                    Image(uiImage: UIImage(data: getQRCodeDate(text: "https://www.google.com/")!)!)
+                    
+                        .resizable()
+                        .frame(width: 175, height: 175)
+                    
                 
                 Button {
                     print("Scan QR for Receipt")
@@ -195,4 +200,16 @@ extension PayQRView{
                 .foregroundColor(Color(.darkGrayColor))
         )
     }
+    
+    func getQRCodeDate(text: String) -> Data? {
+           guard let filter = CIFilter(name: "CIQRCodeGenerator") else { return nil }
+           let data = text.data(using: .ascii, allowLossyConversion: false)
+           filter.setValue(data, forKey: "inputMessage")
+           guard let ciimage = filter.outputImage else { return nil }
+           let transform = CGAffineTransform(scaleX: 10, y: 10)
+           let scaledCIImage = ciimage.transformed(by: transform)
+           let uiimage = UIImage(ciImage: scaledCIImage)
+           return uiimage.pngData()!
+       }
+
 }

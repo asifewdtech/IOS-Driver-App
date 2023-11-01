@@ -21,6 +21,7 @@ struct SignUpView: View {
     @State private var showCompany = false
     @State private var isChecked = false
     @StateObject var userAuth =  UserAuthViewModel()
+    @AppStorage("username") var username: String = ""
     //MARK: - Views
     var body: some View {
         
@@ -162,6 +163,7 @@ extension SignUpView{
             
             NavigationLink("", destination: CompanyView().toolbar(.hidden, for: .navigationBar), isActive: $showCompany).isDetailLink(false)
             Button(action: {
+                username = nameText
                 callFirebaseRegisterAuth()
                 
                 
@@ -225,3 +227,5 @@ extension SignUpView{
 
     }
 }
+
+//var userName = ""
