@@ -7,14 +7,21 @@
 
 import UIKit
 
-class transactionModel: NSObject {
+//class transactionModel: NSObject {
+//
+//    let id = UUID()
+//    let date: Date
+//    let transactions: [String]
+//    
+//    init(date: Date, transactions: [String]) {
+//        self.date = date
+//        self.transactions = transactions
+//    }
+//}
 
-    let id = UUID()
-    let date: Date
-    let transactions: [String]
-    
-    init(date: Date, transactions: [String]) {
-        self.date = date
-        self.transactions = transactions
-    }
+
+struct transactionModel:Codable {
+    let id:String
+    let object:String
+    let amount:Int
 }

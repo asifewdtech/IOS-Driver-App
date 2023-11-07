@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import ActivityIndicatorView
 import UniformTypeIdentifiers
 struct TransactionView: View {
     //MARK: - Variables
@@ -14,12 +15,7 @@ struct TransactionView: View {
     @State var isExporting = false
     @State private var showingOptions = false
        @State private var selection = "None"
-    var arrTransaction: [transactionModel] = [
-        
-        transactionModel(date: Date(), transactions: ["Charge Fare", "Bank Transfer", "Gift Card"]),
-//        transactionModel(date: Date.yesterday, transactions: ["Fare Yesterday", "Payout Yesterday", "Refer a Friend Yesterday"]),
-//        transactionModel(date: Date.twoDaysBefore, transactions: ["Fare twoDaysBefore", "Payout twoDaysBefore", "Refer a Friend twoDaysBefore"])
-    ]
+    @StateObject var  transectionViewModel = TransectionViewModel()
     @State private var isPresentedExport: Bool = false
     @State var willMoveToTransactionDetailView: Bool = false
     @State var transactions: String = ""
@@ -27,16 +23,33 @@ struct TransactionView: View {
     //MARK: - Views
     var body: some View {
         
-        ZStack{
-            
-            NavigationLink("", destination: TransactionDetailView(transactionType: transactions).toolbar(.hidden, for: .navigationBar), isActive: $willMoveToTransactionDetailView ).isDetailLink(false)
-            
-            Color(.bgColor).edgesIgnoringSafeArea(.all)
-            VStack(spacing: 25){
-                topArea
-                listView
+        ZStack {
+            ZStack{
+                
+                NavigationLink("", destination: TransactionDetailView(transactionType: transactions).toolbar(.hidden, for: .navigationBar), isActive: $willMoveToTransactionDetailView ).isDetailLink(false)
+                
+                Color(.bgColor).edgesIgnoringSafeArea(.all)
+                VStack(spacing: 25){
+                    topArea
+                    listView
+                }
+                .onAppear(perform: {
+                    Task {
+                        try await transectionViewModel.getAllTransection(url: weeklyTransection, method: .get)
+                    }
+                    
+                })
+                .padding(.all, 15)
             }
-            .padding(.all, 15)
+            
+            
+            
+                ActivityIndicatorView(isVisible: $transectionViewModel.apiCall, type: .growingArc(.white, lineWidth: 5))
+                    .frame(width: 50.0, height: 50.0)
+                    .foregroundColor(.white)
+                    .padding(.top, 350)
+            
+            
         }
     }
 }
@@ -82,7 +95,7 @@ extension TransactionView{
                             .background(Color(.buttonColor))
                             .cornerRadius(10)
                             .onTapGesture {
-//                                isPresentedExport.toggle()
+
                                 isExporting = true
                             }
 //                            .fullScreenCover(isPresented: $isPresentedExport) {
@@ -118,19 +131,26 @@ extension TransactionView{
         .confirmationDialog("Select", isPresented: $showingOptions) {
             Button("Today") {
                 
-                print(Date())
+                
+                Task {
+                   try await transectionViewModel.getAllTransection(url: todayTransection, method: .get)
+                }
             }
             
             Button("This Week") {
                 
-                let last7days = Date.getDates(forLastNDays: 7)
-                print(last7days)
+
+                
+                Task {
+                   try await transectionViewModel.getAllTransection(url: weeklyTransection, method: .get)
+                }
             }
             
             Button("Last 3 Months") {
                 
-                let last7days = Date.getDates(forLastNDays: 90)
-                print(last7days)
+                Task {
+                   try await transectionViewModel.getAllTransection(url: threeMonthlyTransection, method: .get)
+                }
             }
             
             Button("Lifetime Transactions") {
@@ -144,39 +164,39 @@ extension TransactionView{
         
         ScrollView(.vertical, showsIndicators: false) {
             LazyVStack(alignment: .leading, spacing: 10) {
-                ForEach(arrTransaction, id: \.date) { transaction in
+//                ForEach(transectionViewModel.arrTransaction, id: \.id) { transaction in
                     
-                    HStack{
-                        Text(formatDate(transaction.date))
-                            .font(.custom(.poppinsBold, size: 22))
-                            .foregroundColor(.white)
-                        Spacer()
-                    }
-                    .frame(maxWidth: .infinity)
-                    .padding([.top, .bottom], 5)
-                    
-                    ForEach(transaction.transactions, id: \.self) { trans in
+//                    HStack{
+//                        Text(formatDate(Date.now)
+//                            .font(.custom(.poppinsBold, size: 22))
+//                            .foregroundColor(.white)
+//                        Spacer()
+//                    }
+//                    .frame(maxWidth: .infinity)
+//                    .padding([.top, .bottom], 5)
+//                    
+                    ForEach(transectionViewModel.arrTransaction, id: \.id) { trans in
                         
                         VStack(spacing: 5){
                             Group{
                                 HStack{
-                                    Text(trans)
+                                    Text(trans.object)
                                         .font(.custom(.poppinsSemiBold, size: 20))
                                         .foregroundColor(.white)
                                     Spacer()
-                                    Text("$500.00")
+                                    Text("$\(trans.amount)")
                                         .font(.custom(.poppinsSemiBold, size: 20))
                                         .foregroundColor(.white)
                                 }
-                                HStack{
-                                    Text("Sydney City")
-                                        .font(.custom(.poppinsMedium, size: 15))
-                                        .foregroundColor(Color(.darkGrayColor))
-                                    Spacer()
-                                    Text("Balance $ 100.00")
-                                        .font(.custom(.poppinsMedium, size: 15))
-                                        .foregroundColor(Color(.darkGrayColor))
-                                }
+//                                HStack{
+//                                    Text("Sydney City")
+//                                        .font(.custom(.poppinsMedium, size: 15))
+//                                        .foregroundColor(Color(.darkGrayColor))
+//                                    Spacer()
+//                                    Text("Balance $ 100.00")
+//                                        .font(.custom(.poppinsMedium, size: 15))
+//                                        .foregroundColor(Color(.darkGrayColor))
+//                                }
                             }
                             .padding(.horizontal, 20)
                         }
@@ -185,14 +205,14 @@ extension TransactionView{
                         .background(Color(.darkBlueColor))
                         .cornerRadius(10)
                         .onTapGesture {
-                            transactions = trans
-                            willMoveToTransactionDetailView.toggle()
+//                            transactions = trans
+//                            willMoveToTransactionDetailView.toggle()
                         }
                     }
                     
                     Spacer().frame(height: 10)
                 }
-            }
+//            }
         }
     }
 }
