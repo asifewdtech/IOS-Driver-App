@@ -18,6 +18,7 @@ struct AddNewBankAccountView: View {
     @State var accountHolderName: String = ""
     @ObservedObject var completeFormViewModel = CompleteFormViewModel()
     @AppStorage("accountId") var accountId: String = ""
+    @State private var toast: Toast? = nil
     //MARK: - Views
     var body: some View {
         
@@ -30,6 +31,7 @@ struct AddNewBankAccountView: View {
                 Spacer()
                 buttonArea
             }
+            .toastView(toast: $toast)
             .padding(.all, 15)
         }
     }
@@ -114,6 +116,8 @@ extension AddNewBankAccountView{
                         DispatchQueue.main.async {
                             if completeFormViewModel.goToHomeScreen {
                                 self.goToHome = true
+                            }else {
+                                toast = Toast(style: .error, message: completeFormViewModel.errorMsg)
                             }
                         }
                         

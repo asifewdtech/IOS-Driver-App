@@ -439,7 +439,7 @@ extension RepresentativeView{
                             if completeFormViewModel.goToAccountScreen {
                                 goToNextView = true
                             }else {
-                                toast = Toast(style: .error, message: "Server Error")
+                                toast = Toast(style: .error, message: completeFormViewModel.errorMsg    )
                                 frontImageId = ""
                                 backImageId = ""
                                 uploadFrontImage = nil

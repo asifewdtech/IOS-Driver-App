@@ -20,3 +20,5 @@ let addBankAccountUrl = "https://eqhs4ooew2.execute-api.eu-north-1.amazonaws.com
 let weeklyTransection = "https://4zuaerxbi8.execute-api.eu-north-1.amazonaws.com/default/FetchTransactionsThisWeek"
 let todayTransection = "https://grmekt3mra.execute-api.eu-north-1.amazonaws.com/default/TransctionFilters"
 let threeMonthlyTransection = "https://lset9smj75.execute-api.eu-north-1.amazonaws.com/default/FetchTransactions3Months"
+
+let getBankList = "https://sfr1m5jk5l.execute-api.eu-north-1.amazonaws.com/default/RetriveBankAccount"

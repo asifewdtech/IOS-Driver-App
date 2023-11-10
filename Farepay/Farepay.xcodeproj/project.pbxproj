@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		322FC4222AFA44F80053C82C /* TransectionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 322FC4212AFA44F80053C82C /* TransectionViewModel.swift */; };
 		3230C1322AD3C74C005E182B /* SplashView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F51193902A97C6ED00554604 /* SplashView.swift */; };
+		323856FE2AFE4C670082272B /* AccountModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 323856FD2AFE4C670082272B /* AccountModel.swift */; };
+		323857002AFE4D830082272B /* BankAccountViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 323856FF2AFE4D820082272B /* BankAccountViewModel.swift */; };
 		326495F42AE7B4BC006629DC /* APIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 326495F32AE7B4BC006629DC /* APIClient.swift */; };
 		32888C902AD686AB00A39C8B /* Toast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32888C8F2AD686AB00A39C8B /* Toast.swift */; };
 		32888C942AD686B800A39C8B /* ToastModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32888C912AD686B800A39C8B /* ToastModifier.swift */; };
@@ -107,6 +109,8 @@
 /* Begin PBXFileReference section */
 		322C08AC2AD8013200C2288B /* Farepay.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Farepay.entitlements; sourceTree = "<group>"; };
 		322FC4212AFA44F80053C82C /* TransectionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransectionViewModel.swift; sourceTree = "<group>"; };
+		323856FD2AFE4C670082272B /* AccountModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountModel.swift; sourceTree = "<group>"; };
+		323856FF2AFE4D820082272B /* BankAccountViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BankAccountViewModel.swift; sourceTree = "<group>"; };
 		326495F32AE7B4BC006629DC /* APIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIClient.swift; sourceTree = "<group>"; };
 		32888C8C2AD66BD300A39C8B /* client_200787587375-p84ci5307vvk1e8fqm380shfbc4ufkem.apps.googleusercontent.com.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "client_200787587375-p84ci5307vvk1e8fqm380shfbc4ufkem.apps.googleusercontent.com.plist"; sourceTree = "<group>"; };
 		32888C8F2AD686AB00A39C8B /* Toast.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Toast.swift; sourceTree = "<group>"; };
@@ -256,6 +260,7 @@
 				322FC4212AFA44F80053C82C /* TransectionViewModel.swift */,
 				3294382E2ADD0DAB000C18B8 /* OtpViewModel.swift */,
 				32CA107C2AE5103D00741B7C /* CompleteFormViewModel.swift */,
+				323856FF2AFE4D820082272B /* BankAccountViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -375,6 +380,7 @@
 			isa = PBXGroup;
 			children = (
 				F5449ABE2AB0D33D00BE5AF4 /* TransactionModel.swift */,
+				323856FD2AFE4C670082272B /* AccountModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -713,6 +719,7 @@
 				F5D118522A9FB6A100C027FA /* PaymentView.swift in Sources */,
 				F5A11EBE2AAF9D7A005FDEDB /* ErrorView.swift in Sources */,
 				F5EA16BE2AB22FD7000F9CCA /* TermsView.swift in Sources */,
+				323856FE2AFE4C670082272B /* AccountModel.swift in Sources */,
 				32E006022AD524A7008CA8ED /* UserAuthViewModel.swift in Sources */,
 				F51193972A97C99F00554604 /* String+Extension.swift in Sources */,
 				F59196EE2ABA1D3900D8F15D /* AccountInfoView.swift in Sources */,
@@ -736,6 +743,7 @@
 				F56C08262AABA79700CE07C9 /* GiftCardDetailView.swift in Sources */,
 				F59F81F12AC3569400A51AC6 /* ImagePreView.swift in Sources */,
 				F51193A62A97D19500554604 /* Font+Extension.swift in Sources */,
+				323857002AFE4D830082272B /* BankAccountViewModel.swift in Sources */,
 				F51193952A97C97400554604 /* Colors+Extension.swift in Sources */,
 				F59F81EF2AC3463800A51AC6 /* NotificationCenter+Extension.swift in Sources */,
 				F561E41D2A992B2B00599CE9 /* CompanyView.swift in Sources */,
@@ -883,7 +891,7 @@
 				CODE_SIGN_ENTITLEMENTS = Farepay/Farepay.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_ASSET_PATHS = "\"Farepay/Preview Content\"";
 				DEVELOPMENT_TEAM = F2D64HKJXK;
 				ENABLE_PREVIEWS = YES;
@@ -926,7 +934,7 @@
 				CODE_SIGN_ENTITLEMENTS = Farepay/Farepay.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_ASSET_PATHS = "\"Farepay/Preview Content\"";
 				DEVELOPMENT_TEAM = F2D64HKJXK;
 				ENABLE_PREVIEWS = YES;

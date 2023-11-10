@@ -385,6 +385,21 @@
                   endingLineNumber = "196"
                   offsetFromSymbolStart = "1516">
                </Location>
+               <Location
+                  uuid = "B06E4389-C474-4D85-903B-C2C4E33B1449 - 181ccc56445f0b63"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Farepay.ReaderDiscoverModel.terminal(_: __C.SCPTerminal, didUpdateDiscoveredReaders: Swift.Array&lt;__C.SCPReader&gt;) -&gt; ()"
+                  moduleName = "Farepay"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/mapmac/Documents/GitHub/IOS-FarePay/Farepay/Farepay/View/Payment/TapToPayView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "196"
+                  endingLineNumber = "196"
+                  offsetFromSymbolStart = "1544">
+               </Location>
             </Locations>
          </BreakpointContent>
       </BreakpointProxy>
@@ -402,6 +417,70 @@
             endingLineNumber = "100"
             landmarkName = "checkUserAccountCreated()"
             landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "E3AD0DD4-BAEB-4E35-A4B1-AA5CA7FF702A"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Farepay/View/Account/BankAccount/AddNewBankAccountView.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "102"
+            endingLineNumber = "102"
+            landmarkName = "buttonArea"
+            landmarkType = "24">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "514DEB3C-C86B-4306-BFF0-705596B42E9E"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Farepay/View/Account/BankAccount/AddNewBankAccountView.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "126"
+            endingLineNumber = "126"
+            landmarkName = "buttonArea"
+            landmarkType = "24">
+            <Locations>
+               <Location
+                  uuid = "514DEB3C-C86B-4306-BFF0-705596B42E9E - 3817642982abc088"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 () -&gt; () in closure #1 () -&gt; SwiftUI.Button&lt;&lt;&lt;opaque return type of SwiftUI.View.cornerRadius(_: CoreGraphics.CGFloat, antialiased: Swift.Bool) -&gt; some&gt;&gt;.0&gt; in Farepay.AddNewBankAccountView.buttonArea.getter : some"
+                  moduleName = "Farepay"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/mapmac/Documents/GitHub/IOS-FarePay/Farepay/Farepay/View/Account/BankAccount/AddNewBankAccountView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "127"
+                  endingLineNumber = "127"
+                  offsetFromSymbolStart = "568">
+               </Location>
+               <Location
+                  uuid = "514DEB3C-C86B-4306-BFF0-705596B42E9E - 3817642982abc088"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 () -&gt; () in closure #1 () -&gt; SwiftUI.Button&lt;&lt;&lt;opaque return type of SwiftUI.View.cornerRadius(_: CoreGraphics.CGFloat, antialiased: Swift.Bool) -&gt; some&gt;&gt;.0&gt; in Farepay.AddNewBankAccountView.buttonArea.getter : some"
+                  moduleName = "Farepay"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/mapmac/Documents/GitHub/IOS-FarePay/Farepay/Farepay/View/Account/BankAccount/AddNewBankAccountView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "127"
+                  endingLineNumber = "127"
+                  offsetFromSymbolStart = "628">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

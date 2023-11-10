@@ -20,7 +20,7 @@ struct SplashView: View {
     @State private var willMoveToMainView = false
     @State private var willMoveToCompanyView = false
     @State private var showLoadingIndicator: Bool = true
-    
+    @AppStorage("accountId") var accountId: String = ""
     //MARK: - Views
     var body: some View {
         NavigationView {
@@ -108,6 +108,9 @@ struct SplashView: View {
                 guard let snap = snapShot else { return  }
                 isAccountCreated = snap.get("isAccountCreated") as? Bool ?? false
                 isBankCreated = snap.get("bankAccced") as? Bool ?? false
+                if accountId == "" {
+                    accountId = snap.get("accoundId") as? String ?? ""
+                }
                 navigateNext()
 
             }

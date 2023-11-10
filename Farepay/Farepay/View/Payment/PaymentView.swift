@@ -13,6 +13,10 @@ struct PaymentView: View {
     @ObservedObject private var currencyManager = CurrencyManager(amount: 0)
     @State private var willMoveToPaymentDetail = false
     @Binding var presentSideMenu: Bool
+//    @State private var totalChargresWithTax = 0.0
+//    @State private var totalAmount = 0.0
+//    @State private var serviceFee = 0.0
+//    @State private var serviceFeeGst = 0.0
     
     //MARK: - Views
     var body: some View {
@@ -24,7 +28,9 @@ struct PaymentView: View {
                 .edgesIgnoringSafeArea(.all)
             VStack{
                 topArea
+//                calculationArea
                 Spacer()
+                
                 keypadArea
                 buttonArea
             }
@@ -85,21 +91,102 @@ extension PaymentView{
                         .foregroundColor(.white)
                         .multilineTextAlignment(.trailing)
                         .onChange(of: currencyManager.string, perform: currencyManager.valueChanged)
+                        
                         .disabled(true)
                 }
                 .padding(.horizontal, 20)
             }
             .frame(maxWidth: .infinity)
-            .frame(height: 80)
+            .frame(height: 60)
             .background(Color(.darkBlueColor))
             .cornerRadius(10)
         }
         .padding(.horizontal, 15)
     }
     
+    var calculationArea : some View {
+        VStack{
+            
+//            HStack(spacing: 30){
+//                
+//                
+//                
+//                Text("Charge Fare ")
+//                    .foregroundColor(.white)
+//                    .font(.custom(.poppinsBold, size: 25))
+//                
+//                Spacer()
+//            }
+//            .frame(maxWidth: .infinity)
+//            
+//            ZStack{
+//                HStack{
+//                    
+//                    Text("$")
+//                        .font(.custom(.poppinsMedium, size: 25))
+//                        .foregroundColor(Color(.darkGrayColor))
+//                    Spacer()
+//                    
+//                    //                    TextField("", text: $totalChargresWithTax, prompt: Text("0.00").foregroundColor(Color(.white)))
+//                    
+//                    Text(totalChargresWithTax.description)
+//                        .font(.custom(.poppinsBold, size: 40))
+//                        .frame(height: 30)
+//                        .foregroundColor(.white)
+//                        .multilineTextAlignment(.trailing)
+//                        .lineLimit(1)
+////                        .disabled(isDisabled)
+//                }
+//                .padding(.horizontal, 20)
+//            }
+//            .frame(maxWidth: .infinity)
+//            .frame(height: 80)
+//            .background(Color(.darkBlueColor))
+//            .cornerRadius(10)
+            
+            VStack(spacing: 5){
+                
+               
+                
+                HStack{
+                    
+                    Text("Service Charges : ")
+                        .foregroundColor(Color(.darkGrayColor))
+                        .font(.custom(.poppinsMedium, size: 23))
+                    Spacer()
+                    Text("$ \(currencyManager.serviceFee.description)")
+                        .foregroundColor(Color(.white))
+                        .font(.custom(.poppinsBold, size: 23))
+                }
+                
+                HStack{
+                    
+                    Text("Service Fee GST")
+                        .foregroundColor(Color(.darkGrayColor))
+                        .font(.custom(.poppinsMedium, size: 23))
+                    Spacer()
+                    Text("$ \(currencyManager.serviceFeeGst.description)")
+                        .foregroundColor(Color(.white))
+                        .font(.custom(.poppinsBold, size: 23))
+                }
+                
+                HStack{
+                    
+                    Text("Fare Inc GST :")
+                        .foregroundColor(Color(.darkGrayColor))
+                        .font(.custom(.poppinsMedium, size: 23))
+                    Spacer()
+                    Text("$ \(currencyManager.totalChargresWithTax.description)")
+                        .foregroundColor(Color(.white))
+                        .font(.custom(.poppinsBold, size: 23))
+                }
+            }
+        }
+        .padding(.horizontal, 10)
+    }
     var keypadArea: some View{
         
-        VStack(spacing: 40){
+        VStack(spacing: 25){
             
             HStack{
                 

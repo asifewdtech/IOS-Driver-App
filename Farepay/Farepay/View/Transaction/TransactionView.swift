@@ -18,16 +18,18 @@ struct TransactionView: View {
     @StateObject var  transectionViewModel = TransectionViewModel()
     @State private var isPresentedExport: Bool = false
     @State var willMoveToTransactionDetailView: Bool = false
-    @State var transactions: String = ""
+    @State var transactions: transactionModel?
+    @State private var csvFile: String = ""
+    @State private var showShareSheet = false
     
     //MARK: - Views
     var body: some View {
         
         ZStack {
             ZStack{
-                
-                NavigationLink("", destination: TransactionDetailView(transactionType: transactions).toolbar(.hidden, for: .navigationBar), isActive: $willMoveToTransactionDetailView ).isDetailLink(false)
-                
+                if let transactions = transactions {
+                    NavigationLink("", destination: TransactionDetailView(transactionType: transactions).toolbar(.hidden, for: .navigationBar), isActive: $willMoveToTransactionDetailView ).isDetailLink(false)
+                }
                 Color(.bgColor).edgesIgnoringSafeArea(.all)
                 VStack(spacing: 25){
                     topArea
@@ -36,8 +38,29 @@ struct TransactionView: View {
                 .onAppear(perform: {
                     Task {
                         try await transectionViewModel.getAllTransection(url: weeklyTransection, method: .get)
+                        
                     }
                     
+                })
+                
+                
+                .onChange(of: transectionViewModel.apiCall, perform: { newValue in
+                    
+
+                    if let csv = transectionViewModel.arrTransaction.toCSV() {
+                        //                            print(csv)
+                        
+                        csvFile = csv
+                        
+//                        if let fileURL = saveCSVStringToFile(csv, filename: "data.csv") {
+//                            csvURL = fileURL
+//                            
+//                            print(csvURL)
+//                            
+//                            
+//                        }
+                    }
+                  
                 })
                 .padding(.all, 15)
             }
@@ -97,11 +120,23 @@ extension TransactionView{
                             .onTapGesture {
 
                                 isExporting = true
+                                
+//                                DispatchQueue.main.async {
+//                                    showShareSheet.toggle()
+//                                }
+//                                
                             }
+                        
+//                            .sheet(isPresented: $showShareSheet) {
+//                                           if let url = csvURL {
+//                                               ShareSheet(fileURL: url)
+//                                           }
+//                                       }
 //                            .fullScreenCover(isPresented: $isPresentedExport) {
 //                                ExportPopUpView(presentedAsModal: $isPresentedExport)
 //                            }
-                            .fileExporter(isPresented: $isExporting, document: CSVFile(initialText: "Item 1, Item2, Item3"), contentType: UTType.commaSeparatedText) { result in
+                            .fileExporter(isPresented: $isExporting, document: CSVFile(initialText: csvFile), contentType: UTType.commaSeparatedText) { result in
+                                
                                         }
                         
                         Button {
@@ -159,6 +194,18 @@ extension TransactionView{
         }
         
     }
+    func saveCSVStringToFile(_ csvString: String, filename: String) -> URL? {
+        let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
+        let fileURL = paths[0].appendingPathComponent(filename)
+        
+        do {
+            try csvString.write(to: fileURL, atomically: true, encoding: .utf8)
+            return fileURL
+        } catch {
+            print("Error saving file: \(error)")
+            return nil
+        }
+    }
     
     var listView: some View{
         
@@ -188,15 +235,15 @@ extension TransactionView{
                                         .font(.custom(.poppinsSemiBold, size: 20))
                                         .foregroundColor(.white)
                                 }
-//                                HStack{
-//                                    Text("Sydney City")
-//                                        .font(.custom(.poppinsMedium, size: 15))
-//                                        .foregroundColor(Color(.darkGrayColor))
-//                                    Spacer()
-//                                    Text("Balance $ 100.00")
-//                                        .font(.custom(.poppinsMedium, size: 15))
-//                                        .foregroundColor(Color(.darkGrayColor))
-//                                }
+                                HStack{
+                                    Text(dateToString(date:Date(timeIntervalSince1970: TimeInterval(trans.created))))
+                                        .font(.custom(.poppinsMedium, size: 15))
+                                        .foregroundColor(Color(.darkGrayColor))
+                                    Spacer()
+                                    Text(trans.currency)
+                                        .font(.custom(.poppinsMedium, size: 15))
+                                        .foregroundColor(Color(.darkGrayColor))
+                                }
                             }
                             .padding(.horizontal, 20)
                         }
@@ -205,8 +252,8 @@ extension TransactionView{
                         .background(Color(.darkBlueColor))
                         .cornerRadius(10)
                         .onTapGesture {
-//                            transactions = trans
-//                            willMoveToTransactionDetailView.toggle()
+                            transactions = trans
+                            willMoveToTransactionDetailView.toggle()
                         }
                     }
                     
@@ -268,3 +315,60 @@ struct CSVFile: FileDocument {
         return FileWrapper(regularFileWithContents: data)
     }
 }
+
+
+extension Double {
+    func getDateStringFromUTC() -> String {
+        let date = Date(timeIntervalSince1970: self)
+
+        let dateFormatter = DateFormatter()
+        dateFormatter.locale = Locale(identifier: "en_US")
+        dateFormatter.dateStyle = .medium
+
+        return dateFormatter.string(from: date)
+    }
+}
+
+
+extension Array where Element: Codable {
+    func toCSV() -> String? {
+        guard let first = self.first else { return nil }
+        
+        let encoder = JSONEncoder()
+        
+        // Convert to header
+        guard let firstData = try? encoder.encode(first),
+              let firstDict = try? JSONSerialization.jsonObject(with: firstData, options: []) as? [String: Any] else { return nil }
+        
+        // Use ordered keys to ensure consistent column order
+        let orderedKeys = firstDict.keys.sorted()
+        let header = orderedKeys.joined(separator: ",")
+        
+        // Convert to rows
+        let rows = self.compactMap { element -> String? in
+            guard let data = try? encoder.encode(element),
+                  let dict = try? JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] else { return nil }
+            
+            return orderedKeys.compactMap { key in
+                return dict[key].map { "\($0)" }
+            }.joined(separator: ",")
+        }
+        
+        return ([header] + rows).joined(separator: "\n")
+    }
+}
+
+
+struct ShareSheet: UIViewControllerRepresentable {
+    var fileURL: URL
+    
+    func makeUIViewController(context: Context) -> some UIViewController {
+        let controller = UIActivityViewController(activityItems: [fileURL], applicationActivities: nil)
+        return controller
+    }
+    
+    func updateUIViewController(_ uiViewController: UIViewControllerType, context: Context) {
+    }
+}
+
+

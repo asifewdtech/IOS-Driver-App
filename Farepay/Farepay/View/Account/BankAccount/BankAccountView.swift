@@ -12,7 +12,7 @@ struct BankAccountView: View {
     //MARK: - Variables
     @Environment(\.presentationMode) private var presentationMode: Binding<PresentationMode>
     @State var willMoveToNewAccount: Bool = false
-    
+    @StateObject var bankAccountViewModel = BankAccountViewModel()
     //MARK: - Views
     var body: some View {
         ZStack{
@@ -59,7 +59,7 @@ extension BankAccountView{
         
         VStack{
             ScrollView(showsIndicators: false){
-                ForEach(0..<4) { index in
+                ForEach(bankAccountViewModel.bankList) { bank in
                     VStack{
                         HStack(spacing: 15){
                             Image(uiImage: .image_placeholder)
@@ -67,12 +67,12 @@ extension BankAccountView{
                                 .frame(width: 50, height: 50)
                                 .cornerRadius(25)
                             VStack(alignment: .leading, spacing: 10){
-                                Text("Caribbean Development Bank")
+                                Text(bank.bankName)
                                     .font(.custom(.poppinsSemiBold, size: 16))
                                     .foregroundColor(.white)
                                     .lineLimit(2)
                                 HStack{
-                                    Text("**** **** **** 1564")
+                                    Text("**** **** **** \(bank.last4)")
                                         .font(.custom(.poppinsMedium, size: 14))
                                         .foregroundColor(Color(.darkGrayColor))
                                     Spacer()

@@ -12,6 +12,8 @@ import FirebaseAuth
 class CompleteFormViewModel: ObservableObject {
     @Published var goToAccountScreen = false
     @Published var goToHomeScreen = false
+    
+    @Published var errorMsg = ""
     @AppStorage("accountId") var accountId: String = ""
 //    var accountId = ""
     
@@ -58,6 +60,20 @@ class CompleteFormViewModel: ObservableObject {
                     print("errorMsg")
                 }
             }else {
+                do {
+                    guard let json = try JSONSerialization.jsonObject(with: data, options: []) as? [String : Any] else {return}
+                    print(json)
+                    guard let errors = json["error"] as? [String : Any] else {return}
+                    
+                    guard let raw = errors["raw"] as? [String : Any] else {return}
+                    
+                    guard let error = raw["message"] as? String else {return}
+                    print(error)
+                    self.errorMsg = error
+                }
+                catch {
+                    self.errorMsg = "Server Error"
+                }
 //                self.goToAccountScreen = true
             }
             
@@ -99,6 +115,20 @@ class CompleteFormViewModel: ObservableObject {
                 self.goToHomeScreen = true
             }else {
                 self.goToHomeScreen = false
+                do {
+                    guard let json = try JSONSerialization.jsonObject(with: data, options: []) as? [String : Any] else {return}
+                    print(json)
+                    guard let errors = json["error"] as? [String : Any] else {return}
+                    
+                    guard let raw = errors["raw"] as? [String : Any] else {return}
+                    
+                    guard let error = raw["message"] as? String else {return}
+                    print(error)
+                    self.errorMsg = error
+                }
+                catch {
+                    self.errorMsg = "Server Error"
+                }
             }
             
         }
