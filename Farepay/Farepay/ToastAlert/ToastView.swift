@@ -33,12 +33,12 @@ struct ToastView: View {
     }
     .padding()
     .frame(minWidth: 0, maxWidth: width)
-    .background(  Color(.bgColor))
+    .background(  Color.white)
     .cornerRadius(8)
     .overlay(
       RoundedRectangle(cornerRadius: 8)
         
-        .stroke(style.themeColor, lineWidth: 1)
+        .stroke(Color(.black), lineWidth: 1)
         .opacity(0.6)
         
     )

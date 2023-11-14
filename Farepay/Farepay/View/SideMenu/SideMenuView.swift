@@ -13,7 +13,7 @@ enum SideMenuRowType: Int, CaseIterable{
 //    case giftCards
     case Payout
     case Transactions
-    case ReferaFriend
+//    case ReferaFriend
     case PrivacyPolicy
     case TermsofUse
     
@@ -27,8 +27,8 @@ enum SideMenuRowType: Int, CaseIterable{
             return "Payout"
         case .Transactions:
             return "Transactions"
-        case .ReferaFriend:
-            return "Refer a Friend"
+//        case .ReferaFriend:
+//            return "Refer a Friend"
         case .PrivacyPolicy:
             return "Privacy Policy"
         case .TermsofUse:
@@ -45,8 +45,8 @@ enum SideMenuRowType: Int, CaseIterable{
             return .ic_Payout
         case .Transactions:
             return .ic_Transactions
-        case .ReferaFriend:
-            return .ic_Refer
+//        case .ReferaFriend:
+//            return .ic_Refer
         case .PrivacyPolicy:
             return .ic_Refer
         case .TermsofUse:
@@ -96,7 +96,7 @@ struct SideMenuView: View {
                             .frame(height: 50)
                             .padding(.leading, 15)
                             .onTapGesture {
-                                selectedSideMenuTab = 6
+                                selectedSideMenuTab = 5
                                 presentSideMenu.toggle()
                             }
                                 

@@ -14,7 +14,7 @@ struct TransactionView: View {
     @State var transactionType: String = "All Transactions"
     @State var isExporting = false
     @State private var showingOptions = false
-       @State private var selection = "None"
+    @State private var selection = "None"
     @StateObject var  transectionViewModel = TransectionViewModel()
     @State private var isPresentedExport: Bool = false
     @State var willMoveToTransactionDetailView: Bool = false
@@ -46,31 +46,31 @@ struct TransactionView: View {
                 
                 .onChange(of: transectionViewModel.apiCall, perform: { newValue in
                     
-
+                    
                     if let csv = transectionViewModel.arrTransaction.toCSV() {
                         //                            print(csv)
                         
                         csvFile = csv
                         
-//                        if let fileURL = saveCSVStringToFile(csv, filename: "data.csv") {
-//                            csvURL = fileURL
-//                            
-//                            print(csvURL)
-//                            
-//                            
-//                        }
+                        //                        if let fileURL = saveCSVStringToFile(csv, filename: "data.csv") {
+                        //                            csvURL = fileURL
+                        //
+                        //                            print(csvURL)
+                        //
+                        //
+                        //                        }
                     }
-                  
+                    
                 })
                 .padding(.all, 15)
             }
             
             
             
-                ActivityIndicatorView(isVisible: $transectionViewModel.apiCall, type: .growingArc(.white, lineWidth: 5))
-                    .frame(width: 50.0, height: 50.0)
-                    .foregroundColor(.white)
-                    .padding(.top, 350)
+            ActivityIndicatorView(isVisible: $transectionViewModel.apiCall, type: .growingArc(.white, lineWidth: 5))
+                .frame(width: 50.0, height: 50.0)
+                .foregroundColor(.white)
+                .padding(.top, 350)
             
             
         }
@@ -118,26 +118,26 @@ extension TransactionView{
                             .background(Color(.buttonColor))
                             .cornerRadius(10)
                             .onTapGesture {
-
+                                
                                 isExporting = true
                                 
-//                                DispatchQueue.main.async {
-//                                    showShareSheet.toggle()
-//                                }
-//                                
+                                //                                DispatchQueue.main.async {
+                                //                                    showShareSheet.toggle()
+                                //                                }
+                                //
                             }
                         
-//                            .sheet(isPresented: $showShareSheet) {
-//                                           if let url = csvURL {
-//                                               ShareSheet(fileURL: url)
-//                                           }
-//                                       }
-//                            .fullScreenCover(isPresented: $isPresentedExport) {
-//                                ExportPopUpView(presentedAsModal: $isPresentedExport)
-//                            }
+                        //                            .sheet(isPresented: $showShareSheet) {
+                        //                                           if let url = csvURL {
+                        //                                               ShareSheet(fileURL: url)
+                        //                                           }
+                        //                                       }
+                        //                            .fullScreenCover(isPresented: $isPresentedExport) {
+                        //                                ExportPopUpView(presentedAsModal: $isPresentedExport)
+                        //                            }
                             .fileExporter(isPresented: $isExporting, document: CSVFile(initialText: csvFile), contentType: UTType.commaSeparatedText) { result in
                                 
-                                        }
+                            }
                         
                         Button {
                             showingOptions = true
@@ -153,7 +153,7 @@ extension TransactionView{
                                         .stroke(Color(.darkGrayColor), lineWidth: 2)
                                 )
                         }
-
+                        
                         
                         
                     }
@@ -168,23 +168,23 @@ extension TransactionView{
                 
                 
                 Task {
-                   try await transectionViewModel.getAllTransection(url: todayTransection, method: .get)
+                    try await transectionViewModel.getAllTransection(url: todayTransection, method: .get)
                 }
             }
             
             Button("This Week") {
                 
-
+                
                 
                 Task {
-                   try await transectionViewModel.getAllTransection(url: weeklyTransection, method: .get)
+                    try await transectionViewModel.getAllTransection(url: weeklyTransection, method: .get)
                 }
             }
             
             Button("Last 3 Months") {
                 
                 Task {
-                   try await transectionViewModel.getAllTransection(url: threeMonthlyTransection, method: .get)
+                    try await transectionViewModel.getAllTransection(url: threeMonthlyTransection, method: .get)
                 }
             }
             
@@ -211,55 +211,56 @@ extension TransactionView{
         
         ScrollView(.vertical, showsIndicators: false) {
             LazyVStack(alignment: .leading, spacing: 10) {
-//                ForEach(transectionViewModel.arrTransaction, id: \.id) { transaction in
+                //                ForEach(transectionViewModel.arrTransaction, id: \.id) { transaction in
+                
+                //                    HStack{
+                //                        Text(formatDate(Date.now)
+                //                            .font(.custom(.poppinsBold, size: 22))
+                //                            .foregroundColor(.white)
+                //                        Spacer()
+                //                    }
+                //                    .frame(maxWidth: .infinity)
+                //                    .padding([.top, .bottom], 5)
+                //
+                
+                ForEach(transectionViewModel.arrTransaction, id: \.id) { trans in
                     
-//                    HStack{
-//                        Text(formatDate(Date.now)
-//                            .font(.custom(.poppinsBold, size: 22))
-//                            .foregroundColor(.white)
-//                        Spacer()
-//                    }
-//                    .frame(maxWidth: .infinity)
-//                    .padding([.top, .bottom], 5)
-//                    
-                    ForEach(transectionViewModel.arrTransaction, id: \.id) { trans in
-                        
-                        VStack(spacing: 5){
-                            Group{
-                                HStack{
-                                    Text(trans.object)
-                                        .font(.custom(.poppinsSemiBold, size: 20))
-                                        .foregroundColor(.white)
-                                    Spacer()
-                                    Text("$\(trans.amount)")
-                                        .font(.custom(.poppinsSemiBold, size: 20))
-                                        .foregroundColor(.white)
-                                }
-                                HStack{
-                                    Text(dateToString(date:Date(timeIntervalSince1970: TimeInterval(trans.created))))
-                                        .font(.custom(.poppinsMedium, size: 15))
-                                        .foregroundColor(Color(.darkGrayColor))
-                                    Spacer()
-                                    Text(trans.currency)
-                                        .font(.custom(.poppinsMedium, size: 15))
-                                        .foregroundColor(Color(.darkGrayColor))
-                                }
+                    VStack(spacing: 5){
+                        Group{
+                            HStack{
+                                Text(trans.object)
+                                    .font(.custom(.poppinsSemiBold, size: 20))
+                                    .foregroundColor(.white)
+                                Spacer()
+                                Text("$\(Double( trans.amount) / 100)".description)
+                                    .font(.custom(.poppinsSemiBold, size: 20))
+                                    .foregroundColor(.white)
                             }
-                            .padding(.horizontal, 20)
+                            HStack{
+                                Text(dateToString(date:Date(timeIntervalSince1970: TimeInterval(trans.created))))
+                                    .font(.custom(.poppinsMedium, size: 15))
+                                    .foregroundColor(Color(.darkGrayColor))
+                                Spacer()
+                                Text(trans.currency)
+                                    .font(.custom(.poppinsMedium, size: 15))
+                                    .foregroundColor(Color(.darkGrayColor))
+                            }
                         }
-                        .frame(maxWidth: .infinity)
-                        .frame(height: 70)
-                        .background(Color(.darkBlueColor))
-                        .cornerRadius(10)
-                        .onTapGesture {
-                            transactions = trans
-                            willMoveToTransactionDetailView.toggle()
-                        }
+                        .padding(.horizontal, 20)
                     }
-                    
-                    Spacer().frame(height: 10)
+                    .frame(maxWidth: .infinity)
+                    .frame(height: 70)
+                    .background(Color(.darkBlueColor))
+                    .cornerRadius(10)
+                    .onTapGesture {
+                        transactions = trans
+                        willMoveToTransactionDetailView.toggle()
+                    }
                 }
-//            }
+                
+                Spacer().frame(height: 10)
+            }
+            //            }
         }
     }
 }
@@ -270,13 +271,13 @@ extension Date {
         let cal = Calendar.current
         // start with today
         var date = cal.startOfDay(for: Date())
-
+        
         var arrDates = [String]()
-
+        
         for _ in 1 ... nDays {
             // move back in time by one day:
             date = cal.date(byAdding: Calendar.Component.day, value: -1, to: date)!
-
+            
             let dateFormatter = DateFormatter()
             dateFormatter.dateFormat = "yyyy-MM-dd"
             let dateString = dateFormatter.string(from: date)
@@ -293,22 +294,22 @@ struct CSVFile: FileDocument {
     // tell the system we support only plain text
     static var readableContentTypes = [UTType.commaSeparatedText]
     static var writableContentTypes = [UTType.commaSeparatedText]
-
+    
     // by default our document is empty
     var text = ""
-
+    
     // a simple initializer that creates new, empty documents
     init(initialText: String = "") {
         text = initialText
     }
-
+    
     // this initializer loads data that has been saved previously
     init(configuration: ReadConfiguration) throws {
         if let data = configuration.file.regularFileContents {
             text = String(decoding: data, as: UTF8.self)
         }
     }
-
+    
     // this will be called when the system wants to write our data to disk
     func fileWrapper(configuration: WriteConfiguration) throws -> FileWrapper {
         let data = Data(text.utf8)
@@ -320,11 +321,11 @@ struct CSVFile: FileDocument {
 extension Double {
     func getDateStringFromUTC() -> String {
         let date = Date(timeIntervalSince1970: self)
-
+        
         let dateFormatter = DateFormatter()
         dateFormatter.locale = Locale(identifier: "en_US")
         dateFormatter.dateStyle = .medium
-
+        
         return dateFormatter.string(from: date)
     }
 }

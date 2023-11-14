@@ -14,7 +14,11 @@ struct TransactionDetailView: View {
     var transactionType: transactionModel
     @Environment(\.presentationMode) private var presentationMode: Binding<PresentationMode>
     @State private var willMoveToQr = false
-    
+    @State private var totalChargresWithTax = 0.0
+    @State private var totalAmount = 0.0
+    @State private var serviceFee = 0.0
+    @State private var serviceFeeGst = 0.0
+    @State var amount = 0.0
     //MARK: - Views
     var body: some View {
         
@@ -28,6 +32,33 @@ struct TransactionDetailView: View {
                 detailView
                 Spacer()
             }
+            .onAppear(perform: {
+                
+                amount = Double( transactionType.amount) / 100
+          
+                
+                /// 1.236
+                
+                
+                    totalAmount = amount
+                    AmountDetail.instance.totalAmount = amount
+                    let amountWithFivePercent = amount * 5 / 100
+                    print("amountWithFivePercent \(amountWithFivePercent)")
+                    serviceFee = (amountWithFivePercent / 1.1).roundToDecimal(2)
+                    
+                    AmountDetail.instance.serviceFee = serviceFee
+                    print("serviceFee\(serviceFee)")
+                    
+                    serviceFeeGst = (amountWithFivePercent - serviceFee).roundToDecimal(2)
+                    AmountDetail.instance.serviceFeeGst = serviceFeeGst
+                    print("serviceFeeGst \(serviceFeeGst)")
+                    totalChargresWithTax = (serviceFee + serviceFeeGst + amount).roundToDecimal(2)
+                    
+                    AmountDetail.instance.totalChargresWithTax = totalChargresWithTax
+                    print("totalCharges \(totalChargresWithTax)")
+                    
+                
+            })
             .padding(.all, 15)
         }
     }
@@ -70,7 +101,7 @@ extension TransactionDetailView{
         
         VStack(spacing: 15){
 //            Text(transactionType == .giftCard ? "$500.00" : transactionType == .chargeFare ? "$100.00" : "$715.00")
-            Text("$\(transactionType.amount)")
+            Text("$\(totalAmount.description)")
                 .font(.custom(.poppinsBold, size: 50))
                 .foregroundColor(.white)
 //            Text(transactionType == .giftCard ? "Gift Card" : transactionType == .chargeFare ? "Charge Fare" : "Bank Transfer")
@@ -127,15 +158,45 @@ extension TransactionDetailView{
 //                            .font(.custom(.poppinsMedium, size: 18))
 //                            .foregroundColor(.white)
 //                    }
+                
+                HStack{
+                    Text("Fare Inc GST")
+                        .font(.custom(.poppinsBold, size: 20))
+                        .foregroundColor(.white)
+                    Spacer()
+                    Text("$ \(totalChargresWithTax.description)")
+                        .font(.custom(.poppinsMedium, size: 18))
+                        .foregroundColor(.white)
+                }
+                HStack{
+                    Text("Service Charges :")
+                        .font(.custom(.poppinsBold, size: 20))
+                        .foregroundColor(.white)
+                    Spacer()
+                    Text("$ \(serviceFee.description)")
+                        .font(.custom(.poppinsMedium, size: 18))
+                        .foregroundColor(.white)
+                }
+                HStack{
+                    Text("Service Fee GST")
+                        .font(.custom(.poppinsBold, size: 20))
+                        .foregroundColor(.white)
+                    Spacer()
+                    Text("$ \(serviceFeeGst.description)")
+                        .font(.custom(.poppinsMedium, size: 18))
+                        .foregroundColor(.white)
+                }
                 HStack{
                     Text("Balance before Purchase")
                         .font(.custom(.poppinsBold, size: 20))
                         .foregroundColor(.white)
                     Spacer()
-                    Text(" $\(transactionType.amount)")
+                    Text("$\(totalAmount.description)")
                         .font(.custom(.poppinsMedium, size: 18))
                         .foregroundColor(.white)
                 }
+                
+                
 //                    HStack{
 //                        Text("Balance after Purchase")
 //                            .font(.custom(.poppinsBold, size: 20))
@@ -152,33 +213,7 @@ extension TransactionDetailView{
 //            }
 //            else if transactionType.source_type == .chargeFare{
 //                Group{
-//                    HStack{
-//                        Text("Fare Inc GST")
-//                            .font(.custom(.poppinsBold, size: 20))
-//                            .foregroundColor(.white)
-//                        Spacer()
-//                        Text("$ 98.68")
-//                            .font(.custom(.poppinsMedium, size: 18))
-//                            .foregroundColor(.white)
-//                    }
-//                    HStack{
-//                        Text("Service Charges :")
-//                            .font(.custom(.poppinsBold, size: 20))
-//                            .foregroundColor(.white)
-//                        Spacer()
-//                        Text("$ 1.23")
-//                            .font(.custom(.poppinsMedium, size: 18))
-//                            .foregroundColor(.white)
-//                    }
-//                    HStack{
-//                        Text("Service Fee GST")
-//                            .font(.custom(.poppinsBold, size: 20))
-//                            .foregroundColor(.white)
-//                        Spacer()
-//                        Text("0.21%")
-//                            .font(.custom(.poppinsMedium, size: 18))
-//                            .foregroundColor(.white)
-//                    }
+//
 //                    HStack{
 //                        Text("Balance before Fare")
 //                            .font(.custom(.poppinsBold, size: 20))

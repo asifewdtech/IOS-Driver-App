@@ -97,7 +97,7 @@ extension AddNewBankAccountView{
 
          
             Button(action: {
-                if accountNumber.count == 9 && !accountNumber.isEmpty  {
+                if accountNumber.count == 9 && !accountHolderName.isEmpty  {
                     Task {
                         
                         let param = [
@@ -123,7 +123,7 @@ extension AddNewBankAccountView{
                         
                     }
                 }else {
-                    
+                    toast = Toast(style: .error, message: "Please Enter Account Holder Name and Valid Account Number")
                 }
             }, label: {
                 Text("Confirm")
