@@ -197,6 +197,22 @@ extension TransactionDetailView{
                 }
                 
                 
+                NavigationLink {
+                    PayQRView().toolbar(.hidden, for: .navigationBar)
+                } label: {
+                    HStack {
+                        Text("View Receipt")
+                            
+                        Spacer()
+                        Image(systemName: "chevron.right")
+                    }
+                    .font(.custom(.poppinsBold, size: 20))
+                    .foregroundColor(.white)
+                }
+
+                
+                
+                
 //                    HStack{
 //                        Text("Balance after Purchase")
 //                            .font(.custom(.poppinsBold, size: 20))
