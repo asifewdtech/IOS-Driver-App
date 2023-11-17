@@ -9,6 +9,8 @@ import SwiftUI
 import FirebaseAuth
 import SDWebImageSwiftUI
 import FirebaseFirestore
+import Firebase
+import FirebaseStorage
 struct AccountInfoView: View {
     
     //MARK: - Variables
@@ -16,6 +18,10 @@ struct AccountInfoView: View {
     @State var willMoveToEditInfo: Bool = false
     @State var userName: String = ""
     @State var phone: String = ""
+    @State var showImagePicker: Bool = false
+    @State var image: UIImage?
+    @State var url :String?
+   @StateObject var storageManager = StorageManager()
     // MARK: - Views
     var body: some View {
         
@@ -34,6 +40,9 @@ struct AccountInfoView: View {
                 }
                 buttonArea
             }
+            .fullScreenCover(isPresented: $showImagePicker, content: {
+                OpenGallary(isShown: $showImagePicker, image: $image)
+            })
             .onAppear(perform: {
                 Firestore.firestore().collection("Users").document(Auth.auth().currentUser?.uid ?? "").getDocument { snapShot, error in
                     if let error = error {
@@ -43,6 +52,13 @@ struct AccountInfoView: View {
                         guard let snap = snapShot else { return  }
                        userName  = snap.get("name") as? String ?? ""
                         phone = snap.get("phone") as? String ?? ""
+                        
+                        if let socialUrl = Auth.auth().currentUser?.photoURL?.absoluteString {
+                            url = socialUrl
+                        }else {
+                            url = snap.get("imageUrl") as? String ?? ""
+                        }
+                        
                         
 
                     }
@@ -85,12 +101,41 @@ extension AccountInfoView{
     var profileView: some View{
         
         VStack(spacing: 5){
-            if let url =  Auth.auth().currentUser?.photoURL {
+            if let urls =  URL(string: url ?? "") {
 //                Image(uiImage: .image_placeholder)
-                WebImage(url: url)
+                WebImage(url: urls)
                     .resizable()
                     .frame(width: 100, height: 100)
                     .cornerRadius(50)
+                
+                    .onTapGesture {
+                        withAnimation {
+                            self.showImagePicker.toggle()
+                            url = nil 
+                        }
+
+                    }
+            }else {
+                
+                
+                
+                Image(uiImage: image ??  .image_placeholder)
+                    .resizable()
+                    .frame(width: 100, height: 100)
+                    .aspectRatio(contentMode: .fill)
+                    .cornerRadius(50)
+                    .onTapGesture {
+                        withAnimation {
+                            self.showImagePicker.toggle()
+                        }
+
+                    }
+                
+                    .onChange(of: image ?? .image_placeholder, perform: { image in
+                        if image != .image_placeholder {
+                            storageManager.upload(image: image)
+                        }
+                    })
                 
             }
             Text(Auth.auth().currentUser?.displayName ?? "")
@@ -100,6 +145,8 @@ extension AccountInfoView{
                 .font(.custom(.poppinsThin, size: 18))
                 .foregroundColor(.white)
         }
+      
+
     }
     
     var infoView: some View{
@@ -165,4 +212,87 @@ extension AccountInfoView{
                 willMoveToEditInfo.toggle()
             }
     }
+}
+
+
+
+
+struct OpenGallary: UIViewControllerRepresentable {
+
+    let isShown: Binding<Bool>
+    let image: Binding<UIImage?>
+
+    class Coordinator: NSObject, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
+
+        let isShown: Binding<Bool>
+        let image: Binding<UIImage?>
+
+        init(isShown: Binding<Bool>, image: Binding<UIImage?>) {
+            self.isShown = isShown
+            self.image = image
+        }
+
+        func imagePickerController(_ picker: UIImagePickerController,
+                                   didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+            let uiImage = info[UIImagePickerController.InfoKey.originalImage] as! UIImage
+            self.image.wrappedValue =  uiImage
+            self.isShown.wrappedValue = false
+        }
+
+        func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+            isShown.wrappedValue = false
+        }
+
+    }
+
+    func makeCoordinator() -> Coordinator {
+        return Coordinator(isShown: isShown, image: image)
+    }
+
+    func makeUIViewController(context: UIViewControllerRepresentableContext<OpenGallary>) -> UIImagePickerController {
+        let picker = UIImagePickerController()
+        picker.delegate = context.coordinator
+        return picker
+    }
+
+    func updateUIViewController(_ uiViewController: UIImagePickerController,
+                                context: UIViewControllerRepresentableContext<OpenGallary>) {
+
+    }
+}
+
+
+class StorageManager: ObservableObject {
+    let storage = Storage.storage()
+    
+    func upload(image: UIImage) {
+        let storageRef = storage.reference().child("images/image.jpg")
+//        let resizedImage = image.
+        let data = image.jpegData(compressionQuality: 0.2)
+        let metadata = StorageMetadata()
+        metadata.contentType = "image/jpg"
+
+        if let data = data {
+                storageRef.putData(data, metadata: metadata) { (metadata, error) in
+                        if let error = error {
+                                print("Error while uploading file: ", error)
+                        }
+
+                        if let metadata = metadata {
+                                print("Metadata: ", metadata)
+                            
+                            storageRef.downloadURL { url, error in
+                                print(url)
+                                guard let url = url?.absoluteString else {return}
+                                Firestore.firestore().collection("Users").document(Auth.auth().currentUser?.uid ?? "").updateData(["imageUrl":url])
+                            }
+                        }
+                }
+        }
+    }
+    
+    
+    
+    
+    
 }
