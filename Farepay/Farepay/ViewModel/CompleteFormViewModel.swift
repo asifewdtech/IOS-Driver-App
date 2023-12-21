@@ -15,11 +15,12 @@ class CompleteFormViewModel: ObservableObject {
     
     @Published var errorMsg = ""
     @AppStorage("accountId") var accountId: String = ""
+    @AppStorage("email") var email: String = ""
 //    var accountId = ""
     
     let db = Firestore.firestore()
     @MainActor
-    func postData(url:String,method:Methods,name:String,phone:String)  async throws{
+    func postData(url:String,method:Methods,name:String,phone:String, email:String)  async throws{
         guard let url = URL(string: url) else {
             throw URLError(.badURL)
         }
@@ -47,12 +48,14 @@ class CompleteFormViewModel: ObservableObject {
                     guard let id = account["id"] as? String else {return}
                     self.accountId = id
                     self.goToAccountScreen = true
+                    self.email = email
                     
-                    
-                    self.db.collection("Users").document(Auth.auth().currentUser?.uid ?? "").setData(["isAccountCreated" : true,
+                    self.db.collection("usersInfo").document(Auth.auth().currentUser?.uid ?? "").setData(["connectAccountCreated" : true,
                                                                                                  "accoundId":self.accountId,
-                                                                                                 "name":name,
-                                                                                                 "phone":phone
+                                                                                                 "userName":name,
+                                                                                                 "phonenumber":phone,
+                                                                                                          "email": email,
+                                                                                                          "bankAdded": false
                                                                                                 ])
                    
                     
@@ -111,7 +114,7 @@ class CompleteFormViewModel: ObservableObject {
             if httpResponse.statusCode == 200 {
 
                 
-                self.db.collection("Users").document(Auth.auth().currentUser?.uid ?? "").updateData(["bankAccced":true])
+                self.db.collection("usersInfo").document(Auth.auth().currentUser?.uid ?? "").updateData(["bankAdded":true])
                 self.goToHomeScreen = true
             }else {
                 self.goToHomeScreen = false

@@ -44,14 +44,14 @@ struct AccountInfoView: View {
                 OpenGallary(isShown: $showImagePicker, image: $image)
             })
             .onAppear(perform: {
-                Firestore.firestore().collection("Users").document(Auth.auth().currentUser?.uid ?? "").getDocument { snapShot, error in
+                Firestore.firestore().collection("usersInfo").document(Auth.auth().currentUser?.uid ?? "").getDocument { snapShot, error in
                     if let error = error {
                         print(error.localizedDescription)
                     }else {
                         
                         guard let snap = snapShot else { return  }
-                       userName  = snap.get("name") as? String ?? ""
-                        phone = snap.get("phone") as? String ?? ""
+                       userName  = snap.get("userName") as? String ?? ""
+                        phone = snap.get("phonenumber") as? String ?? ""
                         
                         if let socialUrl = Auth.auth().currentUser?.photoURL?.absoluteString {
                             url = socialUrl
@@ -138,7 +138,8 @@ extension AccountInfoView{
                     })
                 
             }
-            Text(Auth.auth().currentUser?.displayName ?? "")
+//            Text(Auth.auth().currentUser?.displayName ?? "")
+            Text(userName)
                 .font(.custom(.poppinsBold, size: 25))
                 .foregroundColor(.white)
             Text(verbatim: Auth.auth().currentUser?.email ?? "")
@@ -284,7 +285,7 @@ class StorageManager: ObservableObject {
                             storageRef.downloadURL { url, error in
                                 print(url)
                                 guard let url = url?.absoluteString else {return}
-                                Firestore.firestore().collection("Users").document(Auth.auth().currentUser?.uid ?? "").updateData(["imageUrl":url])
+                                Firestore.firestore().collection("usersInfo").document(Auth.auth().currentUser?.uid ?? "").updateData(["imageUrl":url])
                             }
                         }
                 }

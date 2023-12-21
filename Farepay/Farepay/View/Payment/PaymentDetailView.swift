@@ -102,7 +102,7 @@ extension PaymentDetailView{
                     
                     //                    TextField("", text: $totalChargresWithTax, prompt: Text("0.00").foregroundColor(Color(.white)))
                     
-                    Text(totalChargresWithTax.description)
+                    Text(totalAmount.description)
                         .font(.custom(.poppinsBold, size: 40))
                         .frame(height: 30)
                         .foregroundColor(.white)
@@ -148,6 +148,23 @@ extension PaymentDetailView{
                         .font(.custom(.poppinsMedium, size: 23))
                     Spacer()
                     Text("$ \(serviceFeeGst.description)")
+                        .foregroundColor(Color(.white))
+                        .font(.custom(.poppinsBold, size: 23))
+                }
+                
+                HStack{
+                }
+                .frame(maxWidth: .infinity)
+                .frame(height: 2)
+                .background(Color(.darkBlueColor))
+                
+                HStack{
+                    
+                    Text("Total")
+                        .foregroundColor(Color(.darkGrayColor))
+                        .font(.custom(.poppinsMedium, size: 23))
+                    Spacer()
+                    Text("$ \(totalChargresWithTax.description)")
                         .foregroundColor(Color(.white))
                         .font(.custom(.poppinsBold, size: 23))
                 }

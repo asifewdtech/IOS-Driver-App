@@ -6,11 +6,14 @@
 //
 
 import SwiftUI
+import WebKit
 
 struct PayQRView: View {
     
     //MARK: - Variables
     @Environment(\.presentationMode) private var presentationMode: Binding<PresentationMode>
+    @State private var showWebView = false
+    
     //MARK: - Views
     var body: some View {
         
@@ -18,11 +21,12 @@ struct PayQRView: View {
             
             Color(.bgColor)
                 .edgesIgnoringSafeArea(.all)
-            ScrollView(.vertical, showsIndicators: false){
+            
                 
                 VStack{
                     topArea
-                    Spacer(minLength: 50)
+                    Spacer(minLength: 10)
+                    ScrollView(.vertical, showsIndicators: false){
                     successView
                     Spacer(minLength: 50)
                     listView
@@ -53,23 +57,25 @@ extension PayQRView{
                 
                 Image(uiImage: .backArrow)
                     .resizable()
-                    .frame(width: 35, height: 30)
+                    .frame(width: 25, height: 20)
                     .onTapGesture {
                         presentationMode.wrappedValue.dismiss()
+                        
                     }
                 Text("Receipt")
                     .foregroundColor(.white)
                     .font(.custom(.poppinsBold, size: 25))
                 Spacer()
-                Image(uiImage: .ic_Home2)
-                    .resizable()
-                    .frame(width: 45, height: 45)
-                    .onTapGesture {
-                        
-                        print("Home")
-                    }
+//                Image(uiImage: .ic_Home2)
+//                    .resizable()
+//                    .frame(width: 45, height: 45)
+//                    .onTapGesture {
+//                        
+//                        print("Home")
+//                    }
                 
             }
+            .padding(.horizontal, 10)
             .frame(maxWidth: .infinity)
         }
     }
@@ -168,27 +174,27 @@ extension PayQRView{
             VStack(spacing: 40){
                 
                 
+                let QRUrl = "\("https://dev-ewdtech.org/appmob/?param1=")\("123456")\("&param2=")\("20/12")\("&param3=")\("1234")\("&param4=")\("1234")\("&param5=")\("1234")\("&param6=")\(AmountDetail.instance.totalAmount.description)\("&param7=")\(AmountDetail.instance.serviceFee.description)\("&param8=")\(AmountDetail.instance.serviceFeeGst.description)\("&param9=")\(AmountDetail.instance.totalChargresWithTax.description)"
                 
-                    
-                    Image(uiImage: UIImage(data: getQRCodeDate(text: "https://www.google.com/")!)!)
-                    
-                        .resizable()
-                        .frame(width: 175, height: 175)
-                    
+                Image(uiImage: UIImage(data: getQRCodeDate(text: QRUrl)!)!)
                 
-                Button {
-                    print("Scan QR for Receipt")
-                } label: {
-                    
-                    Text("Scan QR for Receipt")
-                        .font(.custom(.poppinsBold, size: 25))
-                        .foregroundColor(.white)
-                        .frame(width: 330)
-                        .frame(height: 60)
-                        
-                        .background(Color(.buttonColor))
-                        .cornerRadius(30)
-                }
+                    .resizable()
+                    .frame(width: 175, height: 175)
+                
+                
+//                Button {
+//                    print("Scan QR for Receipt")
+//                } label: {
+//                    
+//                    Text("Scan QR for Receipt")
+//                        .font(.custom(.poppinsBold, size: 25))
+//                        .foregroundColor(.white)
+//                        .frame(width: 330)
+//                        .frame(height: 60)
+//                        
+//                        .background(Color(.buttonColor))
+//                        .cornerRadius(30)
+//                }
             }
         }
         .frame(maxWidth: .infinity)
@@ -199,6 +205,24 @@ extension PayQRView{
                 .stroke(style: StrokeStyle(lineWidth: 2, dash: [5]))
                 .foregroundColor(Color(.darkGrayColor))
         )
+    }
+    
+    struct WebView: UIViewRepresentable {
+        
+        let webView: WKWebView
+        let webUrl = "\("https://dev-ewdtech.org/appmob/?param1=")\("value1")\("&param2=")\("123")\("&param3=")\("example")\("&param4=")\("true")\("&param5=")\("data")\("&param6=")\("42.0")\("&param7=")\("param7_value")\("&param8=")\("param8_value")\("&param9=")\("param9_valu")"
+        
+        init() {
+            webView = WKWebView(frame: .zero)
+            
+        }
+        
+        func makeUIView(context: Context) -> WKWebView {
+            return webView
+        }
+        func updateUIView(_ uiView: WKWebView, context: Context) {
+            webView.load(URLRequest(url: URL(string: webUrl)!))
+        }
     }
     
     func getQRCodeDate(text: String) -> Data? {

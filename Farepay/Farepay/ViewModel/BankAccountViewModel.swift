@@ -51,6 +51,33 @@ class BankAccountViewModel: ObservableObject {
                 
                 do {
 
+                    if let json = try JSONSerialization.jsonObject(with: data) as? NSDictionary{
+                        
+//                        onComplete(true, AccountModel(dictionary: json), "")
+                        
+//                        if let account = json["data"] as? NSArray{
+//                            print("Data is: ",account)
+//                            
+//                            for obj1 in account {
+//                                let obj = obj1
+//                                print("obj res: ",obj)
+//                                
+//                                let data1 =  try JSONSerialization.data(withJSONObject: obj, options: [])
+//                                
+//                                let decoder = JSONDecoder()
+//                                decoder.keyDecodingStrategy = .convertFromSnakeCase
+//                                let jsonPetitions = try? decoder.decode([AccountModel].self, from: data1)
+//                                self.bankList = jsonPetitions ?? []
+//                                
+//                                print("AccountModel: ",jsonPetitions)
+//                            }
+//                        }
+                        
+                    } else {
+                        print("error")
+                    }
+                     
+                    
                     let decoder = JSONDecoder()
                     decoder.keyDecodingStrategy = .convertFromSnakeCase
                     guard  let jsonPetitions = try? decoder.decode([AccountModel].self, from: data) else {return }
@@ -81,16 +108,6 @@ class BankAccountViewModel: ObservableObject {
             }
             
         }
-      
-        
-        
-        
-        
-        
-
     }
-
-    
-
 }
 

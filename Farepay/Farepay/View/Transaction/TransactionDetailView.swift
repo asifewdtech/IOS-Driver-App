@@ -11,7 +11,7 @@ struct TransactionDetailView: View {
     
     //MARK: - Variable
 //    var transactionType: String = .giftCard
-    var transactionType: transactionModel
+    var transactionType: MyResult1
     @Environment(\.presentationMode) private var presentationMode: Binding<PresentationMode>
     @State private var willMoveToQr = false
     @State private var totalChargresWithTax = 0.0

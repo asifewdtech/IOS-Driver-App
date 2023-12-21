@@ -8,6 +8,8 @@
 import SwiftUI
 import FirebaseAuth
 import FirebaseFirestore
+import ActivityIndicatorView
+
 struct EditAccountView: View {
     
     //MARK: - Variables
@@ -16,6 +18,7 @@ struct EditAccountView: View {
     @State private var nameText: String = ""
     @State private var phoneText: String = ""
     @State private var emailText: String = ""
+    @State private var showLoadingIndicator: Bool = false
     
     // MARK: - Views
     var body: some View {
@@ -28,14 +31,14 @@ struct EditAccountView: View {
                 buttonArea
             }
             .onAppear(perform: {
-                Firestore.firestore().collection("Users").document(Auth.auth().currentUser?.uid ?? "").getDocument { snapShot, error in
+                Firestore.firestore().collection("usersInfo").document(Auth.auth().currentUser?.uid ?? "").getDocument { snapShot, error in
                     if let error = error {
                         print(error.localizedDescription)
                     }else {
                         
                         guard let snap = snapShot else { return  }
-                        nameText  = snap.get("name") as? String ?? ""
-                        phoneText = snap.get("phone") as? String ?? ""
+                        nameText  = snap.get("userName") as? String ?? ""
+                        phoneText = snap.get("phonenumber") as? String ?? ""
                         
 
                     }
@@ -44,6 +47,11 @@ struct EditAccountView: View {
                 }
             })
             .padding(.all, 15)
+            
+            ActivityIndicatorView(isVisible: $showLoadingIndicator, type: .growingArc(.white, lineWidth: 5))
+                .frame(width: 50.0, height: 50.0)
+                .foregroundColor(.white)
+                .padding(.top, 350)
         }
     }
 }
@@ -116,9 +124,12 @@ extension EditAccountView{
         
         VStack(spacing: 20){
             Button(action: {
+                showLoadingIndicator = true
+                
                 if !nameText.isEmpty && phoneText.count == 9  {
-                    Firestore.firestore().collection("Users").document(Auth.auth().currentUser?.uid ?? "").updateData(["name":nameText,
-                                                                                                                       "phone":phoneText])
+                    Firestore.firestore().collection("usersInfo").document(Auth.auth().currentUser?.uid ?? "").updateData(["userName":nameText, "phonenumber":phoneText])
+                    showLoadingIndicator = false
+                    presentationMode.wrappedValue.dismiss()
                 }
                 
             }, label: {

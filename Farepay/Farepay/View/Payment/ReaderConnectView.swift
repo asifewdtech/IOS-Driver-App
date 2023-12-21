@@ -25,16 +25,10 @@ struct ReaderConnectView: View {
                 ConnectingArea
             }
             
-
-
-
         }
         .frame(maxWidth:.infinity,maxHeight:.infinity)
 
         .background(Color(.bgColor))
-        
-        
-        
             
     }
 }
@@ -63,7 +57,7 @@ extension ReaderConnectView {
             VStack {
                 Image("reader")
                     .resizable()
-                    .frame(width: 240, height: 161, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
+                    .frame(width: 240, height: 161, alignment: .center)
                 Text("No Reader Connected ")
                     .foregroundColor(.white)
                     .font(.custom(.poppinsBold, size: 25))
@@ -72,18 +66,8 @@ extension ReaderConnectView {
                     .foregroundColor(Color(.darkGray))
                     .font(.custom(.poppinsMedium, size: 15))
                     .multilineTextAlignment(.center)
-
-       
                 
             }
-            
-            
-            
-            
-            
-            
-            
-            
         }
         .padding(.horizontal,20)
         
@@ -117,7 +101,6 @@ extension ReaderConnectView {
                     Text("Back to Home")
                         .font(.custom(.poppinsBold, size: 25))
                         .foregroundColor(.white)
-
                 })
             }
 
@@ -139,20 +122,6 @@ extension ReaderConnectView {
             }
             .padding(.horizontal,20)
             
-            
-            
-            
-            
-
-            
-            
-            
-              
-            
-         
-
-            
-            
         }
         
     }
@@ -160,9 +129,6 @@ extension ReaderConnectView {
     var ConnectingArea: some View {
         
         ZStack(alignment:.center) {
-
-
-             
             
             VStack {
 
@@ -184,19 +150,6 @@ extension ReaderConnectView {
                     connected = true
                 }
             })
-            
-            
-            
-            
-
-            
-            
-            
-              
-            
-         
-
-            
             
         }
         

@@ -17,7 +17,7 @@ struct CompanyView: View {
     @State private var willMoveToRepresentativeView: Bool = false
     @State private var isPresentedPopUp: Bool = false
     @State var disableBtn = true
-
+    @State private var toast: Toast? = nil
     
     //MARK: - Views
     var body: some View {
@@ -37,6 +37,7 @@ struct CompanyView: View {
                     }
                     buttonArea
                 }
+                .toastView(toast: $toast)
                 .padding(.all, 15)
             }
             .onReceive(NotificationCenter.default.publisher(for: .proceedNext)) { _ in
@@ -150,19 +151,20 @@ extension CompanyView{
         
         VStack(spacing: 20){
             Button(action: {
-                                        isPresentedPopUp.toggle()
+                PresentedPopUp()
             }, label: {
                 Text("Proceed")
                     .font(.custom(.poppinsBold, size: 25))
                     .foregroundColor(.white)
                     .frame(maxWidth: .infinity)
                     .frame(height: 60)
-                    .background((companyText.isEmpty || cardText.count < 11 || contactText.count < 9) ? Color.gray : Color(.buttonColor))
+//                    .background((companyText.isEmpty || cardText.count < 11 || contactText.count < 9) ? Color.gray : Color(.buttonColor))
+                    .background(Color(.buttonColor))
                     .cornerRadius(30)
                     
                     
             })
-            .disabled(companyText.isEmpty || cardText.count < 11 || contactText.count < 9 )
+//            .disabled(companyText.isEmpty || cardText.count < 11 || contactText.count < 9 )
           
 
                 
@@ -170,6 +172,27 @@ extension CompanyView{
                 .fullScreenCover(isPresented: $isPresentedPopUp) {
                     StepsView(presentedAsModal: $isPresentedPopUp)
                 }
+        }
+    }
+    
+    func PresentedPopUp()  {
+        if companyText.isEmpty {
+            toast = Toast(style: .error, message: "Company Type field cannot be empty.")
+        }
+        else if cardText.isEmpty {
+            toast = Toast(style: .error, message: "ABN field cannot be empty.")
+        }
+        else if cardText.count <= 10 {
+            toast = Toast(style: .error, message: "ABN Should be 11 Digits.")
+        }
+        else if contactText.isEmpty {
+            toast = Toast(style: .error, message: "Tax ID field cannot be empty.")
+        }
+        else if contactText.count <= 8 {
+            toast = Toast(style: .error, message: "Tax ID Should be 9 Digits.")
+        }
+        else{
+            isPresentedPopUp.toggle()
         }
     }
 }

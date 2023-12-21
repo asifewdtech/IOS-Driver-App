@@ -9,6 +9,7 @@ import SwiftUI
 import GoogleSignIn
 import FirebaseAuth
 import FirebaseFirestore
+import ActivityIndicatorView
 struct LoginView: View {
     
     //MARK: - Variables
@@ -19,6 +20,8 @@ struct LoginView: View {
     @State private var toast: Toast? = nil
     @State private var showCompany = false
     @State private var goToHome = false
+    @State private var willMoveToBankAccount: Bool = false
+    @State private var showLoadingIndicator: Bool = false
     
     //MARK: - Views
     var body: some View {
@@ -39,6 +42,13 @@ struct LoginView: View {
             .toastView(toast: $toast)
             .padding(.all, 15)
             .environment(\.rootPresentationMode, $userAuth.isAccountCreated)
+            
+            ActivityIndicatorView(isVisible: $showLoadingIndicator, type: .growingArc(.white, lineWidth: 5))
+                .frame(width: 50.0, height: 50.0)
+                .foregroundColor(.white)
+                .padding(.top, 350)
+            
+            
             .onAppear(perform: {
                 
                 NotificationCenter.default.addObserver(forName: NSNotification.Name("SIGNIN"), object: nil, queue: .main) { (_) in
@@ -48,7 +58,7 @@ struct LoginView: View {
                     if userAuth.isLoggedIn == false  {
                         toast = Toast(style: .error, message: userAuth.errorMessage)
                     }else {
-                        Firestore.firestore().collection("Users").document(Auth.auth().currentUser?.uid ?? "").getDocument { snapShot, error in
+                        Firestore.firestore().collection("usersInfo").document(Auth.auth().currentUser?.uid ?? "").getDocument { snapShot, error in
                             if let error = error {
                                 print(error.localizedDescription)
                                 
@@ -57,15 +67,21 @@ struct LoginView: View {
                                 guard let snap = snapShot else { return  }
                                 
                                 DispatchQueue.main.async {
-                                    let isAccountCreated = snap.get("isAccountCreated") as? Bool ?? false
-                                    let bankAccced = snap.get("bankAccced") as? Bool ?? false
+                                    let isAccountCreated = snap.get("connectAccountCreated") as? Bool ?? false
+                                    let bankAccced = snap.get("bankAdded") as? Bool ?? false
                                     if isAccountCreated  && bankAccced {
                                         goToHome = true
                                         
-                                    }else {
-                                        
+                                    }else if isAccountCreated && bankAccced == false  {
+                                        willMoveToBankAccount = true
+                                    }
+                                    else {
                                         showCompany = true
                                     }
+//                                    else {
+//                                        
+//                                        showCompany = true
+//                                    }
                                     
                                     
                                 }
@@ -92,6 +108,7 @@ struct LoginView: View {
         
         .environment(\.rootPresentationMode, $goToHome)
         .environment(\.rootPresentationMode, $showCompany)
+        .environment(\.rootPresentationMode, $willMoveToBankAccount)
     }
     
     
@@ -215,38 +232,121 @@ extension LoginView{
             
             NavigationLink("", destination: MainTabbedView().toolbar(.hidden, for: .navigationBar), isActive: $goToHome).isDetailLink(false)
             
+            NavigationLink("", destination: Farepay.AddNewBankAccountView().toolbar(.hidden, for: .navigationBar), isActive: $willMoveToBankAccount ).isDetailLink(false)
+            
             Button(action: {
-                if !emailText.isEmpty && passwordText.count >= 6 {
+                if emailText.isEmpty {
+                    toast = Toast(style: .error, message: "Email field cannot be empty.")
+                }
+                else if !emailText.isValidEmail(emailText) {
+                    toast = Toast(style: .error, message: "Please Enter Valid Email")
+                }
+                else if passwordText.isEmpty {
+                    toast = Toast(style: .error, message: "Password field cannot be empty.")
+                }
+                else if !passwordText.isValidPassword(passwordText) {
+                    toast = Toast(style: .error, message: "Password must have more than 6 characters, contain one digit, one uppercase letter and a special character.")
+                }
+                else if !emailText.isEmpty && passwordText.count >= 6 {
                     Task {
+                        showLoadingIndicator = true
+                        
                         await userAuth.signIn(email:emailText,password:passwordText,isSignup:false)
                         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                            showLoadingIndicator = false
+                            
                         if userAuth.isLoggedIn == false  {
                             toast = Toast(style: .error, message: userAuth.errorMessage)
                         }else {
-                            Firestore.firestore().collection("Users").document(Auth.auth().currentUser?.uid ?? "").getDocument { snapShot, error in
-                                if let error = error {
-                                    print(error.localizedDescription)
-                                    
-                                }else {
-                                    
-                                    guard let snap = snapShot else { return  }
-                                    
-                                    DispatchQueue.main.async {
-                                        let isAccountCreated = snap.get("isAccountCreated") as? Bool ?? false
-                                        let bankAccced = snap.get("bankAccced") as? Bool ?? false
-                                        if isAccountCreated  && bankAccced {
-                                            goToHome = true
-                                            
-                                        }else {
-                                            
-                                            showCompany = true
+                            let collectionRef = Firestore.firestore().collection("usersInfo")  // This line
+                            collectionRef.getDocuments { (snapshot, error) in
+//                            Firestore.firestore().collection("usersInfo").document(Auth.auth().currentUser?.email ?? "").getDocument { snapShot, error in
+                                if let err = error {
+                                            debugPrint("error fetching docs: \(err)")
+                                        } else {
+                                            guard let snap = snapshot else {
+                                                return
+                                            }
+                                            for document in snap.documents {
+                                                let data = document.data()
+                                                if emailText ==  data["email"] as? String {
+                                                    
+                                                    DispatchQueue.main.async {
+                                                        print("error: ", error?.localizedDescription)
+                //
+                                                        let isAccountCreated = data["connectAccountCreated"] as? Bool ?? false
+                                                        print("login Acc response: ",isAccountCreated)
+                                                        let bankAccced = data["bankAdded"] as? Bool ?? false
+                                                        print("login bankAcc response: ",bankAccced)
+                                                        let userEmail = data["email"] as? String
+                                                        print("Email is: ", userEmail)
+                                                        if userEmail == nil {
+                                                            print("Email not found")
+                                                        }
+                                                        if isAccountCreated && bankAccced {
+                                                            goToHome = true
+                                                            
+                                                        }else if isAccountCreated == false{
+                //                                            willMoveToBankAccount = true
+                                                            showCompany = true
+                                                        }
+                                                        else if bankAccced == false  {
+                                                            willMoveToBankAccount = true
+                                                        }
+                                                        else {
+                                                            toast = Toast(style: .error, message: "Something went wrong. Please try again.")
+                                                        }
+                                                    }
+                                                }
+                                                else {
+                                                    toast = Toast(style: .error, message: "Email or Password is invalid. Please recheck your credentials.")
+                                                }
+                                            }
                                         }
-                                        
-                                        
-                                    }
-                                    
-                                    
-                                }
+                                
+//                                if let error = error {
+//                                    print(error.localizedDescription)
+//                                    
+//                                }else {
+//                                    
+//                                    guard let snap = snapShot else { return  }
+//                                    
+//                                    DispatchQueue.main.async {
+//                                        print("error: ", error?.localizedDescription)
+////                                        
+//                                        let isAccountCreated = snap.get("connectAccountCreated")
+//                                        print("login Acc response: ",isAccountCreated)
+//                                        let bankAccced = snap.get("bankAdded")
+//                                        print("login bankAcc response: ",bankAccced)
+//                                        let userEmail = snap.get("email") as? String
+//                                        print("Email is: ", userEmail)
+//                                        if userEmail == nil {
+//                                            print("Email not found")
+//                                        }
+//                                        if (isAccountCreated != nil) == true  && (bankAccced != nil) == true {
+//                                            goToHome = true
+//                                            
+//                                        }else if (isAccountCreated != nil) == false{
+////                                            willMoveToBankAccount = true
+//                                            showCompany = true
+//                                        }
+//                                        else if (bankAccced != nil) == false  {
+//                                            willMoveToBankAccount = true
+//                                        }
+//                                        else {
+//                                            print("cannot proceed")
+//                                            
+//                                        }
+////                                        else {
+////
+////                                            showCompany = true
+////                                        }
+//                                        
+//                                        
+//                                    }
+//                                    
+//                                    
+//                                }
                                 
                                 
                                 
@@ -470,6 +570,6 @@ struct DropdownSelector: View {
 
 
 let businessType: [DropdownOption] = [
-        DropdownOption(key: UUID().uuidString, value: "individual"),
+        DropdownOption(key: UUID().uuidString, value: "sole trader"),
         DropdownOption(key: UUID().uuidString, value: "Business")
     ]

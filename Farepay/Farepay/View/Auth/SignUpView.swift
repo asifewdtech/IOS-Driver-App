@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import ActivityIndicatorView
 
 struct SignUpView: View {
     
@@ -19,9 +20,12 @@ struct SignUpView: View {
     @Environment(\.presentationMode) private var presentationMode: Binding<PresentationMode>
     @State private var toast: Toast? = nil
     @State private var showCompany = false
+    @State private var goToLogin = false
     @State private var isChecked = false
     @StateObject var userAuth =  UserAuthViewModel()
     @AppStorage("username") var username: String = ""
+    @State private var showLoadingIndicator: Bool = false
+    
     //MARK: - Views
     var body: some View {
         
@@ -38,8 +42,14 @@ struct SignUpView: View {
                     }
                 }
             }
+            
             .toastView(toast: $toast)
             .padding(.all, 15)
+            
+            ActivityIndicatorView(isVisible: $showLoadingIndicator, type: .growingArc(.white, lineWidth: 5))
+                .frame(width: 50.0, height: 50.0)
+                .foregroundColor(.white)
+                .padding(.top, 350)
             
         }
     }
@@ -102,7 +112,7 @@ extension SignUpView{
         VStack(alignment: .leading, spacing: 20){
             
             Group{
-                MDCFilledTextFieldWrapper(leadingImage: .constant(.ic_Email), text: $nameText, placHolderText: .constant("Type your username"), isSecure: .constant(false))
+                MDCFilledTextFieldWrapper(leadingImage: .constant(.ic_Email), text: $nameText, placHolderText: .constant("Type your username (optional)"), isSecure: .constant(false))
                 MDCFilledTextFieldWrapper(leadingImage: .constant(.ic_Email), text: $emailText, placHolderText: .constant("Enter your Email Address"), isSecure: .constant(false))
                 Group{
                     if isSecure{
@@ -120,6 +130,12 @@ extension SignUpView{
                             isSecure.toggle()
                         }
                 }
+            }
+                Text("Password must have more than 6 characters, contain one digit, one uppercase letter and a special character.")
+                    .font(.custom(.poppinsMedium, size: 12))
+                    .foregroundColor(Color(.darkGrayColor))
+                    
+            Group {
                 Group{
                     if isSecureReType{
                         MDCFilledTextFieldWrapper(leadingImage: .constant(.ic_Password), isTrailingImage: true, text: $ReTypePasswordText, placHolderText: .constant("Re-Type your password"), isSecure: .constant(true))
@@ -161,7 +177,7 @@ extension SignUpView{
         
         VStack(spacing: 20){
             
-            NavigationLink("", destination: CompanyView().toolbar(.hidden, for: .navigationBar), isActive: $showCompany).isDetailLink(false)
+            NavigationLink("", destination: LoginView().toolbar(.hidden, for: .navigationBar), isActive: $goToLogin).isDetailLink(false)
             Button(action: {
                 username = nameText
                 callFirebaseRegisterAuth()
@@ -196,29 +212,43 @@ extension SignUpView{
         }
     }
 
-    // Create USer on Firebase
+    // Create User on Firebase
     func callFirebaseRegisterAuth()  {
-        if nameText.isEmpty {
-            toast = Toast(style: .error, message: "Please Enter Name")
-            
-        }else if !emailText.isValidEmail(emailText) {
+        if emailText.isEmpty {
+            toast = Toast(style: .error, message: "Email field cannot be empty.")
+        }
+        else if !emailText.isValidEmail(emailText) {
             toast = Toast(style: .error, message: "Please Enter Valid Email")
-        } else if passwordText.count <= 6 {
-            toast = Toast(style: .error, message: "Password Should be minimun 6 Character")
+        } 
+        else if passwordText.isEmpty {
+            toast = Toast(style: .error, message: "Password field cannot be empty.")
+        }
+        else if !passwordText.isValidPassword(passwordText) {
+            toast = Toast(style: .error, message: "Password must have more than 6 characters, contain one digit, one uppercase letter and a special character.")
+        }
+        else if ReTypePasswordText.isEmpty {
+            toast = Toast(style: .error, message: "Re-Password field cannot be empty.")
         }else {
             if passwordText != ReTypePasswordText {
-                toast = Toast(style: .error, message: "Password not matched")
+                toast = Toast(style: .error, message: "Both Password Should be matched.")
             }else if isChecked {
                 
                 Task {
+                    showLoadingIndicator = true
+                    
                     await userAuth.signIn(email:emailText,password:passwordText,isSignup:true)
+                    showLoadingIndicator = false
+                    
                     if userAuth.isLoggedIn == false  {
                         toast = Toast(style: .error, message: userAuth.errorMessage)
                     }else {
-                        showCompany.toggle()
+//                        showCompany.toggle()
+                          
+                        goToLogin.toggle()
                     }
                 }
             }else {
+                showLoadingIndicator = false
                 toast = Toast(style: .error, message: "Accept the Term and Privacy")
             }
                 

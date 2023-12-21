@@ -22,19 +22,19 @@ struct MainTabbedView: View {
 //            case 1:
 //                GiftCardView(presentSideMenu: $presentSideMenu)
 //                    .tag(1)
+//            case 1:
+//                PayoutView(presentSideMenu: $presentSideMenu)
+//                    .tag(2)
             case 1:
-                PayoutView(presentSideMenu: $presentSideMenu)
-                    .tag(2)
-            case 2:
                 TransactionView(presentSideMenu: $presentSideMenu)
                     .tag(2)
 //            case 3:
 //                ReferAFriendView(presentSideMenu: $presentSideMenu)
 //                    .tag(3)
-            case 3:
+            case 2:
                 PrivacyPolicyView(presentSideMenu: $presentSideMenu)
                     .tag(3)
-            case 4:
+            case 3:
                 TermsView(presentSideMenu: $presentSideMenu)
                     .tag(4)
             case 5:

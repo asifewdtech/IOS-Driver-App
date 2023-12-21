@@ -16,6 +16,7 @@ struct RepresentativeView: View {
     @State private var dateText: String = ""
     @State private var emailText: String = Auth.auth().currentUser?.email ?? ""
     @State private var addressText: String = ""
+    @State private var postalAddressText: String = ""
     @State private var businessNumberText: String = ""
     @State private var authorityNumberText: String = ""
     @State private var mobileNumberText: String = ""
@@ -56,9 +57,9 @@ struct RepresentativeView: View {
                     }
                 }
             }
-            .onAppear(perform: {
-                userText = username
-            })
+//            .onAppear(perform: {
+//                userText = username
+//            })
             .padding(.all, 15)
             .toastView(toast: $toast)
             
@@ -126,7 +127,7 @@ extension RepresentativeView{
             
             Group{
 
-                MDCFilledTextFieldWrapper(leadingImage: .constant(.ic_User), text: $userText, placHolderText: .constant("Type your name"), isSecure: .constant(false))
+                MDCFilledTextFieldWrapper(leadingImage: .constant(.ic_User), text: $userText, placHolderText: .constant("Type your Full Name"), isSecure: .constant(false))
                 MDCFilledTextFieldWrapper(leadingImage: .constant(.ic_Calander), text: $dateText, placHolderText: .constant("Type your Date of Birth"), isSecure: .constant(false))
                     .onTapGesture {
                         showDatePicker.toggle()
@@ -424,16 +425,48 @@ extension RepresentativeView{
             Button {
                 
                 
+                var firstPart = ""
+                var secondPart = ""
                 
-                guard let index = userText.firstIndex(of: " ") else {return }
-                let firstPart = userText.prefix(upTo: index)
-                if frontImageId != "" && backImageId != "" && !userText.isEmpty && !dateText.isEmpty && !mobileNumberText.isEmpty {
-
-                    
-                    
+                if let index = userText.firstIndex(of: " "){
+                    firstPart = String(userText.prefix(upTo: index))
+                    secondPart = userText[index...].string
+                } else {
+                    firstPart = userText
+                    secondPart = ""
+                }
+                
+                if userText.isEmpty {
+                    toast = Toast(style: .error, message: "Name Field cannot be empty.")
+                }
+                else if dateText.isEmpty {
+                    toast = Toast(style: .error, message: "DOB Field cannot be empty.")
+                }
+                else if mobileNumberText.isEmpty {
+                    toast = Toast(style: .error, message: "Phone Number Field cannot be empty.")
+                }
+                else if mobileNumberText.count <= 8 {
+                    toast = Toast(style: .error, message: "Please enter Valid Australian Phone Number.")
+                }
+                else if authorityNumberText.isEmpty {
+                    toast = Toast(style: .error, message: "Driver Authority No. Field cannot be empty.")
+                }
+                else if authorityNumberText.count <= 9 {
+                    toast = Toast(style: .error, message: "Driver Authority No. should be 10.")
+                }
+                else if addressText.isEmpty {
+                    toast = Toast(style: .error, message: "Physical Address Filed cannot be empty.")
+                }
+                else if frontImageId == "" {
+                    toast = Toast(style: .error, message: "Please Upload Front Driver Licence Image.")
+                }
+                else if backImageId == "" {
+                    toast = Toast(style: .error, message: "Please Upload Back Driver Licence Image.")
+                }
+                else {
                     Task {
-
-                        try  await completeFormViewModel.postData(url:"\(uploadInformationUrl)username=default&userEmail=\(Auth.auth().currentUser?.email ?? "")&firstname=\(firstPart.string)&day=3&month=10&year=2000&address=\(addressText)&phone=61\(mobileNumberText)&lastname=\(userText[index...].string)&frontimgid=\(frontImageId)&backimgid=\(backImageId)",method:.post,name: userText,phone: mobileNumberText)
+                        
+                        try  await completeFormViewModel.postData(url:"\(uploadInformationUrl)username=default&userEmail=\(Auth.auth().currentUser?.email ?? "")&firstname=\(firstPart.string)&day=3&month=10&year=2000&address=\(addressText)&phone=61\(mobileNumberText)&lastname=\(secondPart.string)&frontimgid=\(frontImageId)&backimgid=\(backImageId)",method:.post,name: userText,phone: mobileNumberText, email: (Auth.auth().currentUser?.email ?? ""))
                         
                         DispatchQueue.main.async {
                             if completeFormViewModel.goToAccountScreen {
@@ -451,14 +484,7 @@ extension RepresentativeView{
                         }
                         
                     }
-                }else {
-                    toast = Toast(style: .error, message: "Please Upload Front and Back Image and all Information")
-                 
                 }
-
-                
-                
-                
                
             } label: {
                 Text("Create Connect Account")

@@ -20,7 +20,22 @@ import UIKit
 //}
 
 
-struct transactionModel:Codable {
+//struct transactionModel:Codable {
+//    let id:String
+//    let object:String
+//    let amount:Int
+//    let created:Int
+//    let source_type:String
+//    let currency:String
+//}
+
+
+struct transactionModel: Codable {
+    let data: [MyResult1]
+    
+}
+
+struct MyResult1: Codable {
     let id:String
     let object:String
     let amount:Int

@@ -35,12 +35,12 @@ struct SplashView: View {
                 
                 Color(.bgColor)
                     .edgesIgnoringSafeArea(.all)
-                HStack{
+                HStack(spacing: 10){
                     Image(uiImage: .logo)
                         .resizable()
                         .frame(width: 50, height: 50)
                     Text(verbatim: .appName)
-                        .font(.custom(.poppinsBold, size: 47))
+                        .font(.custom(.poppinsBold, size: 40))
                         .frame(width: 235, height: 50)
                         .foregroundColor(.white)
                 }
@@ -84,12 +84,15 @@ struct SplashView: View {
             
             if Auth.auth().currentUser != nil {
                 if isAccountCreated && isBankCreated {
-                    
+//                    willMoveToLogin.toggle()
                     willMoveToMainView = true
-                }else if isAccountCreated && isBankCreated == false  {
-                    willMoveToBankAccount = true
-                } else {
-                    willMoveToCompanyView = true
+                }
+//                else if isAccountCreated && isBankCreated == false  {
+//                    willMoveToBankAccount = true
+//                } 
+                else {
+//                    willMoveToCompanyView = true
+                    willMoveToLogin.toggle()
                 }
             }
             
@@ -100,17 +103,20 @@ struct SplashView: View {
     }
     
     func checkUserConnectAccount()  {
-        Firestore.firestore().collection("Users").document(Auth.auth().currentUser?.uid ?? "").getDocument { snapShot, error in
+        Firestore.firestore().collection("usersInfo").document(Auth.auth().currentUser?.uid ?? "").getDocument { snapShot, error in
             if let error = error {
                 print(error.localizedDescription)
             }else {
                 
                 guard let snap = snapShot else { return  }
-                isAccountCreated = snap.get("isAccountCreated") as? Bool ?? false
-                isBankCreated = snap.get("bankAccced") as? Bool ?? false
+                isAccountCreated = snap.get("connectAccountCreated") as? Bool ?? false
+                isBankCreated = snap.get("bankAdded") as? Bool ?? false
                 if accountId == "" {
                     accountId = snap.get("accoundId") as? String ?? ""
                 }
+                print("splash connectAccountCreated: ",isAccountCreated)
+                print("splash bankAdded: ",isBankCreated)
+                print("splash accoundId: ",accountId)
                 navigateNext()
 
             }

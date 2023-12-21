@@ -31,6 +31,23 @@
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>bluetooth-central</string>
+		<string>bluetooth-central (Uses Bluetooth LE accessories)</string>
 	</array>
+    <key>NSLocationUsageDescription</key>
+    <string>Location access is required to accept the payments.</string>
+    <key>CFBundleIdentifier</key>
+    <string></string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Location access is required to accept payments.</string>
+	<key>CFBundleIdentifier</key>
+	<string></string>
+	<key>NSBluetoothPeripheralUsageDescription</key>
+	<string>Bluetooth access is required to connect to supported card readers.</string>
+	<key>CFBundleExecutable</key>
+	<string></string>
+	<key>CFBundleInfoDictionaryVersion</key>
+	<string>6.0</string>
+	<key>NSBluetoothAlwaysUsageDescription</key>
+	<string>This app uses Bluetooth to connect to supported card readers.</string>
 </dict>
 </plist>

@@ -11,7 +11,7 @@ enum SideMenuRowType: Int, CaseIterable{
     
     case chargeFare = 0
 //    case giftCards
-    case Payout
+//    case Payout
     case Transactions
 //    case ReferaFriend
     case PrivacyPolicy
@@ -23,8 +23,8 @@ enum SideMenuRowType: Int, CaseIterable{
             return "Charge Fare"
 //        case .giftCards:
 //            return "Gift Cards"
-        case .Payout:
-            return "Payout"
+//        case .Payout:
+//            return "Payout"
         case .Transactions:
             return "Transactions"
 //        case .ReferaFriend:
@@ -41,8 +41,8 @@ enum SideMenuRowType: Int, CaseIterable{
             return .ic_FareCharge
 //        case .giftCards:
 //            return .ic_GiftCards
-        case .Payout:
-            return .ic_Payout
+//        case .Payout:
+//            return .ic_Payout
         case .Transactions:
             return .ic_Transactions
 //        case .ReferaFriend:

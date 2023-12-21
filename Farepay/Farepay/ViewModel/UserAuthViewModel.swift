@@ -89,7 +89,7 @@ class UserAuthViewModel:NSObject, ObservableObject,ASAuthorizationControllerDele
     
     
     func checkUserAccountCreated()  {
-        Firestore.firestore().collection("Users").document(Auth.auth().currentUser?.uid ?? "").getDocument { snapShot, error in
+        Firestore.firestore().collection("usersInfo").document(Auth.auth().currentUser?.uid ?? "").getDocument { snapShot, error in
             if let error = error {
                 print(error.localizedDescription)
                 self.isLoggedIn  = false
@@ -98,8 +98,8 @@ class UserAuthViewModel:NSObject, ObservableObject,ASAuthorizationControllerDele
                 guard let snap = snapShot else { return  }
                 
                 DispatchQueue.main.async {
-                    self.isAccountCreated = snap.get("isAccountCreated") as? Bool ?? false
-                    self.bankAccced = snap.get("bankAccced") as? Bool ?? false
+                    self.isAccountCreated = snap.get("connectAccountCreated") as? Bool ?? false
+                    self.bankAccced = snap.get("bankAdded") as? Bool ?? false
                     self.isLoggedIn = true
                 }
                 

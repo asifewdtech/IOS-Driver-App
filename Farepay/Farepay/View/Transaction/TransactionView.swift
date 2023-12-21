@@ -11,16 +11,17 @@ import UniformTypeIdentifiers
 struct TransactionView: View {
     //MARK: - Variables
     @Binding var presentSideMenu: Bool
-    @State var transactionType: String = "All Transactions"
+    @State var transactionType: String = "History"
     @State var isExporting = false
     @State private var showingOptions = false
     @State private var selection = "None"
     @StateObject var  transectionViewModel = TransectionViewModel()
     @State private var isPresentedExport: Bool = false
     @State var willMoveToTransactionDetailView: Bool = false
-    @State var transactions: transactionModel?
+    @State var transactions: MyResult1?
     @State private var csvFile: String = ""
     @State private var showShareSheet = false
+    @AppStorage("accountId") var accountId: String = ""
     
     //MARK: - Views
     var body: some View {
@@ -37,7 +38,7 @@ struct TransactionView: View {
                 }
                 .onAppear(perform: {
                     Task {
-                        try await transectionViewModel.getAllTransection(url: weeklyTransection, method: .get)
+                        try await transectionViewModel.getAllTransection(url: weeklyTransection, method: .post, account_id: accountId)
                         
                     }
                     
@@ -51,6 +52,7 @@ struct TransactionView: View {
                         //                            print(csv)
                         
                         csvFile = csv
+                        print("csvFile22: ",csvFile)
                         
                         //                        if let fileURL = saveCSVStringToFile(csv, filename: "data.csv") {
                         //                            csvURL = fileURL
@@ -168,7 +170,7 @@ extension TransactionView{
                 
                 
                 Task {
-                    try await transectionViewModel.getAllTransection(url: todayTransection, method: .get)
+                    try await transectionViewModel.getAllTransection(url: todayTransection, method: .post, account_id: accountId)
                 }
             }
             
@@ -177,14 +179,14 @@ extension TransactionView{
                 
                 
                 Task {
-                    try await transectionViewModel.getAllTransection(url: weeklyTransection, method: .get)
+                    try await transectionViewModel.getAllTransection(url: weeklyTransection, method: .post, account_id: accountId)
                 }
             }
             
             Button("Last 3 Months") {
                 
                 Task {
-                    try await transectionViewModel.getAllTransection(url: threeMonthlyTransection, method: .get)
+                    try await transectionViewModel.getAllTransection(url: threeMonthlyTransection, method: .post, account_id: accountId)
                 }
             }
             
@@ -223,7 +225,7 @@ extension TransactionView{
                 //                    .padding([.top, .bottom], 5)
                 //
                 
-                ForEach(transectionViewModel.arrTransaction, id: \.id) { trans in
+                ForEach(transectionViewModel.arrTransactionRes, id: \.id) { trans in
                     
                     VStack(spacing: 5){
                         Group{

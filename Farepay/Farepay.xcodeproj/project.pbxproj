@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		187AB27D2B2992A900B170EE /* DelegateAnnouncer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 187AB27C2B2992A900B170EE /* DelegateAnnouncer.swift */; };
+		18D7CF8C2B1DA4640022FBBE /* ActivityIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18D7CF8B2B1DA4640022FBBE /* ActivityIndicator.swift */; };
 		322FC4222AFA44F80053C82C /* TransectionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 322FC4212AFA44F80053C82C /* TransectionViewModel.swift */; };
 		3230C1322AD3C74C005E182B /* SplashView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F51193902A97C6ED00554604 /* SplashView.swift */; };
 		323856FE2AFE4C670082272B /* AccountModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 323856FD2AFE4C670082272B /* AccountModel.swift */; };
@@ -108,6 +110,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		187AB27C2B2992A900B170EE /* DelegateAnnouncer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DelegateAnnouncer.swift; sourceTree = "<group>"; };
+		18D7CF8B2B1DA4640022FBBE /* ActivityIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityIndicator.swift; sourceTree = "<group>"; };
 		322C08AC2AD8013200C2288B /* Farepay.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Farepay.entitlements; sourceTree = "<group>"; };
 		322FC4212AFA44F80053C82C /* TransectionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransectionViewModel.swift; sourceTree = "<group>"; };
 		323856FD2AFE4C670082272B /* AccountModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountModel.swift; sourceTree = "<group>"; };
@@ -238,6 +242,7 @@
 			isa = PBXGroup;
 			children = (
 				326495F32AE7B4BC006629DC /* APIClient.swift */,
+				187AB27C2B2992A900B170EE /* DelegateAnnouncer.swift */,
 			);
 			path = Stripe;
 			sourceTree = "<group>";
@@ -324,8 +329,8 @@
 		F511937C2A97C4DF00554604 /* Farepay */ = {
 			isa = PBXGroup;
 			children = (
-				326495F22AE7B4AD006629DC /* Stripe */,
 				322C08AC2AD8013200C2288B /* Farepay.entitlements */,
+				326495F22AE7B4AD006629DC /* Stripe */,
 				32888C8E2AD6862600A39C8B /* ToastAlert */,
 				32E006002AD52492008CA8ED /* ViewModel */,
 				32E005CD2AD51DFF008CA8ED /* GoogleService-Info.plist */,
@@ -421,6 +426,7 @@
 				F561E41A2A991D5700599CE9 /* Navigation+Extension.swift */,
 				F5449ABC2AB0D09000BE5AF4 /* Date+Extension.swift */,
 				F59F81EE2AC3463800A51AC6 /* NotificationCenter+Extension.swift */,
+				18D7CF8B2B1DA4640022FBBE /* ActivityIndicator.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -728,6 +734,7 @@
 				F59196EE2ABA1D3900D8F15D /* AccountInfoView.swift in Sources */,
 				32888C942AD686B800A39C8B /* ToastModifier.swift in Sources */,
 				F5C15AA02AA26CC10065DE0B /* GiftCardView.swift in Sources */,
+				18D7CF8C2B1DA4640022FBBE /* ActivityIndicator.swift in Sources */,
 				F5500E1F2AA10CB400B39655 /* TapToPayView.swift in Sources */,
 				32888C902AD686AB00A39C8B /* Toast.swift in Sources */,
 				F5A8F3E72A9D0F69006C964E /* RepresentativeView.swift in Sources */,
@@ -752,6 +759,7 @@
 				F59F81EF2AC3463800A51AC6 /* NotificationCenter+Extension.swift in Sources */,
 				F561E41D2A992B2B00599CE9 /* CompanyView.swift in Sources */,
 				F511937E2A97C4DF00554604 /* FarepayApp.swift in Sources */,
+				187AB27D2B2992A900B170EE /* DelegateAnnouncer.swift in Sources */,
 				326495F42AE7B4BC006629DC /* APIClient.swift in Sources */,
 				F50BE0772AA65A0000DD465A /* ReferAFriendView.swift in Sources */,
 				F51193AA2A97DBA100554604 /* LoginView.swift in Sources */,
@@ -895,16 +903,16 @@
 				CODE_SIGN_ENTITLEMENTS = Farepay/Farepay.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 7;
+				CURRENT_PROJECT_VERSION = 8;
 				DEVELOPMENT_ASSET_PATHS = "\"Farepay/Preview Content\"";
 				DEVELOPMENT_TEAM = F2D64HKJXK;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Farepay/Info.plist;
-				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "we need it ";
-				INFOPLIST_KEY_NSBluetoothPeripheralUsageDescription = "We need it ";
+				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "This app uses Bluetooth to connect to supported card readers.";
+				INFOPLIST_KEY_NSBluetoothPeripheralUsageDescription = "Bluetooth access is required to connect to supported card readers.";
 				INFOPLIST_KEY_NSCameraUsageDescription = "We need access to your camera to take photos.";
-				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "We need it ";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Location access is required to accept payments.";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "We need access to your photo library to select images.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -938,16 +946,16 @@
 				CODE_SIGN_ENTITLEMENTS = Farepay/Farepay.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 7;
+				CURRENT_PROJECT_VERSION = 8;
 				DEVELOPMENT_ASSET_PATHS = "\"Farepay/Preview Content\"";
 				DEVELOPMENT_TEAM = F2D64HKJXK;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Farepay/Info.plist;
-				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "we need it ";
-				INFOPLIST_KEY_NSBluetoothPeripheralUsageDescription = "We need it ";
+				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "This app uses Bluetooth to connect to supported card readers.";
+				INFOPLIST_KEY_NSBluetoothPeripheralUsageDescription = "Bluetooth access is required to connect to supported card readers.";
 				INFOPLIST_KEY_NSCameraUsageDescription = "We need access to your camera to take photos.";
-				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "We need it ";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Location access is required to accept payments.";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "We need access to your photo library to select images.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
