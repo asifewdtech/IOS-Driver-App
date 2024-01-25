@@ -15,13 +15,13 @@ struct StepsView: View {
     //MARK: - Views
     var body: some View {
         
-        VStack( spacing: 25){
+        VStack( spacing: 35){
             Spacer()
             Image(uiImage: .stepsImage)
                 .resizable()
-                .frame(width: 200, height: 200)
+                .frame(width: 280, height: 280)
             Text("Few More Steps")
-                .font(.custom(.poppinsSemiBold, size: 20))
+                .font(.custom(.poppinsSemiBold, size: 28))
                 .foregroundStyle(Color.white)
             Text("You're on the right track! Just a few steps away from completing your registration")
                 .font(.custom(.poppinsMedium, size: 15))

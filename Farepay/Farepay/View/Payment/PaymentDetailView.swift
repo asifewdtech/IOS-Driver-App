@@ -6,6 +6,10 @@
 //
 
 import SwiftUI
+import StripeTerminal
+import UIKit
+import ActivityIndicatorView
+import CoreLocation
 
 struct PaymentDetailView: View {
     
@@ -18,7 +22,10 @@ struct PaymentDetailView: View {
     @State private var totalAmount = 0.0
     @State private var serviceFee = 0.0
     @State private var serviceFeeGst = 0.0
-    
+    @StateObject var readerDiscoverModel1 = ReaderDiscoverModel1()
+    @State private var willMoveToQr = false
+    @State var showLoadingIndicator: Bool = false
+    @State private var locationPermission = false
     
     //MARK: - Views
     var body: some View {
@@ -26,6 +33,7 @@ struct PaymentDetailView: View {
         ZStack{
             
             NavigationLink("", destination: ReaderConnectView().toolbar(.hidden, for: .navigationBar), isActive: $willMoveTapToPayView).isDetailLink(false)
+            NavigationLink("", destination: PayQRView().toolbar(.hidden, for: .navigationBar), isActive: $willMoveToQr).isDetailLink(false)
             
             Color(.bgColor)
                 .edgesIgnoringSafeArea(.all)
@@ -40,6 +48,7 @@ struct PaymentDetailView: View {
                 if let cost = Double(farePriceText.trimmingCharacters(in: .whitespaces)) {
                     totalAmount = cost
                     AmountDetail.instance.totalAmount = cost
+                    print("amountWith \(cost)")
                     let amountWithFivePercent = cost * 5 / 100
                     print("amountWithFivePercent \(amountWithFivePercent)")
                     serviceFee = (amountWithFivePercent / 1.1).roundToDecimal(2)
@@ -57,9 +66,20 @@ struct PaymentDetailView: View {
                     
                 }
                 
+                if readerDiscoverModel1.showPay {
+                    do {
+                        willMoveToQr.toggle()
+                    }catch{
+                        print("Payment don't transfered")
+                    }
+                }
             })
             .padding(.all, 20)
-        }
+            
+            ActivityIndicatorView(isVisible: $showLoadingIndicator, type: .growingArc(.green, lineWidth: 5))
+                .frame(width: 50.0, height: 50.0)
+                .foregroundColor(.white)
+                .padding(.top, 400)        }
     }
 }
 
@@ -73,7 +93,7 @@ extension PaymentDetailView{
     
     var topArea: some View{
         
-        VStack(spacing: 35){
+        VStack(spacing: 20){
             
             HStack(spacing: 30){
                 
@@ -176,26 +196,54 @@ extension PaymentDetailView{
         
         VStack(spacing: 25){
             
-            Text("Edit")
-                .font(.custom(.poppinsBold, size: 25))
-                .foregroundColor(.white)
-                .frame(maxWidth: .infinity)
-                .frame(height: 60)
-                .background(Color(.buttonColor))
-                .cornerRadius(30)
-                .onTapGesture {
-                    
-                    print("Edit")
-                    
-                    presentationMode.wrappedValue.dismiss()
-                    
-                }
+//            Text("Edit")
+//                .font(.custom(.poppinsBold, size: 25))
+//                .foregroundColor(.white)
+//                .frame(maxWidth: .infinity)
+//                .frame(height: 60)
+//                .background(Color(.buttonColor))
+//                .cornerRadius(30)
+//                .onTapGesture {
+//                    
+//                    print("Edit")
+//                    
+//                    presentationMode.wrappedValue.dismiss()
+//                    
+//                }
             
             Button {
-                willMoveTapToPayView.toggle()
+//                willMoveTapToPayView.toggle()
+//                print(currencyManager.string)
+                
+                DispatchQueue.main.async {
+                    
+                    if readerDiscoverModel1.showPay {
+                        
+                        do {
+                            showLoadingIndicator = true
+                            try readerDiscoverModel1.collectPayment(amount: totalChargresWithTax.description)
+//                            showLoadingIndicator = false
+                        }catch{
+                            print("Payment don't transfered")
+                            showLoadingIndicator = false
+                        }
+                    }
+                    else {
+                        do {
+                            showLoadingIndicator = true
+                            try readerDiscoverModel1.discoverReaders()
+//                            showLoadingIndicator = false
+                        }catch{
+                            print("Readers not discovered")
+                            showLoadingIndicator = false
+                        }
+                    }
+                    
+                }
+                
             } label: {
                 
-                Text("Confirm")
+                Text("\("Charge ")\("$") \(totalChargresWithTax.description)")
                     .font(.custom(.poppinsBold, size: 25))
                     .foregroundColor(.white)
                     .frame(maxWidth: .infinity)
@@ -208,6 +256,25 @@ extension PaymentDetailView{
             
         }
         .padding(.bottom, 20)
+    }
+    
+    
+    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
+        
+        guard status == .authorizedAlways || status == .authorizedWhenInUse else {
+            if status == .denied || status == .notDetermined || status == .restricted || status == .authorizedWhenInUse {
+                
+                let alert = UIAlertController(title: "Title", message:"Location is require to proceed further." , preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+                alert.addAction(UIAlertAction(title: "Settings", style: .default, handler: { _ in
+                    let url = URL(string: UIApplication.openSettingsURLString)!
+                    UIApplication.shared.open(url, options: [:], completionHandler: nil)
+                }))
+                //                                try present(alert, animated: true, completion: nil)
+            }
+            return
+        }
+        
     }
 }
 
@@ -235,3 +302,116 @@ class AmountDetail {
     
     
 }
+
+class ReaderDiscoverModel1:NSObject,ObservableObject ,DiscoveryDelegate{
+    
+    var discoverCancelable: Cancelable?
+    var collectCancelable: Cancelable?
+    @ObservedObject private var currencyManager = CurrencyManager(amount: 0)
+    var nextActionButton = UIButton(type: .system)
+    var readerMessageLabel = UILabel()
+    var readerMsgLbl = ""
+    @Published var showPay = false
+    
+    
+    @objc
+    func discoverReaders() throws {
+        let config = try LocalMobileDiscoveryConfigurationBuilder().setSimulated(false).build()
+        self.discoverCancelable = Terminal.shared.discoverReaders(config, delegate: self) { error in
+                    if let error = error {
+                        print("discoverReaders failed: \(error)")
+                    } else {
+                        print("discoverReaders succeeded")
+                    }
+        }
+    }
+    
+    @objc
+    func collectPayment(amount: String) throws {
+        let developer = amount
+        let array = developer.split(separator: ".").map(String.init)
+        let arrAmount = "\(array[0])\(array[1])"
+        print("Array amount: ",arrAmount)
+        
+        let params = try PaymentIntentParametersBuilder(amount: UInt(arrAmount) ?? 0, currency: "AUD")
+            .setPaymentMethodTypes(["card_present"])
+            .setCaptureMethod(CaptureMethod.automatic)
+            .build()
+        
+        Terminal.shared.createPaymentIntent(params) {
+          createResult, createError in
+            if let error = createError {
+                print("createPaymentIntent failed: \(error)")
+            } else if let paymentIntent = createResult {
+                print("createPaymentIntent succeeded")
+                Terminal.shared.collectPaymentMethod(paymentIntent) { collectResult, collectError in
+                    if let error = collectError {
+                        print("collectPaymentMethod failed: \(error)")
+                    } else if let paymentIntent = collectResult {
+                        print("collectPaymentMethod succeeded", paymentIntent)
+                        
+                        self.confirmPaymentIntent(paymentIntent)
+                    }
+                }
+            }
+        }
+    }
+
+    private func confirmPaymentIntent(_ paymentIntent: PaymentIntent) {
+        Terminal.shared.confirmPaymentIntent(paymentIntent) { confirmResult, confirmError in
+            if let error = confirmError {
+                print("confirmPaymentIntent failed: \(error)")
+            } else if let confirmedPaymentIntent = confirmResult {
+                print("confirmPaymentIntent succeeded")
+
+                if let stripeId = confirmedPaymentIntent.stripeId {
+                    // Notify your backend to capture the PaymentIntent.
+                    // PaymentIntents processed with Stripe Terminal must be captured
+                    // within 24 hours of processing the payment.
+                    APIClient.shared.capturePaymentIntent(stripeId) { captureError in
+                        if let error = captureError {
+                            print("capture failed: \(error)")
+                        } else {
+                            print("capture succeeded")
+                            self.readerMessageLabel.text = "Payment captured"
+                            if let paymentMethod = paymentIntent.paymentMethod,
+                                                        let card = paymentMethod.cardPresent ?? paymentMethod.interacPresent {
+
+                                                        // ... Perform business logic on card
+                                                    }
+                        }
+                    }
+                } else {
+                    print("Payment collected offline")
+                }
+            }
+        }
+    }
+    
+    func terminal(_ terminal: Terminal, didUpdateDiscoveredReaders readers: [Reader]) {
+        
+        guard let selectedReader = readers.first else { return }
+         let locationId = selectedReader.locationId
+        print("locationId: ",locationId)
+        do {
+            let connectionConfig = try LocalMobileConnectionConfigurationBuilder(locationId: locationId ?? "tml_FLrhpAr3WfbIVw").build()
+            
+            Terminal.shared.connectLocalMobileReader(selectedReader, delegate: LocalMobileReaderDelegateAnnouncer.shared, connectionConfig: connectionConfig) { reader, error in
+                if let reader = reader {
+                    print("Successfully connected to reader: \(reader)")
+                    do {
+                        try self.collectPayment(amount: AmountDetail.instance.totalChargresWithTax.description)
+                    }catch{
+                        print("collect payment not call")
+                    }
+                } else if let error = error {
+                    print("connectLocalMobileReader failed: \(error)")
+                }
+            }
+        } catch {
+            print("Error creating LocalMobileConnectionConfiguration: \(error)")
+        }
+    }
+    
+}
+

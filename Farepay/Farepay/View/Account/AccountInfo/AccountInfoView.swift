@@ -11,6 +11,8 @@ import SDWebImageSwiftUI
 import FirebaseFirestore
 import Firebase
 import FirebaseStorage
+import ActivityIndicatorView
+
 struct AccountInfoView: View {
     
     //MARK: - Variables
@@ -21,7 +23,10 @@ struct AccountInfoView: View {
     @State var showImagePicker: Bool = false
     @State var image: UIImage?
     @State var url :String?
+    @State var tNumber :String?
    @StateObject var storageManager = StorageManager()
+    @State private var showLoadingIndicator: Bool = false
+    
     // MARK: - Views
     var body: some View {
         
@@ -50,24 +55,24 @@ struct AccountInfoView: View {
                     }else {
                         
                         guard let snap = snapShot else { return  }
-                       userName  = snap.get("userName") as? String ?? ""
-                        phone = snap.get("phonenumber") as? String ?? ""
+                       userName  = snap.get("userName") as? String ?? "N/A"
+                        phone = snap.get("phonenumber") as? String ?? "N/A"
+                        tNumber  = snap.get("taxiNumber") as? String ?? "N/A"
                         
                         if let socialUrl = Auth.auth().currentUser?.photoURL?.absoluteString {
                             url = socialUrl
                         }else {
                             url = snap.get("imageUrl") as? String ?? ""
                         }
-                        
-                        
-
                     }
-                    
-                    
                 }
-
             })
             .padding(.all, 15)
+            
+            ActivityIndicatorView(isVisible: $showLoadingIndicator, type: .growingArc(.white, lineWidth: 5))
+                .frame(width: 50.0, height: 50.0)
+                .foregroundColor(.white)
+                .padding(.top, 350)
         }
     }
 }
@@ -116,9 +121,6 @@ extension AccountInfoView{
 
                     }
             }else {
-                
-                
-                
                 Image(uiImage: image ??  .image_placeholder)
                     .resizable()
                     .frame(width: 100, height: 100)
@@ -128,12 +130,14 @@ extension AccountInfoView{
                         withAnimation {
                             self.showImagePicker.toggle()
                         }
-
                     }
                 
                     .onChange(of: image ?? .image_placeholder, perform: { image in
                         if image != .image_placeholder {
+                            showLoadingIndicator = true
                             storageManager.upload(image: image)
+                            showLoadingIndicator = false
+//                            presentationMode.wrappedValue.dismiss()
                         }
                     })
                 
@@ -184,6 +188,15 @@ extension AccountInfoView{
                         .foregroundColor(.white)
                     Spacer()
                     Text("+61 \(phone)")
+                        .font(.custom(.poppinsMedium, size: 15))
+                        .foregroundColor(.white)
+                }
+                HStack{
+                    Text("Taxi Number")
+                        .font(.custom(.poppinsMedium, size: 15))
+                        .foregroundColor(.white)
+                    Spacer()
+                    Text(tNumber ?? "N/A")
                         .font(.custom(.poppinsMedium, size: 15))
                         .foregroundColor(.white)
                 }

@@ -137,9 +137,6 @@ struct MDCFilledTextFieldWrapper: UIViewRepresentable {
             textField.trailingViewMode = .always
         }
         
-        
-        
-        
         // PlaceHolder
         textField.label.text = placHolderText
         textField.setNormalLabelColor(.darkGrayColor, for: .normal)
@@ -150,6 +147,7 @@ struct MDCFilledTextFieldWrapper: UIViewRepresentable {
         textField.setTextColor(.white, for: .normal)
         textField.font = UIFont(name: .poppinsMedium, size: 18)
         textField.setTextColor(.white, for: .editing)
+        textField.autocapitalizationType = .none
         
         // BackGround and Underline
         textField.setFilledBackgroundColor(.darkBlueColor, for: .normal)

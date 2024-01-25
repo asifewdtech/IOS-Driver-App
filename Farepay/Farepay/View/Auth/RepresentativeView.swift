@@ -69,12 +69,12 @@ struct RepresentativeView: View {
                     .transition(.opacity)
             }
             
-            if apicalled {
+//            if apicalled {
                 ActivityIndicatorView(isVisible: $apicalled, type: .growingArc(.white, lineWidth: 5))
                     .frame(width: 50.0, height: 50.0)
                     .foregroundColor(.white)
                     .padding(.top, 350)
-            }
+//            }
         }
     }
 }
@@ -280,7 +280,7 @@ extension RepresentativeView{
                 
                 if licenseFrontImage != nil{
                     VStack(alignment: .leading, spacing: 12){
-                        Text("imageName.jpg")
+                        Text("Front Image")
                             .foregroundColor(.white)
                             .font(.custom(.poppinsMedium, size: 16))
                             .lineLimit(1)
@@ -366,7 +366,7 @@ extension RepresentativeView{
                 
                 if licenseBackImage != nil{
                     VStack(alignment: .leading, spacing: 12){
-                        Text("imageName.jpg")
+                        Text("Back Image")
                             .foregroundColor(.white)
                             .font(.custom(.poppinsMedium, size: 16))
                             .lineLimit(1)
@@ -425,16 +425,20 @@ extension RepresentativeView{
             Button {
                 
                 
-                var firstPart = ""
-                var secondPart = ""
+                var firstPart = "NA"
+                var secondPart = "NA"
                 
-                if let index = userText.firstIndex(of: " "){
-                    firstPart = String(userText.prefix(upTo: index))
-                    secondPart = userText[index...].string
-                } else {
-                    firstPart = userText
-                    secondPart = ""
-                }
+//                if let index = userText.firstIndex(of: " "){
+//                    firstPart = String(userText.prefix(upTo: index))
+//                    secondPart = userText[index...].string
+//                } else {
+//                    firstPart = userText
+//                    secondPart = "NA"
+//                }
+                let index = userText.components(separatedBy: " ")
+                    firstPart = index[0]
+                    secondPart = index[1]
+                
                 
                 if userText.isEmpty {
                     toast = Toast(style: .error, message: "Name Field cannot be empty.")
@@ -464,9 +468,20 @@ extension RepresentativeView{
                     toast = Toast(style: .error, message: "Please Upload Back Driver Licence Image.")
                 }
                 else {
+                    apicalled = true
                     Task {
                         
-                        try  await completeFormViewModel.postData(url:"\(uploadInformationUrl)username=default&userEmail=\(Auth.auth().currentUser?.email ?? "")&firstname=\(firstPart.string)&day=3&month=10&year=2000&address=\(addressText)&phone=61\(mobileNumberText)&lastname=\(secondPart.string)&frontimgid=\(frontImageId)&backimgid=\(backImageId)",method:.post,name: userText,phone: mobileNumberText, email: (Auth.auth().currentUser?.email ?? ""))
+//                        try  await/* completeFormViewModel.postData(url:"\(uploadInformationUrl)username=default&userEmail=\(Auth.auth().currentUser?.email ?? "")&firstname=\(firstPart)&day=3&month=10&year=2000&address=\(addressText)&phone=61\(mobileNumberText)&lastname=\(secondPart)&frontimgid=\(frontImageId)&backimgid=\(backImageId)"*/,method:.post,name: userText,phone: mobileNumberText)
+                        let addressTextStr = addressText.replacingOccurrences(of: " ", with: "%20", options: .literal, range: nil)
+                        let addrTextStr = addressTextStr.replacingOccurrences(of: "#", with: "%20", options: .literal, range: nil)
+                        
+                        let urlStr = "\(uploadInformationUrl)username=default&userEmail=\(Auth.auth().currentUser?.email ?? "")&firstname=\(firstPart)&day=3&month=10&year=2000&address=\(addrTextStr)&phone=61\(mobileNumberText)&lastname=\(secondPart)&frontimgid=\(frontImageId)&backimgid=\(backImageId)"
+                        print("url API: ",urlStr)
+                        
+                        let url = URL(string: urlStr)
+                        
+                        try  await
+                        completeFormViewModel.postData(url:url!,method:.post,name: userText,phone: mobileNumberText)
                         
                         DispatchQueue.main.async {
                             if completeFormViewModel.goToAccountScreen {
@@ -482,7 +497,6 @@ extension RepresentativeView{
                                 licenseBackImage  = nil
                             }
                         }
-                        
                     }
                 }
                
@@ -513,7 +527,7 @@ extension RepresentativeView{
             uploadBackImage = true
         }
 
-        if let imageData = image.jpegData(compressionQuality: 1.0) {
+        if let imageData = image.jpegData(compressionQuality: 0.05) {
             let base64String = imageData.base64EncodedString()
 
             // Create an API request with the Base64 image data
@@ -525,6 +539,7 @@ extension RepresentativeView{
                 let imageUploadData = ["image": base64String]
 //                print(imageUploadData)
                 if let jsonData = try? JSONSerialization.data(withJSONObject: imageUploadData) {
+                    print("jsonData: ",jsonData)
                     request.httpBody = jsonData
                     
                 }
@@ -538,8 +553,12 @@ extension RepresentativeView{
                     do {
                         // make sure this JSON is in the format we expect
                         if let json = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] {
+                            print("img res: ",json)
                             // try to read out a string array
-                            if let imageId = json["id"] as? String {
+                            if let messageJson = json["message"] as? String{
+                                toast = Toast(style: .error, message: messageJson)
+                            }
+                            else if let imageId = json["id"] as? String {
                                 print(imageId)
                                 if isFront {
                                     frontImageId = imageId

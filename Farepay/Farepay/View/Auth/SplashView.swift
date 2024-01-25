@@ -35,13 +35,13 @@ struct SplashView: View {
                 
                 Color(.bgColor)
                     .edgesIgnoringSafeArea(.all)
-                HStack(spacing: 10){
+                HStack(spacing: 20){
                     Image(uiImage: .logo)
                         .resizable()
-                        .frame(width: 50, height: 50)
+                        .frame(width: 60, height: 60)
                     Text(verbatim: .appName)
-                        .font(.custom(.poppinsBold, size: 40))
-                        .frame(width: 235, height: 50)
+                        .font(.custom(.poppinsBold, size: 45))
+//                        .frame(width: 235, height: 50)
                         .foregroundColor(.white)
                 }
                 
@@ -82,6 +82,7 @@ struct SplashView: View {
         DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
             showLoadingIndicator.toggle()
             
+            print("1", Auth.auth().currentUser, ":2", isAccountCreated, ":3", isBankCreated)
             if Auth.auth().currentUser != nil {
                 if isAccountCreated && isBankCreated {
 //                    willMoveToLogin.toggle()

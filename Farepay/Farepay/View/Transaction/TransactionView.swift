@@ -22,6 +22,7 @@ struct TransactionView: View {
     @State private var csvFile: String = ""
     @State private var showShareSheet = false
     @AppStorage("accountId") var accountId: String = ""
+    @State private var dropdownlbl: String = "1 Week"
     
     //MARK: - Views
     var body: some View {
@@ -41,7 +42,6 @@ struct TransactionView: View {
                         try await transectionViewModel.getAllTransection(url: weeklyTransection, method: .post, account_id: accountId)
                         
                     }
-                    
                 })
                 
                 
@@ -144,9 +144,9 @@ extension TransactionView{
                         Button {
                             showingOptions = true
                         } label: {
-                            let width = "All".widthOfString(usingFont: UIFont(name: .poppinsMedium, size: 20)!) + 40.0
-                            Text("All  \(Image(systemName: "chevron.down"))")
-                                .font(.custom(.poppinsMedium, size: 20))
+                            let width = dropdownlbl.widthOfString(usingFont: UIFont(name: .poppinsMedium, size: 15)!) + 20.0
+                            Text("\(dropdownlbl)  \(Image(systemName: "chevron.down"))")
+                                .font(.custom(.poppinsMedium, size: 12))
                                 .foregroundColor(.white)
                                 .frame(width: width, height: 50)
                                 .padding(.horizontal)
@@ -168,7 +168,7 @@ extension TransactionView{
         .confirmationDialog("Select", isPresented: $showingOptions) {
             Button("Today") {
                 
-                
+                dropdownlbl = "Today"
                 Task {
                     try await transectionViewModel.getAllTransection(url: todayTransection, method: .post, account_id: accountId)
                 }
@@ -176,7 +176,7 @@ extension TransactionView{
             
             Button("This Week") {
                 
-                
+                dropdownlbl = "1 Week"
                 
                 Task {
                     try await transectionViewModel.getAllTransection(url: weeklyTransection, method: .post, account_id: accountId)
@@ -184,13 +184,14 @@ extension TransactionView{
             }
             
             Button("Last 3 Months") {
-                
+                dropdownlbl = "3 Months"
                 Task {
                     try await transectionViewModel.getAllTransection(url: threeMonthlyTransection, method: .post, account_id: accountId)
                 }
             }
             
             Button("Lifetime Transactions") {
+                dropdownlbl = "All"
                 print("All")
             }
         }
@@ -212,6 +213,13 @@ extension TransactionView{
     var listView: some View{
         
         ScrollView(.vertical, showsIndicators: false) {
+            if (transectionViewModel.arrTransaction.count == 0) {
+                VStack(alignment: .center, spacing: 200){
+                Text("No Record Found")
+                    .font(.custom(.poppinsMedium, size: 25))
+                    .foregroundColor(Color(.darkGrayColor))
+                }
+            } else {
             LazyVStack(alignment: .leading, spacing: 10) {
                 //                ForEach(transectionViewModel.arrTransaction, id: \.id) { transaction in
                 
@@ -225,42 +233,46 @@ extension TransactionView{
                 //                    .padding([.top, .bottom], 5)
                 //
                 
-                ForEach(transectionViewModel.arrTransactionRes, id: \.id) { trans in
-                    
-                    VStack(spacing: 5){
-                        Group{
-                            HStack{
-                                Text(trans.object)
-                                    .font(.custom(.poppinsSemiBold, size: 20))
-                                    .foregroundColor(.white)
-                                Spacer()
-                                Text("$\(Double( trans.amount) / 100)".description)
-                                    .font(.custom(.poppinsSemiBold, size: 20))
-                                    .foregroundColor(.white)
-                            }
-                            HStack{
-                                Text(dateToString(date:Date(timeIntervalSince1970: TimeInterval(trans.created))))
-                                    .font(.custom(.poppinsMedium, size: 15))
-                                    .foregroundColor(Color(.darkGrayColor))
-                                Spacer()
-                                Text(trans.currency)
-                                    .font(.custom(.poppinsMedium, size: 15))
-                                    .foregroundColor(Color(.darkGrayColor))
-                            }
-                        }
-                        .padding(.horizontal, 20)
-                    }
-                    .frame(maxWidth: .infinity)
-                    .frame(height: 70)
-                    .background(Color(.darkBlueColor))
-                    .cornerRadius(10)
-                    .onTapGesture {
-                        transactions = trans
-                        willMoveToTransactionDetailView.toggle()
-                    }
-                }
                 
-                Spacer().frame(height: 10)
+                    ForEach(transectionViewModel.arrTransactionRes, id: \.id) { trans in
+                        
+                        VStack(spacing: 5){
+                            Group{
+                                HStack{
+                                    //                                Text(trans.object)
+                                    Text(" ")
+                                        .font(.custom(.poppinsSemiBold, size: 20))
+                                        .foregroundColor(.white)
+                                    Spacer()
+                                    Text("$\(Double( trans.amount) / 100)".description)
+                                        .font(.custom(.poppinsSemiBold, size: 20))
+                                        .foregroundColor(.white)
+                                }
+                                HStack{
+                                    Text(dateToString(date:Date(timeIntervalSince1970: TimeInterval(trans.created))))
+                                        .font(.custom(.poppinsMedium, size: 12))
+                                        .foregroundColor(Color(.darkGrayColor))
+                                    Spacer()
+                                    //                                Text(trans.currency)
+                                    Text("fare")
+                                        .font(.custom(.poppinsMedium, size: 15))
+                                        .foregroundColor(Color(.darkGrayColor))
+                                }
+                            }
+                            .padding(.horizontal, 20)
+                        }
+                        .frame(maxWidth: .infinity)
+                        .frame(height: 70)
+                        .background(Color(.darkBlueColor))
+                        .cornerRadius(10)
+                        .onTapGesture {
+                            transactions = trans
+                            willMoveToTransactionDetailView.toggle()
+                        }
+                    }
+                    
+                    Spacer().frame(height: 10)
+                }
             }
             //            }
         }

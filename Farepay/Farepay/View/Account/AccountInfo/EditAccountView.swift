@@ -19,6 +19,7 @@ struct EditAccountView: View {
     @State private var phoneText: String = ""
     @State private var emailText: String = ""
     @State private var showLoadingIndicator: Bool = false
+    @State private var taxiText: String = ""
     
     // MARK: - Views
     var body: some View {
@@ -39,11 +40,8 @@ struct EditAccountView: View {
                         guard let snap = snapShot else { return  }
                         nameText  = snap.get("userName") as? String ?? ""
                         phoneText = snap.get("phonenumber") as? String ?? ""
-                        
-
+                        taxiText = snap.get("taxiNumber") as? String ?? ""
                     }
-                    
-                    
                 }
             })
             .padding(.all, 15)
@@ -114,6 +112,28 @@ extension EditAccountView{
             .frame(height: 70)
             .background(Color(.darkBlueColor))
             .cornerRadius(10)
+            
+            HStack {
+                Image(uiImage: .taxiNumIcon)
+                    .resizable()
+                    .frame(width: 30, height: 30)
+                HStack {
+//                    Text("TXI8675")
+//                        .foregroundStyle(Color.white)
+                    TextField(
+                        "TXI8675",
+                        text: $taxiText
+                    )
+                    .textInputAutocapitalization(.characters)
+                    .foregroundStyle(Color.white)
+                }
+                
+            }
+            .padding(.horizontal,10)
+            .frame(height: 70)
+            .background(Color(.darkBlueColor))
+            .cornerRadius(10)
+            
             MDCFilledTextFieldWrapper(leadingImage: .constant(.ic_Email), text: .constant(Auth.auth().currentUser?.email ?? ""), placHolderText: .constant(Auth.auth().currentUser?.email ?? ""), isSecure: .constant(false),isUserInteractionEnable:false)
                 .frame(height: 70)
             
@@ -127,7 +147,7 @@ extension EditAccountView{
                 showLoadingIndicator = true
                 
                 if !nameText.isEmpty && phoneText.count == 9  {
-                    Firestore.firestore().collection("usersInfo").document(Auth.auth().currentUser?.uid ?? "").updateData(["userName":nameText, "phonenumber":phoneText])
+                    Firestore.firestore().collection("usersInfo").document(Auth.auth().currentUser?.uid ?? "").updateData(["userName":nameText, "phonenumber":phoneText, "taxiNumber": taxiText])
                     showLoadingIndicator = false
                     presentationMode.wrappedValue.dismiss()
                 }

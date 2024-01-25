@@ -13,11 +13,14 @@ struct PayQRView: View {
     //MARK: - Variables
     @Environment(\.presentationMode) private var presentationMode: Binding<PresentationMode>
     @State private var showWebView = false
+    @Environment(\.rootPresentationMode) private var rootPresentationMode: Binding<RootPresentationMode>
+    @State var goToHome = false
     
     //MARK: - Views
     var body: some View {
         
         ZStack{
+            NavigationLink("", destination: Farepay.MainTabbedView().toolbar(.hidden, for: .navigationBar), isActive: $goToHome ).isDetailLink(false)
             
             Color(.bgColor)
                 .edgesIgnoringSafeArea(.all)
@@ -59,8 +62,9 @@ extension PayQRView{
                     .resizable()
                     .frame(width: 25, height: 20)
                     .onTapGesture {
-                        presentationMode.wrappedValue.dismiss()
-                        
+//                        presentationMode.wrappedValue.dismiss()
+//                        rootPresentationMode.wrappedValue.dismiss()
+                        self.goToHome.toggle()
                     }
                 Text("Receipt")
                     .foregroundColor(.white)

@@ -199,96 +199,6 @@ extension TapToPayView{
 
 class ReaderDiscoverModel:NSObject,ObservableObject ,DiscoveryDelegate{
     
-    /*@Published var discoverCancelable: Cancelable?
-    @Published var readerMsgLbl = ""
-    @Published var showPay = false
-    
-    func discoverReadersAction() throws {
-        let config = try BluetoothScanDiscoveryConfigurationBuilder().setSimulated(true).build()
-        self.discoverCancelable = Terminal.shared.discoverReaders(config, delegate: self, completion: { error in
-            if let error = error {
-                print("discoverReaders failed: \(error)")
-            } else {
-                print("discoverReaders succeeded")
-                self.showPay = true
-            }
-        })
-    }
-    
-    func terminal(_ terminal: Terminal, didUpdateDiscoveredReaders readers: [Reader]) {
-//        print("readers")
-//        print(readers)
-        guard let selectedReader = readers.first else {return}
-        guard let locationId = selectedReader.locationId else { return }
-        guard terminal.connectionStatus == .notConnected else { return }
-        
-        let connectionConfigs = BluetoothConnectionConfigurationBuilder(locationId: locationId)
-        do {
-            let configss = try connectionConfigs.build()
-            Terminal.shared.connectBluetoothReader(selectedReader, delegate: self, connectionConfig: configss ) {  reader, error in
-                if let reader = reader {
-                    print("Successfully connected to reader: \(reader)")
-                } else if let error = error {
-                    print("connectReader failed: \(error)")
-                }
-            }
-            
-        }catch  {
-            print(error.localizedDescription)
-        }
-         
-    }
-    
-    func checkoutAction() throws {
-         let params = try PaymentIntentParametersBuilder(amount: 1000, currency: "AUD").build()
-         Terminal.shared.createPaymentIntent(params) { createResult, createError in
-             if let error = createError {
-                 print("createPaymentIntent failed: \(error)")
-             }
-             else if let paymentIntent = createResult {
-                 print("createPaymentIntent succeeded")
-                 self.discoverCancelable = Terminal.shared.collectPaymentMethod(paymentIntent) { collectResult, collectError in
-                     if let error = collectError {
-                         print("collectPaymentMethod failed: \(error)")
-                     }
-                     else if let paymentIntent = collectResult {
-                         print("collectPaymentMethod succeeded")
-                         // ... Confirm the payment
-                     }
-                 }
-             }
-
-         }
-     }
-
-    
-    
-    func reader(_ reader: Reader, didReportAvailableUpdate update: ReaderSoftwareUpdate) {
-        print("didReportAvailableUpdate")
-    }
-    
-    func reader(_ reader: Reader, didStartInstallingUpdate update: ReaderSoftwareUpdate, cancelable: Cancelable?) {
-        print("didStartInstallingUpdate")
-    }
-    
-    func reader(_ reader: Reader, didReportReaderSoftwareUpdateProgress progress: Float) {
-        print("didReportReaderSoftwareUpdateProgress")
-    }
-    
-    func reader(_ reader: Reader, didFinishInstallingUpdate update: ReaderSoftwareUpdate?, error: Error?) {
-        print("didFinishInstallingUpdate")
-    }
-    
-    func reader(_ reader: Reader, didRequestReaderInput inputOptions: ReaderInputOptions = []) {
-        print("didRequestReaderInput")
-        readerMsgLbl = Terminal.stringFromReaderInputOptions(inputOptions)
-    }
-    
-    func reader(_ reader: Reader, didRequestReaderDisplayMessage displayMessage: ReaderDisplayMessage) {
-        print("didRequestReaderDisplayMessage")
-        readerMsgLbl = Terminal.stringFromReaderDisplayMessage(displayMessage)
-    }*/
-    
     
     var discoverCancelable: Cancelable?
     var collectCancelable: Cancelable?
@@ -384,25 +294,6 @@ class ReaderDiscoverModel:NSObject,ObservableObject ,DiscoveryDelegate{
             }
         }
     }
-    
-//    func setUpInterface() {
-//      readerMessageLabel.textAlignment = .center
-//      readerMessageLabel.numberOfLines = 0
-//
-//      nextActionButton.setTitle("Connect to a reader", for: .normal)
-//      nextActionButton.addTarget(self, action: #selector(discoverReaders), for: .touchUpInside)
-//
-//      let stackView = UIStackView(arrangedSubviews: [nextActionButton, readerMessageLabel])
-//      stackView.axis = .vertical
-//      stackView.translatesAutoresizingMaskIntoConstraints = false
-//      view.addSubview(stackView)
-//      NSLayoutConstraint.activate([
-//          stackView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-//          stackView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-//          stackView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-//          stackView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-//      ])
-//    }
     
     func terminal(_ terminal: Terminal, didUpdateDiscoveredReaders readers: [Reader]) {
         guard let selectedReader = readers.first else { return }

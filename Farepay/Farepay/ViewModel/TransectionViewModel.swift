@@ -68,7 +68,6 @@ class TransectionViewModel: ObservableObject {
             }else {
                 self.apiCall = false 
             }
-            
         }
     }
 }

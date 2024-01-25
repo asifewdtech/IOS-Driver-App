@@ -6,9 +6,9 @@
 //
 
 import SwiftUI
-import StripeTerminal
-import UIKit
 import ActivityIndicatorView
+import FirebaseFirestore
+import FirebaseAuth
 
 struct PaymentView: View {
     
@@ -21,25 +21,27 @@ struct PaymentView: View {
     @State private var willMoveTapToPayView = false
     @StateObject var readerDiscoverModel1 = ReaderDiscoverModel1()
     @State private var willMoveToQr = false
+    @State private var willMoveToTaxiNum = false
     @State private var showLoadingIndicator: Bool = false
-//    @State private var totalChargresWithTax = 0.0
-//    @State private var totalAmount = 0.0
-//    @State private var serviceFee = 0.0
-//    @State private var serviceFeeGst = 0.0
+    @State private var locationPermission = false
+    @State var showTaxi = false
+    @State var taxiNumber = ""
     
     //MARK: - Views
     var body: some View {
         
         ZStack{
-//            NavigationLink("", destination: PaymentDetailView(farePriceText: $currencyManager.string).toolbar(.hidden, for: .navigationBar), isActive: $willMoveToPaymentDetail).isDetailLink(false)
+            NavigationLink("", destination: PaymentDetailView(farePriceText: $currencyManager.string).toolbar(.hidden, for: .navigationBar), isActive: $willMoveToPaymentDetail).isDetailLink(false)
             NavigationLink("", destination: TapToPayView().toolbar(.hidden, for: .navigationBar), isActive: $willMoveTapToPayView).isDetailLink(false)
             NavigationLink("", destination: PayQRView().toolbar(.hidden, for: .navigationBar), isActive: $willMoveToQr).isDetailLink(false)
+            NavigationLink("", destination: TaxiNumPopupView().toolbar(.hidden, for: .navigationBar), isActive: $willMoveToTaxiNum).isDetailLink(false)
             
             Color(.bgColor)
                 .edgesIgnoringSafeArea(.all)
             VStack{
                 topArea
-                calculationArea
+//                calculationArea
+//                taxiNumberArea
                 Spacer()
                 
                 keypadArea
@@ -48,13 +50,7 @@ struct PaymentView: View {
             .onAppear(perform: {
                 showLoadingIndicator = false
 //                currencyManager.string = ""
-                if readerDiscoverModel1.showPay {
-                    do {
-                        willMoveToQr.toggle()
-                    }catch{
-                        print("Payment don't transfered")
-                    }
-                }
+                firebaseAPI()
             })
             
             .toastView(toast: $toast)
@@ -64,6 +60,23 @@ struct PaymentView: View {
                 .frame(width: 50.0, height: 50.0)
                 .foregroundColor(.white)
                 .padding(.top, 400)
+            
+            if(self.showTaxi){
+                VStack{
+                    CustomAlert()
+                }
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .background(Color.black.opacity(0.5))
+                .edgesIgnoringSafeArea(.all)
+                .onTapGesture {
+                    withAnimation {
+                        let showTaxiNumPopup = UserDefaults.standard.integer(forKey: "showTaxiNumPopup")
+                        if showTaxiNumPopup == 1{
+                            self.showTaxi.toggle()
+                        }
+                    }
+                }
+            }
         }
     }
 }
@@ -79,17 +92,17 @@ extension PaymentView{
     var topArea: some View{
         
         VStack(spacing: 20){
-//            HStack(spacing: 20){
-//                Image(uiImage: .logo)
-//                    .resizable()
-//                    .frame(width: 50, height: 50)
-//                Text("FarePay")
-//                    .font(.custom(.poppinsBold, size: 35))
-//                    .foregroundColor(.white)
-//                    .onAppear(){
-//                        setMainView(true)
-//                    }
-//            }
+            HStack(spacing: 20){
+                Image(uiImage: .logo)
+                    .resizable()
+                    .frame(width: 50, height: 50)
+                Text("FarePay")
+                    .font(.custom(.poppinsBold, size: 35))
+                    .foregroundColor(.white)
+                    .onAppear(){
+                        setMainView(true)
+                    }
+            }
             
             HStack(spacing: 20){
                 
@@ -121,7 +134,7 @@ extension PaymentView{
                         .foregroundColor(.white)
                         .multilineTextAlignment(.trailing)
                         .onChange(of: currencyManager.string, perform: currencyManager.valueChanged)
-                        
+                    
                         .disabled(true)
                 }
                 .padding(.horizontal, 20)
@@ -134,45 +147,65 @@ extension PaymentView{
         .padding(.horizontal, 10)
     }
     
+    var taxiNumberArea : some View{
+//        VStack(alignment: .trailing){
+        HStack(spacing: 20){
+                Button(taxiNumber) {
+                    self.showTaxi.toggle()
+                    UserDefaults.standard.removeObject(forKey: "showTaxiNumPopup")
+//                    self.willMoveToTaxiNum.toggle()
+                }
+                .font(.custom(.poppinsMedium, size: 16))
+                .foregroundColor(.white)
+                .frame(height: 60)
+                
+                .multilineTextAlignment(.trailing)
+            }
+            .padding(.trailing, 10)
+            .frame(minWidth: 320, maxWidth: .infinity, minHeight: 30, maxHeight: 40, alignment: .trailing)
+        
+//        }
+    }
+    
     var calculationArea : some View {
         VStack{
             
-//            HStack(spacing: 30){
-//                
-//                
-//                
-//                Text("Charge Fare ")
-//                    .foregroundColor(.white)
-//                    .font(.custom(.poppinsBold, size: 25))
-//                
-//                Spacer()
-//            }
-//            .frame(maxWidth: .infinity)
-//            
-//            ZStack{
-//                HStack{
-//                    
-//                    Text("$")
-//                        .font(.custom(.poppinsMedium, size: 25))
-//                        .foregroundColor(Color(.darkGrayColor))
-//                    Spacer()
-//                    
-//                    //                    TextField("", text: $totalChargresWithTax, prompt: Text("0.00").foregroundColor(Color(.white)))
-//                    
-//                    Text(totalChargresWithTax.description)
-//                        .font(.custom(.poppinsBold, size: 40))
-//                        .frame(height: 30)
-//                        .foregroundColor(.white)
-//                        .multilineTextAlignment(.trailing)
-//                        .lineLimit(1)
-////                        .disabled(isDisabled)
-//                }
-//                .padding(.horizontal, 20)
-//            }
-//            .frame(maxWidth: .infinity)
-//            .frame(height: 80)
-//            .background(Color(.darkBlueColor))
-//            .cornerRadius(10)
+            //            HStack(spacing: 30){
+            //                
+            //                
+            //                
+            //                Text("Charge Fare ")
+            //                    .foregroundColor(.white)
+            //                    .font(.custom(.poppinsBold, size: 25))
+            //                
+            //                Spacer()
+            //            }
+            //            .frame(maxWidth: .infinity)
+            //            
+            //            ZStack{
+            //                HStack{
+            //                    
+            //                    Text("$")
+            //                        .font(.custom(.poppinsMedium, size: 25))
+            //                        .foregroundColor(Color(.darkGrayColor))
+            //                    Spacer()
+            //                    
+            //                    //                    TextField("", text: $totalChargresWithTax, prompt: Text("0.00").foregroundColor(Color(.white)))
+            //                    
+            //                    Text(totalChargresWithTax.description)
+            //                        .font(.custom(.poppinsBold, size: 40))
+            //                        .frame(height: 30)
+            //                        .foregroundColor(.white)
+            //                        .multilineTextAlignment(.trailing)
+            //                        .lineLimit(1)
+            ////                        .disabled(isDisabled)
+            //                }
+            //                .padding(.horizontal, 20)
+            //            }
+            //            .frame(maxWidth: .infinity)
+            //            .frame(height: 80)
+            //            .background(Color(.darkBlueColor))
+            //            .cornerRadius(10)
             
             VStack(spacing: 5){
                 
@@ -226,7 +259,7 @@ extension PaymentView{
                         .foregroundColor(Color(.white))
                         .font(.custom(.poppinsBold, size: 23))
                 }
-
+                
             }
         }
         .padding(.horizontal, 10)
@@ -255,7 +288,7 @@ extension PaymentView{
                 .foregroundColor(.white)
                 .frame(maxWidth: .infinity)
             }
-
+            
             HStack{
                 Group{
                     
@@ -303,7 +336,7 @@ extension PaymentView{
                 Group{
                     
                     Text("")
-                        
+                    
                     Text("0")
                         .onTapGesture {
                             currencyManager.string += "0"
@@ -317,7 +350,7 @@ extension PaymentView{
                             }
                         }
                 }
-                .font(.custom(.poppinsBold, size: 25))
+                .font(.custom(.poppinsBold, size: 35))
                 .foregroundColor(.white)
                 .frame(maxWidth: .infinity)
             }
@@ -330,36 +363,17 @@ extension PaymentView{
         VStack(spacing: 25){
             Button {
                 setMainView(false)
-//                willMoveToPaymentDetail.toggle()
-//                willMoveTapToPayView.toggle()
-                print(currencyManager.string)
-                DispatchQueue.main.async {
-                    if readerDiscoverModel1.showPay {
-                        do {
-                            try readerDiscoverModel1.collectPayment()
-                            showLoadingIndicator = true
-                        }catch{
-                            print("Payment don't transfered")
-                        }
-                    }
-                    else {
-                        do {
-                            try readerDiscoverModel1.discoverReaders()
-                            showLoadingIndicator = true
-                        }catch{
-                            print("Readers not discovered")
-                        }
-                    }
-                }
-                showLoadingIndicator = false
-//                if currencyManager.string.count == 2 && currencyManager.string.count <= 2 {
-//                    toast = Toast(style: .error, message: "Fare Pay should be minimum 10 AUD.")
-//                }else {
-//                    willMoveToPaymentDetail.toggle()
-//                    print(currencyManager.string)
-//                }
+                willMoveToPaymentDetail.toggle()
+                //                willMoveTapToPayView.toggle()
+                
+                //                if currencyManager.string.count == 2 && currencyManager.string.count <= 2 {
+                //                    toast = Toast(style: .error, message: "Fare Pay should be minimum 10 AUD.")
+                //                }else {
+                //                    willMoveToPaymentDetail.toggle()
+                //                    print(currencyManager.string)
+                //                }
             } label: {
-                 
+                
                 Text("PAY")
                     .font(.custom(.poppinsBold, size: 25))
                     .foregroundColor(.white)
@@ -373,117 +387,91 @@ extension PaymentView{
         .padding(.horizontal, 15)
         .padding(.bottom, 20)
     }
-}
-
-
-class ReaderDiscoverModel1:NSObject,ObservableObject ,DiscoveryDelegate{
     
-    var discoverCancelable: Cancelable?
-    var collectCancelable: Cancelable?
-    @ObservedObject private var currencyManager = CurrencyManager(amount: 0)
-    var nextActionButton = UIButton(type: .system)
-    var readerMessageLabel = UILabel()
-    var readerMsgLbl = ""
-    @Published var showPay = false
-    
-    
-    @objc
-    func discoverReaders() throws {
-        let config = try LocalMobileDiscoveryConfigurationBuilder().setSimulated(false).build()
-        self.discoverCancelable = Terminal.shared.discoverReaders(config, delegate: self) { error in
+    func firebaseAPI() {
+        Firestore.firestore().collection("usersInfo").document(Auth.auth().currentUser?.uid ?? "").getDocument { snapShot, error in
             if let error = error {
-                print("discoverReaders failed: \(error)")
-            } else {
-                print("discoverReaders succeeded")
-                self.showPay = true
+                print(error.localizedDescription)
+            }else {
+                
+                guard let snap = snapShot else { return  }
+               taxiNumber  = "\("Taxi Number: ")\(snap.get("taxiNumber") as? String ?? "") "
+                
             }
         }
     }
-    
-    @objc
-    func collectPayment() throws {
-        let developer = AmountDetail.instance.totalChargresWithTax.description
-        let array = developer.split(separator: ".").map(String.init)
-        let arrAmount = "\(array[0])\(array[1])"
-        print("Array amount: ",arrAmount)
-        
-        let params = try PaymentIntentParametersBuilder(amount: UInt(arrAmount) ?? 0, currency: "AUD")
-            .setPaymentMethodTypes(["card_present"])
-            .setCaptureMethod(CaptureMethod.automatic)
-            .build()
-        
-        Terminal.shared.createPaymentIntent(params) {
-          createResult, createError in
-            if let error = createError {
-                print("createPaymentIntent failed: \(error)")
-            } else if let paymentIntent = createResult {
-                print("createPaymentIntent succeeded")
-                Terminal.shared.collectPaymentMethod(paymentIntent) { collectResult, collectError in
-                    if let error = collectError {
-                        print("collectPaymentMethod failed: \(error)")
-                    } else if let paymentIntent = collectResult {
-                        print("collectPaymentMethod succeeded", paymentIntent)
-                        
-                        self.confirmPaymentIntent(paymentIntent)
-                    }
-                }
-            }
-        }
-    }
-
-    private func confirmPaymentIntent(_ paymentIntent: PaymentIntent) {
-        Terminal.shared.confirmPaymentIntent(paymentIntent) { confirmResult, confirmError in
-            if let error = confirmError {
-                print("confirmPaymentIntent failed: \(error)")
-            } else if let confirmedPaymentIntent = confirmResult {
-                print("confirmPaymentIntent succeeded")
-
-                if let stripeId = confirmedPaymentIntent.stripeId {
-                    // Notify your backend to capture the PaymentIntent.
-                    // PaymentIntents processed with Stripe Terminal must be captured
-                    // within 24 hours of processing the payment.
-                    APIClient.shared.capturePaymentIntent(stripeId) { captureError in
-                        if let error = captureError {
-                            print("capture failed: \(error)")
-                        } else {
-                            print("capture succeeded")
-                            self.readerMessageLabel.text = "Payment captured"
-                            if let paymentMethod = paymentIntent.paymentMethod,
-                                                        let card = paymentMethod.cardPresent ?? paymentMethod.interacPresent {
-
-                                                        // ... Perform business logic on card
-                                                    }
-                        }
-                    }
-                } else {
-                    print("Payment collected offline")
-                }
-            }
-        }
-    }
-    
-    func terminal(_ terminal: Terminal, didUpdateDiscoveredReaders readers: [Reader]) {
-        
-        guard let selectedReader = readers.first else { return }
-//        guard let locationId = selectedReader.locationId else { return }
-        do {
-            let connectionConfig = try LocalMobileConnectionConfigurationBuilder(locationId: "tml_FT7fjwaDmbKQ06").build()
-            
-            Terminal.shared.connectLocalMobileReader(selectedReader, delegate: LocalMobileReaderDelegateAnnouncer.shared, connectionConfig: connectionConfig) { reader, error in
-                if let reader = reader {
-                    print("Successfully connected to reader: \(reader)")
-                    do {
-                        try self.collectPayment()
-                    }catch{
-                        print("collect payment not call")
-                    }
-                } else if let error = error {
-                    print("connectLocalMobileReader failed: \(error)")
-                }
-            }
-        } catch {
-            print("Error creating LocalMobileConnectionConfiguration: \(error)")
-        }
-    }
-    
 }
+
+struct CustomAlert: View{
+    var body:some View{
+        @State var taxiNmbr: String = ""
+        @State var taxiNmbr1 = ""
+        
+        VStack {
+            
+            HStack(spacing: 20) {
+                
+                Text("Taxi Number")
+                    .font(.custom(.poppinsMedium, size: 20))
+                    .foregroundColor(Color(.darkBlueColor))
+            }
+            .padding(.top)
+        
+            .frame(minWidth: 0, maxWidth: 150, minHeight: 0, maxHeight: 40, alignment: .leading)
+            .padding(.trailing, 170)
+            
+                
+            HStack(spacing: 5){
+                    
+                    Image(uiImage: .taxiNumIcon)
+                        .resizable()
+                        .frame(width: 20, height: 20)
+                        
+                TextField(taxiNmbr, text: $taxiNmbr)
+//                        .textInputAutocapitalization(.never)
+                        .font(.custom(.poppinsMedium, size: 16))
+//                        .frame(height: 38)
+                        .foregroundColor(Color(.darkBlueColor))
+                        .disabled(false)
+//                MDCFilledTextFieldWrapper(leadingImage: .constant(.taxiNumIcon), text: $taxiNmbr1, placHolderText: .constant(""), isSecure: .constant(false))
+                }
+                .frame(minWidth: 0, maxWidth: 330, minHeight: 0, maxHeight: 40, alignment: .center)
+                
+            .background(Color(.TaxiFieldColor))
+            .cornerRadius(10)
+                
+                Spacer()
+        
+            HStack(spacing: 20) {
+                Button {
+                    print("txNmbr: ", taxiNmbr1 )
+                    
+                    Firestore.firestore().collection("usersInfo").document(Auth.auth().currentUser?.uid ?? "").updateData(["taxiNumber" : taxiNmbr])
+//                    showLoadingIndicator = false
+                    
+                    UserDefaults.standard.set(1, forKey: "showTaxiNumPopup")
+                } label: {
+                    
+                    Text("Update")
+                        .font(.custom(.poppinsMedium, size: 15))
+                        .foregroundColor(.white)
+                }
+            }
+            .frame(minWidth: 120, maxWidth: 120, minHeight: 40, maxHeight: 40, alignment: .center)
+            
+//            .padding(.leading, 250)
+//            .multilineTextAlignment(.leading)
+//            .padding(.bottom, 10)
+            .background(Color(.buttonColor))
+            .cornerRadius(40)
+            Spacer()
+            }
+        .frame(minWidth: 320, maxWidth: 350, minHeight: 150, maxHeight: 170)
+            .background(Color.white)
+            .cornerRadius(20)
+//            .padding([.leading, .trailing], 20)
+//            .frame(width: 350)
+//            .frame(maxHeight: 180)
+    }
+}
+

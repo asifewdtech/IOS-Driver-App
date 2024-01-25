@@ -22,6 +22,7 @@ struct BankAccountView: View {
             Color(.bgColor).edgesIgnoringSafeArea(.all)
             VStack(spacing: 10){
                 topArea
+                Spacer()
                 listView
                 Spacer()
                 buttonArea
@@ -44,12 +45,12 @@ extension BankAccountView{
         HStack(spacing: 20){
             Image(uiImage: .backArrow)
                 .resizable()
-                .frame(width: 35, height: 30)
+                .frame(width: 25, height: 25)
                 .onTapGesture {
                     presentationMode.wrappedValue.dismiss()
                 }
             Text("Bank Account")
-                .font(.custom(.poppinsBold, size: 25))
+                .font(.custom(.poppinsBold, size: 22))
                 .foregroundColor(.white)
             Spacer()
         }
@@ -59,7 +60,7 @@ extension BankAccountView{
         
         VStack{
             ScrollView(showsIndicators: false){
-                ForEach(bankAccountViewModel.bankList) { bank in
+                ForEach(bankAccountViewModel.arrBankRes, id: \.id) { bank in
                     VStack{
                         HStack(spacing: 15){
                             Image(uiImage: .image_placeholder)
@@ -67,7 +68,7 @@ extension BankAccountView{
                                 .frame(width: 50, height: 50)
                                 .cornerRadius(25)
                             VStack(alignment: .leading, spacing: 10){
-                                Text(bank.bankName)
+                                Text(bank.bank_name)
                                     .font(.custom(.poppinsSemiBold, size: 16))
                                     .foregroundColor(.white)
                                     .lineLimit(2)

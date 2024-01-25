@@ -24,7 +24,9 @@ class UserAuthViewModel:NSObject, ObservableObject,ASAuthorizationControllerDele
     @Published var isGoogleLogin = false
     @Published var isAccountCreated = false
     @Published var bankAccced = false
-
+    @State private var goToHome = true
+    @State private var showCompany = true
+    
     override init(){
         super.init()
    
@@ -102,12 +104,7 @@ class UserAuthViewModel:NSObject, ObservableObject,ASAuthorizationControllerDele
                     self.bankAccced = snap.get("bankAdded") as? Bool ?? false
                     self.isLoggedIn = true
                 }
-                
-                
             }
-            
-            
-            
         }
     }
     func SocialLogin() async  {
@@ -133,16 +130,11 @@ class UserAuthViewModel:NSObject, ObservableObject,ASAuthorizationControllerDele
                     }else {
 
                         self.checkUserAccountCreated()
-                        
+                        self.isGoogleLogin = true
                         NotificationCenter.default.post(name: NSNotification.Name("SIGNIN"), object: nil)
                     }
                 }
-                
-  
             }
-            
-            
-            
         }
     }
     
@@ -170,15 +162,12 @@ class UserAuthViewModel:NSObject, ObservableObject,ASAuthorizationControllerDele
                     self.errorMessage = "error: \(error.localizedDescription)"
                 }else {
                     self.isLoggedIn  = true
-                    
+                    self.isGoogleLogin = true
+//                    LoginView().appleSocialLogin()
+                    SignUpView().appleSocialSignup()
                     NotificationCenter.default.post(name: NSNotification.Name("SIGNIN"), object: nil)
                 }
-                
-                
-                
-                
             }
-            
         }
     }
     

@@ -7,7 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1815D5212B4BCB550067202C /* UnderReviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1815D5202B4BCB550067202C /* UnderReviewView.swift */; };
 		187AB27D2B2992A900B170EE /* DelegateAnnouncer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 187AB27C2B2992A900B170EE /* DelegateAnnouncer.swift */; };
+		18A90E3E2B57AB850014047D /* TaxiNumPopupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18A90E3D2B57AB850014047D /* TaxiNumPopupView.swift */; };
 		18D7CF8C2B1DA4640022FBBE /* ActivityIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18D7CF8B2B1DA4640022FBBE /* ActivityIndicator.swift */; };
 		322FC4222AFA44F80053C82C /* TransectionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 322FC4212AFA44F80053C82C /* TransectionViewModel.swift */; };
 		3230C1322AD3C74C005E182B /* SplashView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F51193902A97C6ED00554604 /* SplashView.swift */; };
@@ -110,7 +112,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		1815D5202B4BCB550067202C /* UnderReviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnderReviewView.swift; sourceTree = "<group>"; };
 		187AB27C2B2992A900B170EE /* DelegateAnnouncer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DelegateAnnouncer.swift; sourceTree = "<group>"; };
+		18A90E3D2B57AB850014047D /* TaxiNumPopupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaxiNumPopupView.swift; sourceTree = "<group>"; };
 		18D7CF8B2B1DA4640022FBBE /* ActivityIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityIndicator.swift; sourceTree = "<group>"; };
 		322C08AC2AD8013200C2288B /* Farepay.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Farepay.entitlements; sourceTree = "<group>"; };
 		322FC4212AFA44F80053C82C /* TransectionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransectionViewModel.swift; sourceTree = "<group>"; };
@@ -470,6 +474,8 @@
 				F5500E202AA1136500B39655 /* TryAgainView.swift */,
 				F5192AEA2AA11B8900DF5ED1 /* PayQRView.swift */,
 				32ABA0C72B0361080074A8E4 /* ReaderConnectView.swift */,
+				1815D5202B4BCB550067202C /* UnderReviewView.swift */,
+				18A90E3D2B57AB850014047D /* TaxiNumPopupView.swift */,
 			);
 			path = Payment;
 			sourceTree = "<group>";
@@ -754,6 +760,7 @@
 				F56C08262AABA79700CE07C9 /* GiftCardDetailView.swift in Sources */,
 				F59F81F12AC3569400A51AC6 /* ImagePreView.swift in Sources */,
 				F51193A62A97D19500554604 /* Font+Extension.swift in Sources */,
+				18A90E3E2B57AB850014047D /* TaxiNumPopupView.swift in Sources */,
 				323857002AFE4D830082272B /* BankAccountViewModel.swift in Sources */,
 				F51193952A97C97400554604 /* Colors+Extension.swift in Sources */,
 				F59F81EF2AC3463800A51AC6 /* NotificationCenter+Extension.swift in Sources */,
@@ -769,6 +776,7 @@
 				32888C962AD686B800A39C8B /* ToastStyle.swift in Sources */,
 				32888C9A2AD686C800A39C8B /* View_Glow.swift in Sources */,
 				F5449ABD2AB0D09000BE5AF4 /* Date+Extension.swift in Sources */,
+				1815D5212B4BCB550067202C /* UnderReviewView.swift in Sources */,
 				F5192AEB2AA11B8900DF5ED1 /* PayQRView.swift in Sources */,
 				3294382F2ADD0DAB000C18B8 /* OtpViewModel.swift in Sources */,
 				F5C15AA22AA26E6A0065DE0B /* MainTabbedView.swift in Sources */,
@@ -811,8 +819,11 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_ENTITLEMENTS = Farepay/Farepay.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = "";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
@@ -871,8 +882,11 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_ENTITLEMENTS = Farepay/Farepay.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = "";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
@@ -903,15 +917,17 @@
 				CODE_SIGN_ENTITLEMENTS = Farepay/Farepay.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 8;
+				CURRENT_PROJECT_VERSION = 19;
 				DEVELOPMENT_ASSET_PATHS = "\"Farepay/Preview Content\"";
 				DEVELOPMENT_TEAM = F2D64HKJXK;
 				ENABLE_PREVIEWS = YES;
+				ENABLE_USER_SELECTED_FILES = "";
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Farepay/Info.plist;
 				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "This app uses Bluetooth to connect to supported card readers.";
 				INFOPLIST_KEY_NSBluetoothPeripheralUsageDescription = "Bluetooth access is required to connect to supported card readers.";
 				INFOPLIST_KEY_NSCameraUsageDescription = "We need access to your camera to take photos.";
+				INFOPLIST_KEY_NSLocationUsageDescription = "Location access is required to accept the payments.";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Location access is required to accept payments.";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "We need access to your photo library to select images.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -919,6 +935,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = SplashScreen.storyboard;
 				INFOPLIST_KEY_UIRequiresFullScreen = YES;
+				INFOPLIST_KEY_UIStatusBarHidden = NO;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
@@ -930,6 +947,9 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.Farepay.iOS;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -946,15 +966,17 @@
 				CODE_SIGN_ENTITLEMENTS = Farepay/Farepay.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 8;
+				CURRENT_PROJECT_VERSION = 19;
 				DEVELOPMENT_ASSET_PATHS = "\"Farepay/Preview Content\"";
 				DEVELOPMENT_TEAM = F2D64HKJXK;
 				ENABLE_PREVIEWS = YES;
+				ENABLE_USER_SELECTED_FILES = "";
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Farepay/Info.plist;
 				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "This app uses Bluetooth to connect to supported card readers.";
 				INFOPLIST_KEY_NSBluetoothPeripheralUsageDescription = "Bluetooth access is required to connect to supported card readers.";
 				INFOPLIST_KEY_NSCameraUsageDescription = "We need access to your camera to take photos.";
+				INFOPLIST_KEY_NSLocationUsageDescription = "Location access is required to accept the payments.";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Location access is required to accept payments.";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "We need access to your photo library to select images.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -962,6 +984,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = SplashScreen.storyboard;
 				INFOPLIST_KEY_UIRequiresFullScreen = YES;
+				INFOPLIST_KEY_UIStatusBarHidden = NO;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
@@ -973,6 +996,9 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.Farepay.iOS;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

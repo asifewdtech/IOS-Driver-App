@@ -6,11 +6,13 @@
 //
 
 import SwiftUI
+import WebKit
 
 struct PrivacyPolicyView: View {
     
     //MARK: - Variables
     @Binding var presentSideMenu: Bool
+    @Environment(\.openURL) var openURL
     
     //MARK: - Views
     var body: some View {
@@ -19,8 +21,14 @@ struct PrivacyPolicyView: View {
             VStack{
                 topArea
                 Spacer()
+//                ButtonArea
             }
             .padding(.all, 15)
+            
+            .onAppear( perform: {
+                UIApplication.shared.open(URL(string: "https://farepay.app/privacy")!)
+                presentSideMenu.toggle()
+            })
         }
     }
 }
@@ -35,7 +43,7 @@ extension PrivacyPolicyView{
 
     var topArea: some View{
         
-        VStack(spacing: 30){
+        VStack(alignment: .leading, spacing: 300){
             HStack(spacing: 20){
                 
                 Image(uiImage: .menuIcon)
@@ -51,10 +59,31 @@ extension PrivacyPolicyView{
                 Spacer()
             }
             
-            Text("Please read these terms and conditions Carefully before using the application.")
-                .font(.custom(.poppinsMedium, size: 20))
-                .foregroundColor(.white)
-                .multilineTextAlignment(.leading)
+//            Text("Please read these terms and conditions Carefully before using the application.")
+//                .font(.custom(.poppinsMedium, size: 20))
+//                .foregroundColor(.white)
+//                .multilineTextAlignment(.leading)
+            
+            
+            VStack(spacing: 30){
+                HStack(){
+                    Text("Please read the")
+                        .font(.custom(.poppinsMedium, size: 18))
+                        .foregroundColor(.white)
+                    Button(action: {
+                        openURL(URL(string: "https://farepay.app/privacy")!)
+                        presentSideMenu.toggle()
+                    }, label: {
+                        Text("\("Privacy Policy")")
+                            .font(.custom(.poppinsBold, size: 18))
+                            .foregroundColor(.white)
+                            .underline()
+                    })
+                    Text("Carefully.")
+                        .font(.custom(.poppinsMedium, size: 18))
+                        .foregroundColor(.white)
+                }
+            }
         }
     }
 }

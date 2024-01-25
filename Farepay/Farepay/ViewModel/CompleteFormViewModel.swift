@@ -9,6 +9,8 @@ import Foundation
 import SwiftUI
 import FirebaseFirestore
 import FirebaseAuth
+import UIKit
+
 class CompleteFormViewModel: ObservableObject {
     @Published var goToAccountScreen = false
     @Published var goToHomeScreen = false
@@ -20,16 +22,16 @@ class CompleteFormViewModel: ObservableObject {
     
     let db = Firestore.firestore()
     @MainActor
-    func postData(url:String,method:Methods,name:String,phone:String, email:String)  async throws{
-        guard let url = URL(string: url) else {
-            throw URLError(.badURL)
-        }
+    func postData(url:URL,method:Methods,name:String,phone:String)  async throws{
+        print("url is: ",url)
+//        guard let url = URL(string: url) else {
+//            throw URLError(.badURL)
+//        }
         
         var request = URLRequest(url: url)
         request.httpMethod = method.rawValue
         
         
-
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         
         let (data, response) = try await URLSession.shared.data(for: request)
@@ -48,13 +50,13 @@ class CompleteFormViewModel: ObservableObject {
                     guard let id = account["id"] as? String else {return}
                     self.accountId = id
                     self.goToAccountScreen = true
-                    self.email = email
+                    self.email = Auth.auth().currentUser?.email ?? ""
                     
                     self.db.collection("usersInfo").document(Auth.auth().currentUser?.uid ?? "").setData(["connectAccountCreated" : true,
                                                                                                  "accoundId":self.accountId,
                                                                                                  "userName":name,
                                                                                                  "phonenumber":phone,
-                                                                                                          "email": email,
+                                                                                                          "email": self.email,
                                                                                                           "bankAdded": false
                                                                                                 ])
                    

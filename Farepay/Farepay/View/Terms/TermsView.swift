@@ -11,6 +11,7 @@ struct TermsView: View {
     
     //MARK: - Variables
     @Binding var presentSideMenu: Bool
+    @Environment(\.openURL) var openURL
     
     //MARK: - Views
     var body: some View {
@@ -19,8 +20,14 @@ struct TermsView: View {
             VStack{
                 topArea
                 Spacer()
+//                ButtonArea
             }
             .padding(.all, 15)
+            
+            .onAppear( perform: {
+                UIApplication.shared.open(URL(string: "https://farepay.app/terms-of-use")!)
+                presentSideMenu.toggle()
+            })
         }
     }
 }
@@ -35,9 +42,8 @@ extension TermsView{
     
     var topArea: some View{
         
-        VStack(spacing: 30){
+        VStack(alignment: .leading, spacing: 300){
             HStack(spacing: 20){
-                
                 Image(uiImage: .menuIcon)
                     .resizable()
                     .frame(width: 25, height: 25)
@@ -45,15 +51,38 @@ extension TermsView{
                         
                         presentSideMenu.toggle()
                     }
-                VStack(alignment: .leading){
-                    Text("Terms of Use")
-                        .font(.custom(.poppinsBold, size: 25))
-                        .foregroundColor(.white)
-                    Text("Last Updated July 28, 2021")
+                
+                Text("Terms of Use")
+                    .font(.custom(.poppinsBold, size: 25))
+                    .foregroundColor(.white)
+                
+            }
+            
+            
+            //            Text("Please read these terms and conditions Carefully before using the application.")
+            //                .font(.custom(.poppinsMedium, size: 20))
+            //                .foregroundColor(.white)
+            //                .multilineTextAlignment(.leading)
+            
+            
+            VStack(spacing: 30){
+                HStack(){
+                    Text("Please read the")
                         .font(.custom(.poppinsMedium, size: 18))
-                        .foregroundColor(Color(.darkGrayColor))
+                        .foregroundColor(.white)
+                    Button(action: {
+                        openURL(URL(string: "https://farepay.app/terms-of-use")!)
+                        presentSideMenu.toggle()
+                    }, label: {
+                        Text("\("Terms of Use")")
+                            .font(.custom(.poppinsBold, size: 18))
+                            .foregroundColor(.white)
+                            .underline()
+                    })
+                    Text("Carefully.")
+                        .font(.custom(.poppinsMedium, size: 18))
+                        .foregroundColor(.white)
                 }
-                Spacer()
             }
         }
     }

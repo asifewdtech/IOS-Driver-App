@@ -9,18 +9,27 @@ import Foundation
 import UIKit
 
 
-
-
-struct AccountModel :Codable,Identifiable{
-    let id, object, account, accountHolderName: String
-    let accountHolderType: String
-    let bankName, country, currency: String
-    let defaultForCurrency: Bool
-    let fingerprint: String
-    let last4: String
-    
-    let routingNumber, status: String
+struct AccountModel: Codable {
+    let data: [AccountModel1]
 }
+
+struct AccountModel1: Codable {
+    let id:String
+    let bank_name:String
+    let account_holder_name:String
+    let last4:String
+}
+
+//struct AccountModel :Codable,Identifiable{
+//    let id, object, account, account_holder_name: String
+//    let accountHolderType: String
+//    let bank_name, country, currency: String
+//    let defaultForCurrency: Bool
+//    let fingerprint: String
+//    let last4: String
+//    
+//    let routingNumber, status: String
+//}
 
 //class AccountModel: NSObject, NSCoding, Identifiable {
 //    var id: String!

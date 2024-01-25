@@ -7,6 +7,7 @@
 
 import SwiftUI
 import FirebaseAuth
+import ActivityIndicatorView
 
 struct ChangePasswordView: View {
     
@@ -21,7 +22,9 @@ struct ChangePasswordView: View {
     let user = Auth.auth().currentUser
     var credential: AuthCredential?
     @State private var toast: Toast? = nil
-
+    @State private var showLoadingIndicator: Bool = false
+    @Environment(\.rootPresentationMode) private var rootPresentationMode: Binding<RootPresentationMode>
+    
     //MARK: - Views
     var body: some View {
         ZStack{
@@ -34,6 +37,11 @@ struct ChangePasswordView: View {
             }
             .toastView(toast: $toast)
             .padding(.all, 15)
+            
+            ActivityIndicatorView(isVisible: $showLoadingIndicator, type: .growingArc(.white, lineWidth: 5))
+                .frame(width: 50.0, height: 50.0)
+                .foregroundColor(.white)
+                .padding(.top, 350)
         }
     }
 }
@@ -135,13 +143,13 @@ extension ChangePasswordView{
                 // Prompt the user to re-provide their sign-in credentials
 //                guard let credential else {return}
                 
-                if oldPasswordText.count != 0 && newPasswordText.count >= 6  {
-                    if newPasswordText == reTypePasswordText {
-                        updatePass()
-                    }
-                }
+//                if oldPasswordText.count != 0 && newPasswordText.count >= 6  {
+//                    if newPasswordText == reTypePasswordText {
+//                        updatePass()
+//                    }
+//                }
             
-
+                updatePass()
                 
             }, label: {
                 Text("Confirm")
@@ -159,28 +167,54 @@ extension ChangePasswordView{
     
     
     func updatePass()  {
-        let cred = EmailAuthProvider.credential(withEmail: Auth.auth().currentUser?.email ?? "", password: oldPasswordText)
-        user?.reauthenticate(with: cred, completion: { auths, errors in
-            if let errors = errors {
-                toast = Toast(style: .error, message: errors.localizedDescription)
-            }else {
-                user?.updatePassword(to: newPasswordText, completion: { error in
-                    if let err = error {
-                        
-                        toast = Toast(style: .error, message: err.localizedDescription)
-                    }else {
-                        
-                        toast = Toast(style: .success, message: "Password Changed Successfully")
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                            presentationMode.wrappedValue.dismiss()
+        if oldPasswordText.isEmpty {
+            toast = Toast(style: .error, message: "Old Password field cannot be empty.")
+        }
+        else if newPasswordText.isEmpty {
+            toast = Toast(style: .error, message: "New Password field cannot be empty.")
+        }
+        else if !newPasswordText.isValidPassword(newPasswordText) {
+            toast = Toast(style: .error, message: "Password must have more than 6 characters, contain one digit, one uppercase letter and a special character.")
+        }
+        else if reTypePasswordText.isEmpty {
+            toast = Toast(style: .error, message: "New Password field cannot be empty.")
+        }
+        else if newPasswordText != reTypePasswordText {
+            toast = Toast(style: .error, message: "Both Password Should be matched.")
+        }
+        else {
+            showLoadingIndicator = true
+            let cred = EmailAuthProvider.credential(withEmail: Auth.auth().currentUser?.email ?? "", password: oldPasswordText)
+            user?.reauthenticate(with: cred, completion: { auths, errors in
+                showLoadingIndicator = false
+                if let errors = errors {
+                    toast = Toast(style: .error, message: errors.localizedDescription)
+                }else {
+                    user?.updatePassword(to: newPasswordText, completion: { error in
+                        if let err = error {
+                            
+                            toast = Toast(style: .error, message: err.localizedDescription)
+                        }else {
+                            
+                            toast = Toast(style: .success, message: "Password Changed Successfully")
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+//                                presentationMode.wrappedValue.dismiss()
+                                setUserLogin(false)
+                                                do {
+                                                   try  Auth.auth().signOut()
+                                
+                                                } catch  {
+                                                    print("error")
+                                                }
+                                rootPresentationMode.wrappedValue.dismiss()
+                            }
                         }
-                    }
-                         
-                })
-            }
-            
-        })
-       
+                        
+                    })
+                }
+                
+            })
+        }
 
     }
 }

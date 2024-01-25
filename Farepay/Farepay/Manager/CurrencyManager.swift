@@ -36,29 +36,29 @@ class CurrencyManager: ObservableObject {
         if newValue > maximum {
             string = lastValue
         } else {
-            
+            print("serTax\(newValue)")
 //            string = formatter.string(for: newValue) ?? "$0.00"
             let formattedString = formatter.string(for: newValue) ?? "$0.00"
             string = formattedString.replacingOccurrences(of: formatter.currencySymbol, with: "")
             lastValue = string
             
             if let cost = Double(lastValue.trimmingCharacters(in: .whitespaces)) {
-                totalAmount = cost
-                AmountDetail.instance.totalAmount = cost
-                let amountWithFivePercent = cost * 5 / 100
-                print("amountWithFivePercent \(amountWithFivePercent)")
-                serviceFee = (amountWithFivePercent / 1.1).roundToDecimal(2)
-                
-                AmountDetail.instance.serviceFee = serviceFee
-                print("serviceFee\(serviceFee)")
-                
-                serviceFeeGst = (amountWithFivePercent - serviceFee).roundToDecimal(2)
-                AmountDetail.instance.serviceFeeGst = serviceFeeGst
-                print("serviceFeeGst \(serviceFeeGst)")
-                totalChargresWithTax = (serviceFee + serviceFeeGst + cost).roundToDecimal(2)
-                
-                AmountDetail.instance.totalChargresWithTax = totalChargresWithTax
-                print("totalCharges \(totalChargresWithTax)")
+//                totalAmount = cost
+//                AmountDetail.instance.totalAmount = cost
+//                let amountWithFivePercent = cost * 5 / 100
+//                print("amountWithFivePercent \(amountWithFivePercent)")
+//                serviceFee = (amountWithFivePercent / 1.1).roundToDecimal(2)
+//                
+//                AmountDetail.instance.serviceFee = serviceFee
+//                print("serviceFee\(serviceFee)")
+//                
+//                serviceFeeGst = (amountWithFivePercent - serviceFee).roundToDecimal(2)
+//                AmountDetail.instance.serviceFeeGst = serviceFeeGst
+//                print("serviceFeeGst \(serviceFeeGst)")
+//                totalChargresWithTax = (serviceFee + serviceFeeGst + cost).roundToDecimal(2)
+//                
+//                AmountDetail.instance.totalChargresWithTax = totalChargresWithTax
+//                print("totalCharges \(totalChargresWithTax)")
                 
             }
         }

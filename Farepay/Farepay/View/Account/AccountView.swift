@@ -9,6 +9,8 @@ import SwiftUI
 import FirebaseAuth
 import SDWebImageSwiftUI
 import FirebaseFirestore
+import ActivityIndicatorView
+
 struct AccountView: View {
     
     //MARK: - Variables
@@ -16,7 +18,12 @@ struct AccountView: View {
     @State var willMoveToAccountInfo: Bool = false
     @State var willMoveToChangePassword: Bool = false
     @State var willMoveToBankAccount: Bool = false
-
+    @State var url :String?
+    @State var showImagePicker: Bool = false
+    @State var image: UIImage?
+    @StateObject var storageManager = StorageManager()
+    @State var userName: String = ""
+    @State private var showLoadingIndicator: Bool = false
     
     // MARK: - Views
     var body: some View {
@@ -34,9 +41,32 @@ struct AccountView: View {
                 listView
                 Spacer()
             }
-            
+            .fullScreenCover(isPresented: $showImagePicker, content: {
+                OpenGallary(isShown: $showImagePicker, image: $image)
+            })
+            .onAppear(perform: {
+                
+                Firestore.firestore().collection("usersInfo").document(Auth.auth().currentUser?.uid ?? "").getDocument { snapShot, error in
+                    if let error = error {
+                        print(error.localizedDescription)
+                    }else {
+                        guard let snap = snapShot else { return  }
+                       userName  = snap.get("userName") as? String ?? ""
+                        
+                        if let socialUrl = Auth.auth().currentUser?.photoURL?.absoluteString {
+                            url = socialUrl
+                        }else {
+                            url = snap.get("imageUrl") as? String ?? ""
+                        }
+                    }
+                }
+            })
             .padding(.all, 15)
-        }
+            
+            ActivityIndicatorView(isVisible: $showLoadingIndicator, type: .growingArc(.white, lineWidth: 5))
+                .frame(width: 50.0, height: 50.0)
+                .foregroundColor(.white)
+                .padding(.top, 350)        }
     }
 }
 
@@ -68,7 +98,7 @@ extension AccountView{
         }
     }
     
-    var profileView: some View{
+/*    var profileView: some View{
         
         VStack(spacing: 5){
 //            Image(uiImage: .image_placeholder)
@@ -91,8 +121,56 @@ extension AccountView{
                 .font(.custom(.poppinsThin, size: 18))
                 .foregroundColor(.white)
         }
+    }*/
+    var profileView: some View{
+        
+        VStack(spacing: 5){
+            if let urls =  URL(string: url ?? "") {
+//                Image(uiImage: .image_placeholder)
+                WebImage(url: urls)
+                    .resizable()
+                    .frame(width: 100, height: 100)
+                    .cornerRadius(50)
+                
+                    .onTapGesture {
+                        withAnimation {
+                            self.showImagePicker.toggle()
+                            url = nil
+                        }
+
+                    }
+            }else {
+                Image(uiImage: image ??  .image_placeholder)
+                    .resizable()
+                    .frame(width: 100, height: 100)
+                    .aspectRatio(contentMode: .fill)
+                    .cornerRadius(50)
+                    .onTapGesture {
+                        withAnimation {
+                            self.showImagePicker.toggle()
+                        }
+                    }
+                
+                    .onChange(of: image ?? .image_placeholder, perform: { image in
+                        if image != .image_placeholder {
+                            showLoadingIndicator = true
+                            storageManager.upload(image: image)
+                            showLoadingIndicator = false
+                        }
+                    })
+                
+            }
+//            Text(Auth.auth().currentUser?.displayName ?? "")
+            Text(userName)
+                .font(.custom(.poppinsBold, size: 25))
+                .foregroundColor(.white)
+            Text(verbatim: Auth.auth().currentUser?.email ?? "")
+                .font(.custom(.poppinsThin, size: 18))
+                .foregroundColor(.white)
+        }
+      
+
     }
-    
     var listView: some View{
         
         VStack(spacing: 15){

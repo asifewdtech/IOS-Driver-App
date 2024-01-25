@@ -11,7 +11,7 @@ import Combine
 struct CompanyView: View {
     
     //MARK: - Variable
-    @State private var companyText: String = ""
+    @State var companyText: String = "individual"
     @State private var cardText: String = ""
     @State private var contactText: String = ""
     @State private var willMoveToRepresentativeView: Bool = false
@@ -128,13 +128,13 @@ extension CompanyView{
                             print(option)
                             self.companyText = option.value
                         })
-                    
+                    .foregroundColor(.white)
                 }
                           
                 
-                MDCFilledTextFieldWrapper(leadingImage: .constant(.ic_Card), text: $cardText.max(11), placHolderText: .constant("ABN"), isSecure: .constant(false),isNumberPad: true)
+                MDCFilledTextFieldWrapper(leadingImage: .constant(.ic_Card), text: $cardText.max(11), placHolderText: .constant("Enter your ABN"), isSecure: .constant(false),isNumberPad: true)
                     
-                MDCFilledTextFieldWrapper(leadingImage: .constant(.ic_Contact), text: $contactText.max(9), placHolderText: .constant("Tax ID"), isSecure: .constant(false),isNumberPad: true)
+                MDCFilledTextFieldWrapper(leadingImage: .constant(.ic_Contact), text: $contactText.max(9), placHolderText: .constant("Enter your Drivers Licence"), isSecure: .constant(false),isNumberPad: true)
                 
             }
             .frame(maxWidth: .infinity)
@@ -165,10 +165,6 @@ extension CompanyView{
                     
             })
 //            .disabled(companyText.isEmpty || cardText.count < 11 || contactText.count < 9 )
-          
-
-                
-
                 .fullScreenCover(isPresented: $isPresentedPopUp) {
                     StepsView(presentedAsModal: $isPresentedPopUp)
                 }

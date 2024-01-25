@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import ActivityIndicatorView
 
 struct AddNewBankAccountView: View {
     
@@ -19,12 +20,14 @@ struct AddNewBankAccountView: View {
     @ObservedObject var completeFormViewModel = CompleteFormViewModel()
     @AppStorage("accountId") var accountId: String = ""
     @State private var toast: Toast? = nil
+    @State var apicalled = false
+    
     //MARK: - Views
     var body: some View {
         
         ZStack{
             Color(.bgColor).edgesIgnoringSafeArea(.all)
-            VStack(spacing: 40){
+            VStack(spacing: 10){
                 NavigationLink("", destination: Farepay.MainTabbedView().toolbar(.hidden, for: .navigationBar), isActive: $goToHome ).isDetailLink(false)
                 topArea
                 textArea
@@ -33,6 +36,11 @@ struct AddNewBankAccountView: View {
             }
             .toastView(toast: $toast)
             .padding(.all, 15)
+            
+            ActivityIndicatorView(isVisible: $apicalled, type: .growingArc(.white, lineWidth: 5))
+                .frame(width: 50.0, height: 50.0)
+                .foregroundColor(.white)
+                .padding(.top, 350)
         }
     }
 }
@@ -93,7 +101,6 @@ extension AddNewBankAccountView{
     var buttonArea: some View{
         
         VStack(spacing: 20){
-                        
          
             Button(action: {
                 
@@ -114,13 +121,13 @@ extension AddNewBankAccountView{
                 }
                 else {
                     Task {
-                        
+                        apicalled = true
                         let param = [
                             "object": "bank_account",
                              "country": "AU",
                              "currency": "aud",
                              "account_holder_name": accountHolderName,
-                             "account_holder_type": "sole trader",
+                            "account_holder_type":  CompanyView().companyText,
                              "account_number": accountNumber,
                              "routing_number": "110000",
                              "account_id": accountId,
@@ -128,13 +135,14 @@ extension AddNewBankAccountView{
                         ]
                         try await completeFormViewModel.addBankAccount(url:addBankAccountUrl,method:.post,param:param)
                         DispatchQueue.main.async {
+                            apicalled = false
+                            
                             if completeFormViewModel.goToHomeScreen {
                                 self.goToHome = true
                             }else {
                                 toast = Toast(style: .error, message: completeFormViewModel.errorMsg)
                             }
                         }
-                        
                     }
                 }
             }, label: {

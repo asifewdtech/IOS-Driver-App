@@ -7,6 +7,10 @@
 
 import SwiftUI
 import ActivityIndicatorView
+import AuthenticationServices
+import GoogleSignIn
+import FirebaseAuth
+import FirebaseFirestore
 
 struct SignUpView: View {
     
@@ -25,6 +29,11 @@ struct SignUpView: View {
     @StateObject var userAuth =  UserAuthViewModel()
     @AppStorage("username") var username: String = ""
     @State private var showLoadingIndicator: Bool = false
+    @Environment(\.openURL) var openURL
+    @State private var willMoveToBankAccount: Bool = false
+    @State private var isAccountCreated: Bool = false
+    @State private var isBankCreated: Bool = false
+    @State private var goToHome = false
     
     //MARK: - Views
     var body: some View {
@@ -51,6 +60,37 @@ struct SignUpView: View {
                 .foregroundColor(.white)
                 .padding(.top, 350)
             
+                .onAppear(perform: {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                        if userAuth.isLoggedIn == false  {
+//                            toast = Toast(style: .error, message: userAuth.errorMessage)
+                        }else {
+                            Firestore.firestore().collection("usersInfo").document(Auth.auth().currentUser?.uid ?? "").getDocument { snapShot, error in
+                                if let error = error {
+                                    print(error.localizedDescription)
+                                    
+                                }else {
+                                    
+                                    guard let snap = snapShot else { return  }
+                                    
+                                    DispatchQueue.main.async {
+                                        isAccountCreated = snap.get("connectAccountCreated") as? Bool ?? false
+                                        isBankCreated = snap.get("bankAdded") as? Bool ?? false
+                                        //                                if isAccountCreated  && isBankCreated {
+                                        //                                    goToHome = true
+                                        //
+                                        //                                }else if isAccountCreated && isBankCreated == false  {
+                                        //                                    willMoveToBankAccount = true
+                                        //                                }
+                                        //                                else {
+                                        //                                    showCompany = true
+                                        //                                }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                })
         }
     }
 }
@@ -81,28 +121,46 @@ extension SignUpView{
                 .foregroundColor(Color(.darkGrayColor))
             
             HStack(spacing: 15){
+                // Google Apple Sign in
+                Button(action: {
+                    userAuth.isGoogleLogin = false
+                    showLoadingIndicator = true
+                    userAuth.performAppleSignIn()
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 15){
+                        showLoadingIndicator = false
+                        if userAuth.isGoogleLogin == true{
+                            showCompany.toggle()
+                        }
+                    }
+                }, label: {
+                    ZStack{
+                        
+                        Image(uiImage: .AppleLogo)
+                            .resizable()
+                            .frame(width: 35, height: 35)
+                    }
+                    .frame(maxWidth: .infinity)
+                    .frame(height: 55)
+                    .background(Color(.darkBlueColor))
+                    .cornerRadius(10)
+                })
                 
-                ZStack{
+                // Google Sign In
+                Button(action: {
+                    googleSignIn()
                     
-                    Image(uiImage: .AppleLogo)
-                        .resizable()
-                        .frame(width: 35, height: 35)
-                }
-                .frame(maxWidth: .infinity)
-                .frame(height: 55)
-                .background(Color(.darkBlueColor))
-                .cornerRadius(10)
-                
-                ZStack{
-                    
-                    Image(uiImage: .GoogleLogo)
-                        .resizable()
-                        .frame(width: 35, height: 35)
-                }
-                .frame(maxWidth: .infinity)
-                .frame(height: 55)
-                .background(Color(.darkBlueColor))
-                .cornerRadius(10)
+                }, label: {
+                    ZStack{
+                        
+                        Image(uiImage: .GoogleLogo)
+                            .resizable()
+                            .frame(width: 35, height: 35)
+                    }
+                    .frame(maxWidth: .infinity)
+                    .frame(height: 55)
+                    .background(Color(.darkBlueColor))
+                    .cornerRadius(10)
+                })
             }
         }
     }
@@ -114,6 +172,7 @@ extension SignUpView{
             Group{
                 MDCFilledTextFieldWrapper(leadingImage: .constant(.ic_Email), text: $nameText, placHolderText: .constant("Type your username (optional)"), isSecure: .constant(false))
                 MDCFilledTextFieldWrapper(leadingImage: .constant(.ic_Email), text: $emailText, placHolderText: .constant("Enter your Email Address"), isSecure: .constant(false))
+                    .keyboardType(.emailAddress)
                 Group{
                     if isSecure{
                         MDCFilledTextFieldWrapper(leadingImage: .constant(.ic_Password), isTrailingImage: true, text: $passwordText, placHolderText: .constant("Type your password"), isSecure: .constant(true))
@@ -166,9 +225,33 @@ extension SignUpView{
                         isChecked.toggle()
                         print("Agree")
                     }
-                Text("I agree with terms and privacy")
-                    .font(.custom(.poppinsMedium, size: 18))
-                    .foregroundColor(.white)
+                HStack(spacing: 4) {
+                    Text("I agree with")
+                        .font(.custom(.poppinsMedium, size: 18))
+                        .foregroundColor(.white)
+                    Button(action: {
+//                        Link("Farepay", destination: URL(string: "https://farepay.app/terms-of-use")!)
+                        openURL(URL(string: "https://farepay.app/terms-of-use")!)
+                    }, label: {
+                        Text("\("terms")")
+                            .font(.custom(.poppinsBold, size: 18))
+                            .foregroundColor(.white)
+                            .underline()
+                    })
+                    Text("and")
+                        .font(.custom(.poppinsMedium, size: 18))
+                        .foregroundColor(.white)
+                    
+                    Button(action: {
+//                        Link("Farepay", destination: URL(string: "https://farepay.app/privacy")!)
+                        openURL(URL(string: "https://farepay.app/privacy")!)
+                    }, label: {
+                        Text("\("Privacy.")")
+                            .font(.custom(.poppinsBold, size: 18))
+                            .foregroundColor(.white)
+                            .underline()
+                    })
+                }
             }
         }
     }
@@ -178,6 +261,13 @@ extension SignUpView{
         VStack(spacing: 20){
             
             NavigationLink("", destination: LoginView().toolbar(.hidden, for: .navigationBar), isActive: $goToLogin).isDetailLink(false)
+            
+            NavigationLink("", destination: CompanyView().toolbar(.hidden, for: .navigationBar), isActive: $showCompany).isDetailLink(false)
+            
+            NavigationLink("", destination: MainTabbedView().toolbar(.hidden, for: .navigationBar), isActive: $goToHome).isDetailLink(false)
+            
+            NavigationLink("", destination: Farepay.AddNewBankAccountView().toolbar(.hidden, for: .navigationBar), isActive: $willMoveToBankAccount ).isDetailLink(false)
+            
             Button(action: {
                 username = nameText
                 callFirebaseRegisterAuth()
@@ -255,6 +345,77 @@ extension SignUpView{
         }
         
 
+    }
+    
+    func googleSignIn(){
+        showLoadingIndicator = true
+        guard let presentingViewController = (UIApplication.shared.connectedScenes.first as? UIWindowScene)?.windows.first?.rootViewController else {return}
+        GIDSignIn.sharedInstance.signIn(withPresenting: presentingViewController) { result, error in
+            if let error = error {
+                showLoadingIndicator = false
+//                self.errorMessage = "error: \(error.localizedDescription)"
+                toast = Toast(style: .error, message: error.localizedDescription)
+            }
+            else {
+                guard let auth = result?.user else { return }
+                
+                let credentials = GoogleAuthProvider.credential(withIDToken: auth.idToken?.tokenString ?? "", accessToken: auth.accessToken.tokenString)
+                print("Google credentials: ",credentials)
+                Auth.auth().signIn(with: credentials) { result, error in
+                    if let error = error {
+                        showLoadingIndicator = false
+                        print("error\(error)")
+//                        self.errorMessage = "error: \(error.localizedDescription)"
+                        toast = Toast(style: .error, message: error.localizedDescription)
+                    }else {
+                        showLoadingIndicator = false
+                            
+                        let isEmail = GIDSignIn.sharedInstance.currentUser?.profile?.email
+                        let exisEmail = Auth.auth().currentUser?.email ?? ""
+                        if isEmail == exisEmail{
+                            
+                            if isAccountCreated  && isBankCreated {
+                                goToHome = true
+                                
+                            }else if isAccountCreated && isBankCreated == false  {
+                                willMoveToBankAccount = true
+                            }
+                            else {
+                                showCompany = true
+                            }
+//                            goToHome = true
+                        }else {
+                            userAuth.checkUserAccountCreated()
+                            showCompany = true
+                        }
+                        
+                        NotificationCenter.default.post(name: NSNotification.Name("SIGNIN"), object: nil)
+                    }
+                }
+            }
+        }
+    }
+    
+    func appleSocialSignup(){
+        showLoadingIndicator = false
+//        showCompany = true
+        let existEmail = Auth.auth().currentUser?.email ?? ""
+        print("existEmail: ",existEmail)
+        if existEmail != ""{
+            
+            if isAccountCreated  && isBankCreated {
+                goToHome = true
+                
+            }else if isAccountCreated && isBankCreated == false  {
+                willMoveToBankAccount = true
+            }
+            else {
+                showCompany = true
+            }
+        }else {
+            userAuth.checkUserAccountCreated()
+            showCompany = true
+        }
     }
 }
 

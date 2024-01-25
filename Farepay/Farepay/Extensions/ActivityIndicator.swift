@@ -2,7 +2,7 @@
 //  ActivityIndicator.swift
 //  Farepay
 //
-//  Created by Apple on 04/12/2023.
+//  Created by Mursil on 04/12/2023.
 //
 
 import Foundation
