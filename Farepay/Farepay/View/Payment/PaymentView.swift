@@ -41,12 +41,19 @@ struct PaymentView: View {
             VStack{
                 topArea
 //                calculationArea
-//                taxiNumberArea
+                taxiNumberArea
                 Spacer()
                 
                 keypadArea
                 buttonArea
             }
+            VStack{
+                if(self.showTaxi){
+                    taxiNumArea
+                }
+            }
+            .edgesIgnoringSafeArea(.all)
+            
             .onAppear(perform: {
                 showLoadingIndicator = false
 //                currencyManager.string = ""
@@ -61,22 +68,22 @@ struct PaymentView: View {
                 .foregroundColor(.white)
                 .padding(.top, 400)
             
-            if(self.showTaxi){
-                VStack{
-                    CustomAlert()
-                }
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
-                .background(Color.black.opacity(0.5))
-                .edgesIgnoringSafeArea(.all)
-                .onTapGesture {
-                    withAnimation {
-                        let showTaxiNumPopup = UserDefaults.standard.integer(forKey: "showTaxiNumPopup")
-                        if showTaxiNumPopup == 1{
-                            self.showTaxi.toggle()
-                        }
-                    }
-                }
-            }
+//            if(self.showTaxi){
+//                VStack{
+//                    CustomAlert()
+//                }
+//                .frame(maxWidth: .infinity, maxHeight: .infinity)
+//                .background(Color.black.opacity(0.5))
+//                .edgesIgnoringSafeArea(.all)
+//                .onTapGesture {x
+//                    withAnimation {
+//                        let showTaxiNumPopup = UserDefaults.standard.integer(forKey: "showTaxiNumPopup")
+//                        if showTaxiNumPopup == 1{
+//                            self.showTaxi.toggle()
+//                        }
+//                    }
+//                }
+//            }
         }
     }
 }
@@ -150,7 +157,7 @@ extension PaymentView{
     var taxiNumberArea : some View{
 //        VStack(alignment: .trailing){
         HStack(spacing: 20){
-                Button(taxiNumber) {
+                Button("\("Taxi Number: ")\(taxiNumber)") {
                     self.showTaxi.toggle()
                     UserDefaults.standard.removeObject(forKey: "showTaxiNumPopup")
 //                    self.willMoveToTaxiNum.toggle()
@@ -388,6 +395,63 @@ extension PaymentView{
         .padding(.bottom, 20)
     }
     
+    var taxiNumArea: some View{
+        VStack{
+            VStack {
+                
+                HStack(spacing: 20) {
+                    Text("Taxi Number")
+                        .font(.custom(.poppinsMedium, size: 20))
+                        .foregroundColor(Color(.darkBlueColor))
+                }
+                .padding(.top)
+                .frame(minWidth: 0, maxWidth: 150, minHeight: 0, maxHeight: 40, alignment: .leading)
+                .padding(.trailing, 170)
+                
+                HStack(spacing: 5){
+                        Image(uiImage: .taxiNumIcon)
+                            .resizable()
+                            .frame(width: 20, height: 20)
+                            
+                    TextField(taxiNumber, text: $taxiNumber)
+                            .font(.custom(.poppinsMedium, size: 16))
+                            .foregroundColor(Color(.darkBlueColor))
+                            .disabled(false)
+                            .textInputAutocapitalization(.characters)
+                    }
+                    .frame(minWidth: 0, maxWidth: 330, minHeight: 0, maxHeight: 40, alignment: .center)
+                    
+                .background(Color(.TaxiFieldColor))
+                .cornerRadius(10)
+                    
+                    Spacer()
+                
+                    HStack(spacing: 20) {
+                        Button {
+                            print("txNmbr: ", taxiNumber)
+                            self.showTaxi.toggle()
+                            Firestore.firestore().collection("usersInfo").document(Auth.auth().currentUser?.uid ?? "").updateData(["taxiNumber" : taxiNumber])
+                            UserDefaults.standard.set(1, forKey: "showTaxiNumPopup")
+                        } label: {
+                            
+                            Text("Update")
+                                .font(.custom(.poppinsMedium, size: 15))
+                                .foregroundColor(.white)
+                        }
+                    }
+                .frame(minWidth: 120, maxWidth: 120, minHeight: 40, maxHeight: 40, alignment: .center)
+                .background(Color(.buttonColor))
+                .cornerRadius(40)
+                Spacer()
+                }
+            .frame(minWidth: 320, maxWidth: 350, minHeight: 150, maxHeight: 170)
+                .background(Color.white)
+                .cornerRadius(20)
+        }
+        .frame(minWidth: 395 ,maxWidth: .infinity,minHeight: 760 ,maxHeight: .infinity)
+        .background(Color.black.opacity(0.5))
+    }
+    
     func firebaseAPI() {
         Firestore.firestore().collection("usersInfo").document(Auth.auth().currentUser?.uid ?? "").getDocument { snapShot, error in
             if let error = error {
@@ -395,7 +459,7 @@ extension PaymentView{
             }else {
                 
                 guard let snap = snapShot else { return  }
-               taxiNumber  = "\("Taxi Number: ")\(snap.get("taxiNumber") as? String ?? "") "
+               taxiNumber  = "\(snap.get("taxiNumber") as? String ?? "")"
                 
             }
         }
@@ -423,17 +487,17 @@ struct CustomAlert: View{
                 
             HStack(spacing: 5){
                     
-                    Image(uiImage: .taxiNumIcon)
-                        .resizable()
-                        .frame(width: 20, height: 20)
+//                    Image(uiImage: .taxiNumIcon)
+//                        .resizable()
+//                        .frame(width: 20, height: 20)
                         
-                TextField(taxiNmbr, text: $taxiNmbr)
-//                        .textInputAutocapitalization(.never)
-                        .font(.custom(.poppinsMedium, size: 16))
-//                        .frame(height: 38)
-                        .foregroundColor(Color(.darkBlueColor))
-                        .disabled(false)
-//                MDCFilledTextFieldWrapper(leadingImage: .constant(.taxiNumIcon), text: $taxiNmbr1, placHolderText: .constant(""), isSecure: .constant(false))
+//                TextField(taxiNmbr1, text: $taxiNmbr)
+////                        .textInputAutocapitalization(.never)
+//                        .font(.custom(.poppinsMedium, size: 16))
+////                        .frame(height: 38)
+//                        .foregroundColor(Color(.darkBlueColor))
+//                        .disabled(false)
+                MDCFilledTextFieldWrapper(leadingImage: .constant(.taxiNumIcon), text: $taxiNmbr1, placHolderText: .constant(""), isSecure: .constant(false))
                 }
                 .frame(minWidth: 0, maxWidth: 330, minHeight: 0, maxHeight: 40, alignment: .center)
                 
@@ -444,7 +508,7 @@ struct CustomAlert: View{
         
             HStack(spacing: 20) {
                 Button {
-                    print("txNmbr: ", taxiNmbr1 )
+                    print("txNmbr: ", taxiNmbr , taxiNmbr1)
                     
                     Firestore.firestore().collection("usersInfo").document(Auth.auth().currentUser?.uid ?? "").updateData(["taxiNumber" : taxiNmbr])
 //                    showLoadingIndicator = false

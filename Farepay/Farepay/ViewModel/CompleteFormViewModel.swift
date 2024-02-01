@@ -10,6 +10,7 @@ import SwiftUI
 import FirebaseFirestore
 import FirebaseAuth
 import UIKit
+import Alamofire
 
 class CompleteFormViewModel: ObservableObject {
     @Published var goToAccountScreen = false
@@ -81,16 +82,61 @@ class CompleteFormViewModel: ObservableObject {
                 }
 //                self.goToAccountScreen = true
             }
-            
         }
-      
-        
-        
-        
-        
-        
-
     }
+    
+//    @MainActor
+//    func getAddressFromLatLong(latitude: Double, longitude : Double){
+//        @State var streetAddr: String!
+//        @State var countryAddr: String!
+//        @State var cityAddr: String!
+//        @State var stateAddr: String!
+//        @State var postalAddr: String!
+//        
+//        let url = "https://maps.googleapis.com/maps/api/geocode/json?latlng=\(latitude),\(longitude)&key=AIzaSyDvzoBJGEDZ5LpZ002k8JvKfWgnepzwxdc"
+//        
+//        AF.request(url).validate().responseJSON { response in
+//            switch response.result {
+//            case let .success(value):
+//                print("address value: ",value)
+////                let responseJson = response.result.value! as! NSDictionary
+//                
+//                if let results = (value as AnyObject).object(forKey: "results")! as? [NSDictionary] {
+//                    if results.count > 0 {
+//                        if let addressComponents = results[0]["address_components"]! as? [NSDictionary] {
+//                            let address = results[0]["formatted_address"] as? String
+//                            for component in addressComponents {
+//                                if let temp = component.object(forKey: "types") as? [String] {
+//                                    if (temp[0] == "street_number") {
+//                                        streetAddr = component["long_name"] as? String
+//                                        print("street value: ",streetAddr)
+//                                    }
+//                                    if (temp[0] == "postal_code") {
+//                                        postalAddr = component["long_name"] as? String
+//                                        print("pincode value: ",postalAddr)
+//                                    }
+//                                    if (temp[0] == "locality") {
+//                                        cityAddr = component["long_name"] as? String
+//                                        print("city value: ",cityAddr)
+//                                    }
+//                                    if (temp[0] == "administrative_area_level_1") {
+//                                        stateAddr = component["long_name"] as? String
+//                                        print("state value: ",stateAddr)
+//                                    }
+//                                    if (temp[0] == "country") {
+//                                        countryAddr = component["long_name"] as? String
+//                                        print("country value: ",countryAddr)
+//                                    }
+//                                }
+//                            }
+//                        }
+//                    }
+//                }
+//            case .failure(let error):
+//                print(error)
+//            }
+//        }
+//    }
     
     @MainActor
     func addBankAccount(url:String,method:Methods,param:[String:Any])  async throws{

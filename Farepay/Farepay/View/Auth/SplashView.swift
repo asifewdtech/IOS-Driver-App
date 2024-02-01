@@ -65,9 +65,6 @@ struct SplashView: View {
                 }else {
                     navigateNext()
                 }
-                
-                    
-                
             }
         }
         .navigationViewStyle(StackNavigationViewStyle())

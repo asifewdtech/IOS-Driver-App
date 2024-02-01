@@ -9,6 +9,11 @@ import SwiftUI
 import FirebaseAuth
 import Combine
 import ActivityIndicatorView
+import StripeIdentity
+import UIKit
+import Alamofire
+import MapKit
+
 struct RepresentativeView: View {
     
     //MARK: - Variable
@@ -41,6 +46,17 @@ struct RepresentativeView: View {
     @StateObject var completeFormViewModel = CompleteFormViewModel()
     @State private var toast: Toast? = nil
     @AppStorage("username") var username: String = ""
+    
+    @State var StIdStatus: String! = ""
+    @State var streetAddr: String = ""
+    @State var countryAddr: String = ""
+    @State var cityAddr: String = ""
+    @State var stateAddr: String = ""
+    @State var postalAddr: String = ""
+    
+    @State var locManager = CLLocationManager()
+    @State var currentLocation: CLLocation!
+    
     //MARK: - Views
     var body: some View {
         
@@ -57,9 +73,9 @@ struct RepresentativeView: View {
                     }
                 }
             }
-//            .onAppear(perform: {
-//                userText = username
-//            })
+            .onAppear(perform: {
+                fetchLatLong()
+            })
             .padding(.all, 15)
             .toastView(toast: $toast)
             
@@ -153,12 +169,15 @@ extension RepresentativeView{
                     }
                     
                 }
-                .frame(height: 60)
+                .frame(height: 70)
                 .padding(.horizontal,10)
+                .background(Color(.darkBlueColor))
+                
                 MDCFilledTextFieldWrapper(leadingImage: .constant(.ic_Authority), text: $authorityNumberText.max(10), placHolderText: .constant("Type your driver authority No"), isSecure: .constant(false),isNumberPad: true)
-                ZStack{
+                
+                /*ZStack{
 
-                    HStack(alignment: .top, spacing: 10){
+                    HStack(alignment: .center, spacing: 10){
                         
                         Image(uiImage: .ic_Home)
                             .resizable()
@@ -169,24 +188,25 @@ extension RepresentativeView{
                             .font(.custom(.poppinsMedium, size: 18))
                             .foregroundColor(.white)
                             .scrollContentBackground(.hidden)
-                            .padding(.vertical, -10)
+                            .padding(.vertical, 30)
                             .overlay(
-
+                                
                                 VStack{
-
-                                    Text(addressText == "" ? "Type your Physical Address" : "")
+                                    Text(addressText == "" ? "Street Address" : "")
                                         .font(.custom(.poppinsMedium, size: 18))
                                         .foregroundColor(Color(.darkGrayColor))
-                                    Spacer()
+//                                    Spacer()
                                 },
                                 alignment: .leading
                             )
                     }
-                    .padding([.all], 20)
+                    .padding([.all], 10)
                 }
                 .frame(height: 100)
+                .background(Color(.darkBlueColor))
+                
                 ZStack{
-                    HStack(alignment: .top, spacing: 10){
+                    HStack(alignment: .center, spacing: 10){
                         
                         Image(uiImage: .ic_Home)
                             .resizable()
@@ -197,26 +217,152 @@ extension RepresentativeView{
                             .font(.custom(.poppinsMedium, size: 18))
                             .foregroundColor(.white)
                             .scrollContentBackground(.hidden)
-                            .padding(.vertical, -10)
+                            .padding(.vertical, 20)
                             .overlay(
 
                                 VStack{
 
-                                    Text(addressText == "" ? "Type your Postal Address" : "")
+                                    Text(addressText == "" ? "Country" : "")
                                         .font(.custom(.poppinsMedium, size: 18))
                                         .foregroundColor(Color(.darkGrayColor))
-                                    Spacer()
+//                                    Spacer()
                                 },
                                 alignment: .leading
                             )
                     }
-                    .padding([.all], 20)
+                    .padding([.all], 10)
                 }
-                .frame(height: 100)
+                .frame(height: 60)
+                .background(Color(.darkBlueColor))
+                
+                ZStack{
+                    HStack(alignment: .center, spacing: 10){
+                        
+                        Image(uiImage: .ic_Home)
+                            .resizable()
+                            .frame(width: 30, height: 30)
+                        
+                        
+                        TextEditor(text: $addressText)
+                            .font(.custom(.poppinsMedium, size: 18))
+                            .foregroundColor(.white)
+                            .scrollContentBackground(.hidden)
+                            .padding(.vertical, 20)
+                            .overlay(
+
+                                VStack{
+
+                                    Text(addressText == "" ? "City" : "")
+                                        .font(.custom(.poppinsMedium, size: 18))
+                                        .foregroundColor(Color(.darkGrayColor))
+//                                    Spacer()
+                                },
+                                alignment: .leading
+                            )
+                    }
+                    .padding([.all], 10)
+                }
+                .frame(height: 60)
+                .background(Color(.darkBlueColor))
+                
+                HStack(spacing: 20){
+                    HStack{
+                        Image(uiImage: .ic_Home)
+                            .resizable()
+                            .frame(width: 30, height: 30)
+                            .padding(.leading, 10)
+                        
+                        TextEditor(text: $addressText)
+                            .font(.custom(.poppinsMedium, size: 18))
+                            .foregroundColor(.white)
+                            .scrollContentBackground(.hidden)
+                            .padding(.vertical, 20)
+                            .background(Color(.darkBlueColor))
+                            .overlay(
+                                VStack{
+                                    
+                                    Text(addressText == "" ? "State/Province" : "")
+                                        .font(.custom(.poppinsMedium, size: 18))
+                                        .foregroundColor(Color(.darkGrayColor))
+//                                    Spacer()
+                                },
+                                alignment: .leading
+                            )
+                    }
+                    .background(Color(.darkBlueColor))
+                    .cornerRadius(10)
+                    
+                    
+                    HStack{
+                        Image(uiImage: .ic_Home)
+                            .resizable()
+                            .frame(width: 30, height: 30)
+                            .padding(.leading, 10)
+                        
+                        TextEditor(text: $addressText)
+                            .font(.custom(.poppinsMedium, size: 18))
+                            .foregroundColor(.white)
+                            .scrollContentBackground(.hidden)
+                            .padding(.vertical, 20)
+                            
+                            .overlay(
+                                VStack{
+                                    
+                                    Text(addressText == "" ? "Postal Code" : "")
+                                        .font(.custom(.poppinsMedium, size: 18))
+                                        .foregroundColor(Color(.darkGrayColor))
+//                                    Spacer()
+                                },
+                                alignment: .leading
+                            )
+                    }
+                    .background(Color(.darkBlueColor))
+                    .cornerRadius(10)
+                    
+                }
+                .frame(height: 60)
+                .frame(maxWidth: .infinity)
+                .cornerRadius(10)
+                */
+                
+                Group {
+                    HStack (spacing: 20){
+                        MDCFilledTextFieldWrapper(leadingImage: .constant(.ic_Home), text: $streetAddr, placHolderText: .constant("Street Address"), isSecure: .constant(false))
+                    }
+                    .frame(height: 70)
+                    .cornerRadius(10)
+                    
+                    HStack (spacing: 20){
+                        MDCFilledTextFieldWrapper(leadingImage: .constant(.ic_Home), text: $countryAddr, placHolderText: .constant("Country"), isSecure: .constant(false))
+                    }
+                    .frame(height: 70)
+                    .cornerRadius(10)
+                    
+                    HStack (spacing: 20){
+                        MDCFilledTextFieldWrapper(leadingImage: .constant(.ic_Home), text: $cityAddr, placHolderText: .constant("City"), isSecure: .constant(false))
+                    }
+                    .frame(height: 70)
+                    .cornerRadius(10)
+                    
+                    HStack (spacing: 20){
+                        HStack {
+                            MDCFilledTextFieldWrapper(leadingImage: .constant(.ic_Home), text: $stateAddr, placHolderText: .constant("State/Province"), isSecure: .constant(false))
+                        }
+                        .frame(height: 70)
+                        .cornerRadius(10)
+                        
+                        HStack {
+                            MDCFilledTextFieldWrapper(leadingImage: .constant(.ic_Home), text: $postalAddr, placHolderText: .constant("Postal Code"), isSecure: .constant(false))
+                        }
+                        .frame(height: 70)
+                        .cornerRadius(10)
+                    }
+                }
+                .frame(maxWidth: .infinity)
                 
             }
             .frame(maxWidth: .infinity)
-            .background(Color(.darkBlueColor))
+//            .background(Color(.darkBlueColor))
             .cornerRadius(10)
             
             HStack(spacing: 10){
@@ -255,22 +401,30 @@ extension RepresentativeView{
                 
                 .onReceive(Just(licenseFrontImage)) { newImage in
                     if let newImage = newImage {
-                        
                         if frontImageId == "" && uploadFrontImage == nil  {
-
-                            
                             uploadImage(image: newImage, isFront: true)
                         }
-
                     }
+//                    if stripeIdentityStatus == "Completed" {
+//                        toast = Toast(style: .success, message: "Verification Flow Completed!")
+//                    }
+//                    else if stripeIdentityStatus == "Canceled" {
+//                        toast = Toast(style: .error, message: "Verification Flow Canceled. Please try again!")
+//                    }
+//                    else if stripeIdentityStatus == "Failed" {
+//                        toast = Toast(style: .error, message: "Verification Flow Failed. Please try again!")
+//                    }
+//                    else{
+//                        toast = Toast(style: .error, message: "Something went wrong.")
+//                    }
                 }
                 .onTapGesture {
                     uploadFrontImage = nil
                     islicenseFrontImagePickerPresented.toggle()
                 }
-                
                 .fullScreenCover(isPresented: $islicenseFrontImagePickerPresented) {
-                    ImagePicker(selectedImage: $licenseFrontImage)
+//                    ImagePicker(selectedImage: $licenseFrontImage)
+                    RepresentativeVC()
                 }
                 .overlay(
                     RoundedRectangle(cornerRadius: 8)
@@ -316,13 +470,13 @@ extension RepresentativeView{
                     }
                 }
                 else{
-                    Text("Driver License Image \n(Front)")
+                    Text("Verify your identity")
                         .foregroundColor(Color(.darkGrayColor))
                         .font(.custom(.poppinsMedium, size: 16))
                 }
             }
             
-            HStack(spacing: 15){
+            /*HStack(spacing: 15){
                 ZStack{
                     
                     if let image = licenseBackImage{
@@ -348,7 +502,6 @@ extension RepresentativeView{
                             uploadImage(image: newImage, isFront: false)
                             
                         }
-
                     }
                 }
                 .onTapGesture {
@@ -406,27 +559,21 @@ extension RepresentativeView{
                         .foregroundColor(Color(.darkGrayColor))
                         .font(.custom(.poppinsMedium, size: 16))
                 }
-            }
+            }*/
         }
     }
     
     var buttonArea: some View{
         
         VStack(spacing: 20){
-
-            // Split first and last name
-                            
-
-            
             
             NavigationLink("", destination: NewsView().toolbar(.hidden, for: .navigationBar), isActive: $goToNextView).isDetailLink(false)
             
             
             Button {
                 
-                
-                var firstPart = "NA"
-                var secondPart = "NA"
+//                var firstPart = "NA"
+//                var secondPart = "NA"
                 
 //                if let index = userText.firstIndex(of: " "){
 //                    firstPart = String(userText.prefix(upTo: index))
@@ -435,10 +582,9 @@ extension RepresentativeView{
 //                    firstPart = userText
 //                    secondPart = "NA"
 //                }
-                let index = userText.components(separatedBy: " ")
-                    firstPart = index[0]
-                    secondPart = index[1]
                 
+                let stripeFlowStatus = UserDefaults.standard.string(forKey: "stripeFlowStatus")
+                print("stripeFlowStatus ",stripeFlowStatus)
                 
                 if userText.isEmpty {
                     toast = Toast(style: .error, message: "Name Field cannot be empty.")
@@ -458,21 +604,42 @@ extension RepresentativeView{
                 else if authorityNumberText.count <= 9 {
                     toast = Toast(style: .error, message: "Driver Authority No. should be 10.")
                 }
-                else if addressText.isEmpty {
-                    toast = Toast(style: .error, message: "Physical Address Filed cannot be empty.")
+                else if (streetAddr.isEmpty || cityAddr.isEmpty || countryAddr.isEmpty || stateAddr.isEmpty || postalAddr.isEmpty) {
+                    toast = Toast(style: .error, message: "Address Filed cannot be empty.")
                 }
-                else if frontImageId == "" {
-                    toast = Toast(style: .error, message: "Please Upload Front Driver Licence Image.")
+                else if stripeFlowStatus != "Completed" {
+                    toast = Toast(style: .error, message: "Verification Flow is not Complete.")
                 }
-                else if backImageId == "" {
-                    toast = Toast(style: .error, message: "Please Upload Back Driver Licence Image.")
-                }
+//                else if frontImageId == "" {
+//                    toast = Toast(style: .error, message: "Please Upload Front Driver Licence Image.")
+//                }
+//                else if backImageId == "" {
+//                    toast = Toast(style: .error, message: "Please Upload Back Driver Licence Image.")
+//                }
+//                else if RepresentativeVC.verifyDocs().stripeIdentityStatus != "Completed" {
+//                    toast = Toast(style: .error, message: "Please upload verification documents.")
+//                }
                 else {
                     apicalled = true
                     Task {
                         
-//                        try  await/* completeFormViewModel.postData(url:"\(uploadInformationUrl)username=default&userEmail=\(Auth.auth().currentUser?.email ?? "")&firstname=\(firstPart)&day=3&month=10&year=2000&address=\(addressText)&phone=61\(mobileNumberText)&lastname=\(secondPart)&frontimgid=\(frontImageId)&backimgid=\(backImageId)"*/,method:.post,name: userText,phone: mobileNumberText)
-                        let addressTextStr = addressText.replacingOccurrences(of: " ", with: "%20", options: .literal, range: nil)
+                        //                        try  await/* completeFormViewModel.postData(url:"\(uploadInformationUrl)username=default&userEmail=\(Auth.auth().currentUser?.email ?? "")&firstname=\(firstPart)&day=3&month=10&year=2000&address=\(addressText)&phone=61\(mobileNumberText)&lastname=\(secondPart)&frontimgid=\(frontImageId)&backimgid=\(backImageId)"*/,method:.post,name: userText,phone: mobileNumberText)
+                        
+                        var firstPart = "NA"
+                        var secondPart = "NA"
+                        
+                        let index = userText.components(separatedBy: " ")
+                        
+                        if  index.count > 1 {
+                            firstPart = index[0]
+                            secondPart = index[1]
+                        }else {
+                             firstPart = userText
+                             secondPart = ""
+                        }
+                        
+                        let googleAddr = "\(streetAddr)\("%20")\(cityAddr)\("%20")\(stateAddr)\("%20")\(postalAddr)\("%20")\(countryAddr)"
+                        let addressTextStr = googleAddr.replacingOccurrences(of: " ", with: "%20", options: .literal, range: nil)
                         let addrTextStr = addressTextStr.replacingOccurrences(of: "#", with: "%20", options: .literal, range: nil)
                         
                         let urlStr = "\(uploadInformationUrl)username=default&userEmail=\(Auth.auth().currentUser?.email ?? "")&firstname=\(firstPart)&day=3&month=10&year=2000&address=\(addrTextStr)&phone=61\(mobileNumberText)&lastname=\(secondPart)&frontimgid=\(frontImageId)&backimgid=\(backImageId)"
@@ -501,7 +668,7 @@ extension RepresentativeView{
                 }
                
             } label: {
-                Text("Create Connect Account")
+                Text("Create Account")
                     .font(.custom(.poppinsBold, size: 22))
                     .foregroundColor(.white)
                     .frame(maxWidth: .infinity)
@@ -509,17 +676,12 @@ extension RepresentativeView{
                     .background(Color(.buttonColor))
                     .cornerRadius(30)
             }
-
         }
     }
-    
- 
-    
     
     func uploadImage(image:UIImage,isFront:Bool) {
         
     
-
         apicalled = true
         if isFront {
             uploadFrontImage = true
@@ -543,9 +705,7 @@ extension RepresentativeView{
                     request.httpBody = jsonData
                     
                 }
-
                 URLSession.shared.dataTask(with: request) { data, response, error in
-
                     
                     guard let data = data else { return  }
                     
@@ -579,6 +739,68 @@ extension RepresentativeView{
 //                    apicalled = false
                     
                 }.resume()
+            }
+        }
+    }
+    
+    func fetchLatLong() {
+        locManager.requestWhenInUseAuthorization()
+        
+                if (CLLocationManager.authorizationStatus() == CLAuthorizationStatus.authorizedWhenInUse ||
+                    CLLocationManager.authorizationStatus() == CLAuthorizationStatus.authorizedAlways){
+                    guard let currentLocation = locManager.location else {
+                        return
+                    }
+                    print(currentLocation.coordinate.latitude)
+                    print(currentLocation.coordinate.longitude)
+                    
+                    getAddressFromLatLong(latitude: currentLocation.coordinate.latitude, longitude: currentLocation.coordinate.longitude)
+                }
+    }
+    
+    func getAddressFromLatLong(latitude: Double, longitude : Double){
+        
+        let url = "https://maps.googleapis.com/maps/api/geocode/json?latlng=\(latitude),\(longitude)&key=AIzaSyDvzoBJGEDZ5LpZ002k8JvKfWgnepzwxdc"
+        
+        AF.request(url).validate().responseJSON { response in
+            switch response.result {
+            case let .success(value):
+//                print("address value: ",value)
+//                let responseJson = response.result.value! as! NSDictionary
+                
+                if let results = (value as AnyObject).object(forKey: "results")! as? [NSDictionary] {
+                    if results.count > 0 {
+                        if let addressComponents = results[1]["address_components"]! as? [NSDictionary] {
+                            let address = results[0]["formatted_address"] as? String
+                            for component in addressComponents {
+                                if let temp = component.object(forKey: "types") as? [String] {
+                                    if (temp[0] == "route") {
+                                        streetAddr = component["long_name"] as? String ?? "N/A"
+                                        print("street value: ",streetAddr)
+                                    }
+                                    if (temp[0] == "postal_code") {
+                                        postalAddr = component["long_name"] as? String ?? "N/A"
+                                        print("pincode value: ",postalAddr)
+                                    }
+                                    if (temp[0] == "locality") {
+                                        cityAddr = component["long_name"] as? String ?? "N/A"
+                                        print("city value: ",cityAddr)
+                                    }
+                                    if (temp[0] == "administrative_area_level_1") {
+                                        stateAddr = component["long_name"] as? String ?? "N/A"
+                                        print("state value: ",stateAddr)
+                                    }
+                                    if (temp[0] == "country") {
+                                        countryAddr = component["long_name"] as? String ?? "N/A"
+                                        print("country value: ",countryAddr)
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            case .failure(let error):
+                print(error)
             }
         }
     }
@@ -635,23 +857,15 @@ struct DatePickerWithButtons: View {
                     
                 }
                 .padding(.horizontal)
-
             }
             .padding()
             .background(
                 Color.white
                     .cornerRadius(30)
             )
-
-            
         }
-
     }
-    
-   
 }
-
-
 
 extension Date {
     
@@ -666,3 +880,79 @@ extension Date {
 }
 
 
+struct RepresentativeVC: UIViewControllerRepresentable {
+    
+    func updateUIViewController(_ uiViewController: UIViewControllerType, context: Context) {}
+
+    func makeUIViewController(context: Context) -> UIViewController {
+        
+        return verifyDocs()
+    }
+    
+    class verifyDocs : UIViewController {
+        @State private var showCompany = false
+        @Environment(\.presentationMode) private var presentationMode
+        @State var repView = RepresentativeView()
+        @State var stripeIdStatus: String = "NA"
+        
+        override func viewDidLoad() {
+            super.viewDidLoad()
+            didTapVerifyButton()
+            UserDefaults.standard.removeObject(forKey: "stripeFlowStatus")
+        }
+        
+        func didTapVerifyButton(){
+            var urlRequest = URLRequest(url: URL(string: "https://92tbqakpob.execute-api.eu-north-1.amazonaws.com/default/CreateSessionStripeIdentity")!)
+            urlRequest.httpMethod = "POST"
+            
+            let task = URLSession.shared.dataTask(with: urlRequest) { [weak self] data, response, error in
+                DispatchQueue.main.async { [weak self] in
+                    
+                    let data1 = data
+                    let responseJson1 = try? JSONDecoder().decode([String: String].self, from: data1!)
+                    print("responseJson1: ",responseJson1)
+                    guard error == nil,
+                          let data = data,
+                          let responseJson = try? JSONDecoder().decode([String: String].self, from: data),
+                          let verificationSessionId = responseJson["verificationSessionId"],
+                          let ephemeralKeySecret = responseJson["ephemeralKeySecret"] else {
+                        // Handle error
+                        print(error as Any)
+                        return
+                    }
+                    self?.presentVerificationSheet(verificationSessionId: verificationSessionId, ephemeralKeySecret: ephemeralKeySecret)
+                }
+            }
+            task.resume()
+        }
+        
+        func presentVerificationSheet(verificationSessionId: String, ephemeralKeySecret: String){
+            let configuration = IdentityVerificationSheet.Configuration(
+                brandLogo: UIImage(named: "licenseImage")!
+            )
+            
+            let verificationSheet = IdentityVerificationSheet(
+                verificationSessionId: verificationSessionId,
+                ephemeralKeySecret: ephemeralKeySecret,
+                configuration: configuration
+            )
+            
+            verificationSheet.present(from: self, completion: { [self] result in
+                switch result {
+                case .flowCompleted:
+                    print("Verification Flow Completed!")
+                    UserDefaults.standard.set("Completed", forKey: "stripeFlowStatus")
+                    dismiss(animated: true, completion: nil)
+                case .flowCanceled:
+                    print("Verification Flow Canceled!")
+                    dismiss(animated: true, completion: nil)
+                case .flowFailed(let error):
+                    print("Verification Flow Failed!")
+                    print(error.localizedDescription)
+                    dismiss(animated: true, completion: nil)
+                }
+                
+            })
+        }
+    }
+}

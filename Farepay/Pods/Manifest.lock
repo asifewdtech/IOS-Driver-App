@@ -1,4 +1,5 @@
 PODS:
+  - Alamofire (5.7.1)
   - IQKeyboardManagerSwift (6.5.10)
   - MaterialComponents/AnimationTiming (124.2.0)
   - MaterialComponents/Availability (124.2.0)
@@ -44,27 +45,48 @@ PODS:
     - "MaterialComponents/private/TextControlsPrivate+FilledStyle"
     - "MaterialComponents/TextControls+BaseTextFields"
   - MDFInternationalization (3.0.0)
+  - StripeCameraCore (23.18.2):
+    - StripeCore (= 23.18.2)
+  - StripeCore (23.18.2)
+  - StripeIdentity (23.18.2):
+    - StripeCameraCore (= 23.18.2)
+    - StripeCore (= 23.18.2)
+    - StripeUICore (= 23.18.2)
   - StripeTerminal (3.1.0)
+  - StripeUICore (23.18.2):
+    - StripeCore (= 23.18.2)
 
 DEPENDENCIES:
+  - Alamofire
   - IQKeyboardManagerSwift
   - "MaterialComponents/TextControls+FilledTextAreas"
   - "MaterialComponents/TextControls+FilledTextFields"
+  - StripeIdentity
   - StripeTerminal
 
 SPEC REPOS:
   trunk:
+    - Alamofire
     - IQKeyboardManagerSwift
     - MaterialComponents
     - MDFInternationalization
+    - StripeCameraCore
+    - StripeCore
+    - StripeIdentity
     - StripeTerminal
+    - StripeUICore
 
 SPEC CHECKSUMS:
+  Alamofire: 0123a34370cb170936ae79a8df46cc62b2edeb88
   IQKeyboardManagerSwift: 52962c76ab33532f15ad9f3ff4e5715eda5335bb
   MaterialComponents: 1a9b2d9d45b1601ae544de85089adc4c464306d4
   MDFInternationalization: d697c55307816222a55685c4ccb1044ffb030c12
+  StripeCameraCore: 69e7e4dd67dbfba91ff9821c3ba612feb7e5aa23
+  StripeCore: 075589c1503304559dd467c04b816f85207e7789
+  StripeIdentity: 5792c8c6eb48e4cf28c51a76870c9c17ec03022f
   StripeTerminal: fa064cf68a7a3df7c2ee1b2e6d33c8866d1e6aef
+  StripeUICore: 5099399e52853370736aca81b27fc0e86b1822c8
 
-PODFILE CHECKSUM: 3016b4feb9d5a3f8f8793f9af4d393ed32a3dcd5
+PODFILE CHECKSUM: 8f1e27d8b0417a795d30667d04e52c0804bfe0be
 
 COCOAPODS: 1.12.1

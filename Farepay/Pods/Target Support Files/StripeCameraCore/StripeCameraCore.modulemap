@@ -1,0 +1,6 @@
+framework module StripeCameraCore {
+  umbrella header "StripeCameraCore-umbrella.h"
+
+  export *
+  module * { export * }
+}

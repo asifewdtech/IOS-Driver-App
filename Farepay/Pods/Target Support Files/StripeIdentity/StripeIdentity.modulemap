@@ -1,0 +1,6 @@
+framework module StripeIdentity {
+  umbrella header "StripeIdentity-umbrella.h"
+
+  export *
+  module * { export * }
+}

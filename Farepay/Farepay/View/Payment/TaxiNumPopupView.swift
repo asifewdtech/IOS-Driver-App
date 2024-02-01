@@ -16,13 +16,11 @@ struct TaxiNumPopupView: View {
         @State var showTaxi = false
         
         ZStack {
-            if #available(iOS 17.0, *){
-                Color(Color.black.opacity(0.1))
-                    .edgesIgnoringSafeArea(.all)
-            }
+            Color.black.opacity(0.5)
+            
 //            Color(.bgColor)
 //                .edgesIgnoringSafeArea(.all)
-            HStack(spacing: 20) {
+            VStack(spacing: 20) {
                 
                 Text("Taxi Number")
                     .font(.custom(.poppinsMedium, size: 20))

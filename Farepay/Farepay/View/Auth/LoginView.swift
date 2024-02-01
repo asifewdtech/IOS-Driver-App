@@ -60,55 +60,35 @@ struct LoginView: View {
                 
                 NotificationCenter.default.addObserver(forName: NSNotification.Name("SIGNIN"), object: nil, queue: .main) { (_) in
                     
-                    
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                    if userAuth.isLoggedIn == false  {
-                        toast = Toast(style: .error, message: userAuth.errorMessage)
-                    }else {
-                        Firestore.firestore().collection("usersInfo").document(Auth.auth().currentUser?.uid ?? "").getDocument { snapShot, error in
-                            if let error = error {
-                                print(error.localizedDescription)
-                                
-                            }else {
-                                
-                                guard let snap = snapShot else { return  }
-                                
-                                DispatchQueue.main.async {
-                                    isAccountCreated = snap.get("connectAccountCreated") as? Bool ?? false
-                                    isBankCreated = snap.get("bankAdded") as? Bool ?? false
-                                    if isAccountCreated  && isBankCreated {
-                                        goToHome = true
-                                        
-                                    }else if isAccountCreated && isBankCreated == false  {
-                                        willMoveToBankAccount = true
-                                    }
-                                    else {
-                                        showCompany = true
-                                    }
-//                                    else {
-//                                        
-//                                        showCompany = true
-//                                    }
+                        if userAuth.isLoggedIn == false  {
+                            toast = Toast(style: .error, message: userAuth.errorMessage)
+                        }else {
+                            Firestore.firestore().collection("usersInfo").document(Auth.auth().currentUser?.uid ?? "").getDocument { snapShot, error in
+                                if let error = error {
+                                    print(error.localizedDescription)
                                     
+                                }else {
                                     
+                                    guard let snap = snapShot else { return  }
+                                    
+                                    DispatchQueue.main.async {
+                                        isAccountCreated = snap.get("connectAccountCreated") as? Bool ?? false
+                                        isBankCreated = snap.get("bankAdded") as? Bool ?? false
+                                        if isAccountCreated  && isBankCreated {
+                                            goToHome = true
+                                            
+                                        }else if isAccountCreated && isBankCreated == false  {
+                                            willMoveToBankAccount = true
+                                        }
+                                        else {
+                                            showCompany = true
+                                        }
+                                    }
                                 }
-                                
-                                
                             }
-                            
-                            
-                            
                         }
-
-                        
-                           
-                            
-                        }
-                            
-                        
-                        
                     }
-                        
                 }
             })
         }
@@ -237,11 +217,11 @@ extension LoginView{
         
         VStack(spacing: 20){
             
-            NavigationLink("", destination: CompanyView().toolbar(.hidden, for: .navigationBar), isActive: $showCompany).isDetailLink(false).navigationBarBackButtonHidden(true)
+            NavigationLink("", destination: CompanyView().toolbar(.hidden, for: .navigationBar), isActive: $showCompany).isDetailLink(false)
             
-            NavigationLink("", destination: MainTabbedView().toolbar(.hidden, for: .navigationBar), isActive: $goToHome).isDetailLink(false).navigationBarBackButtonHidden(true)
+            NavigationLink("", destination: MainTabbedView().toolbar(.hidden, for: .navigationBar), isActive: $goToHome).isDetailLink(false)
             
-            NavigationLink("", destination: Farepay.AddNewBankAccountView().toolbar(.hidden, for: .navigationBar), isActive: $willMoveToBankAccount ).isDetailLink(false).navigationBarBackButtonHidden(true)
+            NavigationLink("", destination: Farepay.AddNewBankAccountView().toolbar(.hidden, for: .navigationBar), isActive: $willMoveToBankAccount ).isDetailLink(false)
             
             NavigationLink("", destination: SignUpView().toolbar(.hidden, for: .navigationBar), isActive: $moveToSignup ).isDetailLink(false)
             

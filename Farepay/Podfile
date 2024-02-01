@@ -10,5 +10,7 @@ target 'Farepay' do
 	pod 'IQKeyboardManagerSwift'
 	pod 'MaterialComponents/TextControls+FilledTextAreas'
 	pod 'MaterialComponents/TextControls+FilledTextFields'
-  pod 'StripeTerminal'
+	pod 'StripeTerminal'
+	pod 'StripeIdentity'
+	pod 'Alamofire'
 end
