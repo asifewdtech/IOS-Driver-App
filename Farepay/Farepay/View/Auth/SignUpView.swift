@@ -418,5 +418,3 @@ extension SignUpView{
         }
     }
 }
-
-//var userName = ""

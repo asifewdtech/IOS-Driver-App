@@ -401,7 +401,7 @@ extension PaymentView{
                 
                 HStack(spacing: 20) {
                     Text("Taxi Number")
-                        .font(.custom(.poppinsMedium, size: 20))
+                        .font(.custom(.poppinsSemiBold, size: 18))
                         .foregroundColor(Color(.darkBlueColor))
                 }
                 .padding(.top)
@@ -412,7 +412,7 @@ extension PaymentView{
                         Image(uiImage: .taxiNumIcon)
                             .resizable()
                             .frame(width: 20, height: 20)
-                            
+                            .padding(.leading, 10)
                     TextField(taxiNumber, text: $taxiNumber)
                             .font(.custom(.poppinsMedium, size: 16))
                             .foregroundColor(Color(.darkBlueColor))
@@ -420,7 +420,6 @@ extension PaymentView{
                             .textInputAutocapitalization(.characters)
                     }
                     .frame(minWidth: 0, maxWidth: 330, minHeight: 0, maxHeight: 40, alignment: .center)
-                    
                 .background(Color(.TaxiFieldColor))
                 .cornerRadius(10)
                     

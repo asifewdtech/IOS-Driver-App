@@ -46,9 +46,6 @@ struct StepsView: View {
 //        .edgesIgnoringSafeArea(.all)
         .frame(maxWidth:.infinity,alignment: .center)
         .background(Color(.bgColor))
-        
-//        .cornerRadius(15)
-        
     }
 }
 

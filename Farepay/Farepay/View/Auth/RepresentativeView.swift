@@ -85,12 +85,10 @@ struct RepresentativeView: View {
                     .transition(.opacity)
             }
             
-//            if apicalled {
                 ActivityIndicatorView(isVisible: $apicalled, type: .growingArc(.white, lineWidth: 5))
                     .frame(width: 50.0, height: 50.0)
                     .foregroundColor(.white)
                     .padding(.top, 350)
-//            }
         }
     }
 }

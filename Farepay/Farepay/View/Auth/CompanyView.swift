@@ -130,22 +130,17 @@ extension CompanyView{
                         })
                     .foregroundColor(.white)
                 }
-                          
                 
                 MDCFilledTextFieldWrapper(leadingImage: .constant(.ic_Card), text: $cardText.max(11), placHolderText: .constant("Enter your ABN"), isSecure: .constant(false),isNumberPad: true)
                     
                 MDCFilledTextFieldWrapper(leadingImage: .constant(.ic_Contact), text: $contactText.max(9), placHolderText: .constant("Enter your Drivers Licence"), isSecure: .constant(false),isNumberPad: true)
-                
             }
             .frame(maxWidth: .infinity)
             .background(Color(.darkBlueColor))
             .cornerRadius(10)
         }
-        
-        
     }
     
-
     
     var buttonArea: some View{
         
@@ -158,13 +153,11 @@ extension CompanyView{
                     .foregroundColor(.white)
                     .frame(maxWidth: .infinity)
                     .frame(height: 60)
-//                    .background((companyText.isEmpty || cardText.count < 11 || contactText.count < 9) ? Color.gray : Color(.buttonColor))
                     .background(Color(.buttonColor))
                     .cornerRadius(30)
                     
                     
             })
-//            .disabled(companyText.isEmpty || cardText.count < 11 || contactText.count < 9 )
                 .fullScreenCover(isPresented: $isPresentedPopUp) {
                     StepsView(presentedAsModal: $isPresentedPopUp)
                 }

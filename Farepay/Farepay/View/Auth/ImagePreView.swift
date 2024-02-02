@@ -53,8 +53,3 @@ struct ImagePreView: View {
     }
 }
 
-//struct ImagePreView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        ImagePreView(presentedAsModal: .constant(false))
-//    }
-//}

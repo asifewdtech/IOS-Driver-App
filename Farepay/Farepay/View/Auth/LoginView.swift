@@ -588,12 +588,7 @@ struct DropdownSelector: View {
             .cornerRadius(5)
             .frame( height: self.buttonHeight)
             .frame(maxWidth:.infinity)
-            
-            
         }
-//        .background(
-////            RoundedRectangle(cornerRadius: 5).fill(Color(.clear))
-//        )
     }
 }
 
