@@ -53,7 +53,7 @@ struct RepresentativeView: View {
     @State var cityAddr: String = ""
     @State var stateAddr: String = ""
     @State var postalAddr: String = ""
-    
+    @State var verifyIdetityText: String = "Verify your identity"
     @State var locManager = CLLocationManager()
     @State var currentLocation: CLLocation!
     
@@ -85,10 +85,17 @@ struct RepresentativeView: View {
                     .transition(.opacity)
             }
             
-                ActivityIndicatorView(isVisible: $apicalled, type: .growingArc(.white, lineWidth: 5))
-                    .frame(width: 50.0, height: 50.0)
-                    .foregroundColor(.white)
-                    .padding(.top, 350)
+            if apicalled{
+                VStack{
+                    ActivityIndicatorView(isVisible: $apicalled, type: .growingArc(.white, lineWidth: 5))
+                        .frame(width: 50.0, height: 50.0)
+                        .foregroundColor(.white)
+                        .padding(.top, 350)
+                }
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .background(Color.black.opacity(0.5))
+                .edgesIgnoringSafeArea(.all)
+            }
         }
     }
 }
@@ -350,7 +357,7 @@ extension RepresentativeView{
                         .cornerRadius(10)
                         
                         HStack {
-                            MDCFilledTextFieldWrapper(leadingImage: .constant(.ic_Home), text: $postalAddr, placHolderText: .constant("Postal Code"), isSecure: .constant(false))
+                            MDCFilledTextFieldWrapper(leadingImage: .constant(.ic_Home), text: $postalAddr, placHolderText: .constant("Postal Code"), isSecure: .constant(false),isNumberPad: true)
                         }
                         .frame(height: 70)
                         .cornerRadius(10)
@@ -418,6 +425,7 @@ extension RepresentativeView{
                 }
                 .onTapGesture {
                     uploadFrontImage = nil
+                    checkVerifyIden()
                     islicenseFrontImagePickerPresented.toggle()
                 }
                 .fullScreenCover(isPresented: $islicenseFrontImagePickerPresented) {
@@ -468,7 +476,7 @@ extension RepresentativeView{
                     }
                 }
                 else{
-                    Text("Verify your identity")
+                    Text(verifyIdetityText)
                         .foregroundColor(Color(.darkGrayColor))
                         .font(.custom(.poppinsMedium, size: 16))
                 }
@@ -647,6 +655,7 @@ extension RepresentativeView{
                         
                         try  await
                         completeFormViewModel.postData(url:url!,method:.post,name: userText,phone: mobileNumberText)
+                        apicalled = false
                         
                         DispatchQueue.main.async {
                             if completeFormViewModel.goToAccountScreen {
@@ -802,6 +811,28 @@ extension RepresentativeView{
             }
         }
     }
+    
+    func checkVerifyIden() {
+        apicalled = true
+        DispatchQueue.main.asyncAfter(deadline: .now() + 25){
+        let stripeIdentityStatus = UserDefaults.standard.string(forKey: "stripeFlowStatus")
+        if stripeIdentityStatus == "Completed" {
+            self.verifyIdetityText = "Verification Flow Completed"
+        }
+        else if stripeIdentityStatus == "Canceled" {
+            self.verifyIdetityText = "Verification Flow Canceled"
+        }
+        else if stripeIdentityStatus == "Failed" {
+            self.verifyIdetityText = "Verification Flow Failed"
+        }
+        else {
+            self.verifyIdetityText = "Verify your identity"
+        }
+//            self._verifyIdetityText = State(initialValue: "Complete Verification")
+            print("verify Idetity Text:",verifyIdetityText)
+            apicalled = false
+        }
+    }
 }
 
 
@@ -943,9 +974,11 @@ struct RepresentativeVC: UIViewControllerRepresentable {
                     dismiss(animated: true, completion: nil)
                 case .flowCanceled:
                     print("Verification Flow Canceled!")
+                    UserDefaults.standard.set("Canceled", forKey: "stripeFlowStatus")
                     dismiss(animated: true, completion: nil)
                 case .flowFailed(let error):
                     print("Verification Flow Failed!")
+                    UserDefaults.standard.set("Failed", forKey: "stripeFlowStatus")
                     print(error.localizedDescription)
                     dismiss(animated: true, completion: nil)
                 }

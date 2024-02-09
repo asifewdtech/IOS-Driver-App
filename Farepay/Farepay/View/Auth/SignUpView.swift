@@ -55,11 +55,6 @@ struct SignUpView: View {
             .toastView(toast: $toast)
             .padding(.all, 15)
             
-            ActivityIndicatorView(isVisible: $showLoadingIndicator, type: .growingArc(.white, lineWidth: 5))
-                .frame(width: 50.0, height: 50.0)
-                .foregroundColor(.white)
-                .padding(.top, 350)
-            
                 .onAppear(perform: {
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                         if userAuth.isLoggedIn == false  {
@@ -91,6 +86,17 @@ struct SignUpView: View {
                         }
                     }
                 })
+            if showLoadingIndicator{
+                VStack{
+                    ActivityIndicatorView(isVisible: $showLoadingIndicator, type: .growingArc(.white, lineWidth: 5))
+                        .frame(width: 50.0, height: 50.0)
+                        .foregroundColor(.white)
+                        .padding(.top, 350)
+                }
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .background(Color.black.opacity(0.5))
+                .edgesIgnoringSafeArea(.all)
+            }
         }
     }
 }
@@ -116,7 +122,7 @@ extension SignUpView{
                 .font(.custom(.poppinsBold, size: 20))
                 .foregroundColor(.white)
             
-            Text("Please enter your detail to login")
+            Text("Please enter your detail to sign up")
                 .font(.custom(.poppinsMedium, size: 18))
                 .foregroundColor(Color(.darkGrayColor))
             
@@ -190,7 +196,7 @@ extension SignUpView{
                         }
                 }
             }
-                Text("Password must have more than 6 characters, contain one digit, one uppercase letter and a special character.")
+                Text("Password must have more than 6 characters, contain one digit and a special character.")
                     .font(.custom(.poppinsMedium, size: 12))
                     .foregroundColor(Color(.darkGrayColor))
                     
@@ -246,7 +252,7 @@ extension SignUpView{
 //                        Link("Farepay", destination: URL(string: "https://farepay.app/privacy")!)
                         openURL(URL(string: "https://farepay.app/privacy")!)
                     }, label: {
-                        Text("\("Privacy.")")
+                        Text("\("privacy.")")
                             .font(.custom(.poppinsBold, size: 18))
                             .foregroundColor(.white)
                             .underline()
@@ -286,7 +292,7 @@ extension SignUpView{
             
             HStack{
                 
-                Text("\(.dontHaveAccount)")
+                Text("\(.alreadyHaveAccount)")
                     .font(.custom(.poppinsMedium, size: 18))
                     .foregroundColor(Color(.darkGrayColor))
                 
@@ -314,7 +320,7 @@ extension SignUpView{
             toast = Toast(style: .error, message: "Password field cannot be empty.")
         }
         else if !passwordText.isValidPassword(passwordText) {
-            toast = Toast(style: .error, message: "Password must have more than 6 characters, contain one digit, one uppercase letter and a special character.")
+            toast = Toast(style: .error, message: "Password must have more than 6 characters, contain one digit and a special character.")
         }
         else if ReTypePasswordText.isEmpty {
             toast = Toast(style: .error, message: "Re-Password field cannot be empty.")

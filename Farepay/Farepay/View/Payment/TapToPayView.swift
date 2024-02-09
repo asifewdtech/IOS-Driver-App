@@ -106,13 +106,18 @@ struct TapToPayView: View {
             .toastView(toast: $toast)
             .padding(.all, 20)
             
-            ActivityIndicatorView(isVisible: $showLoadingIndicator, type: .growingArc(.green, lineWidth: 5))
-                .frame(width: 50.0, height: 50.0)
-                .foregroundColor(.white)
-                .padding(.top, 400)
+            if showLoadingIndicator{
+                VStack{
+                    ActivityIndicatorView(isVisible: $showLoadingIndicator, type: .growingArc(.white, lineWidth: 5))
+                        .frame(width: 50.0, height: 50.0)
+                        .foregroundColor(.white)
+                        .padding(.top, 350)
+                }
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .background(Color.black.opacity(0.5))
+                .edgesIgnoringSafeArea(.all)
+            }
         }
-        
-    
     }
 }
 

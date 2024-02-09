@@ -67,14 +67,17 @@ struct TransactionView: View {
                 .padding(.all, 15)
             }
             
-            
-            
-            ActivityIndicatorView(isVisible: $transectionViewModel.apiCall, type: .growingArc(.white, lineWidth: 5))
-                .frame(width: 50.0, height: 50.0)
-                .foregroundColor(.white)
-                .padding(.top, 350)
-            
-            
+            if transectionViewModel.apiCall{
+                VStack{
+                    ActivityIndicatorView(isVisible: $transectionViewModel.apiCall, type: .growingArc(.white, lineWidth: 5))
+                        .frame(width: 50.0, height: 50.0)
+                        .foregroundColor(.white)
+                        .padding(.top, 350)
+                }
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .background(Color.black.opacity(0.5))
+                .edgesIgnoringSafeArea(.all)
+            }
         }
     }
 }

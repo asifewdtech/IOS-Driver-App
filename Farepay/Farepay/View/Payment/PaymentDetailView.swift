@@ -76,10 +76,18 @@ struct PaymentDetailView: View {
             })
             .padding(.all, 20)
             
-            ActivityIndicatorView(isVisible: $showLoadingIndicator, type: .growingArc(.green, lineWidth: 5))
-                .frame(width: 50.0, height: 50.0)
-                .foregroundColor(.white)
-                .padding(.top, 400)        }
+            if showLoadingIndicator{
+                VStack{
+                    ActivityIndicatorView(isVisible: $showLoadingIndicator, type: .growingArc(.white, lineWidth: 5))
+                        .frame(width: 50.0, height: 50.0)
+                        .foregroundColor(.white)
+                        .padding(.top, 350)
+                }
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .background(Color.black.opacity(0.5))
+                .edgesIgnoringSafeArea(.all)
+            }
+        }
     }
 }
 
@@ -316,7 +324,7 @@ class ReaderDiscoverModel1:NSObject,ObservableObject ,DiscoveryDelegate{
     
     @objc
     func discoverReaders() throws {
-        let config = try LocalMobileDiscoveryConfigurationBuilder().setSimulated(false).build()
+        let config = try LocalMobileDiscoveryConfigurationBuilder().setSimulated(true).build()
         self.discoverCancelable = Terminal.shared.discoverReaders(config, delegate: self) { error in
                     if let error = error {
                         print("discoverReaders failed: \(error)")

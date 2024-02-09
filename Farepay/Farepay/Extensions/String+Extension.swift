@@ -25,6 +25,7 @@ extension String{
     static let SignUp = "Sign Up"
     static let SignIn = "Sign in"
     static let dontHaveAccount = "Don't have an account?"
+    static let alreadyHaveAccount = "Already have an account?"
     static let selectCompany = "Select your Company type"
     
     static let isUserLogin = "isUserLogin"

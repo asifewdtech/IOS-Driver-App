@@ -16,7 +16,6 @@ struct CompanyView: View {
     @State private var contactText: String = ""
     @State private var willMoveToRepresentativeView: Bool = false
     @State private var isPresentedPopUp: Bool = false
-    @State var disableBtn = true
     @State private var toast: Toast? = nil
     
     //MARK: - Views
@@ -165,7 +164,7 @@ extension CompanyView{
     }
     
     func PresentedPopUp()  {
-        if companyText.isEmpty {
+        if (companyText != "Sole Trader") && (companyText != "Business") {
             toast = Toast(style: .error, message: "Company Type field cannot be empty.")
         }
         else if cardText.isEmpty {
@@ -181,6 +180,7 @@ extension CompanyView{
             toast = Toast(style: .error, message: "Tax ID Should be 9 Digits.")
         }
         else{
+            UserDefaults.standard.removeObject(forKey: "stripeFlowStatus")
             isPresentedPopUp.toggle()
         }
     }

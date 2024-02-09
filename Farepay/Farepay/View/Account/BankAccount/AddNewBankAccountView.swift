@@ -24,24 +24,32 @@ struct AddNewBankAccountView: View {
     
     //MARK: - Views
     var body: some View {
-        
-        ZStack{
-            Color(.bgColor).edgesIgnoringSafeArea(.all)
-            VStack(spacing: 10){
-                NavigationLink("", destination: Farepay.MainTabbedView().toolbar(.hidden, for: .navigationBar), isActive: $goToHome ).isDetailLink(false)
-                topArea
-                textArea
-                Spacer()
-                buttonArea
+            ZStack{
+                Color(.bgColor).edgesIgnoringSafeArea(.all)
+                VStack(spacing: 10){
+                    NavigationLink("", destination: MainTabbedView().toolbar(.hidden, for: .navigationBar), isActive: $goToHome ).isDetailLink(false)
+                    topArea
+                    textArea
+                    Spacer()
+                    buttonArea
+                }
+                .toastView(toast: $toast)
+                .padding(.all, 15)
+                
+                if apicalled{
+                    VStack{
+                        ActivityIndicatorView(isVisible: $apicalled, type: .growingArc(.white, lineWidth: 5))
+                            .frame(width: 50.0, height: 50.0)
+                            .foregroundColor(.white)
+                            .padding(.top, 350)
+                    }
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    .background(Color.black.opacity(0.5))
+                    .edgesIgnoringSafeArea(.all)
+                }
             }
-            .toastView(toast: $toast)
-            .padding(.all, 15)
-            
-            ActivityIndicatorView(isVisible: $apicalled, type: .growingArc(.white, lineWidth: 5))
-                .frame(width: 50.0, height: 50.0)
-                .foregroundColor(.white)
-                .padding(.top, 350)
-        }
+            .environment(\.rootPresentationMode, $goToHome)
+        
     }
 }
 

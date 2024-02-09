@@ -13,7 +13,7 @@ struct MainTabbedView: View {
     //MARK: - Variable
     @State var presentSideMenu = false
     @State var selectedSideMenuTab = 0
-    @Environment(\.openURL) var openURL
+//    @Environment(\.openURL) var openURL
     
     //MARK: - Views
     var body: some View {
@@ -23,7 +23,7 @@ struct MainTabbedView: View {
             switch selectedSideMenuTab{
             case 0:
                 PaymentView(presentSideMenu: $presentSideMenu)
-                    .tag(0)
+                    .tag(1)
 //            case 1:
 //                GiftCardView(presentSideMenu: $presentSideMenu)
 //                    .tag(1)

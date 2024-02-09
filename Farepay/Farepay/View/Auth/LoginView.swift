@@ -50,19 +50,13 @@ struct LoginView: View {
             .padding(.all, 15)
             .environment(\.rootPresentationMode, $userAuth.isAccountCreated)
             
-            ActivityIndicatorView(isVisible: $showLoadingIndicator, type: .growingArc(.white, lineWidth: 5))
-                .frame(width: 50.0, height: 50.0)
-                .foregroundColor(.white)
-                .padding(.top, 350)
-            
-            
             .onAppear(perform: {
                 
                 NotificationCenter.default.addObserver(forName: NSNotification.Name("SIGNIN"), object: nil, queue: .main) { (_) in
                     
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                         if userAuth.isLoggedIn == false  {
-                            toast = Toast(style: .error, message: userAuth.errorMessage)
+//                            toast = Toast(style: .error, message: userAuth.errorMessage)
                         }else {
                             Firestore.firestore().collection("usersInfo").document(Auth.auth().currentUser?.uid ?? "").getDocument { snapShot, error in
                                 if let error = error {
@@ -91,6 +85,17 @@ struct LoginView: View {
                     }
                 }
             })
+            if showLoadingIndicator{
+                VStack{
+                    ActivityIndicatorView(isVisible: $showLoadingIndicator, type: .growingArc(.white, lineWidth: 5))
+                        .frame(width: 50.0, height: 50.0)
+                        .foregroundColor(.white)
+                        .padding(.top, 350)
+                }
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .background(Color.black.opacity(0.5))
+                .edgesIgnoringSafeArea(.all)
+            }
         }
         .environment(\.rootPresentationMode, $moveToSignup)
         .environment(\.rootPresentationMode, $goToHome)
@@ -131,10 +136,10 @@ extension LoginView{
                 Button(action: {
                     showLoadingIndicator = true
                     userAuth.performAppleSignIn()
-//                    DispatchQueue.main.asyncAfter(deadline: .now() + 15){
-//                        showLoadingIndicator = false
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 5){
+                        showLoadingIndicator = false
 //                        showCompany.toggle()
-//                    }
+                    }
                 }, label: {
                     ZStack{
                         
@@ -329,30 +334,12 @@ extension LoginView{
                                             print("cannot proceed")
                                             
                                         }
-//                                        else {
-//
-//                                            showCompany = true
-//                                        }
-                                        
-                                        
                                     }
-                                    
-                                    
                                 }
-                                
-                                
-                                
                             }
-
-                            
-                               
-                                
-                            }
-                                
-                            
-                            
                         }
                     }
+                }
                                     
                 }else {
                     toast = Toast(style: .error, message: "Please Enter and Password Should be minium 6 character")
@@ -416,20 +403,44 @@ extension LoginView{
                         toast = Toast(style: .error, message: error.localizedDescription)
                     }else {
                         showLoadingIndicator = false
-                            
+                        
+                        print("isAccountCreated: ",isAccountCreated)
+                        print("isBankCreated: ",isBankCreated)
                         let isEmail = GIDSignIn.sharedInstance.currentUser?.profile?.email
                         let exisEmail = Auth.auth().currentUser?.email ?? ""
                         if isEmail == exisEmail{
-                            
-                            if isAccountCreated  && isBankCreated {
-                                goToHome = true
-                                
-                            }else if isAccountCreated && isBankCreated == false  {
-                                willMoveToBankAccount = true
+                            Firestore.firestore().collection("usersInfo").document(Auth.auth().currentUser?.uid ?? "").getDocument { snapShot, error in
+                                if let error = error {
+                                    print(error.localizedDescription)
+                                    
+                                }else {
+                                    
+                                    guard let snap = snapShot else { return  }
+                                    
+                                    DispatchQueue.main.async {
+                                        isAccountCreated = snap.get("connectAccountCreated") as? Bool ?? false
+                                        isBankCreated = snap.get("bankAdded") as? Bool ?? false
+                                        if isAccountCreated  && isBankCreated {
+                                            goToHome = true
+                                            
+                                        }else if isAccountCreated && isBankCreated == false  {
+                                            willMoveToBankAccount = true
+                                        }
+                                        else {
+                                            showCompany = true
+                                        }
+                                    }
+                                }
                             }
-                            else {
-                                showCompany = true
-                            }
+//                            if isAccountCreated  && isBankCreated == true{
+//                                goToHome = true
+//                                
+//                            }else if isAccountCreated && isBankCreated == false  {
+//                                willMoveToBankAccount = true
+//                            }
+//                            else {
+//                                showCompany = true
+//                            }
 //                            goToHome = true
                         }else {
                             userAuth.checkUserAccountCreated()
@@ -488,7 +499,7 @@ struct DropdownRow: View {
         }) {
             HStack {
                 Text(self.option.value)
-                    .font(.system(size: 14))
+                    .font(.system(size: 18))
                     .foregroundColor(Color.white)
                 Spacer()
             }

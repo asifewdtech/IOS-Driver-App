@@ -133,7 +133,7 @@ struct MDCFilledTextFieldWrapper: UIViewRepresentable {
         if isTrailingImage == true{
             textField.trailingView = UIImageView(image: UIImage(systemName: isSecure ? "eye.slash.fill" : "eye.fill"))
             textField.trailingView?.tintColor = .white
-            textField.trailingView?.frame = CGRect(x: 0, y: 0, width: 30, height: 20)
+            textField.trailingView?.frame = CGRect(x: 0, y: 0, width: 35, height: 25)
             textField.trailingViewMode = .always
         }
         

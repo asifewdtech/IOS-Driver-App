@@ -61,29 +61,19 @@ struct PaymentView: View {
             })
             
             .toastView(toast: $toast)
-            .padding(.all, 15)
+//            .padding(.all, 15)
             
-            ActivityIndicatorView(isVisible: $showLoadingIndicator, type: .growingArc(.green, lineWidth: 5))
-                .frame(width: 50.0, height: 50.0)
-                .foregroundColor(.white)
-                .padding(.top, 400)
-            
-//            if(self.showTaxi){
-//                VStack{
-//                    CustomAlert()
-//                }
-//                .frame(maxWidth: .infinity, maxHeight: .infinity)
-//                .background(Color.black.opacity(0.5))
-//                .edgesIgnoringSafeArea(.all)
-//                .onTapGesture {x
-//                    withAnimation {
-//                        let showTaxiNumPopup = UserDefaults.standard.integer(forKey: "showTaxiNumPopup")
-//                        if showTaxiNumPopup == 1{
-//                            self.showTaxi.toggle()
-//                        }
-//                    }
-//                }
-//            }
+            if showLoadingIndicator{
+                VStack{
+                    ActivityIndicatorView(isVisible: $showLoadingIndicator, type: .growingArc(.white, lineWidth: 5))
+                        .frame(width: 50.0, height: 50.0)
+                        .foregroundColor(.white)
+                        .padding(.top, 350)
+                }
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .background(Color.black.opacity(0.5))
+                .edgesIgnoringSafeArea(.all)
+            }
         }
     }
 }
@@ -370,8 +360,9 @@ extension PaymentView{
         VStack(spacing: 25){
             Button {
                 setMainView(false)
+                print("currencyManager.string: ", currencyManager.string)
                 willMoveToPaymentDetail.toggle()
-                //                willMoveTapToPayView.toggle()
+//                willMoveTapToPayView.toggle()
                 
                 //                if currencyManager.string.count == 2 && currencyManager.string.count <= 2 {
                 //                    toast = Toast(style: .error, message: "Fare Pay should be minimum 10 AUD.")
@@ -447,7 +438,7 @@ extension PaymentView{
                 .background(Color.white)
                 .cornerRadius(20)
         }
-        .frame(minWidth: 395 ,maxWidth: .infinity,minHeight: 760 ,maxHeight: .infinity)
+        .frame(minWidth: 300 ,maxWidth: .infinity,minHeight: 700 ,maxHeight: .infinity)
         .background(Color.black.opacity(0.5))
     }
     
@@ -462,79 +453,6 @@ extension PaymentView{
                 
             }
         }
-    }
-}
-
-struct CustomAlert: View{
-    var body:some View{
-        @State var taxiNmbr: String = ""
-        @State var taxiNmbr1 = ""
-        
-        VStack {
-            
-            HStack(spacing: 20) {
-                
-                Text("Taxi Number")
-                    .font(.custom(.poppinsMedium, size: 20))
-                    .foregroundColor(Color(.darkBlueColor))
-            }
-            .padding(.top)
-        
-            .frame(minWidth: 0, maxWidth: 150, minHeight: 0, maxHeight: 40, alignment: .leading)
-            .padding(.trailing, 170)
-            
-                
-            HStack(spacing: 5){
-                    
-//                    Image(uiImage: .taxiNumIcon)
-//                        .resizable()
-//                        .frame(width: 20, height: 20)
-                        
-//                TextField(taxiNmbr1, text: $taxiNmbr)
-////                        .textInputAutocapitalization(.never)
-//                        .font(.custom(.poppinsMedium, size: 16))
-////                        .frame(height: 38)
-//                        .foregroundColor(Color(.darkBlueColor))
-//                        .disabled(false)
-                MDCFilledTextFieldWrapper(leadingImage: .constant(.taxiNumIcon), text: $taxiNmbr1, placHolderText: .constant(""), isSecure: .constant(false))
-                }
-                .frame(minWidth: 0, maxWidth: 330, minHeight: 0, maxHeight: 40, alignment: .center)
-                
-            .background(Color(.TaxiFieldColor))
-            .cornerRadius(10)
-                
-                Spacer()
-        
-            HStack(spacing: 20) {
-                Button {
-                    print("txNmbr: ", taxiNmbr , taxiNmbr1)
-                    
-                    Firestore.firestore().collection("usersInfo").document(Auth.auth().currentUser?.uid ?? "").updateData(["taxiNumber" : taxiNmbr])
-//                    showLoadingIndicator = false
-                    
-                    UserDefaults.standard.set(1, forKey: "showTaxiNumPopup")
-                } label: {
-                    
-                    Text("Update")
-                        .font(.custom(.poppinsMedium, size: 15))
-                        .foregroundColor(.white)
-                }
-            }
-            .frame(minWidth: 120, maxWidth: 120, minHeight: 40, maxHeight: 40, alignment: .center)
-            
-//            .padding(.leading, 250)
-//            .multilineTextAlignment(.leading)
-//            .padding(.bottom, 10)
-            .background(Color(.buttonColor))
-            .cornerRadius(40)
-            Spacer()
-            }
-        .frame(minWidth: 320, maxWidth: 350, minHeight: 150, maxHeight: 170)
-            .background(Color.white)
-            .cornerRadius(20)
-//            .padding([.leading, .trailing], 20)
-//            .frame(width: 350)
-//            .frame(maxHeight: 180)
     }
 }
 
