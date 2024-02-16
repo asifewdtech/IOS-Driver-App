@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		1815D5212B4BCB550067202C /* UnderReviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1815D5202B4BCB550067202C /* UnderReviewView.swift */; };
 		187AB27D2B2992A900B170EE /* DelegateAnnouncer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 187AB27C2B2992A900B170EE /* DelegateAnnouncer.swift */; };
-		18A90E3E2B57AB850014047D /* TaxiNumPopupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18A90E3D2B57AB850014047D /* TaxiNumPopupView.swift */; };
 		18D7CF8C2B1DA4640022FBBE /* ActivityIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18D7CF8B2B1DA4640022FBBE /* ActivityIndicator.swift */; };
 		322FC4222AFA44F80053C82C /* TransectionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 322FC4212AFA44F80053C82C /* TransectionViewModel.swift */; };
 		3230C1322AD3C74C005E182B /* SplashView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F51193902A97C6ED00554604 /* SplashView.swift */; };
@@ -114,9 +113,8 @@
 /* Begin PBXFileReference section */
 		1815D5202B4BCB550067202C /* UnderReviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnderReviewView.swift; sourceTree = "<group>"; };
 		187AB27C2B2992A900B170EE /* DelegateAnnouncer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DelegateAnnouncer.swift; sourceTree = "<group>"; };
-		18A90E3D2B57AB850014047D /* TaxiNumPopupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaxiNumPopupView.swift; sourceTree = "<group>"; };
 		18D7CF8B2B1DA4640022FBBE /* ActivityIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityIndicator.swift; sourceTree = "<group>"; };
-		322C08AC2AD8013200C2288B /* Farepay.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Farepay.entitlements; sourceTree = "<group>"; };
+		18E395692B7B571000A4036D /* Farepay.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Farepay.entitlements; sourceTree = "<group>"; };
 		322FC4212AFA44F80053C82C /* TransectionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransectionViewModel.swift; sourceTree = "<group>"; };
 		323856FD2AFE4C670082272B /* AccountModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountModel.swift; sourceTree = "<group>"; };
 		323856FF2AFE4D820082272B /* BankAccountViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BankAccountViewModel.swift; sourceTree = "<group>"; };
@@ -333,7 +331,7 @@
 		F511937C2A97C4DF00554604 /* Farepay */ = {
 			isa = PBXGroup;
 			children = (
-				322C08AC2AD8013200C2288B /* Farepay.entitlements */,
+				18E395692B7B571000A4036D /* Farepay.entitlements */,
 				326495F22AE7B4AD006629DC /* Stripe */,
 				32888C8E2AD6862600A39C8B /* ToastAlert */,
 				32E006002AD52492008CA8ED /* ViewModel */,
@@ -475,7 +473,6 @@
 				F5192AEA2AA11B8900DF5ED1 /* PayQRView.swift */,
 				32ABA0C72B0361080074A8E4 /* ReaderConnectView.swift */,
 				1815D5202B4BCB550067202C /* UnderReviewView.swift */,
-				18A90E3D2B57AB850014047D /* TaxiNumPopupView.swift */,
 			);
 			path = Payment;
 			sourceTree = "<group>";
@@ -760,7 +757,6 @@
 				F56C08262AABA79700CE07C9 /* GiftCardDetailView.swift in Sources */,
 				F59F81F12AC3569400A51AC6 /* ImagePreView.swift in Sources */,
 				F51193A62A97D19500554604 /* Font+Extension.swift in Sources */,
-				18A90E3E2B57AB850014047D /* TaxiNumPopupView.swift in Sources */,
 				323857002AFE4D830082272B /* BankAccountViewModel.swift in Sources */,
 				F51193952A97C97400554604 /* Colors+Extension.swift in Sources */,
 				F59F81EF2AC3463800A51AC6 /* NotificationCenter+Extension.swift in Sources */,
@@ -915,9 +911,9 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CODE_SIGN_ENTITLEMENTS = Farepay/Farepay.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 23;
+				CURRENT_PROJECT_VERSION = 27;
 				DEVELOPMENT_ASSET_PATHS = "\"Farepay/Preview Content\"";
 				DEVELOPMENT_TEAM = F2D64HKJXK;
 				ENABLE_PREVIEWS = YES;
@@ -964,9 +960,9 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CODE_SIGN_ENTITLEMENTS = Farepay/Farepay.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 23;
+				CURRENT_PROJECT_VERSION = 27;
 				DEVELOPMENT_ASSET_PATHS = "\"Farepay/Preview Content\"";
 				DEVELOPMENT_TEAM = F2D64HKJXK;
 				ENABLE_PREVIEWS = YES;

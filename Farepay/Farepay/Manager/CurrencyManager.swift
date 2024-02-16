@@ -9,7 +9,7 @@ import UIKit
 
 class CurrencyManager: ObservableObject {
     
-    @Published var string: String = "0.0"
+    @Published var string1: String = "0.00"
     private var amount: Decimal = .zero
     private let formatter = NumberFormatter(numberStyle: .currency)
     private var maximum: Decimal = 999_999_999.99
@@ -25,24 +25,25 @@ class CurrencyManager: ObservableObject {
         formatter.locale = locale
 //        self.string = formatter.string(for: amount) ?? "$0.00"
         let formattedString = formatter.string(for: amount) ?? "$0.00"
-        string = formattedString.replacingOccurrences(of: formatter.currencySymbol, with: "")
-        self.lastValue = string
+        string1 = formattedString.replacingOccurrences(of: formatter.currencySymbol, with: "")
+        self.lastValue = string1
         self.amount = amount
         self.maximum = maximum
     }
     
     func valueChanged(_ value: String) {
+        print("valueTax \(value)")
         let newValue = (value.decimal ?? .zero) / pow(10, formatter.maximumFractionDigits)
         if newValue > maximum {
-            string = lastValue
+            string1 = lastValue
         } else {
-            print("serTax\(newValue)")
+            print("serTax \(newValue)")
 //            string = formatter.string(for: newValue) ?? "$0.00"
             let formattedString = formatter.string(for: newValue) ?? "$0.00"
-            string = formattedString.replacingOccurrences(of: formatter.currencySymbol, with: "")
-            lastValue = string
+            string1 = formattedString.replacingOccurrences(of: formatter.currencySymbol, with: "")
+            lastValue = string1
             
-            if let cost = Double(lastValue.trimmingCharacters(in: .whitespaces)) {
+//            if let cost = Double(lastValue.trimmingCharacters(in: .whitespaces)) {
 //                totalAmount = cost
 //                AmountDetail.instance.totalAmount = cost
 //                let amountWithFivePercent = cost * 5 / 100
@@ -60,7 +61,7 @@ class CurrencyManager: ObservableObject {
 //                AmountDetail.instance.totalChargresWithTax = totalChargresWithTax
 //                print("totalCharges \(totalChargresWithTax)")
                 
-            }
+//            }
         }
     }
 }
@@ -71,6 +72,7 @@ extension NumberFormatter {
         self.init()
         self.locale = locale
         self.numberStyle = numberStyle
+        self.currencyGroupingSeparator = ""
     }
 }
 
@@ -94,18 +96,21 @@ extension StringProtocol where Self: RangeReplaceableCollection {
 
 //class CurrencyManager: ObservableObject {
 //    
-//    @Published var string: String = ""
+//    @Published var string1: String = ""
 //    @Published  var amount: Decimal = .zero
 //    private let formatter = NumberFormatter(numberStyle: .currency)
 //    private var maximum: Decimal = 999_999_999.99
 //    private var lastValue: String = ""
+//    @Published  var serviceFee = 0.0
+//    @Published  var serviceFeeGst = 0.0
+//    @Published  var totalChargresWithTax = 0.0
 //    
 //    init(amount: Decimal, maximum: Decimal = 999_999_999.99, locale: Locale = .current) {
 //        formatter.locale = locale
 ////        self.string = formatter.string(for: amount) ?? "$0.00"
 //        let formattedString = formatter.string(for: amount) ?? "$0.00"
-//        string = formattedString.replacingOccurrences(of: formatter.currencySymbol, with: "")
-//        self.lastValue = string
+//        string1 = formattedString.replacingOccurrences(of: formatter.currencySymbol, with: "")
+//        self.lastValue = string1
 //        self.amount = amount
 //        self.maximum = maximum
 //    }
@@ -113,13 +118,13 @@ extension StringProtocol where Self: RangeReplaceableCollection {
 //    func valueChanged(_ value: String) {
 //        let newValue = (value.decimal ?? .zero) / pow(10, formatter.maximumFractionDigits)
 //        if newValue > maximum {
-//            string = lastValue
+//            string1 = lastValue
 //        } else {
 //            
 ////            string = formatter.string(for: newValue) ?? "$0.00"
 //            let formattedString = formatter.string(for: newValue) ?? "$0.00"
-//            string = formattedString.replacingOccurrences(of: formatter.currencySymbol, with: "")
-//            lastValue = string
+//            string1 = formattedString.replacingOccurrences(of: formatter.currencySymbol, with: "")
+//            lastValue = string1
 //        }
 //    }
 //}

@@ -26,12 +26,13 @@ struct PaymentDetailView: View {
     @State private var willMoveToQr = false
     @State var showLoadingIndicator: Bool = false
     @State private var locationPermission = false
+    @State var goToHome = false
     
     //MARK: - Views
     var body: some View {
         
         ZStack{
-            
+            NavigationLink("", destination: Farepay.MainTabbedView().toolbar(.hidden, for: .navigationBar), isActive: $goToHome ).isDetailLink(false)
             NavigationLink("", destination: ReaderConnectView().toolbar(.hidden, for: .navigationBar), isActive: $willMoveTapToPayView).isDetailLink(false)
             NavigationLink("", destination: PayQRView().toolbar(.hidden, for: .navigationBar), isActive: $willMoveToQr).isDetailLink(false)
             
@@ -66,11 +67,18 @@ struct PaymentDetailView: View {
                     
                 }
                 
-                if readerDiscoverModel1.showPay {
-                    do {
-                        willMoveToQr.toggle()
-                    }catch{
-                        print("Payment don't transfered")
+                DispatchQueue.main.asyncAfter(deadline: .now() + 5){
+                    if readerDiscoverModel1.showPay {
+                        do {
+                            willMoveToQr.toggle()
+                            showLoadingIndicator = false
+                        }catch{
+                            print("Payment don't transfered")
+                        }
+                    }
+                    if readerDiscoverModel1.cancelPay {
+                        showLoadingIndicator = false
+                        presentationMode.wrappedValue.dismiss()
                     }
                 }
             })
@@ -80,7 +88,7 @@ struct PaymentDetailView: View {
                 VStack{
                     ActivityIndicatorView(isVisible: $showLoadingIndicator, type: .growingArc(.white, lineWidth: 5))
                         .frame(width: 50.0, height: 50.0)
-                        .foregroundColor(.white)
+                        .foregroundColor(.green)
                         .padding(.top, 350)
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -107,7 +115,7 @@ extension PaymentDetailView{
                 
                 Image(uiImage: .backArrow)
                     .resizable()
-                    .frame(width: 35, height: 30)
+                    .frame(width: 30, height: 25)
                     .onTapGesture {
                         presentationMode.wrappedValue.dismiss()
                     }
@@ -246,7 +254,9 @@ extension PaymentDetailView{
                             showLoadingIndicator = false
                         }
                     }
-                    
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 20){
+                        showLoadingIndicator = false
+                    }
                 }
                 
             } label: {
@@ -282,7 +292,6 @@ extension PaymentDetailView{
             }
             return
         }
-        
     }
 }
 
@@ -320,17 +329,28 @@ class ReaderDiscoverModel1:NSObject,ObservableObject ,DiscoveryDelegate{
     var readerMessageLabel = UILabel()
     var readerMsgLbl = ""
     @Published var showPay = false
-    
+    @Published var cancelPay = false
     
     @objc
     func discoverReaders() throws {
-        let config = try LocalMobileDiscoveryConfigurationBuilder().setSimulated(true).build()
+        let config = try LocalMobileDiscoveryConfigurationBuilder().setSimulated(false).build()
         self.discoverCancelable = Terminal.shared.discoverReaders(config, delegate: self) { error in
-                    if let error = error {
-                        print("discoverReaders failed: \(error)")
-                    } else {
-                        print("discoverReaders succeeded")
-                    }
+            if let error = error {
+                print("discoverReaders failed: \(error)")
+            } else {
+                print("discoverReaders succeeded")
+            }
+        }
+    }
+    
+    @objc
+    func disconnectFromReader() {
+        Terminal.shared.disconnectReader { error in
+            if let error = error {
+                print("Disconnect failed: \(error)")
+            } else {
+                print("Reader Disconnect")
+            }
         }
     }
     
@@ -355,10 +375,13 @@ class ReaderDiscoverModel1:NSObject,ObservableObject ,DiscoveryDelegate{
                 Terminal.shared.collectPaymentMethod(paymentIntent) { collectResult, collectError in
                     if let error = collectError {
                         print("collectPaymentMethod failed: \(error)")
+                        self.cancelPay = true
+                        self.disconnectFromReader()
                     } else if let paymentIntent = collectResult {
                         print("collectPaymentMethod succeeded", paymentIntent)
-                        
+                        self.showPay = true
                         self.confirmPaymentIntent(paymentIntent)
+                        self.disconnectFromReader()
                     }
                 }
             }
@@ -373,9 +396,6 @@ class ReaderDiscoverModel1:NSObject,ObservableObject ,DiscoveryDelegate{
                 print("confirmPaymentIntent succeeded")
 
                 if let stripeId = confirmedPaymentIntent.stripeId {
-                    // Notify your backend to capture the PaymentIntent.
-                    // PaymentIntents processed with Stripe Terminal must be captured
-                    // within 24 hours of processing the payment.
                     APIClient.shared.capturePaymentIntent(stripeId) { captureError in
                         if let error = captureError {
                             print("capture failed: \(error)")
@@ -383,10 +403,9 @@ class ReaderDiscoverModel1:NSObject,ObservableObject ,DiscoveryDelegate{
                             print("capture succeeded")
                             self.readerMessageLabel.text = "Payment captured"
                             if let paymentMethod = paymentIntent.paymentMethod,
-                                                        let card = paymentMethod.cardPresent ?? paymentMethod.interacPresent {
-
-                                                        // ... Perform business logic on card
-                                                    }
+                               let card = paymentMethod.cardPresent ?? paymentMethod.interacPresent {
+                                // ... Perform business logic on card
+                            }
                         }
                     }
                 } else {

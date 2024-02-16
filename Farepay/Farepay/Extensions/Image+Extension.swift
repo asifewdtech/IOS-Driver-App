@@ -64,6 +64,7 @@ extension UIImage{
     static let ic_StarFilled = UIImage(named: "ic_StarFilled") ?? .image_placeholder
     static let ic_StarUnFilled = UIImage(named: "ic_StarUnFilled") ?? .image_placeholder
     static let taxiNumIcon = UIImage(named: "taxiNumIcon") ?? .image_placeholder
+    static let ic_taxiNumIcon = UIImage(named: "ic_taxiNumIcon") ?? .image_placeholder
     static let underReviewImage = UIImage(named: "underReviewImage") ?? .image_placeholder
     
     static let ic_Bank = UIImage(named: "ic_Bank") ?? .image_placeholder

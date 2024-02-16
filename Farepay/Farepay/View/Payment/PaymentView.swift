@@ -21,7 +21,6 @@ struct PaymentView: View {
     @State private var willMoveTapToPayView = false
     @StateObject var readerDiscoverModel1 = ReaderDiscoverModel1()
     @State private var willMoveToQr = false
-    @State private var willMoveToTaxiNum = false
     @State private var showLoadingIndicator: Bool = false
     @State private var locationPermission = false
     @State var showTaxi = false
@@ -31,10 +30,9 @@ struct PaymentView: View {
     var body: some View {
         
         ZStack{
-            NavigationLink("", destination: PaymentDetailView(farePriceText: $currencyManager.string).toolbar(.hidden, for: .navigationBar), isActive: $willMoveToPaymentDetail).isDetailLink(false)
+            NavigationLink("", destination: PaymentDetailView(farePriceText: $currencyManager.string1).toolbar(.hidden, for: .navigationBar), isActive: $willMoveToPaymentDetail).isDetailLink(false)
             NavigationLink("", destination: TapToPayView().toolbar(.hidden, for: .navigationBar), isActive: $willMoveTapToPayView).isDetailLink(false)
             NavigationLink("", destination: PayQRView().toolbar(.hidden, for: .navigationBar), isActive: $willMoveToQr).isDetailLink(false)
-            NavigationLink("", destination: TaxiNumPopupView().toolbar(.hidden, for: .navigationBar), isActive: $willMoveToTaxiNum).isDetailLink(false)
             
             Color(.bgColor)
                 .edgesIgnoringSafeArea(.all)
@@ -56,7 +54,7 @@ struct PaymentView: View {
             
             .onAppear(perform: {
                 showLoadingIndicator = false
-//                currencyManager.string = ""
+                currencyManager.string1 = ""
                 firebaseAPI()
             })
             
@@ -125,12 +123,12 @@ extension PaymentView{
                         .foregroundColor(Color(.darkGrayColor))
                     Spacer()
                     
-                    TextField(currencyManager.string, text: $currencyManager.string)
+                    TextField(currencyManager.string1, text: $currencyManager.string1)
                         .font(.custom(.poppinsBold, size: 40))
                         .frame(height: 30)
                         .foregroundColor(.white)
                         .multilineTextAlignment(.trailing)
-                        .onChange(of: currencyManager.string, perform: currencyManager.valueChanged)
+                        .onChange(of: currencyManager.string1, perform: currencyManager.valueChanged)
                     
                         .disabled(true)
                 }
@@ -150,7 +148,6 @@ extension PaymentView{
                 Button("\("Taxi Number: ")\(taxiNumber)") {
                     self.showTaxi.toggle()
                     UserDefaults.standard.removeObject(forKey: "showTaxiNumPopup")
-//                    self.willMoveToTaxiNum.toggle()
                 }
                 .font(.custom(.poppinsMedium, size: 16))
                 .foregroundColor(.white)
@@ -213,7 +210,7 @@ extension PaymentView{
                         .foregroundColor(Color(.darkGrayColor))
                         .font(.custom(.poppinsMedium, size: 23))
                     Spacer()
-                    Text("$ \(currencyManager.string.description)")
+                    Text("$ \(currencyManager.string1.description)")
                         .foregroundColor(Color(.white))
                         .font(.custom(.poppinsBold, size: 23))
                 }
@@ -270,15 +267,15 @@ extension PaymentView{
                 Group{
                     Text("1")
                         .onTapGesture {
-                            currencyManager.string += "1"
+                            currencyManager.string1 += "1"
                         }
                     Text("2")
                         .onTapGesture {
-                            currencyManager.string += "2"
+                            currencyManager.string1 += "2"
                         }
                     Text("3")
                         .onTapGesture {
-                            currencyManager.string += "3"
+                            currencyManager.string1 += "3"
                         }
                 }
                 .font(.custom(.poppinsBold, size: 35))
@@ -291,15 +288,15 @@ extension PaymentView{
                     
                     Text("4")
                         .onTapGesture {
-                            currencyManager.string += "4"
+                            currencyManager.string1 += "4"
                         }
                     Text("5")
                         .onTapGesture {
-                            currencyManager.string += "5"
+                            currencyManager.string1 += "5"
                         }
                     Text("6")
                         .onTapGesture {
-                            currencyManager.string += "6"
+                            currencyManager.string1 += "6"
                         }
                 }
                 .font(.custom(.poppinsBold, size: 35))
@@ -312,15 +309,15 @@ extension PaymentView{
                     
                     Text("7")
                         .onTapGesture {
-                            currencyManager.string += "7"
+                            currencyManager.string1 += "7"
                         }
                     Text("8")
                         .onTapGesture {
-                            currencyManager.string += "8"
+                            currencyManager.string1 += "8"
                         }
                     Text("9")
                         .onTapGesture {
-                            currencyManager.string += "9"
+                            currencyManager.string1 += "9"
                         }
                 }
                 .font(.custom(.poppinsBold, size: 35))
@@ -336,14 +333,14 @@ extension PaymentView{
                     
                     Text("0")
                         .onTapGesture {
-                            currencyManager.string += "0"
+                            currencyManager.string1 += "0"
                         }
                     Image(uiImage: .ic_BackSpace)
                         .resizable()
                         .frame(width: 50, height: 50)
                         .onTapGesture {
-                            if !currencyManager.string.isEmpty{
-                                currencyManager.string.removeLast()
+                            if !currencyManager.string1.isEmpty{
+                                currencyManager.string1.removeLast()
                             }
                         }
                 }
@@ -360,7 +357,7 @@ extension PaymentView{
         VStack(spacing: 25){
             Button {
                 setMainView(false)
-                print("currencyManager.string: ", currencyManager.string)
+                print("currencyManager.string1: ", currencyManager.string1)
                 willMoveToPaymentDetail.toggle()
 //                willMoveTapToPayView.toggle()
                 
@@ -377,10 +374,10 @@ extension PaymentView{
                     .foregroundColor(.white)
                     .frame(maxWidth: .infinity)
                     .frame(height: 60)
-                    .background(currencyManager.string == "0.00" || currencyManager.string == "" ? Color(.buttonColor).opacity(0.5) : Color(.buttonColor))
+                    .background(currencyManager.string1 == "0.00" || currencyManager.string1 == "" ? Color(.buttonColor).opacity(0.5) : Color(.buttonColor))
                     .cornerRadius(30)
             }
-            .disabled(currencyManager.string == "0.00" || currencyManager.string == "" ? true : false)
+            .disabled(currencyManager.string1 == "0.00" || currencyManager.string1 == "" ? true : false)
         }
         .padding(.horizontal, 15)
         .padding(.bottom, 20)

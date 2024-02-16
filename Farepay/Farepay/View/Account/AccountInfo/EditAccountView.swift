@@ -74,7 +74,7 @@ extension EditAccountView{
         HStack(spacing: 20){
             Image(uiImage: .backArrow)
                 .resizable()
-                .frame(width: 35, height: 30)
+                .frame(width: 30, height: 25)
                 .onTapGesture {
                     presentationMode.wrappedValue.dismiss()
                 }
@@ -93,11 +93,6 @@ extension EditAccountView{
                 .frame(height: 70)
 //            MDCFilledTextFieldWrapper(leadingImage: .constant(.ic_Phone), text: $phoneText, placHolderText: .constant("Type your Phone Number"), isSecure: .constant(false))
 //                .frame(height: 70)
-//            
-            
-            
-            
-            
             
             HStack {
                 Image(uiImage: .ic_Mobile)
@@ -121,7 +116,7 @@ extension EditAccountView{
             .cornerRadius(10)
             
             HStack {
-                Image(uiImage: .taxiNumIcon)
+                Image(uiImage: .ic_taxiNumIcon)
                     .resizable()
                     .frame(width: 30, height: 30)
                 HStack {

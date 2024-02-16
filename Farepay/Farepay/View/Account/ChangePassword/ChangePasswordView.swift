@@ -66,7 +66,7 @@ extension ChangePasswordView{
         HStack(spacing: 20){
             Image(uiImage: .backArrow)
                 .resizable()
-                .frame(width: 35, height: 30)
+                .frame(width: 30, height: 25)
                 .onTapGesture {
                     presentationMode.wrappedValue.dismiss()
                 }

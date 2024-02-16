@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import ActivityIndicatorView
 
 struct BankAccountView: View {
     
@@ -13,6 +14,8 @@ struct BankAccountView: View {
     @Environment(\.presentationMode) private var presentationMode: Binding<PresentationMode>
     @State var willMoveToNewAccount: Bool = false
     @StateObject var bankAccountViewModel = BankAccountViewModel()
+    @State var showLoadingIndicator: Bool = false
+    
     //MARK: - Views
     var body: some View {
         ZStack{
@@ -28,6 +31,21 @@ struct BankAccountView: View {
                 buttonArea
             }
             .padding(.all, 15)
+            .onAppear(perform: {
+//                showLoadingIndicator = true
+            })
+            
+            if showLoadingIndicator{
+                VStack{
+                    ActivityIndicatorView(isVisible: $showLoadingIndicator, type: .growingArc(.white, lineWidth: 5))
+                        .frame(width: 50.0, height: 50.0)
+                        .foregroundColor(.white)
+                        .padding(.top, 350)
+                }
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .background(Color.black.opacity(0.5))
+                .edgesIgnoringSafeArea(.all)
+            }
         }
     }
 }
@@ -45,7 +63,7 @@ extension BankAccountView{
         HStack(spacing: 20){
             Image(uiImage: .backArrow)
                 .resizable()
-                .frame(width: 25, height: 25)
+                .frame(width: 30, height: 25)
                 .onTapGesture {
                     presentationMode.wrappedValue.dismiss()
                 }

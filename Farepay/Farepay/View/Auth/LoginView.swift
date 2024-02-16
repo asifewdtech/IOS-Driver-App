@@ -574,10 +574,8 @@ struct DropdownSelector: View {
                 withAnimation {
                     self.shouldShowDropdown.toggle()
                 }
-                
             }) {
                 HStack {
-                    
                     Image(uiImage: .ic_Company)
                         .resizable()
                         .frame(width: 30, height: 30)
@@ -585,7 +583,6 @@ struct DropdownSelector: View {
                     Text(selectedOption == nil ? placeholder : selectedOption!.value)
                         .font(.system(size: 14))
                         .foregroundColor(Color.white)
-                    
                     Spacer()
                     
                     Image(systemName: self.shouldShowDropdown ? "arrowtriangle.up.fill" : "arrowtriangle.down.fill")
