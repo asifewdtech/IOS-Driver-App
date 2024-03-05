@@ -77,9 +77,6 @@ class UserAuthViewModel:NSObject, ObservableObject,ASAuthorizationControllerDele
                 self.isLoggedIn = true
                 
             }
-            
-             
-            
         }
         catch {
             print("There was an issue when trying to sign in: \(error)")
@@ -88,8 +85,37 @@ class UserAuthViewModel:NSObject, ObservableObject,ASAuthorizationControllerDele
         }
     }
     
-    
-    
+//    @MainActor
+//    func signIn(email:String,password:String) async {
+//        Auth.auth().signIn(withEmail: email, password: password) { [weak self] authResult, error in
+//            guard let strongSelf = self else { return }
+//            if let error = error{
+//                print("There was an issue when trying to sign in: \(error)")
+//                self?.isLoggedIn  = false
+//                self?.errorMessage = error.localizedDescription
+//            }
+//            else {
+//                self?.isLoggedIn = true
+//                
+//            }
+//        }
+//    }
+//        @MainActor
+//        func signUp(email:String,password:String) async {
+//            Auth.auth().createUser(withEmail: email, password: password) { authResult, error in
+//                
+//                if let error = error{
+//                    print("There was an issue when trying to sign in: \(error)")
+//                    self.isLoggedIn  = false
+//                    self.errorMessage = error.localizedDescription
+//                }
+//                else {
+//                    self.isLoggedIn = true
+//                    
+//                }
+//            }
+//        }
+        
     func checkUserAccountCreated()  {
         Firestore.firestore().collection("usersInfo").document(Auth.auth().currentUser?.uid ?? "").getDocument { snapShot, error in
             if let error = error {
@@ -166,6 +192,7 @@ class UserAuthViewModel:NSObject, ObservableObject,ASAuthorizationControllerDele
 //                    LoginView().appleSocialLogin()
                     SignUpView().appleSocialSignup()
                     NotificationCenter.default.post(name: NSNotification.Name("SIGNIN"), object: nil)
+                    NotificationCenter.default.post(name: NSNotification.Name("SIGNUP"), object: nil)
                 }
             }
         }

@@ -27,6 +27,7 @@ extension String{
     static let dontHaveAccount = "Don't have an account?"
     static let alreadyHaveAccount = "Already have an account?"
     static let selectCompany = "Select your Company type"
+    static let stateProvince = "State/Province"
     
     static let isUserLogin = "isUserLogin"
     static let isMainView = "isMainView"
@@ -57,5 +58,14 @@ extension String{
         //let passwordRegex = "^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&<>*~:`-]).{6,}$"
         let passwordRegex = "^(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&<>*~:`-]).{6,}$"
         return NSPredicate(format: "SELF MATCHES %@", passwordRegex).evaluate(with: password)
+    }
+    
+    func isValidTaxiNum(_ string: String) -> Bool {
+        
+//        let taxiNumRegex = "(?=.*?[A-Z0-9]).{2,}$"
+//        return NSPredicate(format: "SELF MATCHES %@", taxiNumRegex).evaluate(with: string)
+        let regex = "[A-Z0-9^]*"
+        let testResult = NSPredicate(format: "SELF MATCHES %@", regex)
+        return testResult.evaluate(with: string)
     }
 }

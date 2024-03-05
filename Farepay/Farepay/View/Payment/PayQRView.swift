@@ -94,7 +94,7 @@ extension PayQRView{
             Text("Payment Successful")
                 .foregroundColor(.white)
                 .font(.custom(.poppinsBold, size: 25))
-            Text("\(AmountDetail.instance.totalChargresWithTax.description)")
+            Text("\("$")\(AmountDetail.instance.totalChargresWithTax.description)")
                 .foregroundColor(.white)
                 .font(.custom(.poppinsBold, size: 50))
         }
@@ -119,7 +119,7 @@ extension PayQRView{
                             .font(.custom(.poppinsBold, size: 20))
                     }
                     Spacer()
-                    Text("\(AmountDetail.instance.totalAmount.description)")
+                    Text("\("$")\(AmountDetail.instance.totalAmount.description)")
                         .foregroundColor(.white)
                         .font(.custom(.poppinsBold, size: 20))
                 }
@@ -136,7 +136,7 @@ extension PayQRView{
                             .font(.custom(.poppinsBold, size: 20))
                     }
                     Spacer()
-                    Text("\(AmountDetail.instance.serviceFee.description)")
+                    Text("\("$")\(AmountDetail.instance.serviceFee.description)")
                         .foregroundColor(.white)
                         .font(.custom(.poppinsBold, size: 20))
                 }
@@ -153,7 +153,7 @@ extension PayQRView{
                             .font(.custom(.poppinsBold, size: 20))
                     }
                     Spacer()
-                    Text("\(AmountDetail.instance.serviceFeeGst.description)")
+                    Text("\("$")\(AmountDetail.instance.serviceFeeGst.description)")
                         .foregroundColor(.white)
                         .font(.custom(.poppinsBold, size: 20))
                 }

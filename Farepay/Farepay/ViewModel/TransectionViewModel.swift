@@ -55,11 +55,11 @@ class TransectionViewModel: ObservableObject {
                 do {
                     let jsonPetitions = try decoder.decode(transactionModel.self, from: data)
                     for result11 in jsonPetitions.data {
-                        
+                        print("Loop Response data: ", result11)
                         self.arrTransactionRes.append(result11)
                     }
                     
-//                    print("JsonPetitions Response data: ", self.arrTransaction)
+                    print("JsonPetitions Response data: ", self.arrTransaction)
                 }catch{
                     print(error)
                 }

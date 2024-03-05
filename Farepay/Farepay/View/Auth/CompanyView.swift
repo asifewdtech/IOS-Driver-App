@@ -174,10 +174,10 @@ extension CompanyView{
             toast = Toast(style: .error, message: "ABN Should be 11 Digits.")
         }
         else if contactText.isEmpty {
-            toast = Toast(style: .error, message: "Tax ID field cannot be empty.")
+            toast = Toast(style: .error, message: "Driver Licence field cannot be empty.")
         }
         else if contactText.count <= 8 {
-            toast = Toast(style: .error, message: "Tax ID Should be 9 Digits.")
+            toast = Toast(style: .error, message: "Driver Licence Should be 9 Digits.")
         }
         else{
             UserDefaults.standard.removeObject(forKey: "stripeFlowStatus")

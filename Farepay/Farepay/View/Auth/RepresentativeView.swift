@@ -351,9 +351,36 @@ extension RepresentativeView{
                     
                     HStack (spacing: 20){
                         HStack {
-                            MDCFilledTextFieldWrapper(leadingImage: .constant(.ic_Home), text: $stateAddr, placHolderText: .constant("State/Province"), isSecure: .constant(false))
+                            let stateNames = ["New South Wales",
+                                          "Queensland",
+                                          "South Australia",
+                                          "Tasmania",
+                                          "Victoria",
+                                          "Western Australia"]
+//                            MDCFilledTextFieldWrapper(leadingImage: .constant(.ic_Home), text: $stateAddr, placHolderText: .constant("State/Province"), isSecure: .constant(false))
+                            DropdownSelector(
+                                placeholder: .stateProvince, leftImage: .ic_Home,
+                                options: provinceType,
+                                onOptionSelected: { option in
+                                    print(option)
+//                                    self.companyText = option.value
+                                })
+                            .foregroundColor(.white)
+                            .frame(height: 70)
+                            
+                            
+//                            Picker("State/Province", selection: $stateAddr) {
+//                                ForEach(stateNames, id: \.self) {
+//                                    Text($0)
+//                                }
+//                                .foregroundColor(.white)
+//                            }
+//                            .foregroundColor(.white)
                         }
-                        .frame(height: 70)
+                        .foregroundColor(.white)
+//                        .frame(height: 70)
+//                        .frame(width: 160)
+                        .background(Color(.darkBlue))
                         .cornerRadius(10)
                         
                         HStack {

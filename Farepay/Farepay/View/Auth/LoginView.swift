@@ -57,6 +57,7 @@ struct LoginView: View {
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                         if userAuth.isLoggedIn == false  {
 //                            toast = Toast(style: .error, message: userAuth.errorMessage)
+                            print("error")
                         }else {
                             Firestore.firestore().collection("usersInfo").document(Auth.auth().currentUser?.uid ?? "").getDocument { snapShot, error in
                                 if let error = error {
@@ -136,10 +137,10 @@ extension LoginView{
                 Button(action: {
                     showLoadingIndicator = true
                     userAuth.performAppleSignIn()
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 5){
-                        showLoadingIndicator = false
-//                        showCompany.toggle()
-                    }
+//                    DispatchQueue.main.asyncAfter(deadline: .now() + 5){
+//                        showLoadingIndicator = false
+////                        showCompany.toggle()
+//                    }
                 }, label: {
                     ZStack{
                         
@@ -191,7 +192,7 @@ extension LoginView{
                 }
                 .overlay{
                     Text("    ")
-                        .frame(width: 50, height: 50)
+                        .frame(width: 70, height: 70)
                         .padding(.leading, UIScreen.main.bounds.width - 90)
                         .onTapGesture {
                             isSecure.toggle()
@@ -223,11 +224,8 @@ extension LoginView{
         VStack(spacing: 20){
             
             NavigationLink("", destination: CompanyView().toolbar(.hidden, for: .navigationBar), isActive: $showCompany).isDetailLink(false)
-            
             NavigationLink("", destination: MainTabbedView().toolbar(.hidden, for: .navigationBar), isActive: $goToHome).isDetailLink(false)
-            
-            NavigationLink("", destination: Farepay.AddNewBankAccountView().toolbar(.hidden, for: .navigationBar), isActive: $willMoveToBankAccount ).isDetailLink(false)
-            
+            NavigationLink("", destination: Farepay.NewsView().toolbar(.hidden, for: .navigationBar), isActive: $willMoveToBankAccount ).isDetailLink(false)
             NavigationLink("", destination: SignUpView().toolbar(.hidden, for: .navigationBar), isActive: $moveToSignup ).isDetailLink(false)
             
             Button(action: {
@@ -241,7 +239,7 @@ extension LoginView{
                     toast = Toast(style: .error, message: "Password field cannot be empty.")
                 }
                 else if !passwordText.isValidPassword(passwordText) {
-                    toast = Toast(style: .error, message: "Password must have more than 6 characters, contain one digit, one uppercase letter and a special character.")
+                    toast = Toast(style: .error, message: "Password must have more than 6 characters, contain one digit and a special character.")
                 }
                 else if !emailText.isEmpty && passwordText.count >= 6 {
                     Task {
@@ -421,6 +419,7 @@ extension LoginView{
                                         isAccountCreated = snap.get("connectAccountCreated") as? Bool ?? false
                                         isBankCreated = snap.get("bankAdded") as? Bool ?? false
                                         if isAccountCreated  && isBankCreated {
+                                            toast = Toast(style: .success, message: "Google SignIn Successfully.")
                                             goToHome = true
                                             
                                         }else if isAccountCreated && isBankCreated == false  {
@@ -455,18 +454,21 @@ extension LoginView{
     }
     
     func appleSocialLogin(){
-        showLoadingIndicator = false
+//        showLoadingIndicator = true
 //        showCompany = true
         let existEmail = Auth.auth().currentUser?.email ?? ""
         if existEmail != ""{
             
             if isAccountCreated  && isBankCreated {
+                showLoadingIndicator = false
+                toast = Toast(style: .success, message: "Apple SignIn Successfully.")
                 goToHome = true
-                
             }else if isAccountCreated && isBankCreated == false  {
+                showLoadingIndicator = false
                 willMoveToBankAccount = true
             }
             else {
+                showLoadingIndicator = false
                 showCompany = true
             }
         }else {
@@ -499,7 +501,7 @@ struct DropdownRow: View {
         }) {
             HStack {
                 Text(self.option.value)
-                    .font(.system(size: 18))
+                    .font(.system(size: 16))
                     .foregroundColor(Color.white)
                 Spacer()
             }
@@ -635,4 +637,13 @@ struct DropdownSelector: View {
 let businessType: [DropdownOption] = [
         DropdownOption(key: UUID().uuidString, value: "Sole Trader"),
         DropdownOption(key: UUID().uuidString, value: "Business")
+    ]
+
+let provinceType: [DropdownOption] = [
+        DropdownOption(key: UUID().uuidString, value: "Queensland"),
+        DropdownOption(key: UUID().uuidString, value: "Tasmania"),
+        DropdownOption(key: UUID().uuidString, value: "New South Wales"),
+        DropdownOption(key: UUID().uuidString, value: "Victoria"),
+        DropdownOption(key: UUID().uuidString, value: "Westren Australia"),
+        DropdownOption(key: UUID().uuidString, value: "South Australia")
     ]

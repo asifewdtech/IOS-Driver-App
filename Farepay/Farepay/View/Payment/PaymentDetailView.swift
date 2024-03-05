@@ -10,6 +10,8 @@ import StripeTerminal
 import UIKit
 import ActivityIndicatorView
 import CoreLocation
+import FirebaseFirestore
+import FirebaseAuth
 
 struct PaymentDetailView: View {
     
@@ -67,19 +69,21 @@ struct PaymentDetailView: View {
                     
                 }
                 
-                DispatchQueue.main.asyncAfter(deadline: .now() + 5){
-                    if readerDiscoverModel1.showPay {
-                        do {
-                            willMoveToQr.toggle()
-                            showLoadingIndicator = false
-                        }catch{
-                            print("Payment don't transfered")
+                NotificationCenter.default.addObserver(forName: NSNotification.Name("PAYMENTDETAIL"), object: nil, queue: .main) { (_) in
+//                    DispatchQueue.main.asyncAfter(deadline: .now() + 5){
+                        if readerDiscoverModel1.showPay {
+                            do {
+                                willMoveToQr.toggle()
+                                showLoadingIndicator = false
+                            }catch{
+                                print("Payment don't transfered")
+                            }
                         }
-                    }
-                    if readerDiscoverModel1.cancelPay {
-                        showLoadingIndicator = false
-                        presentationMode.wrappedValue.dismiss()
-                    }
+                        if readerDiscoverModel1.cancelPay {
+                            showLoadingIndicator = false
+                            presentationMode.wrappedValue.dismiss()
+                        }
+//                    }
                 }
             })
             .padding(.all, 20)
@@ -101,7 +105,7 @@ struct PaymentDetailView: View {
 
 struct PaymentDetailView_Previews: PreviewProvider {
     static var previews: some View {
-        PaymentDetailView(farePriceText: .constant("0.0"))
+        PaymentDetailView(farePriceText: .constant("0.00"))
     }
 }
 
@@ -293,6 +297,11 @@ extension PaymentDetailView{
             return
         }
     }
+    
+    func navigateToInvoiice() {
+//        UINavigationController.ins
+    }
+    
 }
 
 
@@ -330,6 +339,11 @@ class ReaderDiscoverModel1:NSObject,ObservableObject ,DiscoveryDelegate{
     var readerMsgLbl = ""
     @Published var showPay = false
     @Published var cancelPay = false
+    @State private var showInvoice = false
+    @State var taxiNumber : String = ""
+    @Environment(\.presentationMode) private var presentationMode: Binding<PresentationMode>
+    @Published var paymentView = PaymentView(presentSideMenu: .constant(false))
+    @Published var paymentDetail = PaymentDetailView(farePriceText: .constant("0.00"))
     
     @objc
     func discoverReaders() throws {
@@ -356,14 +370,20 @@ class ReaderDiscoverModel1:NSObject,ObservableObject ,DiscoveryDelegate{
     
     @objc
     func collectPayment(amount: String) throws {
+        firebaseFetch()
         let developer = amount
         let array = developer.split(separator: ".").map(String.init)
         let arrAmount = "\(array[0])\(array[1])"
         print("Array amount: ",arrAmount)
         
+        let taxiParams = [
+            "TaxiNumber" : taxiNumber
+        ] as? [String: String]
+        
         let params = try PaymentIntentParametersBuilder(amount: UInt(arrAmount) ?? 0, currency: "AUD")
             .setPaymentMethodTypes(["card_present"])
             .setCaptureMethod(CaptureMethod.automatic)
+            .setMetadata(taxiParams)
             .build()
         
         Terminal.shared.createPaymentIntent(params) {
@@ -377,11 +397,13 @@ class ReaderDiscoverModel1:NSObject,ObservableObject ,DiscoveryDelegate{
                         print("collectPaymentMethod failed: \(error)")
                         self.cancelPay = true
                         self.disconnectFromReader()
+                        NotificationCenter.default.post(name: NSNotification.Name("PAYMENTDETAIL"), object: nil)
                     } else if let paymentIntent = collectResult {
                         print("collectPaymentMethod succeeded", paymentIntent)
                         self.showPay = true
                         self.confirmPaymentIntent(paymentIntent)
                         self.disconnectFromReader()
+                        NotificationCenter.default.post(name: NSNotification.Name("PAYMENTDETAIL"), object: nil)
                     }
                 }
             }
@@ -440,5 +462,16 @@ class ReaderDiscoverModel1:NSObject,ObservableObject ,DiscoveryDelegate{
         }
     }
     
+    @objc
+    func firebaseFetch() {
+        Firestore.firestore().collection("usersInfo").document(Auth.auth().currentUser?.uid ?? "").getDocument { snapShot, error in
+            if let error = error {
+                print(error.localizedDescription)
+            }else {
+                guard let snap = snapShot else { return  }
+                self.taxiNumber  = snap.get("taxiNumber") as? String ?? "N/A"
+            }
+        }
+    }
 }
 

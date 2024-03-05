@@ -56,30 +56,35 @@ struct SignUpView: View {
             .padding(.all, 15)
             
                 .onAppear(perform: {
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                        if userAuth.isLoggedIn == false  {
-//                            toast = Toast(style: .error, message: userAuth.errorMessage)
-                        }else {
-                            Firestore.firestore().collection("usersInfo").document(Auth.auth().currentUser?.uid ?? "").getDocument { snapShot, error in
-                                if let error = error {
-                                    print(error.localizedDescription)
-                                    
-                                }else {
-                                    
-                                    guard let snap = snapShot else { return  }
-                                    
-                                    DispatchQueue.main.async {
-                                        isAccountCreated = snap.get("connectAccountCreated") as? Bool ?? false
-                                        isBankCreated = snap.get("bankAdded") as? Bool ?? false
-                                        //                                if isAccountCreated  && isBankCreated {
-                                        //                                    goToHome = true
-                                        //
-                                        //                                }else if isAccountCreated && isBankCreated == false  {
-                                        //                                    willMoveToBankAccount = true
-                                        //                                }
-                                        //                                else {
-                                        //                                    showCompany = true
-                                        //                                }
+                    
+                    NotificationCenter.default.addObserver(forName: NSNotification.Name("SIGNUP"), object: nil, queue: .main) { (_) in
+                        
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                            if userAuth.isLoggedIn == false  {
+    //                            toast = Toast(style: .error, message: userAuth.errorMessage)
+                                print("error")
+                            }else {
+                                Firestore.firestore().collection("usersInfo").document(Auth.auth().currentUser?.uid ?? "").getDocument { snapShot, error in
+                                    if let error = error {
+                                        print(error.localizedDescription)
+                                        
+                                    }else {
+                                        
+                                        guard let snap = snapShot else { return  }
+                                        
+                                        DispatchQueue.main.async {
+                                            isAccountCreated = snap.get("connectAccountCreated") as? Bool ?? false
+                                            isBankCreated = snap.get("bankAdded") as? Bool ?? false
+                                            if isAccountCreated  && isBankCreated {
+                                                goToHome = true
+                                                
+                                            }else if isAccountCreated && isBankCreated == false  {
+                                                willMoveToBankAccount = true
+                                            }
+                                            else {
+                                                showCompany = true
+                                            }
+                                        }
                                     }
                                 }
                             }
@@ -132,12 +137,12 @@ extension SignUpView{
                     userAuth.isGoogleLogin = false
                     showLoadingIndicator = true
                     userAuth.performAppleSignIn()
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 15){
-                        showLoadingIndicator = false
-                        if userAuth.isGoogleLogin == true{
-                            showCompany.toggle()
-                        }
-                    }
+//                    DispatchQueue.main.asyncAfter(deadline: .now() + 15){
+//                        showLoadingIndicator = false
+//                        if userAuth.isGoogleLogin == true{
+//                            showCompany.toggle()
+//                        }
+//                    }
                 }, label: {
                     ZStack{
                         
@@ -189,7 +194,7 @@ extension SignUpView{
                 }
                 .overlay{
                     Text("    ")
-                        .frame(width: 50, height: 50)
+                        .frame(width: 70, height: 70)
                         .padding(.leading, UIScreen.main.bounds.width - 90)
                         .onTapGesture {
                             isSecure.toggle()
@@ -211,7 +216,7 @@ extension SignUpView{
                 }
                 .overlay{
                     Text("    ")
-                        .frame(width: 50, height: 50)
+                        .frame(width: 70, height: 70)
                         .padding(.leading, UIScreen.main.bounds.width - 90)
                         .onTapGesture {
                             isSecureReType.toggle()
@@ -272,7 +277,7 @@ extension SignUpView{
             
             NavigationLink("", destination: MainTabbedView().toolbar(.hidden, for: .navigationBar), isActive: $goToHome).isDetailLink(false)
             
-            NavigationLink("", destination: Farepay.AddNewBankAccountView().toolbar(.hidden, for: .navigationBar), isActive: $willMoveToBankAccount ).isDetailLink(false)
+            NavigationLink("", destination: Farepay.NewsView().toolbar(.hidden, for: .navigationBar), isActive: $willMoveToBankAccount ).isDetailLink(false)
             
             Button(action: {
                 username = nameText
@@ -339,7 +344,7 @@ extension SignUpView{
                         toast = Toast(style: .error, message: userAuth.errorMessage)
                     }else {
 //                        showCompany.toggle()
-                          
+                        toast = Toast(style: .success, message: "Registration Successfully.")
                         goToLogin.toggle()
                     }
                 }
@@ -375,27 +380,41 @@ extension SignUpView{
                         toast = Toast(style: .error, message: error.localizedDescription)
                     }else {
                         showLoadingIndicator = false
-                            
+                        
+                        print("isAccountCreated: ",isAccountCreated)
+                        print("isBankCreated: ",isBankCreated)
                         let isEmail = GIDSignIn.sharedInstance.currentUser?.profile?.email
                         let exisEmail = Auth.auth().currentUser?.email ?? ""
                         if isEmail == exisEmail{
-                            
-                            if isAccountCreated  && isBankCreated {
-                                goToHome = true
-                                
-                            }else if isAccountCreated && isBankCreated == false  {
-                                willMoveToBankAccount = true
+                            Firestore.firestore().collection("usersInfo").document(Auth.auth().currentUser?.uid ?? "").getDocument { snapShot, error in
+                                if let error = error {
+                                    print(error.localizedDescription)
+                                    
+                                }else {
+                                    guard let snap = snapShot else { return  }
+                                    
+                                    DispatchQueue.main.async {
+                                        isAccountCreated = snap.get("connectAccountCreated") as? Bool ?? false
+                                        isBankCreated = snap.get("bankAdded") as? Bool ?? false
+                                        if isAccountCreated  && isBankCreated {
+                                            toast = Toast(style: .success, message: "Google SignIn Successfully.")
+                                            goToHome = true
+                                            
+                                        }else if isAccountCreated && isBankCreated == false  {
+                                            willMoveToBankAccount = true
+                                        }
+                                        else {
+                                            showCompany = true
+                                        }
+                                    }
+                                }
                             }
-                            else {
-                                showCompany = true
-                            }
-//                            goToHome = true
                         }else {
                             userAuth.checkUserAccountCreated()
                             showCompany = true
                         }
                         
-                        NotificationCenter.default.post(name: NSNotification.Name("SIGNIN"), object: nil)
+                        NotificationCenter.default.post(name: NSNotification.Name("SIGNUP"), object: nil)
                     }
                 }
             }
@@ -403,19 +422,22 @@ extension SignUpView{
     }
     
     func appleSocialSignup(){
-        showLoadingIndicator = false
+        showLoadingIndicator = true
 //        showCompany = true
         let existEmail = Auth.auth().currentUser?.email ?? ""
         print("existEmail: ",existEmail)
         if existEmail != ""{
             
             if isAccountCreated  && isBankCreated {
+                showLoadingIndicator = false
                 goToHome = true
-                
+                toast = Toast(style: .success, message: "Apple SignIn Successfully.")
             }else if isAccountCreated && isBankCreated == false  {
+                showLoadingIndicator = false
                 willMoveToBankAccount = true
             }
             else {
+                showLoadingIndicator = false
                 showCompany = true
             }
         }else {

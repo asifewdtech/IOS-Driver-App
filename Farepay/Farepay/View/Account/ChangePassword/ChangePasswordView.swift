@@ -205,15 +205,15 @@ extension ChangePasswordView{
                             
                             toast = Toast(style: .success, message: "Password Changed Successfully")
                             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-//                                presentationMode.wrappedValue.dismiss()
-                                setUserLogin(false)
-                                                do {
-                                                   try  Auth.auth().signOut()
-                                
-                                                } catch  {
-                                                    print("error")
-                                                }
-                                rootPresentationMode.wrappedValue.dismiss()
+                                presentationMode.wrappedValue.dismiss()
+//                                setUserLogin(false)
+//                                                do {
+//                                                   try  Auth.auth().signOut()
+//                                
+//                                                } catch  {
+//                                                    print("error")
+//                                                }
+//                                rootPresentationMode.wrappedValue.dismiss()
                             }
                         }
                         

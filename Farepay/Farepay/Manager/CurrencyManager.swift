@@ -25,6 +25,7 @@ class CurrencyManager: ObservableObject {
         formatter.locale = locale
 //        self.string = formatter.string(for: amount) ?? "$0.00"
         let formattedString = formatter.string(for: amount) ?? "$0.00"
+        formatter.minimumFractionDigits = 2
         string1 = formattedString.replacingOccurrences(of: formatter.currencySymbol, with: "")
         self.lastValue = string1
         self.amount = amount

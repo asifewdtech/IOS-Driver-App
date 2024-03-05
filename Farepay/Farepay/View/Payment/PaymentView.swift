@@ -356,9 +356,15 @@ extension PaymentView{
         
         VStack(spacing: 25){
             Button {
+                if taxiNumber == "" {
+                    toast = Toast(style: .error, message: "Taxi Number is required.")
+                    self.showTaxi.toggle()
+                }
+                else {
                 setMainView(false)
                 print("currencyManager.string1: ", currencyManager.string1)
                 willMoveToPaymentDetail.toggle()
+            }
 //                willMoveTapToPayView.toggle()
                 
                 //                if currencyManager.string.count == 2 && currencyManager.string.count <= 2 {
@@ -369,7 +375,7 @@ extension PaymentView{
                 //                }
             } label: {
                 
-                Text("PAY")
+                Text("CHARGE")
                     .font(.custom(.poppinsBold, size: 25))
                     .foregroundColor(.white)
                     .frame(maxWidth: .infinity)
@@ -377,7 +383,7 @@ extension PaymentView{
                     .background(currencyManager.string1 == "0.00" || currencyManager.string1 == "" ? Color(.buttonColor).opacity(0.5) : Color(.buttonColor))
                     .cornerRadius(30)
             }
-            .disabled(currencyManager.string1 == "0.00" || currencyManager.string1 == "" ? true : false)
+            .disabled(currencyManager.string1 == "0.00" || currencyManager.string1 == "0" || currencyManager.string1 == "" ? true : false)
         }
         .padding(.horizontal, 15)
         .padding(.bottom, 20)
@@ -415,10 +421,15 @@ extension PaymentView{
                 
                     HStack(spacing: 20) {
                         Button {
-                            print("txNmbr: ", taxiNumber)
-                            self.showTaxi.toggle()
-                            Firestore.firestore().collection("usersInfo").document(Auth.auth().currentUser?.uid ?? "").updateData(["taxiNumber" : taxiNumber])
-                            UserDefaults.standard.set(1, forKey: "showTaxiNumPopup")
+                            if taxiNumber.isValidTaxiNum(taxiNumber) == true{
+                                print("txNmbr: ", taxiNumber)
+                                self.showTaxi.toggle()
+                                Firestore.firestore().collection("usersInfo").document(Auth.auth().currentUser?.uid ?? "").updateData(["taxiNumber" : taxiNumber])
+                                UserDefaults.standard.set(1, forKey: "showTaxiNumPopup")
+                                
+                            }else {
+                                toast = Toast(style: .error, message: "Taxi Number Field only contain uppercase Characters and Digits.")
+                            }
                         } label: {
                             
                             Text("Update")
@@ -450,6 +461,12 @@ extension PaymentView{
                 
             }
         }
+    }
+    
+    func transactionSuccess() {
+        showLoadingIndicator = false
+//        presentationMode.wrappedValue.dismiss()
+        willMoveToQr = true
     }
 }
 

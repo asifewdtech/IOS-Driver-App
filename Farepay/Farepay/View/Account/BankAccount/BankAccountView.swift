@@ -32,7 +32,10 @@ struct BankAccountView: View {
             }
             .padding(.all, 15)
             .onAppear(perform: {
-//                showLoadingIndicator = true
+                showLoadingIndicator = true
+                DispatchQueue.main.asyncAfter(deadline: .now() + 4){
+                    showLoadingIndicator = false
+                }
             })
             
             if showLoadingIndicator{

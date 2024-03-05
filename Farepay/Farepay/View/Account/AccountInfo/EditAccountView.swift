@@ -20,6 +20,7 @@ struct EditAccountView: View {
     @State private var emailText: String = ""
     @State private var showLoadingIndicator: Bool = false
     @State private var taxiText: String = ""
+    @State private var toast: Toast? = nil
     
     // MARK: - Views
     var body: some View {
@@ -44,6 +45,7 @@ struct EditAccountView: View {
                     }
                 }
             })
+            .toastView(toast: $toast)
             .padding(.all, 15)
             
             if showLoadingIndicator{
@@ -146,9 +148,20 @@ extension EditAccountView{
         
         VStack(spacing: 20){
             Button(action: {
+                
+                if nameText.isEmpty{
+                    toast = Toast(style: .error, message: "Name Field is required.")
+                }
+                else if phoneText.count <= 8 {
+                    toast = Toast(style: .error, message: "Please enter Valid Australian Phone Number.")
+                }
+                else if taxiText.isEmpty {
+                    toast = Toast(style: .error, message: "Taxi Number is required.")
+                }
+                else {
                 showLoadingIndicator = true
                 
-                if !nameText.isEmpty && phoneText.count == 9  {
+//                if !nameText.isEmpty && phoneText.count == 9  {
                     Firestore.firestore().collection("usersInfo").document(Auth.auth().currentUser?.uid ?? "").updateData(["userName":nameText, "phonenumber":phoneText, "taxiNumber": taxiText])
                     showLoadingIndicator = false
                     presentationMode.wrappedValue.dismiss()

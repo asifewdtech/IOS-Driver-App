@@ -66,7 +66,7 @@ extension AddNewBankAccountView{
         HStack(spacing: 20){
             Image(uiImage: .backArrow)
                 .resizable()
-                .frame(width: 3, height: 25)
+                .frame(width: 30, height: 25)
                 .onTapGesture {
                     presentationMode.wrappedValue.dismiss()
                 }
