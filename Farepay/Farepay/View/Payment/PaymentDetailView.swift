@@ -377,7 +377,7 @@ class ReaderDiscoverModel1:NSObject,ObservableObject ,DiscoveryDelegate{
         print("Array amount: ",arrAmount)
         
         let taxiParams = [
-            "TaxiNumber" : taxiNumber
+            "taxiID" : taxiNumber
         ] as? [String: String]
         
         let params = try PaymentIntentParametersBuilder(amount: UInt(arrAmount) ?? 0, currency: "AUD")
@@ -395,7 +395,7 @@ class ReaderDiscoverModel1:NSObject,ObservableObject ,DiscoveryDelegate{
                 Terminal.shared.collectPaymentMethod(paymentIntent) { collectResult, collectError in
                     if let error = collectError {
                         print("collectPaymentMethod failed: \(error)")
-                        self.cancelPay = true
+                        self.showPay = true
                         self.disconnectFromReader()
                         NotificationCenter.default.post(name: NSNotification.Name("PAYMENTDETAIL"), object: nil)
                     } else if let paymentIntent = collectResult {
@@ -464,12 +464,25 @@ class ReaderDiscoverModel1:NSObject,ObservableObject ,DiscoveryDelegate{
     
     @objc
     func firebaseFetch() {
-        Firestore.firestore().collection("usersInfo").document(Auth.auth().currentUser?.uid ?? "").getDocument { snapShot, error in
-            if let error = error {
-                print(error.localizedDescription)
-            }else {
-                guard let snap = snapShot else { return  }
-                self.taxiNumber  = snap.get("taxiNumber") as? String ?? "N/A"
+        let collectionRef = Firestore.firestore().collection("usersInfo")
+        collectionRef.getDocuments { (snapshot, error) in
+            if let err = error {
+                debugPrint("error fetching docs: \(err)")
+            } else {
+                guard let snap = snapshot else {
+                    return
+                }
+                for document in snap.documents {
+                    let data = document.data()
+                    let emailText = Auth.auth().currentUser?.email ?? ""
+                    if emailText ==  data["email"] as? String {
+                        DispatchQueue.main.async {
+                            print("error: ", error?.localizedDescription)
+                            self.taxiNumber  = data["taxiID"] as? String ?? ""
+                            //                        print("taxiNumber: ",taxiNumber)
+                        }
+                    }
+                }
             }
         }
     }

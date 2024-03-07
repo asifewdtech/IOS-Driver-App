@@ -193,9 +193,9 @@ extension SignUpView{
                     }
                 }
                 .overlay{
-                    Text("    ")
+                    Text("        ")
                         .frame(width: 70, height: 70)
-                        .padding(.leading, UIScreen.main.bounds.width - 90)
+                        .padding(.leading, UIScreen.main.bounds.width - 100)
                         .onTapGesture {
                             isSecure.toggle()
                         }
@@ -215,9 +215,9 @@ extension SignUpView{
                     }
                 }
                 .overlay{
-                    Text("    ")
+                    Text("        ")
                         .frame(width: 70, height: 70)
-                        .padding(.leading, UIScreen.main.bounds.width - 90)
+                        .padding(.leading, UIScreen.main.bounds.width - 100)
                         .onTapGesture {
                             isSecureReType.toggle()
                         }
@@ -344,8 +344,8 @@ extension SignUpView{
                         toast = Toast(style: .error, message: userAuth.errorMessage)
                     }else {
 //                        showCompany.toggle()
-                        toast = Toast(style: .success, message: "Registration Successfully.")
                         goToLogin.toggle()
+                        toast = Toast(style: .success, message: "Registration Successfully.")
                     }
                 }
             }else {

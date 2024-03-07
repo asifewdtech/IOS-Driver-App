@@ -424,7 +424,7 @@ extension PaymentView{
                             if taxiNumber.isValidTaxiNum(taxiNumber) == true{
                                 print("txNmbr: ", taxiNumber)
                                 self.showTaxi.toggle()
-                                Firestore.firestore().collection("usersInfo").document(Auth.auth().currentUser?.uid ?? "").updateData(["taxiNumber" : taxiNumber])
+                                Firestore.firestore().collection("usersInfo").document(Auth.auth().currentUser?.uid ?? "").updateData(["taxiID" : taxiNumber])
                                 UserDefaults.standard.set(1, forKey: "showTaxiNumPopup")
                                 
                             }else {
@@ -451,14 +451,36 @@ extension PaymentView{
     }
     
     func firebaseAPI() {
-        Firestore.firestore().collection("usersInfo").document(Auth.auth().currentUser?.uid ?? "").getDocument { snapShot, error in
-            if let error = error {
-                print(error.localizedDescription)
-            }else {
-                
-                guard let snap = snapShot else { return  }
-               taxiNumber  = "\(snap.get("taxiNumber") as? String ?? "")"
-                
+//        Firestore.firestore().collection("usersInfo").document(Auth.auth().currentUser?.uid ?? "").getDocument { snapShot, error in
+//            if let error = error {
+//                print(error.localizedDescription)
+//            }else {
+//                
+//                guard let snap = snapShot else { return  }
+//               taxiNumber  = "\(snap.get("taxiID") as? String ?? "")"
+//                print("taxiNumber: ",taxiNumber)
+//            }
+//        }
+        
+        let collectionRef = Firestore.firestore().collection("usersInfo")
+        collectionRef.getDocuments { (snapshot, error) in
+            if let err = error {
+                debugPrint("error fetching docs: \(err)")
+            } else {
+                guard let snap = snapshot else {
+                    return
+                }
+                for document in snap.documents {
+                    let data = document.data()
+                    let emailText = Auth.auth().currentUser?.email ?? ""
+                    if emailText ==  data["email"] as? String {
+                        DispatchQueue.main.async {
+                            print("error: ", error?.localizedDescription)
+                            taxiNumber  = data["taxiID"] as? String ?? ""
+                            //                        print("taxiNumber: ",taxiNumber)
+                        }
+                    }
+                }
             }
         }
     }

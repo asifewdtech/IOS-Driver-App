@@ -36,6 +36,9 @@ struct CompanyView: View {
                     }
                     buttonArea
                 }
+                .onAppear(perform: {
+                    UserDefaults.standard.removeObject(forKey: "driverABN")
+                })
                 .toastView(toast: $toast)
                 .padding(.all, 15)
             }
@@ -181,6 +184,7 @@ extension CompanyView{
         }
         else{
             UserDefaults.standard.removeObject(forKey: "stripeFlowStatus")
+            UserDefaults.standard.set(cardText, forKey: "driverABN")
             isPresentedPopUp.toggle()
         }
     }

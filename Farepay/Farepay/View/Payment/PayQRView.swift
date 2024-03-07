@@ -7,6 +7,9 @@
 
 import SwiftUI
 import WebKit
+import FirebaseAuth
+import FirebaseStorage
+import FirebaseFirestore
 
 struct PayQRView: View {
     
@@ -15,6 +18,9 @@ struct PayQRView: View {
     @State private var showWebView = false
     @Environment(\.rootPresentationMode) private var rootPresentationMode: Binding<RootPresentationMode>
     @State var goToHome = false
+    @State var taxiNumber :String?
+    @State var driverABN :String?
+    @State var driverID :String?
     
     //MARK: - Views
     var body: some View {
@@ -33,13 +39,28 @@ struct PayQRView: View {
                     successView
                     Spacer(minLength: 50)
                     listView
-                    Spacer(minLength: 50)
+                    Spacer(minLength: 30)
                     qrView
+                    Spacer(minLength: 80)
+                    ButtonView
                     Spacer(minLength: 20)
                 }
+                    .onAppear(perform: {
+                        Firestore.firestore().collection("usersInfo").document(Auth.auth().currentUser?.uid ?? "").getDocument { snapShot, error in
+                            if let error = error {
+                                print(error.localizedDescription)
+                            }else {
+                                
+                                guard let snap = snapShot else { return  }
+                               driverABN  = snap.get("driverABN") as? String ?? "N/A"
+                                driverID = snap.get("driverID") as? String ?? "N/A"
+                                taxiNumber  = snap.get("taxiID") as? String ?? "N/A"
+                                
+                            }
+                        }
+                    })
                 .padding(.all, 20)
             }
-            
         }
     }
 }
@@ -70,13 +91,13 @@ extension PayQRView{
                     .foregroundColor(.white)
                     .font(.custom(.poppinsBold, size: 25))
                 Spacer()
-//                Image(uiImage: .ic_Home2)
-//                    .resizable()
-//                    .frame(width: 45, height: 45)
-//                    .onTapGesture {
-//                        
-//                        print("Home")
-//                    }
+                Image(uiImage: .ic_Home2)
+                    .resizable()
+                    .frame(width: 45, height: 45)
+                    .onTapGesture {
+                        self.goToHome.toggle()
+                        print("Home")
+                    }
                 
             }
             .padding(.horizontal, 10)
@@ -113,7 +134,7 @@ extension PayQRView{
                         
                         Image(uiImage: .ic_Discount)
                             .resizable()
-                            .frame(width: 40, height: 40)
+                            .frame(width: 30, height: 30)
                         Text("Fare Inc GST:")
                             .foregroundColor(.white)
                             .font(.custom(.poppinsBold, size: 20))
@@ -128,9 +149,9 @@ extension PayQRView{
                     
                     HStack{
                         
-                        Image(uiImage: .ic_Discount)
+                        Image(uiImage: .ic_Wallet)
                             .resizable()
-                            .frame(width: 40, height: 40)
+                            .frame(width: 30, height: 30)
                         Text("Service Fee:")
                             .foregroundColor(.white)
                             .font(.custom(.poppinsBold, size: 20))
@@ -145,9 +166,9 @@ extension PayQRView{
                     
                     HStack{
                         
-                        Image(uiImage: .ic_Discount)
+                        Image(uiImage: .ic_GST)
                             .resizable()
-                            .frame(width: 40, height: 40)
+                            .frame(width: 30, height: 30)
                         Text("Service Fee GST")
                             .foregroundColor(.white)
                             .font(.custom(.poppinsBold, size: 20))
@@ -175,27 +196,29 @@ extension PayQRView{
         
         ZStack{
             
-            VStack(spacing: 40){
+            VStack(spacing: 20){
                 
-                
-                let QRUrl = "\("https://dev-ewdtech.org/appmob/?param1=")\("123456")\("&param2=")\("20/12")\("&param3=")\("1234")\("&param4=")\("1234")\("&param5=")\("1234")\("&param6=")\(AmountDetail.instance.totalAmount.description)\("&param7=")\(AmountDetail.instance.serviceFee.description)\("&param8=")\(AmountDetail.instance.serviceFeeGst.description)\("&param9=")\(AmountDetail.instance.totalChargresWithTax.description)"
+                let QRUrl = "\("https://dev-ewdtech.org/appmob/?param1=")\("123456")\("&param2=")\("20/12")\("&param3=")\( taxiNumber ?? "N/A")\("&param4=")\(driverID ?? "N/A")\("&param5=")\( driverABN ?? "N/A")\("&param6=")\(AmountDetail.instance.totalAmount.description)\("&param7=")\(AmountDetail.instance.serviceFee.description)\("&param8=")\(AmountDetail.instance.serviceFeeGst.description)\("&param9=")\(AmountDetail.instance.totalChargresWithTax.description)"
                 
                 Image(uiImage: UIImage(data: getQRCodeDate(text: QRUrl)!)!)
                 
                     .resizable()
-                    .frame(width: 175, height: 175)
+                    .frame(width: 195, height: 195)
+                    .onTapGesture {
+                        UIApplication.shared.open(URL(string: QRUrl)!)
+                    }
                 
                 
 //                Button {
 //                    print("Scan QR for Receipt")
 //                } label: {
-//                    
-//                    Text("Scan QR for Receipt")
-//                        .font(.custom(.poppinsBold, size: 25))
-//                        .foregroundColor(.white)
-//                        .frame(width: 330)
-//                        .frame(height: 60)
-//                        
+                    
+                    Text("Press or Scan QR for Receipt")
+                        .font(.custom(.poppinsBold, size: 22))
+                        .foregroundColor(.white)
+                        .frame(width: 330)
+                        .frame(height: 60)
+                        
 //                        .background(Color(.buttonColor))
 //                        .cornerRadius(30)
 //                }
@@ -211,6 +234,25 @@ extension PayQRView{
         )
     }
     
+    var ButtonView: some View {
+        
+        ZStack{
+            Button {
+                self.goToHome.toggle()
+                print("Back to Home")
+            } label: {
+                
+                Text("Back to Home")
+                    .font(.custom(.poppinsBold, size: 25))
+                    .foregroundColor(.white)
+                    .frame(width: 330)
+                    .frame(height: 60)
+                    
+                    .background(Color(.buttonColor))
+                    .cornerRadius(30)
+            }
+        }
+    }
     struct WebView: UIViewRepresentable {
         
         let webView: WKWebView
@@ -239,5 +281,4 @@ extension PayQRView{
            let uiimage = UIImage(ciImage: scaledCIImage)
            return uiimage.pngData()!
        }
-
 }

@@ -57,6 +57,8 @@ extension UIImage{
     static let ic_Link = UIImage(named: "ic_Link") ?? .image_placeholder
     static let ic_Money = UIImage(named: "ic_Money") ?? .image_placeholder
     static let ic_Edan = UIImage(named: "ic_Edan") ?? .image_placeholder
+    static let ic_Wallet = UIImage(named: "ic_wallet") ?? .image_placeholder
+    static let ic_GST = UIImage(named: "ic_GST") ?? .image_placeholder
     
     static let ic_Account = UIImage(named: "ic_Account") ?? .image_placeholder
     static let ic_ChangePassword = UIImage(named: "ic_ChangePassword") ?? .image_placeholder

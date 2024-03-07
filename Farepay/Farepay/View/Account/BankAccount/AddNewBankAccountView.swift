@@ -7,6 +7,8 @@
 
 import SwiftUI
 import ActivityIndicatorView
+import FirebaseAuth
+import FirebaseFirestore
 
 struct AddNewBankAccountView: View {
     
@@ -21,6 +23,7 @@ struct AddNewBankAccountView: View {
     @AppStorage("accountId") var accountId: String = ""
     @State private var toast: Toast? = nil
     @State var apicalled = false
+    @State private var isBankCreated: Bool = false
     
     //MARK: - Views
     var body: some View {
@@ -35,7 +38,9 @@ struct AddNewBankAccountView: View {
                 }
                 .toastView(toast: $toast)
                 .padding(.all, 15)
-                
+                .onAppear(perform: {
+                    checkUserBankAccount()
+                })
                 if apicalled{
                     VStack{
                         ActivityIndicatorView(isVisible: $apicalled, type: .growingArc(.white, lineWidth: 5))
@@ -146,7 +151,11 @@ extension AddNewBankAccountView{
                             apicalled = false
                             
                             if completeFormViewModel.goToHomeScreen {
-                                self.goToHome = true
+                                if isBankCreated {
+                                    presentationMode.wrappedValue.dismiss()
+                                }else {
+                                    self.goToHome = true
+                                }
                             }else {
                                 toast = Toast(style: .error, message: completeFormViewModel.errorMsg)
                             }
@@ -164,6 +173,21 @@ extension AddNewBankAccountView{
 
             })
       
+        }
+    }
+    
+    func checkUserBankAccount()  {
+        Firestore.firestore().collection("usersInfo").document(Auth.auth().currentUser?.uid ?? "").getDocument { snapShot, error in
+            if let error = error {
+                print(error.localizedDescription)
+            }else {
+                
+                guard let snap = snapShot else { return  }
+                isBankCreated = snap.get("bankAdded") as? Bool ?? false
+                
+                print("splash bankAdded: ",isBankCreated)
+                
+            }
         }
     }
 }

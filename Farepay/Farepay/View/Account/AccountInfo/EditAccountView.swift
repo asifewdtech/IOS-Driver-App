@@ -41,7 +41,7 @@ struct EditAccountView: View {
                         guard let snap = snapShot else { return  }
                         nameText  = snap.get("userName") as? String ?? ""
                         phoneText = snap.get("phonenumber") as? String ?? ""
-                        taxiText = snap.get("taxiNumber") as? String ?? ""
+                        taxiText = snap.get("taxiID") as? String ?? ""
                     }
                 }
             })
@@ -158,11 +158,14 @@ extension EditAccountView{
                 else if taxiText.isEmpty {
                     toast = Toast(style: .error, message: "Taxi Number is required.")
                 }
+                else if !taxiText.isValidTaxiNum(taxiText){
+                    toast = Toast(style: .error, message: "Taxi Number Field only contain uppercase Characters and Digits.")
+                }
                 else {
                 showLoadingIndicator = true
                 
 //                if !nameText.isEmpty && phoneText.count == 9  {
-                    Firestore.firestore().collection("usersInfo").document(Auth.auth().currentUser?.uid ?? "").updateData(["userName":nameText, "phonenumber":phoneText, "taxiNumber": taxiText])
+                    Firestore.firestore().collection("usersInfo").document(Auth.auth().currentUser?.uid ?? "").updateData(["userName":nameText, "phonenumber":phoneText, "taxiID": taxiText])
                     showLoadingIndicator = false
                     presentationMode.wrappedValue.dismiss()
                 }

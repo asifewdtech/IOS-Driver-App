@@ -57,7 +57,7 @@ struct AccountInfoView: View {
                         guard let snap = snapShot else { return  }
                        userName  = snap.get("userName") as? String ?? "N/A"
                         phone = snap.get("phonenumber") as? String ?? "N/A"
-                        tNumber  = snap.get("taxiNumber") as? String ?? "N/A"
+                        tNumber  = snap.get("taxiID") as? String ?? "N/A"
                         
                         if let socialUrl = Auth.auth().currentUser?.photoURL?.absoluteString {
                             url = socialUrl

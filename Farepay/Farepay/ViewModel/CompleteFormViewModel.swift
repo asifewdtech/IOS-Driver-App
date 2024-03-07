@@ -23,7 +23,7 @@ class CompleteFormViewModel: ObservableObject {
     
     let db = Firestore.firestore()
     @MainActor
-    func postData(url:URL,method:Methods,name:String,phone:String)  async throws{
+    func postData(url:URL,method:Methods,name:String,phone:String,driverID:String,driverABN:String)  async throws{
         print("url is: ",url)
 //        guard let url = URL(string: url) else {
 //            throw URLError(.badURL)
@@ -56,9 +56,11 @@ class CompleteFormViewModel: ObservableObject {
                     self.db.collection("usersInfo").document(Auth.auth().currentUser?.uid ?? "").setData(["connectAccountCreated" : true,
                                                                                                  "accoundId":self.accountId,
                                                                                                  "userName":name,
-                                                                                                 "phonenumber":phone,
+                                                                                                 "phonenumber":"\("+61")\(phone)",
                                                                                                           "email": self.email,
-                                                                                                          "bankAdded": false
+                                                                                                          "bankAdded": false,
+                                                                                                          "driverID": driverID,
+                                                                                                          "driverABN":driverABN
                                                                                                 ])
                    
                     

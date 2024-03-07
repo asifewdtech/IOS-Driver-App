@@ -357,16 +357,16 @@ extension RepresentativeView{
                                           "Tasmania",
                                           "Victoria",
                                           "Western Australia"]
-//                            MDCFilledTextFieldWrapper(leadingImage: .constant(.ic_Home), text: $stateAddr, placHolderText: .constant("State/Province"), isSecure: .constant(false))
-                            DropdownSelector(
-                                placeholder: .stateProvince, leftImage: .ic_Home,
-                                options: provinceType,
-                                onOptionSelected: { option in
-                                    print(option)
-//                                    self.companyText = option.value
-                                })
-                            .foregroundColor(.white)
-                            .frame(height: 70)
+                            MDCFilledTextFieldWrapper(leadingImage: .constant(.ic_Home), text: $stateAddr, placHolderText: .constant("State/Province"), isSecure: .constant(false))
+//                            DropdownSelector(
+//                                placeholder: .stateProvince, leftImage: .ic_Home,
+//                                options: provinceType,
+//                                onOptionSelected: { option in
+//                                    print(option)
+////                                    self.companyText = option.value
+//                                })
+//                            .foregroundColor(.white)
+//                            .frame(height: 70)
                             
                             
 //                            Picker("State/Province", selection: $stateAddr) {
@@ -675,13 +675,14 @@ extension RepresentativeView{
                         let addressTextStr = googleAddr.replacingOccurrences(of: " ", with: "%20", options: .literal, range: nil)
                         let addrTextStr = addressTextStr.replacingOccurrences(of: "#", with: "%20", options: .literal, range: nil)
                         
+                        let driverABN = UserDefaults.standard.string(forKey: "driverABN")
                         let urlStr = "\(uploadInformationUrl)username=default&userEmail=\(Auth.auth().currentUser?.email ?? "")&firstname=\(firstPart)&day=3&month=10&year=2000&address=\(addrTextStr)&phone=61\(mobileNumberText)&lastname=\(secondPart)&frontimgid=\(frontImageId)&backimgid=\(backImageId)"
                         print("url API: ",urlStr)
                         
                         let url = URL(string: urlStr)
                         
                         try  await
-                        completeFormViewModel.postData(url:url!,method:.post,name: userText,phone: mobileNumberText)
+                        completeFormViewModel.postData(url:url!,method:.post,name: userText,phone: mobileNumberText,driverID: authorityNumberText,driverABN: driverABN ?? "00")
                         apicalled = false
                         
                         DispatchQueue.main.async {

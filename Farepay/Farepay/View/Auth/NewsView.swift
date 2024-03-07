@@ -22,7 +22,7 @@ struct NewsView: View {
                 Text("Great News")
                     .font(.custom(.poppinsBold, size: 25))
                     .foregroundColor(.white)
-                Text("ou've successfully signed up. Now, let's complete your registration by adding your bank account.")
+                Text("You've successfully signed up. Now, let's complete your registration by adding your bank account.")
                     .frame(width: 300)
                     .font(.custom(.poppinsMedium, size: 12))
                     .foregroundColor(Color(.darkGrayColor))
