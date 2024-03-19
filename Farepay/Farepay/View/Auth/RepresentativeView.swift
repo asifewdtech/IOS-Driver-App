@@ -56,6 +56,7 @@ struct RepresentativeView: View {
     @State var verifyIdetityText: String = "Verify your identity"
     @State var locManager = CLLocationManager()
     @State var currentLocation: CLLocation!
+    @State var validateFormattedAddress: String = ""
     
     //MARK: - Views
     var body: some View {
@@ -74,7 +75,8 @@ struct RepresentativeView: View {
                 }
             }
             .onAppear(perform: {
-                fetchLatLong()
+//                fetchLatLong()
+//                callAddressValidationAPI()
             })
             .padding(.all, 15)
             .toastView(toast: $toast)
@@ -350,14 +352,14 @@ extension RepresentativeView{
                     .cornerRadius(10)
                     
                     HStack (spacing: 20){
-                        HStack {
+                        HStack (spacing: 0) {
                             let stateNames = ["New South Wales",
                                           "Queensland",
                                           "South Australia",
                                           "Tasmania",
                                           "Victoria",
                                           "Western Australia"]
-                            MDCFilledTextFieldWrapper(leadingImage: .constant(.ic_Home), text: $stateAddr, placHolderText: .constant("State/Province"), isSecure: .constant(false))
+//                            MDCFilledTextFieldWrapper(leadingImage: .constant(.ic_Home), text: $stateAddr, placHolderText: .constant("State/Province"), isSecure: .constant(false))
 //                            DropdownSelector(
 //                                placeholder: .stateProvince, leftImage: .ic_Home,
 //                                options: provinceType,
@@ -367,19 +369,22 @@ extension RepresentativeView{
 //                                })
 //                            .foregroundColor(.white)
 //                            .frame(height: 70)
+                            Image(uiImage: .ic_Home)
+                                .resizable()
+                                .frame(width: 30, height: 30)
+                                .padding(.leading, 10)
                             
-                            
-//                            Picker("State/Province", selection: $stateAddr) {
-//                                ForEach(stateNames, id: \.self) {
-//                                    Text($0)
-//                                }
-//                                .foregroundColor(.white)
-//                            }
-//                            .foregroundColor(.white)
+                            Picker("State/Province", selection: $stateAddr) {
+                                ForEach(stateNames, id: \.self) {
+                                    Text($0)
+                                }
+                                .font(.custom("Poppins-Medium", size:14))
+                            }
+                            .accentColor(.white)
+                            .padding(.leading, 0)
                         }
-                        .foregroundColor(.white)
-//                        .frame(height: 70)
-//                        .frame(width: 160)
+                        .frame(height: 70)
+                        .frame(width: 170)
                         .background(Color(.darkBlue))
                         .cornerRadius(10)
                         
@@ -654,52 +659,7 @@ extension RepresentativeView{
 //                }
                 else {
                     apicalled = true
-                    Task {
-                        
-                        //                        try  await/* completeFormViewModel.postData(url:"\(uploadInformationUrl)username=default&userEmail=\(Auth.auth().currentUser?.email ?? "")&firstname=\(firstPart)&day=3&month=10&year=2000&address=\(addressText)&phone=61\(mobileNumberText)&lastname=\(secondPart)&frontimgid=\(frontImageId)&backimgid=\(backImageId)"*/,method:.post,name: userText,phone: mobileNumberText)
-                        
-                        var firstPart = "NA"
-                        var secondPart = "NA"
-                        
-                        let index = userText.components(separatedBy: " ")
-                        
-                        if  index.count > 1 {
-                            firstPart = index[0]
-                            secondPart = index[1]
-                        }else {
-                             firstPart = userText
-                             secondPart = ""
-                        }
-                        
-                        let googleAddr = "\(streetAddr)\("%20")\(cityAddr)\("%20")\(stateAddr)\("%20")\(postalAddr)\("%20")\(countryAddr)"
-                        let addressTextStr = googleAddr.replacingOccurrences(of: " ", with: "%20", options: .literal, range: nil)
-                        let addrTextStr = addressTextStr.replacingOccurrences(of: "#", with: "%20", options: .literal, range: nil)
-                        
-                        let driverABN = UserDefaults.standard.string(forKey: "driverABN")
-                        let urlStr = "\(uploadInformationUrl)username=default&userEmail=\(Auth.auth().currentUser?.email ?? "")&firstname=\(firstPart)&day=3&month=10&year=2000&address=\(addrTextStr)&phone=61\(mobileNumberText)&lastname=\(secondPart)&frontimgid=\(frontImageId)&backimgid=\(backImageId)"
-                        print("url API: ",urlStr)
-                        
-                        let url = URL(string: urlStr)
-                        
-                        try  await
-                        completeFormViewModel.postData(url:url!,method:.post,name: userText,phone: mobileNumberText,driverID: authorityNumberText,driverABN: driverABN ?? "00")
-                        apicalled = false
-                        
-                        DispatchQueue.main.async {
-                            if completeFormViewModel.goToAccountScreen {
-                                goToNextView = true
-                            }else {
-                                toast = Toast(style: .error, message: completeFormViewModel.errorMsg    )
-                                frontImageId = ""
-                                backImageId = ""
-                                uploadFrontImage = nil
-                                
-                                uploadBackImage = nil
-                                licenseFrontImage = nil
-                                licenseBackImage  = nil
-                            }
-                        }
-                    }
+                    callAddressValidationAPI()
                 }
                
             } label: {
@@ -710,6 +670,116 @@ extension RepresentativeView{
                     .frame(height: 60)
                     .background(Color(.buttonColor))
                     .cornerRadius(30)
+            }
+        }
+    }
+    
+    func callAddressValidationAPI() {
+        
+        let userAddress = "\(streetAddr)\(", ")\(cityAddr)\(", ")\(stateAddr)\(", ")\(postalAddr)\(", ")\(countryAddr)"
+        let parameters = "{\n  \"address\": {\n\"addressLines\": [\"\(userAddress)\"]\n  },\n}"
+        
+        print("parameters: ",parameters)
+        
+        let postData = parameters.data(using: .utf8)
+        
+        var request = URLRequest(url: URL(string: "https://addressvalidation.googleapis.com/v1:validateAddress?key=AIzaSyDvzoBJGEDZ5LpZ002k8JvKfWgnepzwxdc")!,timeoutInterval: Double.infinity)
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+
+        request.httpMethod = "POST"
+        request.httpBody = postData
+        
+        let task = URLSession.shared.dataTask(with: request) { data, response, error in
+            apicalled = false
+            
+          guard let data = data else {
+            print(String(describing: error))
+              return
+          }
+          print(String(data: data, encoding: .utf8)!)
+            
+                do {
+                    
+                    if let jsonDict = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any],
+                       let resultDict = jsonDict["result"] as? [String: Any],
+                       let verdict = resultDict["verdict"] as? [String: Any],
+                       let validationGranularity = verdict["validationGranularity"] as? String,
+                       validationGranularity == "PREMISE" || validationGranularity == "SUB_PREMISE" || validationGranularity == "PREMISE_PROXIMITY" {
+                        
+                        if let addressDict = resultDict["address"] as? [String: Any],
+                        let formattedAddress = addressDict["formattedAddress"] as? String {
+                         validateFormattedAddress = formattedAddress
+                         print("formattedAddress: ",formattedAddress)
+                            apicalled = true
+                            
+                         callRegisterUserinfoAPI()
+                     }
+                        else {
+                            toast = Toast(style: .error, message: "Address is Fake or Invalid.")
+                        }
+                    }
+                       
+                    else {
+                        if let jsonDict = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any],
+                        let errorDict = jsonDict["error"] as? [String: Any],
+                           let addressDict = errorDict["message"] as? String{
+                            toast = Toast(style: .error, message: addressDict)
+                        }
+                    }
+                } catch {
+                    print("Error parsing JSON: \(error)")
+                }
+            
+            }
+
+        task.resume()
+    }
+    
+    func callRegisterUserinfoAPI() {
+        Task {
+            
+            //                        try  await/* completeFormViewModel.postData(url:"\(uploadInformationUrl)username=default&userEmail=\(Auth.auth().currentUser?.email ?? "")&firstname=\(firstPart)&day=3&month=10&year=2000&address=\(addressText)&phone=61\(mobileNumberText)&lastname=\(secondPart)&frontimgid=\(frontImageId)&backimgid=\(backImageId)"*/,method:.post,name: userText,phone: mobileNumberText)
+            
+            var firstPart = "NA"
+            var secondPart = "NA"
+            
+            let index = userText.components(separatedBy: " ")
+            
+            if  index.count > 1 {
+                firstPart = index[0]
+                secondPart = index[1]
+            }else {
+                 firstPart = userText
+                 secondPart = ""
+            }
+            
+//            let googleAddr = "\(streetAddr)\("%20")\(cityAddr)\("%20")\(stateAddr)\("%20")\(postalAddr)\("%20")\(countryAddr)"
+            let addressTextStr = validateFormattedAddress.replacingOccurrences(of: " ", with: "%20", options: .literal, range: nil)
+            let addrTextStr = addressTextStr.replacingOccurrences(of: "#", with: "%20", options: .literal, range: nil)
+            
+            let driverABN = UserDefaults.standard.string(forKey: "driverABN")
+            let urlStr = "\(uploadInformationUrl)username=default&userEmail=\(Auth.auth().currentUser?.email ?? "")&firstname=\(firstPart)&day=3&month=10&year=2000&address=\(addrTextStr)&phone=61\(mobileNumberText)&lastname=\(secondPart)&frontimgid=\(frontImageId)&backimgid=\(backImageId)"
+            print("url API: ",urlStr)
+            
+            let url = URL(string: urlStr)
+            
+            try  await
+            completeFormViewModel.postData(url:url!,method:.post,name: userText,phone: mobileNumberText,driverID: authorityNumberText,driverABN: driverABN ?? "00")
+            apicalled = false
+            
+            DispatchQueue.main.async {
+                if completeFormViewModel.goToAccountScreen {
+                    goToNextView = true
+                }else {
+                    toast = Toast(style: .error, message: completeFormViewModel.errorMsg    )
+                    frontImageId = ""
+                    backImageId = ""
+                    uploadFrontImage = nil
+                    
+                    uploadBackImage = nil
+                    licenseFrontImage = nil
+                    licenseBackImage  = nil
+                }
             }
         }
     }

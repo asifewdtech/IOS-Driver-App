@@ -29,7 +29,7 @@ struct SplashView: View {
                 NavigationLink("", destination: Farepay.LoginView().toolbar(.hidden, for: .navigationBar), isActive: $willMoveToLogin ).isDetailLink(false)
                 NavigationLink("", destination: Farepay.CompanyView().toolbar(.hidden, for: .navigationBar), isActive: $willMoveToCompanyView ).isDetailLink(false)
                 
-                NavigationLink("", destination: Farepay.AddNewBankAccountView().toolbar(.hidden, for: .navigationBar), isActive: $willMoveToBankAccount ).isDetailLink(false)
+                NavigationLink("", destination: Farepay.NewsView().toolbar(.hidden, for: .navigationBar), isActive: $willMoveToBankAccount ).isDetailLink(false)
                 
                 NavigationLink("", destination: Farepay.MainTabbedView().toolbar(.hidden, for: .navigationBar), isActive: $willMoveToMainView ).isDetailLink(false)
                 
@@ -85,9 +85,9 @@ struct SplashView: View {
 //                    willMoveToLogin.toggle()
                     willMoveToMainView = true
                 }
-//                else if isAccountCreated && isBankCreated == false  {
-//                    willMoveToBankAccount = true
-//                } 
+                else if isAccountCreated == true && isBankCreated == false  {
+                    willMoveToBankAccount = true
+                }
                 else {
 //                    willMoveToCompanyView = true
                     willMoveToLogin.toggle()
@@ -101,25 +101,57 @@ struct SplashView: View {
     }
     
     func checkUserConnectAccount()  {
-        Firestore.firestore().collection("usersInfo").document(Auth.auth().currentUser?.uid ?? "").getDocument { snapShot, error in
-            if let error = error {
-                print(error.localizedDescription)
-            }else {
-                
-                guard let snap = snapShot else { return  }
-                isAccountCreated = snap.get("connectAccountCreated") as? Bool ?? false
-                isBankCreated = snap.get("bankAdded") as? Bool ?? false
-                if accountId == "" {
-                    accountId = snap.get("accoundId") as? String ?? ""
+//        Firestore.firestore().collection("usersInfo").document(Auth.auth().currentUser?.uid ?? "").getDocument { snapShot, error in
+//            if let error = error {
+//                print(error.localizedDescription)
+//            }else {
+//                
+//                guard let snap = snapShot else { return  }
+//                isAccountCreated = snap.get("connectAccountCreated") as? Bool ?? false
+//                isBankCreated = snap.get("bankAdded") as? Bool ?? false
+//                if accountId == "" {
+//                    accountId = snap.get("accoundId") as? String ?? ""
+//                }
+//                print("splash connectAccountCreated: ",isAccountCreated)
+//                print("splash bankAdded: ",isBankCreated)
+//                print("splash accoundId: ",accountId)
+//                navigateNext()
+//
+//            }
+//        }
+        
+        let collectionRef = Firestore.firestore().collection("usersInfo")
+        collectionRef.getDocuments { (snapshot, error) in
+            
+            if let err = error {
+                debugPrint("error fetching docs: \(err)")
+            } else {
+                guard let snap = snapshot else {
+                    return
                 }
-                print("splash connectAccountCreated: ",isAccountCreated)
-                print("splash bankAdded: ",isBankCreated)
-                print("splash accoundId: ",accountId)
+                for document in snap.documents {
+                    let data = document.data()
+                    let emailText = Auth.auth().currentUser?.email ?? ""
+                    if emailText ==  data["email"] as? String {
+                        
+                        DispatchQueue.main.async {
+                            print("error: ", error?.localizedDescription)
+                            //
+                            isAccountCreated = data["connectAccountCreated"] as? Bool ?? false
+                            //                            print("login Acc response: ",isAccountCreated)
+                            isBankCreated = data["bankAdded"] as? Bool ?? false
+                            //                            print("login bankAcc response: ",isBankCreated)
+                            let userEmail1 = data["email"] as? String
+                            //                            print("Email is: ", userEmail1)
+                            if accountId == "" {
+                                accountId = data["accoundId"] as? String ?? ""
+                            }
+                            navigateNext()
+                        }
+                    }
+                }
                 navigateNext()
-
             }
-            
-            
         }
     }
 }

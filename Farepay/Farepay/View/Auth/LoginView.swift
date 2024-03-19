@@ -191,9 +191,9 @@ extension LoginView{
                     }
                 }
                 .overlay{
-                    Text("    ")
+                    Text("        ")
                         .frame(width: 70, height: 70)
-                        .padding(.leading, UIScreen.main.bounds.width - 90)
+                        .padding(.leading, UIScreen.main.bounds.width - 100)
                         .onTapGesture {
                             isSecure.toggle()
                         }
@@ -249,96 +249,95 @@ extension LoginView{
                         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                             showLoadingIndicator = false
                             
-                        if userAuth.isLoggedIn == false  {
-                            toast = Toast(style: .error, message: userAuth.errorMessage)
-                        }else {
-//                            let collectionRef = Firestore.firestore().collection("usersInfo")
-//                            collectionRef.getDocuments { (snapshot, error) in
-                            Firestore.firestore().collection("usersInfo").document(Auth.auth().currentUser?.uid ?? "").getDocument { snapShot, error in
-//                                if let err = error {
-//                                            debugPrint("error fetching docs: \(err)")
-//                                        } else {
-//                                            guard let snap = snapshot else {
-//                                                return
-//                                            }
-//                                            for document in snap.documents {
-//                                                let data = document.data()
-//                                                if emailText ==  data["email"] as? String {
-//                                                    
-//                                                    DispatchQueue.main.async {
-//                                                        print("error: ", error?.localizedDescription)
-//                //
-//                                                        let isAccountCreated = data["connectAccountCreated"] as? Bool ?? false
-//                                                        print("login Acc response: ",isAccountCreated)
-//                                                        let bankAccced = data["bankAdded"] as? Bool ?? false
-//                                                        print("login bankAcc response: ",bankAccced)
-//                                                        let userEmail = data["email"] as? String
-//                                                        print("Email is: ", userEmail)
-//                                                        if userEmail == nil {
-//                                                            print("Email not found")
-//                                                        }
-//                                                        if isAccountCreated && bankAccced {
-//                                                            goToHome = true
-//                                                            
-//                                                        }else if isAccountCreated == false{
-//                //                                            willMoveToBankAccount = true
-//                                                            showCompany = true
-//                                                        }
-//                                                        else if bankAccced == false  {
-//                                                            willMoveToBankAccount = true
-//                                                        }
-//                                                        else {
-//                                                            toast = Toast(style: .error, message: "Something went wrong. Please try again.")
-//                                                        }
-//                                                    }
-//                                                }
-//                                                else {
-//                                                    toast = Toast(style: .error, message: "Email or Password is invalid. Please recheck your credentials.")
-//                                                }
-//                                            }
-//                                        }
-                                
-                                if let error = error {
-                                    print(error.localizedDescription)
+                            if userAuth.isLoggedIn == false  {
+                                toast = Toast(style: .error, message: userAuth.errorMessage)
+                            }else {
+                                //                            let collectionRef = Firestore.firestore().collection("usersInfo")
+                                //                            collectionRef.getDocuments { (snapshot, error) in
+                                Firestore.firestore().collection("usersInfo").document(Auth.auth().currentUser?.uid ?? "").getDocument { snapShot, error in
                                     
-                                }else {
-                                    
-                                    guard let snap = snapShot else { return  }
-                                    
-                                    DispatchQueue.main.async {
-                                        print("error: ", error?.localizedDescription)
-//                                        
-                                        let isAccountCreated = snap.get("connectAccountCreated") as? Bool ?? false
-                                        print("login Acc response: ",isAccountCreated)
-                                        let bankAccced = snap.get("bankAdded") as? Bool  ?? false
-                                        print("login bankAcc response: ",bankAccced)
-                                        let userEmail = snap.get("email") as? String
-                                        print("Email is: ", userEmail)
-                                        if userEmail == nil {
-                                            print("Email not found")
-//                                            toast = Toast(style: .error, message: "Something went wrong, Please try again.")
-                                        }
-                                        if isAccountCreated == false{
-//                                            willMoveToBankAccount = true
-                                            showCompany = true
-                                        }
-                                        else if bankAccced == false  {
-                                            willMoveToBankAccount = true
-                                        }
-                                        else if isAccountCreated == true  && bankAccced == true {
-                                            goToHome = true
-                                        }
-                                        else {
-                                            print("cannot proceed")
+                                    if let error = error {
+                                        print(error.localizedDescription)
+                                        
+                                    }else {
+                                        
+                                        guard let snap = snapShot else { return  }
+                                        
+                                        DispatchQueue.main.async {
+                                            print("error: ", error?.localizedDescription)
                                             
+                                            let isAccountCreated = snap.get("connectAccountCreated") as? Bool ?? false
+                                            print("login Acc response: ",isAccountCreated)
+                                            let bankAccced = snap.get("bankAdded") as? Bool  ?? false
+                                            print("login bankAcc response: ",bankAccced)
+                                            let userEmail = snap.get("email") as? String
+                                            print("Email is: ", userEmail)
+                                            if userEmail == nil {
+                                                print("Email not found")
+                                                //                                            toast = Toast(style: .error, message: "Something went wrong, Please try again.")
+                                            }
+                                            if isAccountCreated == false{
+                                                
+                                                let collectionRef = Firestore.firestore().collection("usersInfo")
+                                                collectionRef.getDocuments { (snapshot, error) in
+                                                    
+                                                    if let err = error {
+                                                        debugPrint("error fetching docs: \(err)")
+                                                    } else {
+                                                        guard let snap = snapshot else {
+                                                            return
+                                                        }
+                                                        for document in snap.documents {
+                                                            let data = document.data()
+                                                            if emailText ==  data["email"] as? String {
+                                                                
+                                                                DispatchQueue.main.async {
+                                                                    print("error: ", error?.localizedDescription)
+                                                                    
+                                                                    let isAccountCreated1 = data["connectAccountCreated"] as? Bool ?? false
+                                                                    print(" Acc response: ",isAccountCreated)
+                                                                    let bankAccced1 = data["bankAdded"] as? Bool ?? false
+                                                                    print(" bankAcc response: ",bankAccced)
+                                                                    let userEmail1 = data["email"] as? String
+                                                                    print("Email exist: ", userEmail)
+                                                                    
+                                                                    if isAccountCreated1 && bankAccced1 {
+                                                                        goToHome = true
+                                                                        
+                                                                    }else if isAccountCreated1 == false{
+                                                                        //                                            willMoveToBankAccount = true
+                                                                        showCompany = true
+                                                                    }
+                                                                    else if bankAccced1 == false  {
+                                                                        willMoveToBankAccount = true
+                                                                    }
+                                                                    else {
+                                                                        toast = Toast(style: .error, message: "Something went wrong. Please try again.")
+                                                                    }
+                                                                }
+                                                            }
+                                                        }
+                                                        showCompany = true
+                                                    }
+                                                }
+                                            }
+                                            else if bankAccced == false  {
+                                                willMoveToBankAccount = true
+                                            }
+                                            else if isAccountCreated == true  && bankAccced == true {
+                                                goToHome = true
+                                            }
+                                            else {
+                                                print("cannot proceed")
+                                                showCompany = true
+                                            }
                                         }
                                     }
                                 }
                             }
                         }
                     }
-                }
-                                    
+                    
                 }else {
                     toast = Toast(style: .error, message: "Please Enter and Password Should be minium 6 character")
                 }
