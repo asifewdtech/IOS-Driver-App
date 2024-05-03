@@ -80,37 +80,46 @@ extension BankAccountView{
     var listView: some View{
         
         VStack{
-            ScrollView(showsIndicators: false){
-                ForEach(bankAccountViewModel.arrBankRes, id: \.id) { bank in
+                if (bankAccountViewModel.arrBankRes.count == 0) {
                     VStack{
-                        HStack(spacing: 15){
-                            Image(uiImage: .image_placeholder)
-                                .resizable()
-                                .frame(width: 50, height: 50)
-                                .cornerRadius(25)
-                            VStack(alignment: .leading, spacing: 10){
-                                Text(bank.bank_name)
-                                    .font(.custom(.poppinsSemiBold, size: 16))
-                                    .foregroundColor(.white)
-                                    .lineLimit(2)
-                                HStack{
-                                    Text("**** **** **** \(bank.last4)")
-                                        .font(.custom(.poppinsMedium, size: 14))
-                                        .foregroundColor(Color(.darkGrayColor))
-                                    Spacer()
-                                    Image(uiImage: .ic_StarUnFilled)
-                                        .resizable()
-                                        .frame(width: 20, height: 20)
+                    Text("No Record Found")
+                        .font(.custom(.poppinsMedium, size: 25))
+                        .foregroundColor(Color(.darkGrayColor))
+                        .multilineTextAlignment(.center)
+                    }
+                } else {
+                    ScrollView(showsIndicators: false){
+                    ForEach(bankAccountViewModel.arrBankRes, id: \.id) { bank in
+                        VStack{
+                            HStack(spacing: 15){
+                                Image(uiImage: .image_placeholder)
+                                    .resizable()
+                                    .frame(width: 50, height: 50)
+                                    .cornerRadius(25)
+                                VStack(alignment: .leading, spacing: 10){
+                                    Text(bank.bank_name)
+                                        .font(.custom(.poppinsSemiBold, size: 16))
+                                        .foregroundColor(.white)
+                                        .lineLimit(2)
+                                    HStack{
+                                        Text("**** **** **** \(bank.last4)")
+                                            .font(.custom(.poppinsMedium, size: 14))
+                                            .foregroundColor(Color(.darkGrayColor))
+                                        Spacer()
+                                        Image(uiImage: .ic_StarUnFilled)
+                                            .resizable()
+                                            .frame(width: 20, height: 20)
+                                    }
                                 }
                             }
+                            .padding(.horizontal, 15)
                         }
-                        .padding(.horizontal, 15)
+                        .frame(maxWidth: .infinity)
+                        .frame(height: 100)
+                        .background(Color(.darkBlueColor))
+                        .cornerRadius(10)
+                        .padding(.bottom, 5)
                     }
-                    .frame(maxWidth: .infinity)
-                    .frame(height: 100)
-                    .background(Color(.darkBlueColor))
-                    .cornerRadius(10)
-                    .padding(.bottom, 5)
                 }
             }
         }

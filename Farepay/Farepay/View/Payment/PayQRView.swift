@@ -21,6 +21,7 @@ struct PayQRView: View {
     @State var taxiNumber :String?
     @State var driverABN :String?
     @State var driverID :String?
+    @State var qrUrl :String?
     
     //MARK: - Views
     var body: some View {
@@ -58,6 +59,10 @@ struct PayQRView: View {
                                 
                             }
                         }
+                        
+                        qrUrl = "\("https://dev-ewdtech.org/appmob/?param1=")\("123456")\("&param2=")\("20/12")\("&param3=")\( taxiNumber ?? "N/A")\("&param4=")\(driverID ?? "N/A")\("&param5=")\( driverABN ?? "N/A")\("&param6=")\(AmountDetail.instance.totalAmount.description)\("&param7=")\(AmountDetail.instance.serviceFee.description)\("&param8=")\(AmountDetail.instance.serviceFeeGst.description)\("&param9=")\(AmountDetail.instance.totalChargresWithTax.description)"
+                        
+                        print("qrUrl: ",qrUrl)
                     })
                 .padding(.all, 20)
             }
@@ -197,8 +202,10 @@ extension PayQRView{
         ZStack{
             
             VStack(spacing: 20){
+                let tAmount = Double( AmountDetail.instance.totalAmount.description)
+                let tChargesWithTax = Double( AmountDetail.instance.totalChargresWithTax.description)
                 
-                let QRUrl = "\("https://dev-ewdtech.org/appmob/?param1=")\("123456")\("&param2=")\("20/12")\("&param3=")\( taxiNumber ?? "N/A")\("&param4=")\(driverID ?? "N/A")\("&param5=")\( driverABN ?? "N/A")\("&param6=")\(AmountDetail.instance.totalAmount.description)\("&param7=")\(AmountDetail.instance.serviceFee.description)\("&param8=")\(AmountDetail.instance.serviceFeeGst.description)\("&param9=")\(AmountDetail.instance.totalChargresWithTax.description)"
+                let QRUrl = "\("https://dev-ewdtech.org/appmob/?param1=")\("123456")\("&param2=")\("20/12")\("&param3=")\( taxiNumber ?? "N/A")\("&param4=")\(driverID ?? "N/A")\("&param5=")\( driverABN ?? "N/A")\("&param6=")\( tAmount ?? 0.00)\("&param7=")\(AmountDetail.instance.serviceFee.description)\("&param8=")\(AmountDetail.instance.serviceFeeGst.description)\("&param9=")\(tChargesWithTax ?? 0.00)"
                 
                 Image(uiImage: UIImage(data: getQRCodeDate(text: QRUrl)!)!)
                 

@@ -20,10 +20,10 @@ struct PaymentDetailView: View {
     @State private var isDisabled: Bool = true
     @Environment(\.presentationMode) private var presentationMode: Binding<PresentationMode>
     @State private var willMoveTapToPayView = false
-    @State private var totalChargresWithTax = 0.0
+    @State private var totalChargresWithTax = "0.00"
     @State private var totalAmount = 0.0
-    @State private var serviceFee = 0.0
-    @State private var serviceFeeGst = 0.0
+    @State private var serviceFee = "0.00"
+    @State private var serviceFeeGst = "0.00"
     @StateObject var readerDiscoverModel1 = ReaderDiscoverModel1()
     @State private var willMoveToQr = false
     @State var showLoadingIndicator: Bool = false
@@ -49,24 +49,42 @@ struct PaymentDetailView: View {
             .onAppear(perform: {
                 
                 if let cost = Double(farePriceText.trimmingCharacters(in: .whitespaces)) {
+                    let formatter = NumberFormatter()
+                    formatter.minimumFractionDigits = 2
+                    formatter.maximumFractionDigits = 2
+                    formatter.minimumIntegerDigits = 1
+                    
                     totalAmount = cost
-                    AmountDetail.instance.totalAmount = cost
+                    AmountDetail.instance.totalAmount = String(cost)
                     print("amountWith \(cost)")
                     let amountWithFivePercent = cost * 5 / 100
                     print("amountWithFivePercent \(amountWithFivePercent)")
-                    serviceFee = (amountWithFivePercent / 1.1).roundToDecimal(2)
-                    
-                    AmountDetail.instance.serviceFee = serviceFee
+                    let srvcFee = (amountWithFivePercent / 1.1).roundToDecimal(2)
+                    if let srvcFeeString = formatter.string(from: (Decimal(srvcFee)) as NSNumber) {
+                        serviceFee = srvcFeeString
+                    }
+                    AmountDetail.instance.serviceFee = srvcFee
                     print("serviceFee\(serviceFee)")
                     
-                    serviceFeeGst = (amountWithFivePercent - serviceFee).roundToDecimal(2)
-                    AmountDetail.instance.serviceFeeGst = serviceFeeGst
+                    let srvcFeeGst = (amountWithFivePercent - srvcFee).roundToDecimal(2)
+                    //                    let y = srvcFeeGst.rounded()
+                    if let srvcFeeGstString = formatter.string(from: (Decimal(srvcFeeGst)) as NSNumber) {
+                        serviceFeeGst = srvcFeeGstString
+                    }
+                    AmountDetail.instance.serviceFeeGst = srvcFeeGst
                     print("serviceFeeGst \(serviceFeeGst)")
-                    totalChargresWithTax = (serviceFee + serviceFeeGst + cost).roundToDecimal(2)
+                    let totalChargresWithTx = (srvcFee + srvcFeeGst + cost).roundToDecimal(2)
                     
-                    AmountDetail.instance.totalChargresWithTax = totalChargresWithTax
-                    print("totalCharges \(totalChargresWithTax)")
+//                    AmountDetail.instance.totalChargresWithTax = totalChargresWithTax
+//                    print("totalCharges \(totalChargresWithTax)")
                     
+                    
+                    if let formattedString = formatter.string(from: (Decimal(totalChargresWithTx)) as NSNumber) {
+                        totalChargresWithTax = formattedString
+                        AmountDetail.instance.totalChargresWithTax = formattedString
+                    } else {
+                        print("Failed to format the decimal value")
+                    }
                 }
                 
                 NotificationCenter.default.addObserver(forName: NSNotification.Name("PAYMENTDETAIL"), object: nil, queue: .main) { (_) in
@@ -142,7 +160,7 @@ extension PaymentDetailView{
                     
                     //                    TextField("", text: $totalChargresWithTax, prompt: Text("0.00").foregroundColor(Color(.white)))
                     
-                    Text(totalAmount.description)
+                    Text(farePriceText.description)
                         .font(.custom(.poppinsBold, size: 40))
                         .frame(height: 30)
                         .foregroundColor(.white)
@@ -165,7 +183,7 @@ extension PaymentDetailView{
                         .foregroundColor(Color(.darkGrayColor))
                         .font(.custom(.poppinsMedium, size: 23))
                     Spacer()
-                    Text("$ \(totalAmount.description)")
+                    Text("$ \(farePriceText.description)")
                         .foregroundColor(Color(.white))
                         .font(.custom(.poppinsBold, size: 23))
                 }
@@ -265,8 +283,9 @@ extension PaymentDetailView{
                 
             } label: {
                 
-                Text("\("Charge ")\("$") \(totalChargresWithTax.description)")
-                    .font(.custom(.poppinsBold, size: 25))
+//                Text("\("Charge ")\("$") \(totalChargresWithTax.description)")
+                Text ("Tap to Pay on iPhone")
+                    .font(.custom(.poppinsBold, size: 22))
                     .foregroundColor(.white)
                     .frame(maxWidth: .infinity)
                     .frame(height: 60)
@@ -316,11 +335,11 @@ extension Double {
 class AmountDetail {
 
     static let instance = AmountDetail()
-    var totalChargresWithTax = 0.0
+    var totalChargresWithTax = "0.0"
     
     
     var serviceFeeGst = 0.0
-    var totalAmount = 0.0
+    var totalAmount = "0.0"
     
     
 
@@ -354,6 +373,8 @@ class ReaderDiscoverModel1:NSObject,ObservableObject ,DiscoveryDelegate{
             } else {
                 print("discoverReaders succeeded")
             }
+//            self.showPay = true
+//            NotificationCenter.default.post(name: NSNotification.Name("PAYMENTDETAIL"), object: nil)
         }
     }
     
@@ -395,8 +416,9 @@ class ReaderDiscoverModel1:NSObject,ObservableObject ,DiscoveryDelegate{
                 Terminal.shared.collectPaymentMethod(paymentIntent) { collectResult, collectError in
                     if let error = collectError {
                         print("collectPaymentMethod failed: \(error)")
-                        self.showPay = true
+//                        self.showPay = true
                         self.disconnectFromReader()
+                        self.cancelPay = true
                         NotificationCenter.default.post(name: NSNotification.Name("PAYMENTDETAIL"), object: nil)
                     } else if let paymentIntent = collectResult {
                         print("collectPaymentMethod succeeded", paymentIntent)

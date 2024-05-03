@@ -48,9 +48,12 @@ struct MainTabbedView: View {
 //                BrowserWebView(url: URL(string: "https://farepay.app/terms-of-use")!, viewModel: BrowserViewModel())
                 
                     .tag(4)
+            case 4:
+                TapToPayGuidlinesView(presentSideMenu: $presentSideMenu)
+                    .tag(5)
             case 5:
                 AccountView(presentSideMenu: $presentSideMenu)
-                    .tag(5)
+                    .tag(6)
             default:
                 PaymentView(presentSideMenu: $presentSideMenu)
                     .tag(0)

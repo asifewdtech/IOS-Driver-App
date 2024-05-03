@@ -194,7 +194,7 @@ extension AccountInfoView{
                         .font(.custom(.poppinsMedium, size: 15))
                         .foregroundColor(.white)
                     Spacer()
-                    Text("+61 \(phone)")
+                    Text("\(phone)")
                         .font(.custom(.poppinsMedium, size: 15))
                         .foregroundColor(.white)
                 }

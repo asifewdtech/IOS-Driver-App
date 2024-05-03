@@ -16,6 +16,7 @@ enum SideMenuRowType: Int, CaseIterable{
 //    case ReferaFriend
     case PrivacyPolicy
     case TermsofUse
+    case useTapToPay
     
     var title: String{
         switch self {
@@ -33,6 +34,9 @@ enum SideMenuRowType: Int, CaseIterable{
             return "Privacy Policy"
         case .TermsofUse:
             return "Terms of Use"
+            
+        case .useTapToPay:
+            return "How to Tap to Pay"
         }
     }
     var iconName: UIImage{
@@ -50,6 +54,8 @@ enum SideMenuRowType: Int, CaseIterable{
         case .PrivacyPolicy:
             return .ic_Refer
         case .TermsofUse:
+            return .ic_Refer
+        case .useTapToPay:
             return .ic_Refer
         }
     }
@@ -129,7 +135,7 @@ struct SideMenuView: View {
                 }
                 .padding(.top, 65)
                 .padding(.bottom, 20)
-                .frame(width: UIScreen.main.bounds.width - 100)
+                .frame(width: UIScreen.main.bounds.width - 70)
                 .background(Color(.darkBlueColor))
             }
             Spacer()

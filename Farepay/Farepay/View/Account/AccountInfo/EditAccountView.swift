@@ -101,11 +101,11 @@ extension EditAccountView{
                     .resizable()
                     .frame(width: 30, height: 30)
                 HStack {
-                    Text("+61")
-                        .foregroundStyle(Color.white)
+//                    Text("+61")
+//                        .foregroundStyle(Color.white)
                     TextField(
                         "Type your mobile No",
-                        text: $phoneText.max(9)
+                        text: $phoneText.max(12)
                     )
                     .keyboardType(.numberPad)
                     .foregroundStyle(Color.white)

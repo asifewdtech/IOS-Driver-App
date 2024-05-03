@@ -35,7 +35,9 @@ struct TransactionView: View {
                 Color(.bgColor).edgesIgnoringSafeArea(.all)
                 VStack(spacing: 25){
                     topArea
+                    Spacer()
                     listView
+                    Spacer()
                 }
                 .onAppear(perform: {
                     Task {
@@ -215,14 +217,17 @@ extension TransactionView{
     
     var listView: some View{
         
-        ScrollView(.vertical, showsIndicators: false) {
+        VStack{
+        
             if (transectionViewModel.arrTransaction.count == 0) {
                 VStack(alignment: .center, spacing: 200){
                 Text("No Record Found")
                     .font(.custom(.poppinsMedium, size: 25))
                     .foregroundColor(Color(.darkGrayColor))
+                    .multilineTextAlignment(.center)
                 }
             } else {
+                ScrollView(.vertical, showsIndicators: false) {
             LazyVStack(alignment: .leading, spacing: 10) {
                 //                ForEach(transectionViewModel.arrTransaction, id: \.id) { transaction in
                 
@@ -277,7 +282,7 @@ extension TransactionView{
                     Spacer().frame(height: 10)
                 }
             }
-            //            }
+            }
         }
     }
 }

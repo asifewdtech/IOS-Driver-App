@@ -41,7 +41,7 @@ struct TransactionDetailView: View {
                 
                 
                     totalAmount = amount
-                    AmountDetail.instance.totalAmount = amount
+//                    AmountDetail.instance.totalAmount = amount
                     let amountWithFivePercent = amount * 5 / 100
                     print("amountWithFivePercent \(amountWithFivePercent)")
                     serviceFee = (amountWithFivePercent / 1.1).roundToDecimal(2)
@@ -54,7 +54,7 @@ struct TransactionDetailView: View {
                     print("serviceFeeGst \(serviceFeeGst)")
                     totalChargresWithTax = (serviceFee + serviceFeeGst + amount).roundToDecimal(2)
                     
-                    AmountDetail.instance.totalChargresWithTax = totalChargresWithTax
+//                    AmountDetail.instance.totalChargresWithTax = totalChargresWithTax
                     print("totalCharges \(totalChargresWithTax)")
                     
                 

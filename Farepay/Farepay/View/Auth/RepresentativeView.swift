@@ -76,7 +76,6 @@ struct RepresentativeView: View {
             }
             .onAppear(perform: {
 //                fetchLatLong()
-//                callAddressValidationAPI()
             })
             .padding(.all, 15)
             .toastView(toast: $toast)
@@ -642,7 +641,8 @@ extension RepresentativeView{
                 else if authorityNumberText.count <= 9 {
                     toast = Toast(style: .error, message: "Driver Authority No. should be 10.")
                 }
-                else if (streetAddr.isEmpty || cityAddr.isEmpty || countryAddr.isEmpty || stateAddr.isEmpty || postalAddr.isEmpty) {
+//                else if (streetAddr.isEmpty || cityAddr.isEmpty || countryAddr.isEmpty || stateAddr.isEmpty || postalAddr.isEmpty) {
+                else if (streetAddr.isEmpty || cityAddr.isEmpty || countryAddr.isEmpty || postalAddr.isEmpty) {
                     toast = Toast(style: .error, message: "Address Filed cannot be empty.")
                 }
                 else if stripeFlowStatus != "Completed" {
@@ -699,7 +699,6 @@ extension RepresentativeView{
           print(String(data: data, encoding: .utf8)!)
             
                 do {
-                    
                     if let jsonDict = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any],
                        let resultDict = jsonDict["result"] as? [String: Any],
                        let verdict = resultDict["verdict"] as? [String: Any],
@@ -848,7 +847,7 @@ extension RepresentativeView{
         }
     }
     
-    func fetchLatLong() {
+    /*func fetchLatLong() {
         locManager.requestWhenInUseAuthorization()
         
                 if (CLLocationManager.authorizationStatus() == CLAuthorizationStatus.authorizedWhenInUse ||
@@ -861,7 +860,7 @@ extension RepresentativeView{
                     
                     getAddressFromLatLong(latitude: currentLocation.coordinate.latitude, longitude: currentLocation.coordinate.longitude)
                 }
-    }
+    }*/
     
     func getAddressFromLatLong(latitude: Double, longitude : Double){
         
@@ -932,8 +931,6 @@ extension RepresentativeView{
         }
     }
 }
-
-
 
 struct DatePickerWithButtons: View {
     

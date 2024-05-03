@@ -294,7 +294,6 @@ extension SignUpView{
                     .cornerRadius(30)
             })
             
-            
             HStack{
                 
                 Text("\(.alreadyHaveAccount)")
@@ -309,7 +308,6 @@ extension SignUpView{
                         presentationMode.wrappedValue.dismiss()
                     }
             }
-                
         }
     }
 
@@ -352,10 +350,7 @@ extension SignUpView{
                 showLoadingIndicator = false
                 toast = Toast(style: .error, message: "Accept the Term and Privacy")
             }
-                
         }
-        
-
     }
     
     func googleSignIn(){

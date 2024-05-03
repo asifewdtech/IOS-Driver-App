@@ -43,9 +43,7 @@ struct LoginView: View {
                     }
                     buttonArea
                 }
-                
             }
-            
             .toastView(toast: $toast)
             .padding(.all, 15)
             .environment(\.rootPresentationMode, $userAuth.isAccountCreated)
@@ -252,8 +250,8 @@ extension LoginView{
                             if userAuth.isLoggedIn == false  {
                                 toast = Toast(style: .error, message: userAuth.errorMessage)
                             }else {
-                                //                            let collectionRef = Firestore.firestore().collection("usersInfo")
-                                //                            collectionRef.getDocuments { (snapshot, error) in
+//                                let collectionRef = Firestore.firestore().collection("usersInfo")
+//                                collectionRef.getDocuments { (snapshot, error) in
                                 Firestore.firestore().collection("usersInfo").document(Auth.auth().currentUser?.uid ?? "").getDocument { snapShot, error in
                                     
                                     if let error = error {
@@ -399,7 +397,7 @@ extension LoginView{
 //                        self.errorMessage = "error: \(error.localizedDescription)"
                         toast = Toast(style: .error, message: error.localizedDescription)
                     }else {
-                        showLoadingIndicator = false
+//                        showLoadingIndicator = false
                         
                         print("isAccountCreated: ",isAccountCreated)
                         print("isBankCreated: ",isBankCreated)
@@ -411,7 +409,6 @@ extension LoginView{
                                     print(error.localizedDescription)
                                     
                                 }else {
-                                    
                                     guard let snap = snapShot else { return  }
                                     
                                     DispatchQueue.main.async {
@@ -444,7 +441,7 @@ extension LoginView{
                             userAuth.checkUserAccountCreated()
                             showCompany = true
                         }
-                        
+                        showLoadingIndicator = false
                         NotificationCenter.default.post(name: NSNotification.Name("SIGNIN"), object: nil)
                     }
                 }
@@ -544,8 +541,6 @@ struct DropdownSelector: View {
 
     var body: some View {
         ZStack(alignment:.top) {
-            
-            
             VStack {
                 if self.shouldShowDropdown {
                     Spacer(minLength: buttonHeight + 10)
