@@ -40,6 +40,8 @@ extension UIImage{
     static let ic_Home2 = UIImage(named: "ic_Home2") ?? .image_placeholder
     static let ic_Discount = UIImage(named: "ic_Discount") ?? .image_placeholder
     static let ic_Qr = UIImage(named: "ic_Qr") ?? .image_placeholder
+    static let ic_userPlaceholder = UIImage(named: "userPlaceholder") ?? .image_placeholder
+    static let ic_iconPencil = UIImage(named: "ic_iconPencil") ?? .image_placeholder
     
     static let ic_FareCharge = UIImage(named: "ic_FareCharge") ?? .image_placeholder
     static let ic_GiftCards = UIImage(named: "ic_GiftCards") ?? .image_placeholder

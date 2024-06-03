@@ -7,6 +7,7 @@
 
 import SwiftUI
 import FirebaseAuth
+import FirebaseFirestore
 import Combine
 import ActivityIndicatorView
 import StripeIdentity
@@ -723,6 +724,8 @@ extension RepresentativeView{
                         let errorDict = jsonDict["error"] as? [String: Any],
                            let addressDict = errorDict["message"] as? String{
                             toast = Toast(style: .error, message: addressDict)
+                        }else {
+                            toast = Toast(style: .error, message: "Address is Fake or Invalid.")
                         }
                     }
                 } catch {
@@ -1067,6 +1070,8 @@ struct RepresentativeVC: UIViewControllerRepresentable {
                     print("Verification Flow Completed!")
                     UserDefaults.standard.set("Completed", forKey: "stripeFlowStatus")
                     dismiss(animated: true, completion: nil)
+                    UserDefaults.standard.set(verificationSessionId, forKey: "stripeSessionID")
+                    print("sessionID: \(verificationSessionId)")
                 case .flowCanceled:
                     print("Verification Flow Canceled!")
                     UserDefaults.standard.set("Canceled", forKey: "stripeFlowStatus")

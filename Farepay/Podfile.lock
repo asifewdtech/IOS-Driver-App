@@ -45,12 +45,29 @@ PODS:
     - "MaterialComponents/private/TextControlsPrivate+FilledStyle"
     - "MaterialComponents/TextControls+BaseTextFields"
   - MDFInternationalization (3.0.0)
+  - Stripe (23.18.2):
+    - StripeApplePay (= 23.18.2)
+    - StripeCore (= 23.18.2)
+    - StripePayments (= 23.18.2)
+    - StripePaymentsUI (= 23.18.2)
+    - StripeUICore (= 23.18.2)
+  - StripeApplePay (23.18.2):
+    - StripeCore (= 23.18.2)
   - StripeCameraCore (23.18.2):
     - StripeCore (= 23.18.2)
   - StripeCore (23.18.2)
   - StripeIdentity (23.18.2):
     - StripeCameraCore (= 23.18.2)
     - StripeCore (= 23.18.2)
+    - StripeUICore (= 23.18.2)
+  - StripePayments (23.18.2):
+    - StripeCore (= 23.18.2)
+    - StripePayments/Stripe3DS2 (= 23.18.2)
+  - StripePayments/Stripe3DS2 (23.18.2):
+    - StripeCore (= 23.18.2)
+  - StripePaymentsUI (23.18.2):
+    - StripeCore (= 23.18.2)
+    - StripePayments (= 23.18.2)
     - StripeUICore (= 23.18.2)
   - StripeTerminal (3.1.0)
   - StripeUICore (23.18.2):
@@ -61,6 +78,7 @@ DEPENDENCIES:
   - IQKeyboardManagerSwift
   - "MaterialComponents/TextControls+FilledTextAreas"
   - "MaterialComponents/TextControls+FilledTextFields"
+  - Stripe
   - StripeIdentity
   - StripeTerminal
 
@@ -70,9 +88,13 @@ SPEC REPOS:
     - IQKeyboardManagerSwift
     - MaterialComponents
     - MDFInternationalization
+    - Stripe
+    - StripeApplePay
     - StripeCameraCore
     - StripeCore
     - StripeIdentity
+    - StripePayments
+    - StripePaymentsUI
     - StripeTerminal
     - StripeUICore
 
@@ -81,12 +103,16 @@ SPEC CHECKSUMS:
   IQKeyboardManagerSwift: 52962c76ab33532f15ad9f3ff4e5715eda5335bb
   MaterialComponents: 1a9b2d9d45b1601ae544de85089adc4c464306d4
   MDFInternationalization: d697c55307816222a55685c4ccb1044ffb030c12
+  Stripe: 85f24cabe407c5b88aabc24287b1e57f03688189
+  StripeApplePay: c94e56e7193815ea0feb67976de9777e78666b87
   StripeCameraCore: 69e7e4dd67dbfba91ff9821c3ba612feb7e5aa23
   StripeCore: 075589c1503304559dd467c04b816f85207e7789
   StripeIdentity: 5792c8c6eb48e4cf28c51a76870c9c17ec03022f
+  StripePayments: bd848d5787f0fca9ba33c57c3bb108ba08c8c882
+  StripePaymentsUI: 595f6581a9a039fa2f23f9a77235af44c15171fc
   StripeTerminal: fa064cf68a7a3df7c2ee1b2e6d33c8866d1e6aef
   StripeUICore: 5099399e52853370736aca81b27fc0e86b1822c8
 
-PODFILE CHECKSUM: 8f1e27d8b0417a795d30667d04e52c0804bfe0be
+PODFILE CHECKSUM: becb8e298bf4a11dc6f8ee931b4a32b7668b8329
 
 COCOAPODS: 1.12.1

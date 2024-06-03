@@ -258,7 +258,6 @@ extension LoginView{
                                         print(error.localizedDescription)
                                         
                                     }else {
-                                        
                                         guard let snap = snapShot else { return  }
                                         
                                         DispatchQueue.main.async {

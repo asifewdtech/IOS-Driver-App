@@ -131,7 +131,7 @@ extension SignUpView{
                 .font(.custom(.poppinsMedium, size: 18))
                 .foregroundColor(Color(.darkGrayColor))
             
-            HStack(spacing: 15){
+/*            HStack(spacing: 15){
                 // Google Apple Sign in
                 Button(action: {
                     userAuth.isGoogleLogin = false
@@ -172,7 +172,7 @@ extension SignUpView{
                     .background(Color(.darkBlueColor))
                     .cornerRadius(10)
                 })
-            }
+            }*/
         }
     }
     

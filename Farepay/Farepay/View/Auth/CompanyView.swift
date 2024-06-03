@@ -11,7 +11,7 @@ import Combine
 struct CompanyView: View {
     
     //MARK: - Variable
-    @State var companyText: String = "individual"
+    @State var companyText: String = ""
     @State private var cardText: String = ""
     @State private var contactText: String = ""
     @State private var willMoveToRepresentativeView: Bool = false
@@ -135,7 +135,7 @@ extension CompanyView{
                 
                 MDCFilledTextFieldWrapper(leadingImage: .constant(.ic_Card), text: $cardText.max(11), placHolderText: .constant("Enter your ABN"), isSecure: .constant(false),isNumberPad: true)
                     
-                MDCFilledTextFieldWrapper(leadingImage: .constant(.ic_Contact), text: $contactText.max(9), placHolderText: .constant("Enter your Drivers Licence"), isSecure: .constant(false),isNumberPad: true)
+                MDCFilledTextFieldWrapper(leadingImage: .constant(.ic_Contact), text: $contactText.max(11), placHolderText: .constant("Enter your Drivers Licence"), isSecure: .constant(false),isNumberPad: true)
             }
             .frame(maxWidth: .infinity)
             .background(Color(.darkBlueColor))
@@ -179,8 +179,8 @@ extension CompanyView{
         else if contactText.isEmpty {
             toast = Toast(style: .error, message: "Driver Licence field cannot be empty.")
         }
-        else if contactText.count <= 8 {
-            toast = Toast(style: .error, message: "Driver Licence Should be 9 Digits.")
+        else if contactText.count <= 7 {
+            toast = Toast(style: .error, message: "Driver Licence Should be 8-11 Digits.")
         }
         else{
             UserDefaults.standard.removeObject(forKey: "stripeFlowStatus")

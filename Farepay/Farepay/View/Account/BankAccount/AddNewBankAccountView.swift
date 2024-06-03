@@ -31,6 +31,8 @@ struct AddNewBankAccountView: View {
                 Color(.bgColor).edgesIgnoringSafeArea(.all)
                 VStack(spacing: 10){
                     NavigationLink("", destination: MainTabbedView().toolbar(.hidden, for: .navigationBar), isActive: $goToHome ).isDetailLink(false)
+//                    NavigationLink("", destination: UnderReviewView().toolbar(.hidden, for: .navigationBar), isActive: $goToHome ).isDetailLink(false)
+                    
                     topArea
                     textArea
                     Spacer()
@@ -39,6 +41,11 @@ struct AddNewBankAccountView: View {
                 .toastView(toast: $toast)
                 .padding(.all, 15)
                 .onAppear(perform: {
+                    let stripeSessionID = UserDefaults.standard.string(forKey: "stripeSessionID")
+                    print("stripeSessionID: ",stripeSessionID)
+                    
+                    Firestore.firestore().collection("usersInfo").document(Auth.auth().currentUser?.uid ?? "").updateData(["sessionID": stripeSessionID ?? ""])
+                    
                     checkUserBankAccount()
                 })
                 if apicalled{

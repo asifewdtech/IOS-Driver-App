@@ -139,7 +139,10 @@ extension AccountView{
                     .resizable()
                     .frame(width: 100, height: 100)
                     .cornerRadius(50)
-                
+                    .overlay(
+                            RoundedRectangle(cornerRadius: 50)
+                                .stroke(.white, lineWidth: 1)
+                        )
                     .onTapGesture {
                         withAnimation {
                             self.showImagePicker.toggle()
@@ -148,19 +151,23 @@ extension AccountView{
 
                     }
             }else {
-                Image(uiImage: image ??  .image_placeholder)
+                Image(uiImage: image ??  .ic_userPlaceholder)
                     .resizable()
                     .frame(width: 100, height: 100)
-                    .aspectRatio(contentMode: .fill)
+//                    .aspectRatio(contentMode: .fill)
                     .cornerRadius(50)
+                    .overlay(
+                            RoundedRectangle(cornerRadius: 50)
+                                .stroke(.white, lineWidth: 1)
+                        )
                     .onTapGesture {
                         withAnimation {
                             self.showImagePicker.toggle()
                         }
                     }
                 
-                    .onChange(of: image ?? .image_placeholder, perform: { image in
-                        if image != .image_placeholder {
+                    .onChange(of: image ?? .ic_userPlaceholder, perform: { image in
+                        if image != .ic_userPlaceholder {
                             showLoadingIndicator = true
                             storageManager.upload(image: image)
                             showLoadingIndicator = false

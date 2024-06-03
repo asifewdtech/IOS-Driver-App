@@ -28,7 +28,8 @@ struct BankAccountView: View {
                 Spacer()
                 listView
                 Spacer()
-                buttonArea
+//                buttonArea
+                bottomTextArea
             }
             .padding(.all, 15)
             .onAppear(perform: {
@@ -136,5 +137,13 @@ extension BankAccountView{
             .onTapGesture {
                 willMoveToNewAccount.toggle()
             }
+    }
+    
+    var bottomTextArea: some View{
+        Text("Please email base@farepay.app if you need to update your bank account details.")
+            .font(.custom(.poppinsBold, size: 12))
+            .foregroundColor(.white)
+            .frame(maxWidth: .infinity)
+            .multilineTextAlignment(.center)
     }
 }

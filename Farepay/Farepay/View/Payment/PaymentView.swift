@@ -143,8 +143,14 @@ extension PaymentView{
     }
     
     var taxiNumberArea : some View{
-//        VStack(alignment: .trailing){
-        HStack(spacing: 20){
+//        ZStack(alignment: .trailing){
+        
+        HStack(spacing: 3){
+//            Image(systemName: "pencil")
+            Image(uiImage: .ic_iconPencil)
+                .foregroundColor(Color(.darkGrayColor))
+                .frame(width: 18, height: 18)
+            
                 Button("\("Taxi Number: ")\(taxiNumber)") {
                     self.showTaxi.toggle()
                     UserDefaults.standard.removeObject(forKey: "showTaxiNumPopup")
@@ -152,7 +158,6 @@ extension PaymentView{
                 .font(.custom(.poppinsMedium, size: 16))
                 .foregroundColor(.white)
                 .frame(height: 60)
-                
                 .multilineTextAlignment(.trailing)
             }
             .padding(.trailing, 10)

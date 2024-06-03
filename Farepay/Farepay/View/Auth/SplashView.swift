@@ -21,6 +21,8 @@ struct SplashView: View {
     @State private var willMoveToCompanyView = false
     @State private var showLoadingIndicator: Bool = true
     @AppStorage("accountId") var accountId: String = ""
+    
+    @State private var willMoveToUnderReviewView = false
     //MARK: - Views
     var body: some View {
         NavigationView {
@@ -32,6 +34,8 @@ struct SplashView: View {
                 NavigationLink("", destination: Farepay.NewsView().toolbar(.hidden, for: .navigationBar), isActive: $willMoveToBankAccount ).isDetailLink(false)
                 
                 NavigationLink("", destination: Farepay.MainTabbedView().toolbar(.hidden, for: .navigationBar), isActive: $willMoveToMainView ).isDetailLink(false)
+                
+                NavigationLink("", destination: Farepay.UnderReviewView().toolbar(.hidden, for: .navigationBar), isActive: $willMoveToUnderReviewView ).isDetailLink(false)
                 
                 Color(.bgColor)
                     .edgesIgnoringSafeArea(.all)
@@ -91,11 +95,13 @@ struct SplashView: View {
                 else {
 //                    willMoveToCompanyView = true
                     willMoveToLogin.toggle()
+//                    willMoveToUnderReviewView.toggle()
                 }
             }
             
             else{
                 willMoveToLogin.toggle()
+//                willMoveToUnderReviewView.toggle()
             }
         }
     }

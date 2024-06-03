@@ -13,4 +13,5 @@ target 'Farepay' do
 	pod 'StripeTerminal'
 	pod 'StripeIdentity'
 	pod 'Alamofire'
+pod 'Stripe'
 end

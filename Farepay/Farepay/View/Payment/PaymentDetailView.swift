@@ -12,6 +12,7 @@ import ActivityIndicatorView
 import CoreLocation
 import FirebaseFirestore
 import FirebaseAuth
+import Alamofire
 
 struct PaymentDetailView: View {
     
@@ -29,6 +30,7 @@ struct PaymentDetailView: View {
     @State var showLoadingIndicator: Bool = false
     @State private var locationPermission = false
     @State var goToHome = false
+    @State var locManager = CLLocationManager()
     
     //MARK: - Views
     var body: some View {
@@ -360,9 +362,13 @@ class ReaderDiscoverModel1:NSObject,ObservableObject ,DiscoveryDelegate{
     @Published var cancelPay = false
     @State private var showInvoice = false
     @State var taxiNumber : String = ""
+    @State var driverABN : String = ""
+    @State var driverLicence : String = ""
     @Environment(\.presentationMode) private var presentationMode: Binding<PresentationMode>
     @Published var paymentView = PaymentView(presentSideMenu: .constant(false))
     @Published var paymentDetail = PaymentDetailView(farePriceText: .constant("0.00"))
+    @State var locManager = CLLocationManager()
+    @State var fareAddress: String = ""
     
     @objc
     func discoverReaders() throws {
@@ -373,6 +379,7 @@ class ReaderDiscoverModel1:NSObject,ObservableObject ,DiscoveryDelegate{
             } else {
                 print("discoverReaders succeeded")
             }
+            self.fetchLatLong()
 //            self.showPay = true
 //            NotificationCenter.default.post(name: NSNotification.Name("PAYMENTDETAIL"), object: nil)
         }
@@ -397,14 +404,30 @@ class ReaderDiscoverModel1:NSObject,ObservableObject ,DiscoveryDelegate{
         let arrAmount = "\(array[0])\(array[1])"
         print("Array amount: ",arrAmount)
         
-        let taxiParams = [
-            "taxiID" : taxiNumber
+//        let taxiParams = [
+//            "taxiID" : taxiNumber
+//        ] as? [String: String]
+//        let driverABN = [
+//            "ABN" : driverABN
+//        ] as? [String: String]
+//        let driverLicence = [
+//            "Driverlicence" : driverLicence
+//        ] as? [String: String]
+        
+        let param = [
+            "taxiID": taxiNumber,
+            "ABN": driverABN,
+            "Driverlicence": driverLicence,
+            "Address": fareAddress
         ] as? [String: String]
         
         let params = try PaymentIntentParametersBuilder(amount: UInt(arrAmount) ?? 0, currency: "AUD")
             .setPaymentMethodTypes(["card_present"])
             .setCaptureMethod(CaptureMethod.automatic)
-            .setMetadata(taxiParams)
+//            .setMetadata(taxiParams)
+//            .setMetadata(driverABN)
+//            .setMetadata(driverLicence)
+            .setMetadata(param)
             .build()
         
         Terminal.shared.createPaymentIntent(params) {
@@ -501,10 +524,48 @@ class ReaderDiscoverModel1:NSObject,ObservableObject ,DiscoveryDelegate{
                         DispatchQueue.main.async {
                             print("error: ", error?.localizedDescription)
                             self.taxiNumber  = data["taxiID"] as? String ?? ""
+                            self.driverABN  = data["driverABN"] as? String ?? ""
+                            self.driverLicence  = data["driverID"] as? String ?? ""
                             //                        print("taxiNumber: ",taxiNumber)
                         }
                     }
                 }
+            }
+        }
+    }
+    
+    func fetchLatLong() {
+        locManager.requestWhenInUseAuthorization()
+        
+        if (CLLocationManager.authorizationStatus() == CLAuthorizationStatus.authorizedWhenInUse ||
+            CLLocationManager.authorizationStatus() == CLAuthorizationStatus.authorizedAlways){
+            guard let currentLocation = locManager.location else {
+                return
+            }
+            print(currentLocation.coordinate.latitude)
+            print(currentLocation.coordinate.longitude)
+            
+            getAddressFromLatLong(latitude: currentLocation.coordinate.latitude, longitude: currentLocation.coordinate.longitude)
+        }
+    }
+    
+    func getAddressFromLatLong(latitude: Double, longitude : Double){
+        
+        let url = "https://maps.googleapis.com/maps/api/geocode/json?latlng=\(latitude),\(longitude)&key=AIzaSyDvzoBJGEDZ5LpZ002k8JvKfWgnepzwxdc"
+        
+        AF.request(url).validate().responseJSON { response in
+            switch response.result {
+            case let .success(value):
+                if let results = (value as AnyObject).object(forKey: "results")! as? [NSDictionary] {
+                    if results.count > 0 {
+                        if let addressComponents = results[1]["address_components"]! as? [NSDictionary] {
+                            let address = results[0]["formatted_address"] as? String
+                            self.fareAddress = address ?? ""
+                        }
+                    }
+                }
+            case .failure(let error):
+                print(error)
             }
         }
     }
