@@ -16,6 +16,7 @@ struct SplashView: View {
     @State private var isAccountCreated: Bool = false
     @State private var willMoveToBankAccount: Bool = false
     @State private var isBankCreated: Bool = false
+    @State private var isAccountApproved: String = ""
     @State private var willMoveToLogin = false
     @State private var willMoveToMainView = false
     @State private var willMoveToCompanyView = false
@@ -76,21 +77,35 @@ struct SplashView: View {
         .environment(\.rootPresentationMode, $willMoveToMainView)
         .environment(\.rootPresentationMode, $willMoveToCompanyView)
         .environment(\.rootPresentationMode, $willMoveToBankAccount)
+        .environment(\.rootPresentationMode, $willMoveToUnderReviewView)
     }
     
     //MARK: - Functions Also Implement logic of login
     func navigateNext(){
         DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
             showLoadingIndicator.toggle()
+//            let stripeFrontImgId = UserDefaults.standard.string(forKey: "stripeFrontImgId")
+//            print("stripeFrontImgId: ",stripeFrontImgId)
+//            if stripeFrontImgId != nil{
+//                UpdateVerificationDocs(accId: "", frontimgid: "")
+//            }else {
+//                print("stripeFrontImgId not found")
+//                willMoveToUnderReviewView.toggle()
+//            }
+            
             
             print("1", Auth.auth().currentUser, ":2", isAccountCreated, ":3", isBankCreated)
             if Auth.auth().currentUser != nil {
-                if isAccountCreated && isBankCreated {
+                if isAccountCreated && isBankCreated && (isAccountApproved != ""){
 //                    willMoveToLogin.toggle()
                     willMoveToMainView = true
+//                    willMoveToUnderReviewView.toggle()
                 }
                 else if isAccountCreated == true && isBankCreated == false  {
                     willMoveToBankAccount = true
+                }
+                else if (isAccountCreated == true) && (isBankCreated == true) && (isAccountApproved == ""){
+                    willMoveToUnderReviewView = true
                 }
                 else {
 //                    willMoveToCompanyView = true
@@ -104,6 +119,36 @@ struct SplashView: View {
 //                willMoveToUnderReviewView.toggle()
             }
         }
+    }
+    
+    func UpdateVerificationDocs(accId: String, frontimgid: String) {
+        var request = URLRequest(url: URL(string: "https://7mvvg9bock.execute-api.eu-north-1.amazonaws.com/default/UpdateVerificationDocs?accountId=acct_1PQkjIPSlpHJllKG&frontimgid=file_1PQkk5A1ElCzYWXLZorlbFf9")!,timeoutInterval: Double.infinity)
+        request.httpMethod = "POST"
+        
+        let task = URLSession.shared.dataTask(with: request) { data, response, error in
+          guard let data = data else {
+            print(String(describing: error))
+            return
+          }
+          print("UpdateVerificationDocs: ",String(data: data, encoding: .utf8)!)
+            do {
+                if let jsonDict = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any]{
+                    if let verifiDict = jsonDict["id"] as? String {
+                        print("Success UpdateVerificationDocs Acc id: \(verifiDict)")
+                        showLoadingIndicator = false
+                        willMoveToMainView = true
+                    }
+                    else {
+                        print("Error id not foud.")
+                    }
+                }
+            }
+            catch{
+                print("Error parsing JSON: \(error)")
+            }
+        }
+        
+        task.resume()
     }
     
     func checkUserConnectAccount()  {
@@ -147,6 +192,7 @@ struct SplashView: View {
                             //                            print("login Acc response: ",isAccountCreated)
                             isBankCreated = data["bankAdded"] as? Bool ?? false
                             //                            print("login bankAcc response: ",isBankCreated)
+                            isAccountApproved = data["frontimgid"] as? String ?? ""
                             let userEmail1 = data["email"] as? String
                             //                            print("Email is: ", userEmail1)
                             if accountId == "" {

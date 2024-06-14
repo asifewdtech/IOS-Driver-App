@@ -550,20 +550,6 @@ struct DropdownSelector: View {
                     })
                 }
             }
-//            .padding(
-//                // Check if options list is open or not
-//                .bottom, self.shouldShowDropdown
-//                // If options list is open, then check if options size is greater
-//                // than 300 (MAX HEIGHT - CONSTANT), or not
-//                ? CGFloat(self.options.count * 15) > 100
-//                // IF true, then set padding to max height 300 points
-//                ? 50 + 30 // max height + more padding to set space between borders and text
-//                // IF false, then calculate options size and set padding
-//                : CGFloat(self.options.count * 15) + 30
-//                // If option list is closed, then don't set any padding.
-//                : 0
-//            )
-            
             
             Button(action: {
                 withAnimation {

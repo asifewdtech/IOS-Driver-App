@@ -30,8 +30,8 @@ struct AddNewBankAccountView: View {
             ZStack{
                 Color(.bgColor).edgesIgnoringSafeArea(.all)
                 VStack(spacing: 10){
-                    NavigationLink("", destination: MainTabbedView().toolbar(.hidden, for: .navigationBar), isActive: $goToHome ).isDetailLink(false)
-//                    NavigationLink("", destination: UnderReviewView().toolbar(.hidden, for: .navigationBar), isActive: $goToHome ).isDetailLink(false)
+//                    NavigationLink("", destination: MainTabbedView().toolbar(.hidden, for: .navigationBar), isActive: $goToHome ).isDetailLink(false)
+                    NavigationLink("", destination: UnderReviewView().toolbar(.hidden, for: .navigationBar), isActive: $goToHome ).isDetailLink(false)
                     
                     topArea
                     textArea
@@ -42,9 +42,13 @@ struct AddNewBankAccountView: View {
                 .padding(.all, 15)
                 .onAppear(perform: {
                     let stripeSessionID = UserDefaults.standard.string(forKey: "stripeSessionID")
-                    print("stripeSessionID: ",stripeSessionID)
+                    let stripeEphemeralKeySecret = UserDefaults.standard.string(forKey: "stripeEphemeralKeySecret")
                     
-                    Firestore.firestore().collection("usersInfo").document(Auth.auth().currentUser?.uid ?? "").updateData(["sessionID": stripeSessionID ?? ""])
+                    print("stripeSessionID: ",stripeSessionID ?? "")
+                    print("stripeEphemeralKeySecret: ",stripeEphemeralKeySecret ?? "")
+                    
+                    Firestore.firestore().collection("usersInfo").document(Auth.auth().currentUser?.uid ?? "").updateData(["sessionID": stripeSessionID ?? "", "ephemeralKeySecret": stripeEphemeralKeySecret ?? ""])
+//                    Firestore.firestore().collection("usersInfo").document(Auth.auth().currentUser?.uid ?? "").updateData(["ephemeralKeySecret": stripeEphemeralKeySecret ?? ""])
                     
                     checkUserBankAccount()
                 })

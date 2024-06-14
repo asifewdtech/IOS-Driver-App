@@ -1025,6 +1025,7 @@ struct RepresentativeVC: UIViewControllerRepresentable {
         override func viewDidLoad() {
             super.viewDidLoad()
             didTapVerifyButton()
+//            self.presentVerificationSheet(verificationSessionId: "vs_1PQjBDA1ElCzYWXL9YzcEG9n", ephemeralKeySecret: "ek_test_YWNjdF8xTklQOE5BMUVsQ3pZV1hMLDQ2OFdwV0hJSUh3U2wxMENXMW0wQm1iTDQyUWFEMzU_00PTrJTVci")
             UserDefaults.standard.removeObject(forKey: "stripeFlowStatus")
         }
         
@@ -1047,6 +1048,9 @@ struct RepresentativeVC: UIViewControllerRepresentable {
                         print(error as Any)
                         return
                     }
+                    print("stripeSessionID: ",verificationSessionId)
+                    print("stripeEphemeralKeySecret: ",ephemeralKeySecret)
+                    
                     self?.presentVerificationSheet(verificationSessionId: verificationSessionId, ephemeralKeySecret: ephemeralKeySecret)
                 }
             }
@@ -1071,6 +1075,7 @@ struct RepresentativeVC: UIViewControllerRepresentable {
                     UserDefaults.standard.set("Completed", forKey: "stripeFlowStatus")
                     dismiss(animated: true, completion: nil)
                     UserDefaults.standard.set(verificationSessionId, forKey: "stripeSessionID")
+                    UserDefaults.standard.set(ephemeralKeySecret, forKey: "stripeEphemeralKeySecret")
                     print("sessionID: \(verificationSessionId)")
                 case .flowCanceled:
                     print("Verification Flow Canceled!")
