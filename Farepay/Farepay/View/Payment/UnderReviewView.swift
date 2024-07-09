@@ -502,13 +502,11 @@ struct UnderReviewVC: UIViewControllerRepresentable {
             let configuration = IdentityVerificationSheet.Configuration(
                 brandLogo: UIImage(named: "licenseImage")!
             )
-            
             let verificationSheet = IdentityVerificationSheet(
                 verificationSessionId: verificationSessionId,
                 ephemeralKeySecret: ephemeralKeySecret,
                 configuration: configuration
             )
-            
             verificationSheet.present(from: self, completion: { [self] result in
                 switch result {
                 case .flowCompleted:

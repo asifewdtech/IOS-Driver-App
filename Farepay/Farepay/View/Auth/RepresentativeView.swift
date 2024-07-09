@@ -52,7 +52,7 @@ struct RepresentativeView: View {
     @State var streetAddr: String = ""
     @State var countryAddr: String = ""
     @State var cityAddr: String = ""
-    @State var stateAddr: String = ""
+    @State var stateAddr: String = "New South Wales"
     @State var postalAddr: String = ""
     @State var verifyIdetityText: String = "Verify your identity"
     @State var locManager = CLLocationManager()
@@ -339,11 +339,11 @@ extension RepresentativeView{
                     .frame(height: 70)
                     .cornerRadius(10)
                     
-                    HStack (spacing: 20){
-                        MDCFilledTextFieldWrapper(leadingImage: .constant(.ic_Home), text: $countryAddr, placHolderText: .constant("Country"), isSecure: .constant(false))
-                    }
-                    .frame(height: 70)
-                    .cornerRadius(10)
+//                    HStack (spacing: 20){
+//                        MDCFilledTextFieldWrapper(leadingImage: .constant(.ic_Home), text: $countryAddr, placHolderText: .constant("Country"), isSecure: .constant(false))
+//                    }
+//                    .frame(height: 70)
+//                    .cornerRadius(10)
                     
                     HStack (spacing: 20){
                         MDCFilledTextFieldWrapper(leadingImage: .constant(.ic_Home), text: $cityAddr, placHolderText: .constant("City"), isSecure: .constant(false))
@@ -405,7 +405,7 @@ extension RepresentativeView{
             HStack(spacing: 10){
                 
 //                Image(uiImage: .ic_Box)
-                Image(systemName: isChecked ? "checkmark.square.fill" : "square")
+                Image(systemName: isChecked ? "square" : "checkmark.square.fill")
                     .resizable()
                     .frame(width: 20, height: 20)
                     .foregroundStyle(.white)
@@ -642,8 +642,8 @@ extension RepresentativeView{
                 else if authorityNumberText.count <= 9 {
                     toast = Toast(style: .error, message: "Driver Authority No. should be 10.")
                 }
-//                else if (streetAddr.isEmpty || cityAddr.isEmpty || countryAddr.isEmpty || stateAddr.isEmpty || postalAddr.isEmpty) {
-                else if (streetAddr.isEmpty || cityAddr.isEmpty || countryAddr.isEmpty || postalAddr.isEmpty) {
+                else if (streetAddr.isEmpty || cityAddr.isEmpty || postalAddr.isEmpty) {
+//                else if (streetAddr.isEmpty || cityAddr.isEmpty || countryAddr.isEmpty || postalAddr.isEmpty) {
                     toast = Toast(style: .error, message: "Address Filed cannot be empty.")
                 }
                 else if stripeFlowStatus != "Completed" {
@@ -677,7 +677,7 @@ extension RepresentativeView{
     
     func callAddressValidationAPI() {
         
-        let userAddress = "\(streetAddr)\(", ")\(cityAddr)\(", ")\(stateAddr)\(", ")\(postalAddr)\(", ")\(countryAddr)"
+        let userAddress = "\(streetAddr)\(", ")\(cityAddr)\(", ")\(stateAddr)\(", ")\(postalAddr)\(", ")\("Australia")"
         let parameters = "{\n  \"address\": {\n\"addressLines\": [\"\(userAddress)\"]\n  },\n}"
         
         print("parameters: ",parameters)
@@ -744,6 +744,9 @@ extension RepresentativeView{
             
             var firstPart = "NA"
             var secondPart = "NA"
+            var datePart = "NA"
+            var monthPart = "NA"
+            var yearPart = "NA"
             
             let index = userText.components(separatedBy: " ")
             
@@ -754,16 +757,29 @@ extension RepresentativeView{
                  firstPart = userText
                  secondPart = ""
             }
+            let dateIndex = dateText.components(separatedBy: "-")
             
+            if  dateIndex.count > 1 {
+                datePart = dateIndex[0]
+                monthPart = dateIndex[1]
+                yearPart = dateIndex[2]
+            }
+            
+            let userAddress = "\(streetAddr)\(", ")\(cityAddr)\(", ")\(stateAddr)\(", ")\(postalAddr)\(", ")\("Australia")"
 //            let googleAddr = "\(streetAddr)\("%20")\(cityAddr)\("%20")\(stateAddr)\("%20")\(postalAddr)\("%20")\(countryAddr)"
             let addressTextStr = validateFormattedAddress.replacingOccurrences(of: " ", with: "%20", options: .literal, range: nil)
             let addrTextStr = addressTextStr.replacingOccurrences(of: "#", with: "%20", options: .literal, range: nil)
             
             let driverABN = UserDefaults.standard.string(forKey: "driverABN")
-            let urlStr = "\(uploadInformationUrl)username=default&userEmail=\(Auth.auth().currentUser?.email ?? "")&firstname=\(firstPart)&day=3&month=10&year=2000&address=\(addrTextStr)&phone=61\(mobileNumberText)&lastname=\(secondPart)&frontimgid=\(frontImageId)&backimgid=\(backImageId)"
-            print("url API: ",urlStr)
+            let driverLicence = UserDefaults.standard.string(forKey: "driverLicence")
+            let stripeVeriSessionID = UserDefaults.standard.string(forKey: "stripeSessionID")
+//            let urlStr = "\(uploadInformationUrl)username=default&userEmail=\(Auth.auth().currentUser?.email ?? "")&firstname=\(firstPart)&day=3&month=10&year=2000&address=\(addrTextStr)&phone=61\(mobileNumberText)&lastname=\(secondPart)&frontimgid=\(frontImageId)&backimgid=\(backImageId)"
             
-            let url = URL(string: urlStr)
+            
+            let urlCreateAccount = "\(uploadInformationUrl)username=\(firstPart)&userEmail=\(Auth.auth().currentUser?.email ?? "")&firstname=\(firstPart)&lastname=\(secondPart)&day=\(datePart)&month=\(monthPart)&year=\(yearPart)&address=\(streetAddr)&city=\(cityAddr)&state=\(stateAddr)&postalCode=\(postalAddr)&country=\("Australia")&phone=61\(mobileNumberText)&frontimgid=\(stripeVeriSessionID ?? "1234")&abn=\(driverABN ?? "1234")&driverlicence=\(driverLicence ?? "1234")&driverauthority=\(authorityNumberText)"
+            print("Create Account url API: ",urlCreateAccount)
+            
+            let url = URL(string: urlCreateAccount)
             
             try  await
             completeFormViewModel.postData(url:url!,method:.post,name: userText,phone: mobileNumberText,driverID: authorityNumberText,driverABN: driverABN ?? "00")
@@ -1030,7 +1046,9 @@ struct RepresentativeVC: UIViewControllerRepresentable {
         }
         
         func didTapVerifyButton(){
-            var urlRequest = URLRequest(url: URL(string: "https://92tbqakpob.execute-api.eu-north-1.amazonaws.com/default/CreateSessionStripeIdentity")!)
+            var urlRequest = URLRequest(url: URL(string: "https://92tbqakpob.execute-api.eu-north-1.amazonaws.com/default/CreateSessionStripeIdentity")!) //General
+//            var urlRequest = URLRequest(url: URL(string: "https://rpljmup273.execute-api.eu-north-1.amazonaws.com/default/CreateSessionStripeIdentity")!) //test
+        
             urlRequest.httpMethod = "POST"
             
             let task = URLSession.shared.dataTask(with: urlRequest) { [weak self] data, response, error in

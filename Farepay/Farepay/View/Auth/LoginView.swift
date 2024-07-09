@@ -23,6 +23,7 @@ struct LoginView: View {
     @State private var showCompany = false
     @State private var goToHome = false
     @State private var willMoveToBankAccount: Bool = false
+    @State private var willMoveToUnderReviewView = false
     @State private var showLoadingIndicator: Bool = false
     @State private var isAccountCreated: Bool = false
     @State private var isBankCreated: Bool = false
@@ -225,6 +226,7 @@ extension LoginView{
             NavigationLink("", destination: MainTabbedView().toolbar(.hidden, for: .navigationBar), isActive: $goToHome).isDetailLink(false)
             NavigationLink("", destination: Farepay.NewsView().toolbar(.hidden, for: .navigationBar), isActive: $willMoveToBankAccount ).isDetailLink(false)
             NavigationLink("", destination: SignUpView().toolbar(.hidden, for: .navigationBar), isActive: $moveToSignup ).isDetailLink(false)
+            NavigationLink("", destination: Farepay.UnderReviewView().toolbar(.hidden, for: .navigationBar), isActive: $willMoveToUnderReviewView ).isDetailLink(false)
             
             Button(action: {
                 if emailText.isEmpty {
@@ -267,6 +269,8 @@ extension LoginView{
                                             print("login Acc response: ",isAccountCreated)
                                             let bankAccced = snap.get("bankAdded") as? Bool  ?? false
                                             print("login bankAcc response: ",bankAccced)
+                                            let isAccountApproved = snap.get("frontimgid") as? String ?? ""
+                                            print("login accApproved response: ",isAccountApproved)
                                             let userEmail = snap.get("email") as? String
                                             print("Email is: ", userEmail)
                                             if userEmail == nil {
@@ -302,11 +306,14 @@ extension LoginView{
                                                                         goToHome = true
                                                                         
                                                                     }else if isAccountCreated1 == false{
-                                                                        //                                            willMoveToBankAccount = true
+//                                                                        willMoveToBankAccount = true
                                                                         showCompany = true
                                                                     }
                                                                     else if bankAccced1 == false  {
                                                                         willMoveToBankAccount = true
+                                                                    }
+                                                                    else if (isAccountCreated == true) && (isBankCreated == true) && (isAccountApproved == ""){
+                                                                        willMoveToUnderReviewView = true
                                                                     }
                                                                     else {
                                                                         toast = Toast(style: .error, message: "Something went wrong. Please try again.")
@@ -321,6 +328,9 @@ extension LoginView{
                                             else if bankAccced == false  {
                                                 willMoveToBankAccount = true
                                             }
+                                            else if (isAccountCreated == true) && (isBankCreated == true) && (isAccountApproved == ""){
+                                                willMoveToUnderReviewView = true
+                                            }
                                             else if isAccountCreated == true  && bankAccced == true {
                                                 goToHome = true
                                             }
@@ -334,7 +344,7 @@ extension LoginView{
                             }
                         }
                     }
-                    
+                    UserDefaults.standard.set(true, forKey: "isNewUser")
                 }else {
                     toast = Toast(style: .error, message: "Please Enter and Password Should be minium 6 character")
                 }
@@ -614,7 +624,7 @@ struct DropdownSelector: View {
 
 
 let businessType: [DropdownOption] = [
-        DropdownOption(key: UUID().uuidString, value: "Sole Trader"),
+        DropdownOption(key: UUID().uuidString, value: "Individual"),
         DropdownOption(key: UUID().uuidString, value: "Business")
     ]
 

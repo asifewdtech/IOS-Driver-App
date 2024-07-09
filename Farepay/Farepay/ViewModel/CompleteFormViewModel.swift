@@ -54,7 +54,7 @@ class CompleteFormViewModel: ObservableObject {
                     self.email = Auth.auth().currentUser?.email ?? ""
                     
                     self.db.collection("usersInfo").document(Auth.auth().currentUser?.uid ?? "").setData(["connectAccountCreated" : true,
-                                                                                                 "accoundId":self.accountId,
+                                                                                                 "accountId":self.accountId,
                                                                                                  "userName":name,
                                                                                                  "phonenumber":"\("+61")\(phone)",
                                                                                                           "email": self.email,

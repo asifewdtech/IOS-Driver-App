@@ -138,7 +138,7 @@ extension EditAccountView{
             .background(Color(.darkBlueColor))
             .cornerRadius(10)
             
-            MDCFilledTextFieldWrapper(leadingImage: .constant(.ic_Email), text: .constant(Auth.auth().currentUser?.email ?? ""), placHolderText: .constant(Auth.auth().currentUser?.email ?? ""), isSecure: .constant(false),isUserInteractionEnable:false)
+            MDCFilledTextFieldWrapper(leadingImage: .constant(.ic_Email), text: .constant(Auth.auth().currentUser?.email ?? ""), placHolderText: .constant("Email Address"), isSecure: .constant(false),isUserInteractionEnable:false)
                 .frame(height: 70)
             
         }

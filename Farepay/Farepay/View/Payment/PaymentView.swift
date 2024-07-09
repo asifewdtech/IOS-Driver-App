@@ -361,9 +361,18 @@ extension PaymentView{
         
         VStack(spacing: 25){
             Button {
+                let asdf = currencyManager.string1
+                let qwer = (Double(asdf) ?? 0.51)
+                print("currencyManager.st: ",qwer as Any)
                 if taxiNumber == "" {
                     toast = Toast(style: .error, message: "Taxi Number is required.")
                     self.showTaxi.toggle()
+                }
+                else if qwer == 0.00 {
+                    toast = Toast(style: .error, message: "Please enter your Fare.")
+                }
+                else if qwer <= 0.50 {
+                    toast = Toast(style: .error, message: "Amount should be greater than $0.50.")
                 }
                 else {
                 setMainView(false)

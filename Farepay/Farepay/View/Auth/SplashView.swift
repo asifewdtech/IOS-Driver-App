@@ -22,8 +22,8 @@ struct SplashView: View {
     @State private var willMoveToCompanyView = false
     @State private var showLoadingIndicator: Bool = true
     @AppStorage("accountId") var accountId: String = ""
-    
     @State private var willMoveToUnderReviewView = false
+    
     //MARK: - Views
     var body: some View {
         NavigationView {
@@ -84,17 +84,8 @@ struct SplashView: View {
     func navigateNext(){
         DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
             showLoadingIndicator.toggle()
-//            let stripeFrontImgId = UserDefaults.standard.string(forKey: "stripeFrontImgId")
-//            print("stripeFrontImgId: ",stripeFrontImgId)
-//            if stripeFrontImgId != nil{
-//                UpdateVerificationDocs(accId: "", frontimgid: "")
-//            }else {
-//                print("stripeFrontImgId not found")
-//                willMoveToUnderReviewView.toggle()
-//            }
             
-            
-            print("1", Auth.auth().currentUser, ":2", isAccountCreated, ":3", isBankCreated)
+            print("1", Auth.auth().currentUser, ":2", isAccountCreated, ":3", isBankCreated, ":4", isAccountApproved)
             if Auth.auth().currentUser != nil {
                 if isAccountCreated && isBankCreated && (isAccountApproved != ""){
 //                    willMoveToLogin.toggle()
@@ -183,22 +174,20 @@ struct SplashView: View {
                 for document in snap.documents {
                     let data = document.data()
                     let emailText = Auth.auth().currentUser?.email ?? ""
-                    if emailText ==  data["email"] as? String {
-                        
-                        DispatchQueue.main.async {
-                            print("error: ", error?.localizedDescription)
-                            //
-                            isAccountCreated = data["connectAccountCreated"] as? Bool ?? false
-                            //                            print("login Acc response: ",isAccountCreated)
-                            isBankCreated = data["bankAdded"] as? Bool ?? false
-                            //                            print("login bankAcc response: ",isBankCreated)
-                            isAccountApproved = data["frontimgid"] as? String ?? ""
-                            let userEmail1 = data["email"] as? String
-                            //                            print("Email is: ", userEmail1)
-                            if accountId == "" {
-                                accountId = data["accoundId"] as? String ?? ""
+                    if UserDefaults.standard.bool(forKey: "isNewUser") == true {
+                        if emailText ==  data["email"] as? String {
+                            print("emailText: ",emailText)
+                            DispatchQueue.main.async {
+                                print("error: ", error?.localizedDescription)
+                                
+                                isAccountCreated = data["connectAccountCreated"] as? Bool ?? false
+                                isBankCreated = data["bankAdded"] as? Bool ?? false
+                                isAccountApproved = data["frontimgid"] as? String ?? ""
+                                if accountId == "" {
+                                    accountId = data["accountId"] as? String ?? ""
+                                }
+                                navigateNext()
                             }
-                            navigateNext()
                         }
                     }
                 }

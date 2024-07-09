@@ -113,11 +113,13 @@ extension AddNewBankAccountView{
 //            .background(Color(.darkBlueColor))
 //            .cornerRadius(10)
              
-            MDCFilledTextFieldWrapper(leadingImage: .constant(.ic_AccountNumber), text: $accountNumber.max(10), placHolderText: .constant("Type account number"), isSecure: .constant(false),isNumberPad: true)
+            MDCFilledTextFieldWrapper(leadingImage: .constant(.ic_AccountHolder), text: $accountHolderName, placHolderText: .constant("Type account holder's name"), isSecure: .constant(false))
                 .frame(height: 70)
+            
             MDCFilledTextFieldWrapper(leadingImage: .constant(.ic_BSB), text: $bsbNumber.max(6), placHolderText: .constant("Type BSB number"), isSecure: .constant(false),isNumberPad: true)
                 .frame(height: 70)
-            MDCFilledTextFieldWrapper(leadingImage: .constant(.ic_AccountHolder), text: $accountHolderName, placHolderText: .constant("Type account holder's name"), isSecure: .constant(false))
+            
+            MDCFilledTextFieldWrapper(leadingImage: .constant(.ic_AccountNumber), text: $accountNumber.max(10), placHolderText: .constant("Type account number"), isSecure: .constant(false),isNumberPad: true)
                 .frame(height: 70)
         }
     }
@@ -127,12 +129,8 @@ extension AddNewBankAccountView{
         VStack(spacing: 20){
          
             Button(action: {
-                
-                if accountNumber.isEmpty {
-                    toast = Toast(style: .error, message: "Account Number Field cannnot be empty.")
-                }
-                else if (accountNumber.count <= 5 || accountNumber.count >= 11) {
-                    toast = Toast(style: .error, message: "Account Number must between 6-10 Digits.")
+                if accountHolderName.isEmpty {
+                    toast = Toast(style: .error, message: "Account Holder Name Field cannnot be empty.")
                 }
                 else if bsbNumber.isEmpty {
                     toast = Toast(style: .error, message: "BSB Number Field cannnot be empty.")
@@ -140,8 +138,11 @@ extension AddNewBankAccountView{
                 else if bsbNumber.count <= 5 {
                     toast = Toast(style: .error, message: "BSB Number Should be 6 Digits.")
                 }
-                else if accountHolderName.isEmpty {
-                    toast = Toast(style: .error, message: "Account Holder Name Field cannnot be empty.")
+                else if accountNumber.isEmpty {
+                    toast = Toast(style: .error, message: "Account Number Field cannnot be empty.")
+                }
+                else if (accountNumber.count <= 5 || accountNumber.count >= 11) {
+                    toast = Toast(style: .error, message: "Account Number must between 6-10 Digits.")
                 }
                 else {
                     Task {
@@ -153,10 +154,11 @@ extension AddNewBankAccountView{
                              "account_holder_name": accountHolderName,
                             "account_holder_type":  CompanyView().companyText,
                              "account_number": accountNumber,
-                             "routing_number": "110000",
+                             "routing_number": bsbNumber,
                              "account_id": accountId,
-                             "bsb": bsbNumber
+//                             "bsb": bsbNumber
                         ]
+                        print("create bank account params: \(param)")
                         try await completeFormViewModel.addBankAccount(url:addBankAccountUrl,method:.post,param:param)
                         DispatchQueue.main.async {
                             apicalled = false

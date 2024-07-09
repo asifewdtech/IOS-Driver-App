@@ -254,13 +254,7 @@ func sha256(_ input: String) -> String {
 
 
 struct User {
-    
-    
     var givenName: String
     var profilePicUrl: String
     var email: String
-    
-    
-    
-    
 }

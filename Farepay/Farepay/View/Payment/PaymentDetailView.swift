@@ -93,7 +93,7 @@ struct PaymentDetailView: View {
 //                    DispatchQueue.main.asyncAfter(deadline: .now() + 5){
                         if readerDiscoverModel1.showPay {
                             do {
-                                willMoveToQr.toggle()
+                                willMoveToQr = true
                                 showLoadingIndicator = false
                             }catch{
                                 print("Payment don't transfered")
@@ -278,7 +278,7 @@ extension PaymentDetailView{
                             showLoadingIndicator = false
                         }
                     }
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 20){
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 40){
                         showLoadingIndicator = false
                     }
                 }
@@ -335,19 +335,11 @@ extension Double {
 
 
 class AmountDetail {
-
     static let instance = AmountDetail()
     var totalChargresWithTax = "0.0"
-    
-    
     var serviceFeeGst = 0.0
     var totalAmount = "0.0"
-    
-    
-
     var serviceFee = 0.0
-    
-    
 }
 
 class ReaderDiscoverModel1:NSObject,ObservableObject ,DiscoveryDelegate{
@@ -486,9 +478,11 @@ class ReaderDiscoverModel1:NSObject,ObservableObject ,DiscoveryDelegate{
         
         guard let selectedReader = readers.first else { return }
          let locationId = selectedReader.locationId
-        print("locationId: ",locationId)
+        print("locationId: ",locationId as Any)
+        
         do {
-            let connectionConfig = try LocalMobileConnectionConfigurationBuilder(locationId: locationId ?? "tml_FLrhpAr3WfbIVw").build()
+//            let connectionConfig = try LocalMobileConnectionConfigurationBuilder(locationId: locationId ?? "tml_FLrhpAr3WfbIVw").build() // test
+            let connectionConfig = try LocalMobileConnectionConfigurationBuilder(locationId: locationId ?? "tml_Ff2ffAMANyDVrx").build() // production
             
             Terminal.shared.connectLocalMobileReader(selectedReader, delegate: LocalMobileReaderDelegateAnnouncer.shared, connectionConfig: connectionConfig) { reader, error in
                 if let reader = reader {

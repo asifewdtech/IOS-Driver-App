@@ -11,7 +11,7 @@ import Combine
 struct CompanyView: View {
     
     //MARK: - Variable
-    @State var companyText: String = ""
+    @State var companyText: String = "Individual"
     @State private var cardText: String = ""
     @State private var contactText: String = ""
     @State private var willMoveToRepresentativeView: Bool = false
@@ -38,6 +38,7 @@ struct CompanyView: View {
                 }
                 .onAppear(perform: {
                     UserDefaults.standard.removeObject(forKey: "driverABN")
+                    UserDefaults.standard.removeObject(forKey: "driverLicence")
                 })
                 .toastView(toast: $toast)
                 .padding(.all, 15)
@@ -167,7 +168,7 @@ extension CompanyView{
     }
     
     func PresentedPopUp()  {
-        if (companyText != "Sole Trader") && (companyText != "Business") {
+        if (companyText != "Individual") && (companyText != "Business") {
             toast = Toast(style: .error, message: "Company Type field cannot be empty.")
         }
         else if cardText.isEmpty {
@@ -185,6 +186,8 @@ extension CompanyView{
         else{
             UserDefaults.standard.removeObject(forKey: "stripeFlowStatus")
             UserDefaults.standard.set(cardText, forKey: "driverABN")
+            UserDefaults.standard.set(contactText, forKey: "driverLicence")
+            
             isPresentedPopUp.toggle()
         }
     }
