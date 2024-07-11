@@ -12,8 +12,9 @@ import StripeTerminal
 class APIClient: ConnectionTokenProvider {
 static let shared = APIClient()
 
-static let backendUrl1 = URL(string: "https://0una8ouowh.execute-api.eu-north-1.amazonaws.com/default/CreateConnectionTokenStripe")!
-static let backendUrl = URL(string: "https://ro20hmkti4.execute-api.eu-north-1.amazonaws.com/default/capturePaymentIntent")!
+static let backendUrl1 = URL(string: "https://0una8ouowh.execute-api.eu-north-1.amazonaws.com/default/CreateConnectionTokenStripe")! //General
+//    static let backendUrl1 = URL(string: "https://1tntu2xw2l.execute-api.eu-north-1.amazonaws.com/default/CreateConnectionTokenStripe")! //Test
+//static let backendUrl = URL(string: "https://ro20hmkti4.execute-api.eu-north-1.amazonaws.com/default/capturePaymentIntent")! //Not Used
 
 func fetchConnectionToken(_ completion: @escaping ConnectionTokenCompletionBlock) {
     let config = URLSessionConfiguration.default

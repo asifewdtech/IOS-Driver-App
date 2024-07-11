@@ -31,6 +31,7 @@ struct PaymentDetailView: View {
     @State private var locationPermission = false
     @State var goToHome = false
     @State var locManager = CLLocationManager()
+    @State private var toast: Toast? = nil
     
     //MARK: - Views
     var body: some View {
@@ -89,8 +90,10 @@ struct PaymentDetailView: View {
                     }
                 }
                 
+                UserDefaults.standard.removeObject(forKey: "stripeReceiptId")
+                UserDefaults.standard.removeObject(forKey: "receiptCreated")
+                
                 NotificationCenter.default.addObserver(forName: NSNotification.Name("PAYMENTDETAIL"), object: nil, queue: .main) { (_) in
-//                    DispatchQueue.main.asyncAfter(deadline: .now() + 5){
                         if readerDiscoverModel1.showPay {
                             do {
                                 willMoveToQr = true
@@ -101,11 +104,22 @@ struct PaymentDetailView: View {
                         }
                         if readerDiscoverModel1.cancelPay {
                             showLoadingIndicator = false
+                            toast = Toast(style: .error, message: "Paymet could not successful, Please try again!")
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 3){
+                                presentationMode.wrappedValue.dismiss()
+                            }
+                        }
+                    
+                    if readerDiscoverModel1.errorPay {
+                        showLoadingIndicator = false
+                        toast = Toast(style: .error, message: "Something went wrong, Please try again!")
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 3){
                             presentationMode.wrappedValue.dismiss()
                         }
-//                    }
+                    }
                 }
             })
+            .toastView(toast: $toast)
             .padding(.all, 20)
             
             if showLoadingIndicator{
@@ -352,6 +366,7 @@ class ReaderDiscoverModel1:NSObject,ObservableObject ,DiscoveryDelegate{
     var readerMsgLbl = ""
     @Published var showPay = false
     @Published var cancelPay = false
+    @Published var errorPay = false
     @State private var showInvoice = false
     @State var taxiNumber : String = ""
     @State var driverABN : String = ""
@@ -368,6 +383,8 @@ class ReaderDiscoverModel1:NSObject,ObservableObject ,DiscoveryDelegate{
         self.discoverCancelable = Terminal.shared.discoverReaders(config, delegate: self) { error in
             if let error = error {
                 print("discoverReaders failed: \(error)")
+                self.errorPay = true
+                NotificationCenter.default.post(name: NSNotification.Name("PAYMENTDETAIL"), object: nil)
             } else {
                 print("discoverReaders succeeded")
             }
@@ -426,6 +443,8 @@ class ReaderDiscoverModel1:NSObject,ObservableObject ,DiscoveryDelegate{
           createResult, createError in
             if let error = createError {
                 print("createPaymentIntent failed: \(error)")
+                self.errorPay = true
+                NotificationCenter.default.post(name: NSNotification.Name("PAYMENTDETAIL"), object: nil)
             } else if let paymentIntent = createResult {
                 print("createPaymentIntent succeeded")
                 Terminal.shared.collectPaymentMethod(paymentIntent) { collectResult, collectError in
@@ -437,10 +456,10 @@ class ReaderDiscoverModel1:NSObject,ObservableObject ,DiscoveryDelegate{
                         NotificationCenter.default.post(name: NSNotification.Name("PAYMENTDETAIL"), object: nil)
                     } else if let paymentIntent = collectResult {
                         print("collectPaymentMethod succeeded", paymentIntent)
-                        self.showPay = true
+//                        self.showPay = true
                         self.confirmPaymentIntent(paymentIntent)
                         self.disconnectFromReader()
-                        NotificationCenter.default.post(name: NSNotification.Name("PAYMENTDETAIL"), object: nil)
+//                        NotificationCenter.default.post(name: NSNotification.Name("PAYMENTDETAIL"), object: nil)
                     }
                 }
             }
@@ -451,25 +470,40 @@ class ReaderDiscoverModel1:NSObject,ObservableObject ,DiscoveryDelegate{
         Terminal.shared.confirmPaymentIntent(paymentIntent) { confirmResult, confirmError in
             if let error = confirmError {
                 print("confirmPaymentIntent failed: \(error)")
+                self.cancelPay = true
+                NotificationCenter.default.post(name: NSNotification.Name("PAYMENTDETAIL"), object: nil)
             } else if let confirmedPaymentIntent = confirmResult {
-                print("confirmPaymentIntent succeeded")
-
-                if let stripeId = confirmedPaymentIntent.stripeId {
-                    APIClient.shared.capturePaymentIntent(stripeId) { captureError in
-                        if let error = captureError {
-                            print("capture failed: \(error)")
-                        } else {
-                            print("capture succeeded")
-                            self.readerMessageLabel.text = "Payment captured"
-                            if let paymentMethod = paymentIntent.paymentMethod,
-                               let card = paymentMethod.cardPresent ?? paymentMethod.interacPresent {
-                                // ... Perform business logic on card
-                            }
-                        }
-                    }
-                } else {
-                    print("Payment collected offline")
-                }
+                print("confirmPaymentIntent succeeded", confirmedPaymentIntent)
+                
+                let stripeChargesArr = confirmedPaymentIntent.charges
+                let stripeReceiptId = stripeChargesArr[0].stripeId
+                let receiptCreated = confirmedPaymentIntent.created
+                
+                UserDefaults.standard.set(stripeReceiptId, forKey: "stripeReceiptId")
+                UserDefaults.standard.set(receiptCreated, forKey: "receiptCreated")
+                
+                
+                self.showPay = true
+                NotificationCenter.default.post(name: NSNotification.Name("PAYMENTDETAIL"), object: nil)
+                
+                
+//                if let stripeId = confirmedPaymentIntent.stripeId {
+//                    APIClient.shared.capturePaymentIntent(stripeId) { captureError in
+//                        if let error = captureError {
+//                            print("capture failed: \(error)")
+//                        } else {
+//                            print("capture succeeded")
+//                            self.readerMessageLabel.text = "Payment captured"
+//                            if let paymentMethod = paymentIntent.paymentMethod,
+//                               let card = paymentMethod.cardPresent ?? paymentMethod.interacPresent {
+//                                // ... Perform business logic on card
+//                                print ("payment card res: ",card, paymentMethod)
+//                            }
+//                        }
+//                    }
+//                } else {
+//                    print("Payment collected offline")
+//                }
             }
         }
     }
