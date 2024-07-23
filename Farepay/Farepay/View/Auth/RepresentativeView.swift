@@ -775,7 +775,6 @@ extension RepresentativeView{
             let stripeVeriSessionID = UserDefaults.standard.string(forKey: "stripeSessionID")
 //            let urlStr = "\(uploadInformationUrl)username=default&userEmail=\(Auth.auth().currentUser?.email ?? "")&firstname=\(firstPart)&day=3&month=10&year=2000&address=\(addrTextStr)&phone=61\(mobileNumberText)&lastname=\(secondPart)&frontimgid=\(frontImageId)&backimgid=\(backImageId)"
             
-            
             let urlCreateAccount = "\(uploadInformationUrl)username=\(firstPart)&userEmail=\(Auth.auth().currentUser?.email ?? "")&firstname=\(firstPart)&lastname=\(secondPart)&day=\(datePart)&month=\(monthPart)&year=\(yearPart)&address=\(streetAddr)&city=\(cityAddr)&state=\(stateAddr)&postalCode=\(postalAddr)&country=\("Australia")&phone=61\(mobileNumberText)&frontimgid=\(stripeVeriSessionID ?? "1234")&abn=\(driverABN ?? "1234")&driverlicence=\(driverLicence ?? "1234")&driverauthority=\(authorityNumberText)"
             print("Create Account url API: ",urlCreateAccount)
             

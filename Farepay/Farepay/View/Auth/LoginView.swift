@@ -565,7 +565,8 @@ struct DropdownSelector: View {
                 withAnimation {
                     self.shouldShowDropdown.toggle()
                 }
-            }) {
+            }) 
+            {
                 HStack {
                     Image(uiImage: .ic_Company)
                         .resizable()

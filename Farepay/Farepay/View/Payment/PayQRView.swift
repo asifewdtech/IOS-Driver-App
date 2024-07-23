@@ -75,7 +75,7 @@ struct PayQRView: View {
                         
                         let dateFormatter = DateFormatter()
                         dateFormatter.dateFormat = "EEEE"
-                        let dayInWeek = dateFormatter.string(from: receiptCreated as! Date)
+                        let dayInWeek = dateFormatter.string(from: receiptCreated as? Date ?? NSDate() as Date)
                         
                         receiptDate = "\(dayInWeek)\(", ")\(receiptDate ?? "N/A")"
                         

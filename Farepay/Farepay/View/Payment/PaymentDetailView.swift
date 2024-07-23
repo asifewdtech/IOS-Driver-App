@@ -96,8 +96,10 @@ struct PaymentDetailView: View {
                 NotificationCenter.default.addObserver(forName: NSNotification.Name("PAYMENTDETAIL"), object: nil, queue: .main) { (_) in
                         if readerDiscoverModel1.showPay {
                             do {
-                                willMoveToQr = true
-                                showLoadingIndicator = false
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 5){
+                                    willMoveToQr = true
+                                    showLoadingIndicator = false
+                                }
                             }catch{
                                 print("Payment don't transfered")
                             }
@@ -105,7 +107,7 @@ struct PaymentDetailView: View {
                         if readerDiscoverModel1.cancelPay {
                             showLoadingIndicator = false
                             toast = Toast(style: .error, message: "Paymet could not successful, Please try again!")
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 3){
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 2){
                                 presentationMode.wrappedValue.dismiss()
                             }
                         }
@@ -113,7 +115,7 @@ struct PaymentDetailView: View {
                     if readerDiscoverModel1.errorPay {
                         showLoadingIndicator = false
                         toast = Toast(style: .error, message: "Something went wrong, Please try again!")
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 3){
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 2){
                             presentationMode.wrappedValue.dismiss()
                         }
                     }
@@ -206,7 +208,7 @@ extension PaymentDetailView{
                 
                 HStack{
                     
-                    Text("Service Charges : ")
+                    Text("Service Charges :")
                         .foregroundColor(Color(.darkGrayColor))
                         .font(.custom(.poppinsMedium, size: 23))
                     Spacer()
@@ -217,7 +219,7 @@ extension PaymentDetailView{
                 
                 HStack{
                     
-                    Text("Service Fee GST")
+                    Text("Service Fee GST :")
                         .foregroundColor(Color(.darkGrayColor))
                         .font(.custom(.poppinsMedium, size: 23))
                     Spacer()
@@ -429,6 +431,7 @@ class ReaderDiscoverModel1:NSObject,ObservableObject ,DiscoveryDelegate{
             "Driverlicence": driverLicence,
             "Address": fareAddress
         ] as? [String: String]
+        print("metadata params: ",param)
         
         let params = try PaymentIntentParametersBuilder(amount: UInt(arrAmount) ?? 0, currency: "AUD")
             .setPaymentMethodTypes(["card_present"])
@@ -456,10 +459,10 @@ class ReaderDiscoverModel1:NSObject,ObservableObject ,DiscoveryDelegate{
                         NotificationCenter.default.post(name: NSNotification.Name("PAYMENTDETAIL"), object: nil)
                     } else if let paymentIntent = collectResult {
                         print("collectPaymentMethod succeeded", paymentIntent)
-//                        self.showPay = true
+                        self.showPay = true
                         self.confirmPaymentIntent(paymentIntent)
                         self.disconnectFromReader()
-//                        NotificationCenter.default.post(name: NSNotification.Name("PAYMENTDETAIL"), object: nil)
+                        NotificationCenter.default.post(name: NSNotification.Name("PAYMENTDETAIL"), object: nil)
                     }
                 }
             }
@@ -483,8 +486,8 @@ class ReaderDiscoverModel1:NSObject,ObservableObject ,DiscoveryDelegate{
                 UserDefaults.standard.set(receiptCreated, forKey: "receiptCreated")
                 
                 
-                self.showPay = true
-                NotificationCenter.default.post(name: NSNotification.Name("PAYMENTDETAIL"), object: nil)
+//                self.showPay = true
+//                NotificationCenter.default.post(name: NSNotification.Name("PAYMENTDETAIL"), object: nil)
                 
                 
 //                if let stripeId = confirmedPaymentIntent.stripeId {
