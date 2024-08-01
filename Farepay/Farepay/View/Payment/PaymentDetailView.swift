@@ -25,6 +25,9 @@ struct PaymentDetailView: View {
     @State private var totalAmount = 0.0
     @State private var serviceFee = "0.00"
     @State private var serviceFeeGst = "0.00"
+    @State var txNumber = ""
+    @State var driABN = ""
+    @State var driLicence = ""
     @StateObject var readerDiscoverModel1 = ReaderDiscoverModel1()
     @State private var willMoveToQr = false
     @State var showLoadingIndicator: Bool = false
@@ -50,6 +53,10 @@ struct PaymentDetailView: View {
                 buttonArea
             }
             .onAppear(perform: {
+                UserDefaults.standard.removeObject(forKey: "txNumber")
+                UserDefaults.standard.removeObject(forKey: "driABN")
+                UserDefaults.standard.removeObject(forKey: "driLicence")
+                UserDefaults.standard.removeObject(forKey: "fareAddress")
                 
                 if let cost = Double(farePriceText.trimmingCharacters(in: .whitespaces)) {
                     let formatter = NumberFormatter()
@@ -88,6 +95,8 @@ struct PaymentDetailView: View {
                     } else {
                         print("Failed to format the decimal value")
                     }
+                    fetchFirebase()
+                    fetchLatLong()
                 }
                 
                 UserDefaults.standard.removeObject(forKey: "stripeReceiptId")
@@ -335,6 +344,72 @@ extension PaymentDetailView{
         }
     }
     
+    func fetchFirebase() {
+        let collectionRef = Firestore.firestore().collection("usersInfo")
+        collectionRef.getDocuments { (snapshot, error) in
+            if let err = error {
+                debugPrint("error fetching docs: \(err)")
+            } else {
+                guard let snap = snapshot else {
+                    return
+                }
+                for document in snap.documents {
+                    let data = document.data()
+                    let emailText = Auth.auth().currentUser?.email ?? ""
+                    if emailText ==  data["email"] as? String {
+                        DispatchQueue.main.async {
+                            print("error: ", error?.localizedDescription)
+                            self.txNumber  = data["taxiID"] as? String ?? ""
+                            self.driABN  = data["driverABN"] as? String ?? ""
+                            self.driLicence  = data["driverID"] as? String ?? ""
+                            UserDefaults.standard.set(txNumber, forKey: "txNumber")
+                            UserDefaults.standard.set(driABN, forKey: "driABN")
+                            UserDefaults.standard.set(driLicence, forKey: "driLicence")
+                            print("tNumber: ",txNumber, " ,dABN: ", driABN, " ,dLicence: ", driLicence)
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    func fetchLatLong() {
+        locManager.requestWhenInUseAuthorization()
+        
+        if (CLLocationManager.authorizationStatus() == CLAuthorizationStatus.authorizedWhenInUse ||
+            CLLocationManager.authorizationStatus() == CLAuthorizationStatus.authorizedAlways){
+            guard let currentLocation = locManager.location else {
+                return
+            }
+            print(currentLocation.coordinate.latitude)
+            print(currentLocation.coordinate.longitude)
+            
+            getAddressFromLatLong(latitude: currentLocation.coordinate.latitude, longitude: currentLocation.coordinate.longitude)
+        }
+    }
+    
+    func getAddressFromLatLong(latitude: Double, longitude : Double){
+        
+        let url = "https://maps.googleapis.com/maps/api/geocode/json?latlng=\(latitude),\(longitude)&key=AIzaSyDvzoBJGEDZ5LpZ002k8JvKfWgnepzwxdc"
+        
+        AF.request(url).validate().responseJSON { response in
+            switch response.result {
+            case let .success(value):
+                if let results = (value as AnyObject).object(forKey: "results")! as? [NSDictionary] {
+                    if results.count > 0 {
+                        if results[1]["address_components"]! is [NSDictionary] {
+                            let address = results[0]["formatted_address"] as? String
+                            print("fareAddress: ",address)
+                            UserDefaults.standard.set(address, forKey: "fareAddress")
+                        }
+                    }
+                }
+            case .failure(let error):
+                print(error)
+            }
+        }
+    }
+    
     func navigateToInvoiice() {
 //        UINavigationController.ins
     }
@@ -385,12 +460,13 @@ class ReaderDiscoverModel1:NSObject,ObservableObject ,DiscoveryDelegate{
         self.discoverCancelable = Terminal.shared.discoverReaders(config, delegate: self) { error in
             if let error = error {
                 print("discoverReaders failed: \(error)")
+                self.disconnectFromReader()
                 self.errorPay = true
                 NotificationCenter.default.post(name: NSNotification.Name("PAYMENTDETAIL"), object: nil)
             } else {
                 print("discoverReaders succeeded")
             }
-            self.fetchLatLong()
+            
 //            self.showPay = true
 //            NotificationCenter.default.post(name: NSNotification.Name("PAYMENTDETAIL"), object: nil)
         }
@@ -409,27 +485,24 @@ class ReaderDiscoverModel1:NSObject,ObservableObject ,DiscoveryDelegate{
     
     @objc
     func collectPayment(amount: String) throws {
-        firebaseFetch()
+//        firebaseFetch()
         let developer = amount
         let array = developer.split(separator: ".").map(String.init)
         let arrAmount = "\(array[0])\(array[1])"
         print("Array amount: ",arrAmount)
         
-//        let taxiParams = [
-//            "taxiID" : taxiNumber
-//        ] as? [String: String]
-//        let driverABN = [
-//            "ABN" : driverABN
-//        ] as? [String: String]
-//        let driverLicence = [
-//            "Driverlicence" : driverLicence
-//        ] as? [String: String]
         
+        let tNumber = UserDefaults.standard.string(forKey: "txNumber")
+        let dABN = UserDefaults.standard.string(forKey: "driABN")
+        let dLicence = UserDefaults.standard.string(forKey: "driLicence")
+        let fAddress = UserDefaults.standard.string(forKey: "fareAddress") ?? "Australia"
+        
+        print("tNumber: ",tNumber, "dABN", dABN, "dLicence", dLicence, "fareAddress", fAddress)
         let param = [
-            "taxiID": taxiNumber,
-            "ABN": driverABN,
-            "Driverlicence": driverLicence,
-            "Address": fareAddress
+            "taxiID": tNumber,
+            "ABN": dABN,
+            "Driverlicence": dLicence,
+            "Address": fAddress
         ] as? [String: String]
         print("metadata params: ",param)
         
@@ -518,8 +591,21 @@ class ReaderDiscoverModel1:NSObject,ObservableObject ,DiscoveryDelegate{
         print("locationId: ",locationId as Any)
         
         do {
+            var termiialLocationID = ""
+            if API.App_Envir == "Production" {
+                termiialLocationID = "tml_Ff2ffAMANyDVrx"
+            }
+            else if API.App_Envir == "Dev" {
+                termiialLocationID = "tml_FLrhpAr3WfbIVw"
+            }
+            else if API.App_Envir == "Stagging" {
+                termiialLocationID = "tml_Ff2ffAMANyDVrx"
+            }else{
+                termiialLocationID = "tml_Ff2ffAMANyDVrx"
+            }
+            
 //            let connectionConfig = try LocalMobileConnectionConfigurationBuilder(locationId: locationId ?? "tml_FLrhpAr3WfbIVw").build() // test
-            let connectionConfig = try LocalMobileConnectionConfigurationBuilder(locationId: locationId ?? "tml_Ff2ffAMANyDVrx").build() // production
+            let connectionConfig = try LocalMobileConnectionConfigurationBuilder(locationId: locationId ?? termiialLocationID).build() // production
             
             Terminal.shared.connectLocalMobileReader(selectedReader, delegate: LocalMobileReaderDelegateAnnouncer.shared, connectionConfig: connectionConfig) { reader, error in
                 if let reader = reader {
@@ -535,69 +621,6 @@ class ReaderDiscoverModel1:NSObject,ObservableObject ,DiscoveryDelegate{
             }
         } catch {
             print("Error creating LocalMobileConnectionConfiguration: \(error)")
-        }
-    }
-    
-    @objc
-    func firebaseFetch() {
-        let collectionRef = Firestore.firestore().collection("usersInfo")
-        collectionRef.getDocuments { (snapshot, error) in
-            if let err = error {
-                debugPrint("error fetching docs: \(err)")
-            } else {
-                guard let snap = snapshot else {
-                    return
-                }
-                for document in snap.documents {
-                    let data = document.data()
-                    let emailText = Auth.auth().currentUser?.email ?? ""
-                    if emailText ==  data["email"] as? String {
-                        DispatchQueue.main.async {
-                            print("error: ", error?.localizedDescription)
-                            self.taxiNumber  = data["taxiID"] as? String ?? ""
-                            self.driverABN  = data["driverABN"] as? String ?? ""
-                            self.driverLicence  = data["driverID"] as? String ?? ""
-                            //                        print("taxiNumber: ",taxiNumber)
-                        }
-                    }
-                }
-            }
-        }
-    }
-    
-    func fetchLatLong() {
-        locManager.requestWhenInUseAuthorization()
-        
-        if (CLLocationManager.authorizationStatus() == CLAuthorizationStatus.authorizedWhenInUse ||
-            CLLocationManager.authorizationStatus() == CLAuthorizationStatus.authorizedAlways){
-            guard let currentLocation = locManager.location else {
-                return
-            }
-            print(currentLocation.coordinate.latitude)
-            print(currentLocation.coordinate.longitude)
-            
-            getAddressFromLatLong(latitude: currentLocation.coordinate.latitude, longitude: currentLocation.coordinate.longitude)
-        }
-    }
-    
-    func getAddressFromLatLong(latitude: Double, longitude : Double){
-        
-        let url = "https://maps.googleapis.com/maps/api/geocode/json?latlng=\(latitude),\(longitude)&key=AIzaSyDvzoBJGEDZ5LpZ002k8JvKfWgnepzwxdc"
-        
-        AF.request(url).validate().responseJSON { response in
-            switch response.result {
-            case let .success(value):
-                if let results = (value as AnyObject).object(forKey: "results")! as? [NSDictionary] {
-                    if results.count > 0 {
-                        if let addressComponents = results[1]["address_components"]! as? [NSDictionary] {
-                            let address = results[0]["formatted_address"] as? String
-                            self.fareAddress = address ?? ""
-                        }
-                    }
-                }
-            case .failure(let error):
-                print(error)
-            }
         }
     }
 }

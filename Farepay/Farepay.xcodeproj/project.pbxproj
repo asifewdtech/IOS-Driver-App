@@ -10,6 +10,7 @@
 		1815D5212B4BCB550067202C /* UnderReviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1815D5202B4BCB550067202C /* UnderReviewView.swift */; };
 		183909182BD8EE57003D8051 /* TapToPayGuidlinesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 183909172BD8EE57003D8051 /* TapToPayGuidlinesView.swift */; };
 		187AB27D2B2992A900B170EE /* DelegateAnnouncer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 187AB27C2B2992A900B170EE /* DelegateAnnouncer.swift */; };
+		18D4F27A2C50D24F00EEEE6B /* ConfigurationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18D4F2792C50D24F00EEEE6B /* ConfigurationManager.swift */; };
 		18D7CF8C2B1DA4640022FBBE /* ActivityIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18D7CF8B2B1DA4640022FBBE /* ActivityIndicator.swift */; };
 		322FC4222AFA44F80053C82C /* TransectionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 322FC4212AFA44F80053C82C /* TransectionViewModel.swift */; };
 		3230C1322AD3C74C005E182B /* SplashView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F51193902A97C6ED00554604 /* SplashView.swift */; };
@@ -112,9 +113,14 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		09880E2E0268724DC1688895 /* Pods-Farepay.debug-stagging.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Farepay.debug-stagging.xcconfig"; path = "Target Support Files/Pods-Farepay/Pods-Farepay.debug-stagging.xcconfig"; sourceTree = "<group>"; };
 		1815D5202B4BCB550067202C /* UnderReviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnderReviewView.swift; sourceTree = "<group>"; };
 		183909172BD8EE57003D8051 /* TapToPayGuidlinesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TapToPayGuidlinesView.swift; sourceTree = "<group>"; };
 		187AB27C2B2992A900B170EE /* DelegateAnnouncer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DelegateAnnouncer.swift; sourceTree = "<group>"; };
+		18D4F2762C50CF6700EEEE6B /* Farepay-Dev.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "Farepay-Dev.xcconfig"; sourceTree = "<group>"; };
+		18D4F2772C50CF7B00EEEE6B /* Farepay-Stagging.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "Farepay-Stagging.xcconfig"; sourceTree = "<group>"; };
+		18D4F2782C50CF8B00EEEE6B /* Farepay-Prod.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "Farepay-Prod.xcconfig"; sourceTree = "<group>"; };
+		18D4F2792C50D24F00EEEE6B /* ConfigurationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigurationManager.swift; sourceTree = "<group>"; };
 		18D7CF8B2B1DA4640022FBBE /* ActivityIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityIndicator.swift; sourceTree = "<group>"; };
 		18E395692B7B571000A4036D /* Farepay.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Farepay.entitlements; sourceTree = "<group>"; };
 		322FC4212AFA44F80053C82C /* TransectionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransectionViewModel.swift; sourceTree = "<group>"; };
@@ -133,9 +139,14 @@
 		32CA107C2AE5103D00741B7C /* CompleteFormViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompleteFormViewModel.swift; sourceTree = "<group>"; };
 		32E005CD2AD51DFF008CA8ED /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		32E006012AD524A7008CA8ED /* UserAuthViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserAuthViewModel.swift; sourceTree = "<group>"; };
+		70661699434CE8164D9120BB /* Pods-Farepay.debug-pro.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Farepay.debug-pro.xcconfig"; path = "Target Support Files/Pods-Farepay/Pods-Farepay.debug-pro.xcconfig"; sourceTree = "<group>"; };
+		80748B4336533D9E9DF32E2B /* Pods-Farepay.debug-dev.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Farepay.debug-dev.xcconfig"; path = "Target Support Files/Pods-Farepay/Pods-Farepay.debug-dev.xcconfig"; sourceTree = "<group>"; };
 		8EABFA1ADBD71A24CD39AD52 /* Pods-Farepay.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Farepay.release.xcconfig"; path = "Target Support Files/Pods-Farepay/Pods-Farepay.release.xcconfig"; sourceTree = "<group>"; };
 		A2A38D63393BBCF5CD6DDAAE /* Pods-Farepay.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Farepay.debug.xcconfig"; path = "Target Support Files/Pods-Farepay/Pods-Farepay.debug.xcconfig"; sourceTree = "<group>"; };
 		D98CE9B5D2C522DB276B31E0 /* Pods_Farepay.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Farepay.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		E318254B4EF1080CEB70D451 /* Pods-Farepay.release-pro.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Farepay.release-pro.xcconfig"; path = "Target Support Files/Pods-Farepay/Pods-Farepay.release-pro.xcconfig"; sourceTree = "<group>"; };
+		EF277C3B0BB18324A85C051B /* Pods-Farepay.release-stagging.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Farepay.release-stagging.xcconfig"; path = "Target Support Files/Pods-Farepay/Pods-Farepay.release-stagging.xcconfig"; sourceTree = "<group>"; };
+		F0EE52E168FB821E45F386D0 /* Pods-Farepay.release-dev.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Farepay.release-dev.xcconfig"; path = "Target Support Files/Pods-Farepay/Pods-Farepay.release-dev.xcconfig"; sourceTree = "<group>"; };
 		F50BE0702AA6503A00DD465A /* PayoutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayoutView.swift; sourceTree = "<group>"; };
 		F50BE0732AA658AB00DD465A /* TransactionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionView.swift; sourceTree = "<group>"; };
 		F50BE0762AA65A0000DD465A /* ReferAFriendView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReferAFriendView.swift; sourceTree = "<group>"; };
@@ -250,6 +261,17 @@
 			path = TapToPayGuidlines;
 			sourceTree = "<group>";
 		};
+		18D4F2752C50CF4800EEEE6B /* Configuration */ = {
+			isa = PBXGroup;
+			children = (
+				18D4F2762C50CF6700EEEE6B /* Farepay-Dev.xcconfig */,
+				18D4F2772C50CF7B00EEEE6B /* Farepay-Stagging.xcconfig */,
+				18D4F2782C50CF8B00EEEE6B /* Farepay-Prod.xcconfig */,
+				18D4F2792C50D24F00EEEE6B /* ConfigurationManager.swift */,
+			);
+			path = Configuration;
+			sourceTree = "<group>";
+		};
 		326495F22AE7B4AD006629DC /* Stripe */ = {
 			isa = PBXGroup;
 			children = (
@@ -289,6 +311,12 @@
 			children = (
 				A2A38D63393BBCF5CD6DDAAE /* Pods-Farepay.debug.xcconfig */,
 				8EABFA1ADBD71A24CD39AD52 /* Pods-Farepay.release.xcconfig */,
+				70661699434CE8164D9120BB /* Pods-Farepay.debug-pro.xcconfig */,
+				09880E2E0268724DC1688895 /* Pods-Farepay.debug-stagging.xcconfig */,
+				80748B4336533D9E9DF32E2B /* Pods-Farepay.debug-dev.xcconfig */,
+				E318254B4EF1080CEB70D451 /* Pods-Farepay.release-pro.xcconfig */,
+				EF277C3B0BB18324A85C051B /* Pods-Farepay.release-stagging.xcconfig */,
+				F0EE52E168FB821E45F386D0 /* Pods-Farepay.release-dev.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -344,6 +372,7 @@
 				18E395692B7B571000A4036D /* Farepay.entitlements */,
 				326495F22AE7B4AD006629DC /* Stripe */,
 				32888C8E2AD6862600A39C8B /* ToastAlert */,
+				18D4F2752C50CF4800EEEE6B /* Configuration */,
 				32E006002AD52492008CA8ED /* ViewModel */,
 				32E005CD2AD51DFF008CA8ED /* GoogleService-Info.plist */,
 				32888C8C2AD66BD300A39C8B /* client_200787587375-p84ci5307vvk1e8fqm380shfbc4ufkem.apps.googleusercontent.com.plist */,
@@ -738,6 +767,7 @@
 				F59F81ED2AC3407700A51AC6 /* StepsView.swift in Sources */,
 				F5449AC32AB0E02400BE5AF4 /* TransactionDetailView.swift in Sources */,
 				3230C1322AD3C74C005E182B /* SplashView.swift in Sources */,
+				18D4F27A2C50D24F00EEEE6B /* ConfigurationManager.swift in Sources */,
 				F5EA16BA2AB21F69000F9CCA /* Constants.swift in Sources */,
 				F5D118522A9FB6A100C027FA /* PaymentView.swift in Sources */,
 				F5A11EBE2AAF9D7A005FDEDB /* ErrorView.swift in Sources */,
@@ -795,8 +825,9 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
-		F51193862A97C4E200554604 /* Debug */ = {
+		18D4F26D2C50C6F500EEEE6B /* Debug-Dev */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 18D4F2762C50CF6700EEEE6B /* Farepay-Dev.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -856,10 +887,175 @@
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
-			name = Debug;
+			name = "Debug-Dev";
 		};
-		F51193872A97C4E200554604 /* Release */ = {
+		18D4F26E2C50C6F500EEEE6B /* Debug-Dev */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 80748B4336533D9E9DF32E2B /* Pods-Farepay.debug-dev.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
+				CODE_SIGN_ENTITLEMENTS = Farepay/Farepay.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 40;
+				DEVELOPMENT_ASSET_PATHS = "\"Farepay/Preview Content\"";
+				DEVELOPMENT_TEAM = F2D64HKJXK;
+				ENABLE_PREVIEWS = YES;
+				ENABLE_USER_SELECTED_FILES = "";
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Farepay/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = Farepay;
+				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "This app uses Bluetooth to connect to supported card readers.";
+				INFOPLIST_KEY_NSBluetoothPeripheralUsageDescription = "Bluetooth access is required to connect to supported card readers.";
+				INFOPLIST_KEY_NSCameraUsageDescription = "We need access to your camera to take photos.";
+				INFOPLIST_KEY_NSLocationUsageDescription = "Location access is required to accept the payments.";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Location access is required to accept payments.";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "We need access to your photo library to select images.";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = SplashScreen.storyboard;
+				INFOPLIST_KEY_UIRequiresFullScreen = YES;
+				INFOPLIST_KEY_UIStatusBarHidden = NO;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.Farepay.iOS;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = "Debug-Dev";
+		};
+		18D4F26F2C50C70400EEEE6B /* Debug-Stagging */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 18D4F2772C50CF7B00EEEE6B /* Farepay-Stagging.xcconfig */;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_ENTITLEMENTS = Farepay/Farepay.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = "";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = "Debug-Stagging";
+		};
+		18D4F2702C50C70400EEEE6B /* Debug-Stagging */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 09880E2E0268724DC1688895 /* Pods-Farepay.debug-stagging.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
+				CODE_SIGN_ENTITLEMENTS = Farepay/Farepay.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 40;
+				DEVELOPMENT_ASSET_PATHS = "\"Farepay/Preview Content\"";
+				DEVELOPMENT_TEAM = F2D64HKJXK;
+				ENABLE_PREVIEWS = YES;
+				ENABLE_USER_SELECTED_FILES = "";
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Farepay/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = Farepay;
+				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "This app uses Bluetooth to connect to supported card readers.";
+				INFOPLIST_KEY_NSBluetoothPeripheralUsageDescription = "Bluetooth access is required to connect to supported card readers.";
+				INFOPLIST_KEY_NSCameraUsageDescription = "We need access to your camera to take photos.";
+				INFOPLIST_KEY_NSLocationUsageDescription = "Location access is required to accept the payments.";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Location access is required to accept payments.";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "We need access to your photo library to select images.";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = SplashScreen.storyboard;
+				INFOPLIST_KEY_UIRequiresFullScreen = YES;
+				INFOPLIST_KEY_UIStatusBarHidden = NO;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.Farepay.iOS;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = "Debug-Stagging";
+		};
+		18D4F2712C50C72200EEEE6B /* Release-Dev */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 18D4F2762C50CF6700EEEE6B /* Farepay-Dev.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -913,11 +1109,11 @@
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				VALIDATE_PRODUCT = YES;
 			};
-			name = Release;
+			name = "Release-Dev";
 		};
-		F51193892A97C4E200554604 /* Debug */ = {
+		18D4F2722C50C72200EEEE6B /* Release-Dev */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = A2A38D63393BBCF5CD6DDAAE /* Pods-Farepay.debug.xcconfig */;
+			baseConfigurationReference = F0EE52E168FB821E45F386D0 /* Pods-Farepay.release-dev.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -925,13 +1121,14 @@
 				CODE_SIGN_ENTITLEMENTS = Farepay/Farepay.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 38;
+				CURRENT_PROJECT_VERSION = 40;
 				DEVELOPMENT_ASSET_PATHS = "\"Farepay/Preview Content\"";
 				DEVELOPMENT_TEAM = F2D64HKJXK;
 				ENABLE_PREVIEWS = YES;
 				ENABLE_USER_SELECTED_FILES = "";
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Farepay/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = Farepay;
 				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "This app uses Bluetooth to connect to supported card readers.";
 				INFOPLIST_KEY_NSBluetoothPeripheralUsageDescription = "Bluetooth access is required to connect to supported card readers.";
 				INFOPLIST_KEY_NSCameraUsageDescription = "We need access to your camera to take photos.";
@@ -962,11 +1159,69 @@
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
-			name = Debug;
+			name = "Release-Dev";
 		};
-		F511938A2A97C4E200554604 /* Release */ = {
+		18D4F2732C50C73300EEEE6B /* Release-Stagging */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 8EABFA1ADBD71A24CD39AD52 /* Pods-Farepay.release.xcconfig */;
+			baseConfigurationReference = 18D4F2772C50CF7B00EEEE6B /* Farepay-Stagging.xcconfig */;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_ENTITLEMENTS = Farepay/Farepay.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = "";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = "Release-Stagging";
+		};
+		18D4F2742C50C73300EEEE6B /* Release-Stagging */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = EF277C3B0BB18324A85C051B /* Pods-Farepay.release-stagging.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -974,13 +1229,14 @@
 				CODE_SIGN_ENTITLEMENTS = Farepay/Farepay.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 38;
+				CURRENT_PROJECT_VERSION = 40;
 				DEVELOPMENT_ASSET_PATHS = "\"Farepay/Preview Content\"";
 				DEVELOPMENT_TEAM = F2D64HKJXK;
 				ENABLE_PREVIEWS = YES;
 				ENABLE_USER_SELECTED_FILES = "";
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Farepay/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = Farepay;
 				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "This app uses Bluetooth to connect to supported card readers.";
 				INFOPLIST_KEY_NSBluetoothPeripheralUsageDescription = "Bluetooth access is required to connect to supported card readers.";
 				INFOPLIST_KEY_NSCameraUsageDescription = "We need access to your camera to take photos.";
@@ -1011,7 +1267,229 @@
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
-			name = Release;
+			name = "Release-Stagging";
+		};
+		F51193862A97C4E200554604 /* Debug-PRO */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 18D4F2782C50CF8B00EEEE6B /* Farepay-Prod.xcconfig */;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_ENTITLEMENTS = Farepay/Farepay.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = "";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = "Debug-PRO";
+		};
+		F51193872A97C4E200554604 /* Release-PRO */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 18D4F2782C50CF8B00EEEE6B /* Farepay-Prod.xcconfig */;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_ENTITLEMENTS = Farepay/Farepay.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = "";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = "Release-PRO";
+		};
+		F51193892A97C4E200554604 /* Debug-PRO */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 70661699434CE8164D9120BB /* Pods-Farepay.debug-pro.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
+				CODE_SIGN_ENTITLEMENTS = Farepay/Farepay.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 40;
+				DEVELOPMENT_ASSET_PATHS = "\"Farepay/Preview Content\"";
+				DEVELOPMENT_TEAM = F2D64HKJXK;
+				ENABLE_PREVIEWS = YES;
+				ENABLE_USER_SELECTED_FILES = "";
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Farepay/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = Farepay;
+				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "This app uses Bluetooth to connect to supported card readers.";
+				INFOPLIST_KEY_NSBluetoothPeripheralUsageDescription = "Bluetooth access is required to connect to supported card readers.";
+				INFOPLIST_KEY_NSCameraUsageDescription = "We need access to your camera to take photos.";
+				INFOPLIST_KEY_NSLocationUsageDescription = "Location access is required to accept the payments.";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Location access is required to accept payments.";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "We need access to your photo library to select images.";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = SplashScreen.storyboard;
+				INFOPLIST_KEY_UIRequiresFullScreen = YES;
+				INFOPLIST_KEY_UIStatusBarHidden = NO;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.Farepay.iOS;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = "Debug-PRO";
+		};
+		F511938A2A97C4E200554604 /* Release-PRO */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = E318254B4EF1080CEB70D451 /* Pods-Farepay.release-pro.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
+				CODE_SIGN_ENTITLEMENTS = Farepay/Farepay.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 40;
+				DEVELOPMENT_ASSET_PATHS = "\"Farepay/Preview Content\"";
+				DEVELOPMENT_TEAM = F2D64HKJXK;
+				ENABLE_PREVIEWS = YES;
+				ENABLE_USER_SELECTED_FILES = "";
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Farepay/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = Farepay;
+				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "This app uses Bluetooth to connect to supported card readers.";
+				INFOPLIST_KEY_NSBluetoothPeripheralUsageDescription = "Bluetooth access is required to connect to supported card readers.";
+				INFOPLIST_KEY_NSCameraUsageDescription = "We need access to your camera to take photos.";
+				INFOPLIST_KEY_NSLocationUsageDescription = "Location access is required to accept the payments.";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Location access is required to accept payments.";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "We need access to your photo library to select images.";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = SplashScreen.storyboard;
+				INFOPLIST_KEY_UIRequiresFullScreen = YES;
+				INFOPLIST_KEY_UIStatusBarHidden = NO;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.Farepay.iOS;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = "Release-PRO";
 		};
 /* End XCBuildConfiguration section */
 
@@ -1019,20 +1497,28 @@
 		F51193752A97C4DF00554604 /* Build configuration list for PBXProject "Farepay" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				F51193862A97C4E200554604 /* Debug */,
-				F51193872A97C4E200554604 /* Release */,
+				F51193862A97C4E200554604 /* Debug-PRO */,
+				18D4F26F2C50C70400EEEE6B /* Debug-Stagging */,
+				18D4F26D2C50C6F500EEEE6B /* Debug-Dev */,
+				F51193872A97C4E200554604 /* Release-PRO */,
+				18D4F2732C50C73300EEEE6B /* Release-Stagging */,
+				18D4F2712C50C72200EEEE6B /* Release-Dev */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = "Release-PRO";
 		};
 		F51193882A97C4E200554604 /* Build configuration list for PBXNativeTarget "Farepay" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				F51193892A97C4E200554604 /* Debug */,
-				F511938A2A97C4E200554604 /* Release */,
+				F51193892A97C4E200554604 /* Debug-PRO */,
+				18D4F2702C50C70400EEEE6B /* Debug-Stagging */,
+				18D4F26E2C50C6F500EEEE6B /* Debug-Dev */,
+				F511938A2A97C4E200554604 /* Release-PRO */,
+				18D4F2742C50C73300EEEE6B /* Release-Stagging */,
+				18D4F2722C50C72200EEEE6B /* Release-Dev */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = "Release-PRO";
 		};
 /* End XCConfigurationList section */
 

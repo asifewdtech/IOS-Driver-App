@@ -23,6 +23,9 @@ struct TransactionView: View {
     @State private var showShareSheet = false
     @AppStorage("accountId") var accountId: String = ""
     @State private var dropdownlbl: String = "1 Week"
+    @State var weeklyTransection: String = ""
+    @State var todayTransection: String = ""
+    @State var threeMonthlyTransection: String = ""
     
     //MARK: - Views
     var body: some View {
@@ -40,6 +43,26 @@ struct TransactionView: View {
                     Spacer()
                 }
                 .onAppear(perform: {
+                    if API.App_Envir == "Production" {
+                        weeklyTransection = "https://96ezrwsgj5.execute-api.eu-north-1.amazonaws.com/default/FetchTransactionsThisWeek"
+                        todayTransection = "https://kmmtbm0rte.execute-api.eu-north-1.amazonaws.com/default/TransctionFilters"
+                        threeMonthlyTransection = "https://oluufhjc1g.execute-api.eu-north-1.amazonaws.com/default/FetchTransactions3Months"
+                    }
+                    else if API.App_Envir == "Dev" {
+                        weeklyTransection = "https://x02ddaa9ca.execute-api.eu-north-1.amazonaws.com/default/FetchTransactionsThisWeek"
+                        todayTransection = "https://vdyw74ja9a.execute-api.eu-north-1.amazonaws.com/default/TransctionFilters"
+                        threeMonthlyTransection = "https://04ko8qhlhd.execute-api.eu-north-1.amazonaws.com/default/FetchTransactions3Months"
+                    }
+                    else if API.App_Envir == "Stagging" {
+                        weeklyTransection = "https://4zuaerxbi8.execute-api.eu-north-1.amazonaws.com/default/FetchTransactionsThisWeek"
+                        todayTransection = "https://grmekt3mra.execute-api.eu-north-1.amazonaws.com/default/TransctionFilters"
+                        threeMonthlyTransection = "https://lset9smj75.execute-api.eu-north-1.amazonaws.com/default/FetchTransactions3Months"
+                    }else{
+                        weeklyTransection = "https://96ezrwsgj5.execute-api.eu-north-1.amazonaws.com/default/FetchTransactionsThisWeek"
+                        todayTransection = "https://kmmtbm0rte.execute-api.eu-north-1.amazonaws.com/default/TransctionFilters"
+                        threeMonthlyTransection = "https://oluufhjc1g.execute-api.eu-north-1.amazonaws.com/default/FetchTransactions3Months"
+                    }
+                    
                     Task {
                         try await transectionViewModel.getAllTransection(url: weeklyTransection, method: .post, account_id: accountId)
                         

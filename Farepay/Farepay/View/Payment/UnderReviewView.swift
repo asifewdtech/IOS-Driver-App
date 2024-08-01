@@ -160,7 +160,19 @@ extension UnderReviewView{
     }
     
     func getVerificationStatus(){
-        let statusUrl = "\("https://utmnlv10l8.execute-api.eu-north-1.amazonaws.com/default/GetVerificationStatus?sessionId=")\(verifiSessionId ?? "")"
+        var statusUrl = ""
+        if API.App_Envir == "Production" {
+            statusUrl = "\("https://xcb4cymcy5.execute-api.eu-north-1.amazonaws.com/default/GetVerificationStatus?sessionId=")\(verifiSessionId ?? "")"
+        }
+        else if API.App_Envir == "Dev" {
+            statusUrl = "\("https://r7w9wuoj3m.execute-api.eu-north-1.amazonaws.com/default/GetVerificationStatus?sessionId=")\(verifiSessionId ?? "")"
+        }
+        else if API.App_Envir == "Stagging" {
+            statusUrl = "\("https://utmnlv10l8.execute-api.eu-north-1.amazonaws.com/default/GetVerificationStatus?sessionId=")\(verifiSessionId ?? "")"
+        }else{
+            statusUrl = "\("https://xcb4cymcy5.execute-api.eu-north-1.amazonaws.com/default/GetVerificationStatus?sessionId=")\(verifiSessionId ?? "")"
+        }
+         
         print("getVerificationStatus url: ",statusUrl)
         
         var request = URLRequest(url: URL(string: statusUrl)!,timeoutInterval: Double.infinity)
@@ -211,7 +223,19 @@ extension UnderReviewView{
     }
     
     func getVerificationReport(){
-        let reportUrl = "\("https://twaczzdkw6.execute-api.eu-north-1.amazonaws.com/default/GetVerificationReport?reportId=")\(verifiReportId ?? "")"
+        var reportUrl = ""
+        if API.App_Envir == "Production" {
+            reportUrl = "\("https://hatll3jthb.execute-api.eu-north-1.amazonaws.com/default/GetVerificationReport?reportId=")\(verifiReportId ?? "")"
+        }
+        else if API.App_Envir == "Dev" {
+            reportUrl = "\("https://vqbsvnw4t6.execute-api.eu-north-1.amazonaws.com/default/GetVerificationReport?reportId=")\(verifiReportId ?? "")"
+        }
+        else if API.App_Envir == "Stagging" {
+            reportUrl = "\("https://twaczzdkw6.execute-api.eu-north-1.amazonaws.com/default/GetVerificationReport?reportId=")\(verifiReportId ?? "")"
+        }else{
+            reportUrl = "\("https://hatll3jthb.execute-api.eu-north-1.amazonaws.com/default/GetVerificationReport?reportId=")\(verifiReportId ?? "")"
+        }
+        
         var request = URLRequest(url: URL(string: reportUrl)!,timeoutInterval: Double.infinity)
         request.httpMethod = "GET"
         
@@ -246,7 +270,19 @@ extension UnderReviewView{
     }
     
     func CreateFileDownloadLink() {
-        let fileDownloadUrl = "\("https://qy2ghunp0m.execute-api.eu-north-1.amazonaws.com/default/CreateFileDownloadLink?fileId=")\(verifiFileId1 ?? "")"
+        
+        var fileDownloadUrl = ""
+        if API.App_Envir == "Production" {
+            fileDownloadUrl = "\("https://q5wc0fwfyd.execute-api.eu-north-1.amazonaws.com/default/CreateFileDownloadLink?fileId=")\(verifiFileId1 ?? "")"
+        }
+        else if API.App_Envir == "Dev" {
+            fileDownloadUrl = "\("https://0glktbsw5a.execute-api.eu-north-1.amazonaws.com/default/CreateFileDownloadLink?fileId=")\(verifiFileId1 ?? "")"
+        }
+        else if API.App_Envir == "Stagging" {
+            fileDownloadUrl = "\("https://qy2ghunp0m.execute-api.eu-north-1.amazonaws.com/default/CreateFileDownloadLink?fileId=")\(verifiFileId1 ?? "")"
+        }else{
+            fileDownloadUrl = "\("https://q5wc0fwfyd.execute-api.eu-north-1.amazonaws.com/default/CreateFileDownloadLink?fileId=")\(verifiFileId1 ?? "")"
+        }
         print("CreateFileDownloadLink url: ",fileDownloadUrl)
         
         var request = URLRequest(url: URL(string: fileDownloadUrl)!,timeoutInterval: Double.infinity)
@@ -404,14 +440,26 @@ extension UnderReviewView{
     
     func FileUploadonStripe(fileImage: UIImage, name: String) {
         
-        let imageData = fileImage.pngData()! as NSData
+//        let imageData = fileImage.pngData()! as NSData
         let base64 = fileImage.jpegData(compressionQuality: 0.5)?.base64EncodedString() ?? ""
-        print("File base64: \(base64)")
+//        print("File base64: \(base64)")
         let parameters = "{\n  \"image\": \"\(base64)\"\n}"
         
         let postData = parameters.data(using: .utf8)
+        var fileUploadUrl = ""
+        if API.App_Envir == "Production" {
+            fileUploadUrl = "https://1n341a7030.execute-api.eu-north-1.amazonaws.com/default/FilesUploadsOnStripe"
+        }
+        else if API.App_Envir == "Dev" {
+            fileUploadUrl = "https://kv21f5t1kc.execute-api.eu-north-1.amazonaws.com/default/FilesUploadsOnStripe"
+        }
+        else if API.App_Envir == "Stagging" {
+            fileUploadUrl = "https://yifmrd7395.execute-api.eu-north-1.amazonaws.com/default/FilesUploadsOnStripe"
+        }else{
+            fileUploadUrl = "https://1n341a7030.execute-api.eu-north-1.amazonaws.com/default/FilesUploadsOnStripe"
+        }
         
-        var request = URLRequest(url: URL(string: "https://yifmrd7395.execute-api.eu-north-1.amazonaws.com/default/FilesUploadsOnStripe")!,timeoutInterval: Double.infinity)
+        var request = URLRequest(url: URL(string: fileUploadUrl)!,timeoutInterval: Double.infinity)
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         
         request.httpMethod = "POST"

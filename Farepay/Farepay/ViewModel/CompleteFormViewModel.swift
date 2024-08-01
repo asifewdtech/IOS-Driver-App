@@ -51,6 +51,10 @@ class CompleteFormViewModel: ObservableObject {
                     guard let id = account["id"] as? String else {return}
                     self.accountId = id
                     self.goToAccountScreen = true
+                    guard let metaData = account["metadata"] as? [String : Any] else {return}
+                    guard let AccountStatus = account["AccountStatus"] as? String else {return}
+                    UserDefaults.standard.set(AccountStatus, forKey: "AccountStatus")
+                    print("AccountStatus is: ",AccountStatus)
                     self.email = Auth.auth().currentUser?.email ?? ""
                     
                     self.db.collection("usersInfo").document(Auth.auth().currentUser?.uid ?? "").setData(["connectAccountCreated" : true,

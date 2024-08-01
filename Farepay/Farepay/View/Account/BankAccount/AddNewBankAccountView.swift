@@ -145,6 +145,19 @@ extension AddNewBankAccountView{
                     toast = Toast(style: .error, message: "Account Number must between 6-10 Digits.")
                 }
                 else {
+                    var addNewBankAcc = ""
+                    if API.App_Envir == "Production" {
+                        addNewBankAcc = "https://uz86aloftd.execute-api.eu-north-1.amazonaws.com/default/CreateBankAccount"
+                    }
+                    else if API.App_Envir == "Dev" {
+                        addNewBankAcc = "https://mtp8jkyhyc.execute-api.eu-north-1.amazonaws.com/default/CreateBankAccount"
+                    }
+                    else if API.App_Envir == "Stagging" {
+                        addNewBankAcc = "https://eqhs4ooew2.execute-api.eu-north-1.amazonaws.com/default/CreateBankAccount"
+                    }else{
+                        addNewBankAcc = "https://uz86aloftd.execute-api.eu-north-1.amazonaws.com/default/CreateBankAccount"
+                    }
+                    
                     Task {
                         apicalled = true
                         let param = [
@@ -159,7 +172,7 @@ extension AddNewBankAccountView{
 //                             "bsb": bsbNumber
                         ]
                         print("create bank account params: \(param)")
-                        try await completeFormViewModel.addBankAccount(url:addBankAccountUrl,method:.post,param:param)
+                        try await completeFormViewModel.addBankAccount(url:addNewBankAcc,method:.post,param:param)
                         DispatchQueue.main.async {
                             apicalled = false
                             

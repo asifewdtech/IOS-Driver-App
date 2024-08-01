@@ -12,14 +12,29 @@ import StripeTerminal
 class APIClient: ConnectionTokenProvider {
 static let shared = APIClient()
 
-static let backendUrl1 = URL(string: "https://0una8ouowh.execute-api.eu-north-1.amazonaws.com/default/CreateConnectionTokenStripe")! //General
+//static let backendUrl1 = URL(string: "https://0una8ouowh.execute-api.eu-north-1.amazonaws.com/default/CreateConnectionTokenStripe")! //General
 //    static let backendUrl1 = URL(string: "https://1tntu2xw2l.execute-api.eu-north-1.amazonaws.com/default/CreateConnectionTokenStripe")! //Test
 //static let backendUrl = URL(string: "https://ro20hmkti4.execute-api.eu-north-1.amazonaws.com/default/capturePaymentIntent")! //Not Used
 
 func fetchConnectionToken(_ completion: @escaping ConnectionTokenCompletionBlock) {
+    
+    var fetchStripeToken = ""
+    if API.App_Envir == "Production" {
+        fetchStripeToken = "https://pdz0ljelt3.execute-api.eu-north-1.amazonaws.com/default/CreateConnectionTokenStripe"
+    }
+    else if API.App_Envir == "Dev" {
+        fetchStripeToken = "https://1tntu2xw2l.execute-api.eu-north-1.amazonaws.com/default/CreateConnectionTokenStripe"
+    }
+    else if API.App_Envir == "Stagging" {
+        fetchStripeToken = "https://0una8ouowh.execute-api.eu-north-1.amazonaws.com/default/CreateConnectionTokenStripe"
+    }else{
+        fetchStripeToken = "https://pdz0ljelt3.execute-api.eu-north-1.amazonaws.com/default/CreateConnectionTokenStripe"
+    }
+    let urlStripeToken = URL(string: fetchStripeToken)!
+    
     let config = URLSessionConfiguration.default
     let session = URLSession(configuration: config)
-    let url = APIClient.backendUrl1 //URL(string: "/connection_token", relativeTo: APIClient.backendUrl1)!
+    let url = urlStripeToken //URL(string: "/connection_token", relativeTo: APIClient.backendUrl1)!
     print("URL1: ",url)
     var request = URLRequest(url: url)
     request.httpMethod = "GET"

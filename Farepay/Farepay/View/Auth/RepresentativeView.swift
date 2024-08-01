@@ -747,6 +747,7 @@ extension RepresentativeView{
             var datePart = "NA"
             var monthPart = "NA"
             var yearPart = "NA"
+            var streetAddress = "NA"
             
             let index = userText.components(separatedBy: " ")
             
@@ -775,11 +776,27 @@ extension RepresentativeView{
             let stripeVeriSessionID = UserDefaults.standard.string(forKey: "stripeSessionID")
 //            let urlStr = "\(uploadInformationUrl)username=default&userEmail=\(Auth.auth().currentUser?.email ?? "")&firstname=\(firstPart)&day=3&month=10&year=2000&address=\(addrTextStr)&phone=61\(mobileNumberText)&lastname=\(secondPart)&frontimgid=\(frontImageId)&backimgid=\(backImageId)"
             
-            let urlCreateAccount = "\(uploadInformationUrl)username=\(firstPart)&userEmail=\(Auth.auth().currentUser?.email ?? "")&firstname=\(firstPart)&lastname=\(secondPart)&day=\(datePart)&month=\(monthPart)&year=\(yearPart)&address=\(streetAddr)&city=\(cityAddr)&state=\(stateAddr)&postalCode=\(postalAddr)&country=\("Australia")&phone=61\(mobileNumberText)&frontimgid=\(stripeVeriSessionID ?? "1234")&abn=\(driverABN ?? "1234")&driverlicence=\(driverLicence ?? "1234")&driverauthority=\(authorityNumberText)"
-            print("Create Account url API: ",urlCreateAccount)
+            var uploadInformatUrl = ""
+            if API.App_Envir == "Production" {
+                uploadInformatUrl = "https://uvipi4nbv2.execute-api.eu-north-1.amazonaws.com/default/Test?"
+            }
+            else if API.App_Envir == "Dev" {
+                uploadInformatUrl = "https://lojcf2xgmb.execute-api.eu-north-1.amazonaws.com/default/Test?"
+            }
+            else if API.App_Envir == "Stagging" {
+                uploadInformatUrl = "https://koc5ifvqi7.execute-api.eu-north-1.amazonaws.com/default/Test?"
+            }else{
+                uploadInformatUrl = "https://uvipi4nbv2.execute-api.eu-north-1.amazonaws.com/default/Test?"
+            }
             
-            let url = URL(string: urlCreateAccount)
+            let urlCreateAccount = "\(uploadInformatUrl)username=\(firstPart)&userEmail=\(Auth.auth().currentUser?.email ?? "")&firstname=\(firstPart)&lastname=\(secondPart)&day=\(datePart)&month=\(monthPart)&year=\(yearPart)&address=\(streetAddr)&city=\(cityAddr)&state=\(stateAddr)&postalCode=\(postalAddr)&country=\("Australia")&phone=61\(mobileNumberText)&frontimgid=\(stripeVeriSessionID ?? "1234")&abn=\(driverABN ?? "1234")&driverlicence=\(driverLicence ?? "1234")&driverauthority=\(authorityNumberText)&meta-data"
             
+            let urlNewAcc :String = urlCreateAccount.replacingOccurrences(of: " ", with: "%20")
+            
+            print("Create Account url str: ",urlNewAcc)
+            
+            let url = URL(string: urlNewAcc)
+            print("Create Account url: ",url)
             try  await
             completeFormViewModel.postData(url:url!,method:.post,name: userText,phone: mobileNumberText,driverID: authorityNumberText,driverABN: driverABN ?? "00")
             apicalled = false
@@ -814,8 +831,21 @@ extension RepresentativeView{
         if let imageData = image.jpegData(compressionQuality: 0.05) {
             let base64String = imageData.base64EncodedString()
 
+            var uploadImgToStripe = ""
+            if API.App_Envir == "Production" {
+                uploadImgToStripe = "https://e0s02woxs8.execute-api.eu-north-1.amazonaws.com/default/FileUploadFromStripe"
+            }
+            else if API.App_Envir == "Dev" {
+                uploadImgToStripe = "https://jrd5bqi19g.execute-api.eu-north-1.amazonaws.com/default/FileUploadFromStripe"
+            }
+            else if API.App_Envir == "Stagging" {
+                uploadImgToStripe = "https://yf476ojrmb.execute-api.eu-north-1.amazonaws.com/default/FileUploadFromStripe"
+            }else{
+                uploadImgToStripe = "https://e0s02woxs8.execute-api.eu-north-1.amazonaws.com/default/FileUploadFromStripe"
+            }
+            
             // Create an API request with the Base64 image data
-            if let url = URL(string: imageUploadStripeUrl) {
+            if let url = URL(string: uploadImgToStripe) {
                 var request = URLRequest(url: url)
                 request.httpMethod = "POST"
                 request.setValue("application/json", forHTTPHeaderField: "Content-Type")
@@ -1045,8 +1075,21 @@ struct RepresentativeVC: UIViewControllerRepresentable {
         }
         
         func didTapVerifyButton(){
-            var urlRequest = URLRequest(url: URL(string: "https://92tbqakpob.execute-api.eu-north-1.amazonaws.com/default/CreateSessionStripeIdentity")!) //General
-//            var urlRequest = URLRequest(url: URL(string: "https://rpljmup273.execute-api.eu-north-1.amazonaws.com/default/CreateSessionStripeIdentity")!) //test
+            var urlReqIs = ""
+            if API.App_Envir == "Production" {
+                urlReqIs = "https://zj921xefzb.execute-api.eu-north-1.amazonaws.com/default/CreateSessionStripeIdentity"
+            }
+            else if API.App_Envir == "Dev" {
+                urlReqIs = "https://rpljmup273.execute-api.eu-north-1.amazonaws.com/default/CreateSessionStripeIdentity"
+                UserDefaults.standard.set("Completed", forKey: "stripeFlowStatus")
+            }
+            else if API.App_Envir == "Stagging" {
+                urlReqIs = "https://92tbqakpob.execute-api.eu-north-1.amazonaws.com/default/CreateSessionStripeIdentity"
+            }else{
+                urlReqIs = "https://zj921xefzb.execute-api.eu-north-1.amazonaws.com/default/CreateSessionStripeIdentity"
+            }
+            
+            var urlRequest = URLRequest(url: URL(string: urlReqIs)!)
         
             urlRequest.httpMethod = "POST"
             

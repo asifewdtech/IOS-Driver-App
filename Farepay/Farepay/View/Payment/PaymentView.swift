@@ -53,6 +53,18 @@ struct PaymentView: View {
             .edgesIgnoringSafeArea(.all)
             
             .onAppear(perform: {
+                print("App_Envir value: ",API.App_Envir)
+                if API.App_Envir == "Production" {
+                    print("App_Envir val: Production")
+                }
+                else if API.App_Envir == "Dev" {
+                    print("App_Envir val: Dev")
+                }
+                else if API.App_Envir == "Stagging" {
+                    print("App_Envir val: Stagging")
+                }else{
+                    print("App_Envir val: Error")
+                }
                 showLoadingIndicator = false
                 currencyManager.string1 = ""
                 firebaseAPI()
@@ -361,18 +373,19 @@ extension PaymentView{
         
         VStack(spacing: 25){
             Button {
-                let asdf = currencyManager.string1
-                let qwer = (Double(asdf) ?? 0.51)
-                print("currencyManager.st: ",qwer as Any)
+                let asdf: String = currencyManager.string1
+                print("currencyManager.st: ",asdf)
+                let qwer = NumberFormatter().number(from: asdf)?.doubleValue ?? 0.51
+                print("currencyManager.dbl: ",qwer as Any)
                 if taxiNumber == "" {
                     toast = Toast(style: .error, message: "Taxi Number is required.")
                     self.showTaxi.toggle()
                 }
-                else if qwer == 0.00 {
+                else if qwer == 0.0 {
                     toast = Toast(style: .error, message: "Please enter your Fare.")
                 }
-                else if qwer <= 0.50 {
-                    toast = Toast(style: .error, message: "Amount should be greater than $0.50.")
+                else if qwer <= 0.5 {
+                    toast = Toast(style: .error, message: "Fare should be greater than $0.50.")
                 }
                 else {
                 setMainView(false)

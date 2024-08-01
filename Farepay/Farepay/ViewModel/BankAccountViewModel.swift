@@ -22,7 +22,19 @@ class BankAccountViewModel: ObservableObject {
                 "ConnectedAccount_id":accountId
                 
             ] as [String:Any]
-          try await  getBankAccount(url: getBankList, method: .post, param: param)
+            var getBankAccList = ""
+            if API.App_Envir == "Production" {
+                getBankAccList = "https://21dbvijdze.execute-api.eu-north-1.amazonaws.com/default/RetriveBankAccount"
+            }
+            else if API.App_Envir == "Dev" {
+                getBankAccList = "https://3t2c7i0by3.execute-api.eu-north-1.amazonaws.com/default/RetriveBankAccount"
+            }
+            else if API.App_Envir == "Stagging" {
+                getBankAccList = "https://sfr1m5jk5l.execute-api.eu-north-1.amazonaws.com/default/RetriveBankAccount"
+            }else{
+                getBankAccList = "https://21dbvijdze.execute-api.eu-north-1.amazonaws.com/default/RetriveBankAccount"
+            }
+          try await  getBankAccount(url: getBankAccList, method: .post, param: param)
         }
         
     }

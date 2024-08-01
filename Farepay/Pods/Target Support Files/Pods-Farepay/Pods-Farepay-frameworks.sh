@@ -175,7 +175,7 @@ code_sign_if_enabled() {
   fi
 }
 
-if [[ "$CONFIGURATION" == "Debug" ]]; then
+if [[ "$CONFIGURATION" == "Debug-Dev" ]]; then
   install_framework "${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/IQKeyboardManagerSwift/IQKeyboardManagerSwift.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/MDFInternationalization/MDFInternationalization.framework"
@@ -190,7 +190,67 @@ if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework "${BUILT_PRODUCTS_DIR}/StripeUICore/StripeUICore.framework"
   install_framework "${PODS_XCFRAMEWORKS_BUILD_DIR}/StripeTerminal/StripeTerminal.framework"
 fi
-if [[ "$CONFIGURATION" == "Release" ]]; then
+if [[ "$CONFIGURATION" == "Debug-PRO" ]]; then
+  install_framework "${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/IQKeyboardManagerSwift/IQKeyboardManagerSwift.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/MDFInternationalization/MDFInternationalization.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/MaterialComponents/MaterialComponents.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/Stripe/Stripe.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/StripeApplePay/StripeApplePay.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/StripeCameraCore/StripeCameraCore.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/StripeCore/StripeCore.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/StripeIdentity/StripeIdentity.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/StripePayments/StripePayments.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/StripePaymentsUI/StripePaymentsUI.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/StripeUICore/StripeUICore.framework"
+  install_framework "${PODS_XCFRAMEWORKS_BUILD_DIR}/StripeTerminal/StripeTerminal.framework"
+fi
+if [[ "$CONFIGURATION" == "Debug-Stagging" ]]; then
+  install_framework "${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/IQKeyboardManagerSwift/IQKeyboardManagerSwift.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/MDFInternationalization/MDFInternationalization.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/MaterialComponents/MaterialComponents.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/Stripe/Stripe.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/StripeApplePay/StripeApplePay.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/StripeCameraCore/StripeCameraCore.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/StripeCore/StripeCore.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/StripeIdentity/StripeIdentity.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/StripePayments/StripePayments.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/StripePaymentsUI/StripePaymentsUI.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/StripeUICore/StripeUICore.framework"
+  install_framework "${PODS_XCFRAMEWORKS_BUILD_DIR}/StripeTerminal/StripeTerminal.framework"
+fi
+if [[ "$CONFIGURATION" == "Release-Dev" ]]; then
+  install_framework "${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/IQKeyboardManagerSwift/IQKeyboardManagerSwift.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/MDFInternationalization/MDFInternationalization.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/MaterialComponents/MaterialComponents.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/Stripe/Stripe.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/StripeApplePay/StripeApplePay.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/StripeCameraCore/StripeCameraCore.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/StripeCore/StripeCore.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/StripeIdentity/StripeIdentity.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/StripePayments/StripePayments.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/StripePaymentsUI/StripePaymentsUI.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/StripeUICore/StripeUICore.framework"
+  install_framework "${PODS_XCFRAMEWORKS_BUILD_DIR}/StripeTerminal/StripeTerminal.framework"
+fi
+if [[ "$CONFIGURATION" == "Release-PRO" ]]; then
+  install_framework "${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/IQKeyboardManagerSwift/IQKeyboardManagerSwift.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/MDFInternationalization/MDFInternationalization.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/MaterialComponents/MaterialComponents.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/Stripe/Stripe.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/StripeApplePay/StripeApplePay.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/StripeCameraCore/StripeCameraCore.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/StripeCore/StripeCore.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/StripeIdentity/StripeIdentity.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/StripePayments/StripePayments.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/StripePaymentsUI/StripePaymentsUI.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/StripeUICore/StripeUICore.framework"
+  install_framework "${PODS_XCFRAMEWORKS_BUILD_DIR}/StripeTerminal/StripeTerminal.framework"
+fi
+if [[ "$CONFIGURATION" == "Release-Stagging" ]]; then
   install_framework "${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/IQKeyboardManagerSwift/IQKeyboardManagerSwift.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/MDFInternationalization/MDFInternationalization.framework"
