@@ -33,15 +33,15 @@ struct TransactionDetailView: View {
                 Spacer()
             }
             .onAppear(perform: {
+                let formatter = NumberFormatter()
+                formatter.minimumFractionDigits = 2
+                formatter.maximumFractionDigits = 2
+                formatter.minimumIntegerDigits = 1
                 
                 amount = Double( transactionType.amount) / 100
-          
-                
-                /// 1.236
-                
-                
                     totalAmount = amount
-//                    AmountDetail.instance.totalAmount = amount
+                
+                    AmountDetail.instance.totalAmount = String(amount)
                     let amountWithFivePercent = amount * 5 / 100
                     print("amountWithFivePercent \(amountWithFivePercent)")
                     serviceFee = (amountWithFivePercent / 1.1).roundToDecimal(2)
@@ -54,9 +54,14 @@ struct TransactionDetailView: View {
                     print("serviceFeeGst \(serviceFeeGst)")
                     totalChargresWithTax = (serviceFee + serviceFeeGst + amount).roundToDecimal(2)
                     
-//                    AmountDetail.instance.totalChargresWithTax = totalChargresWithTax
+                    AmountDetail.instance.totalChargresWithTax = String(totalChargresWithTax)
                     print("totalCharges \(totalChargresWithTax)")
                     
+                let stripeReceiptId = transactionType.source_transaction
+                UserDefaults.standard.set(stripeReceiptId, forKey: "stripeReceiptId")
+                
+                let stripeReceiptDate = transactionType.created
+                UserDefaults.standard.set(stripeReceiptDate, forKey: "receiptCreated")
                 
             })
             .padding(.all, 15)
@@ -82,18 +87,19 @@ extension TransactionDetailView{
                 .onTapGesture {
                     presentationMode.wrappedValue.dismiss()
                 }
-            Text(transactionType.source_type == .giftCard ? "Gift Card" : transactionType.source_type == .chargeFare ? "Charge Fare" : "Bank Transfer")
+//            Text(transactionType.source_type == .giftCard ? "Gift Card" : transactionType.source_type == .chargeFare ? "Charge Fare" : "Bank Transfer")
+            Text("Charge Fare")
                 .font(.custom(.poppinsBold, size: 25))
                 .foregroundColor(.white)
             Spacer()
-            Image(uiImage: .ic_Home2)
-                .resizable()
-                .scaledToFit()
-                .frame(width: 40, height: 40)
-                .onTapGesture {
-
-                    presentationMode.wrappedValue.dismiss()
-                }
+//            Image(uiImage: .ic_Home2)
+//                .resizable()
+//                .scaledToFit()
+//                .frame(width: 40, height: 40)
+//                .onTapGesture {
+//
+//                    presentationMode.wrappedValue.dismiss()
+//                }
         }
     }
     
@@ -105,11 +111,12 @@ extension TransactionDetailView{
                 .font(.custom(.poppinsBold, size: 50))
                 .foregroundColor(.white)
 //            Text(transactionType == .giftCard ? "Gift Card" : transactionType == .chargeFare ? "Charge Fare" : "Bank Transfer")
-            Text(transactionType.source_type)
+//            Text(transactionType.source_type)
+            Text("Charge Fare")
                 .font(.custom(.poppinsBold, size: 20))
                 .foregroundColor(.white)
             Text(dateToString(date:Date(timeIntervalSince1970: TimeInterval(transactionType.created))))
-                .font(.custom(.poppinsMedium, size: 18))
+                .font(.custom(.poppinsMedium, size: 12))
                 .foregroundColor(.white)
         }
         .frame(maxWidth: .infinity)
@@ -122,15 +129,15 @@ extension TransactionDetailView{
         VStack{
             
             Group{
-                HStack{
-                    Text("Payout Type")
-                        .font(.custom(.poppinsBold, size: 20))
-                        .foregroundColor(.white)
-                    Spacer()
-                    Text(transactionType.source_type)
-                        .font(.custom(.poppinsMedium, size: 18))
-                        .foregroundColor(.white)
-                }
+//                HStack{
+//                    Text("Payout Type")
+//                        .font(.custom(.poppinsBold, size: 20))
+//                        .foregroundColor(.white)
+//                    Spacer()
+//                    Text(transactionType.source_type)
+//                        .font(.custom(.poppinsMedium, size: 18))
+//                        .foregroundColor(.white)
+//                }
 //                    HStack{
 //                        Text("Gift Name")
 //                            .font(.custom(.poppinsBold, size: 20))
@@ -164,12 +171,12 @@ extension TransactionDetailView{
                         .font(.custom(.poppinsBold, size: 20))
                         .foregroundColor(.white)
                     Spacer()
-                    Text("$ \(totalChargresWithTax.description)")
+                    Text("$ \(totalAmount.description)")
                         .font(.custom(.poppinsMedium, size: 18))
                         .foregroundColor(.white)
                 }
                 HStack{
-                    Text("Service Charges :")
+                    Text("Service Fee")
                         .font(.custom(.poppinsBold, size: 20))
                         .foregroundColor(.white)
                     Spacer()
@@ -186,15 +193,15 @@ extension TransactionDetailView{
                         .font(.custom(.poppinsMedium, size: 18))
                         .foregroundColor(.white)
                 }
-                HStack{
-                    Text("Balance before Purchase")
-                        .font(.custom(.poppinsBold, size: 20))
-                        .foregroundColor(.white)
-                    Spacer()
-                    Text("$\(totalAmount.description)")
-                        .font(.custom(.poppinsMedium, size: 18))
-                        .foregroundColor(.white)
-                }
+//                HStack{
+//                    Text("Balance before Purchase")
+//                        .font(.custom(.poppinsBold, size: 20))
+//                        .foregroundColor(.white)
+//                    Spacer()
+//                    Text("$\(totalAmount.description)")
+//                        .font(.custom(.poppinsMedium, size: 18))
+//                        .foregroundColor(.white)
+//                }
                 
                 
                 NavigationLink {

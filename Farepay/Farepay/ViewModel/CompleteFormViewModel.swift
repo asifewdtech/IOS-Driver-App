@@ -52,7 +52,7 @@ class CompleteFormViewModel: ObservableObject {
                     self.accountId = id
                     self.goToAccountScreen = true
                     guard let metaData = account["metadata"] as? [String : Any] else {return}
-                    guard let AccountStatus = account["AccountStatus"] as? String else {return}
+                    guard let AccountStatus = metaData["AccountStatus"] as? String else {return}
                     UserDefaults.standard.set(AccountStatus, forKey: "AccountStatus")
                     print("AccountStatus is: ",AccountStatus)
                     self.email = Auth.auth().currentUser?.email ?? ""

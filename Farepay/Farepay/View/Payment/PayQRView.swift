@@ -24,6 +24,8 @@ struct PayQRView: View {
     @State var qrUrl :String?
     @State var stripeReceiptId :String?
     @State var receiptDate: String?
+    @State var receiptTime: String?
+    @State var receiptDateTime: String?
     
     //MARK: - Views
     var body: some View {
@@ -65,11 +67,16 @@ struct PayQRView: View {
                         let receiptCreated = UserDefaults.standard.object(forKey: "receiptCreated")
                         let rcptDate = String(describing: receiptCreated ?? "N/A")
                         
-                        let fareDate = Date()
-                        
-                        if let index = rcptDate.firstIndex(of: " "){
-                            receiptDate = String(rcptDate.prefix(upTo: index))
-                        } else{
+//                        if let index = rcptDate.firstIndex(of: " "){
+//                            receiptDate = String(rcptDate.prefix(upTo: index))
+//                        } else{
+//                            receiptDate = rcptDate
+//                        }
+                        let index = rcptDate.components(separatedBy: " ")
+                        if index.count > 1{
+                            receiptDate = index[0]
+                            receiptTime = index[1]
+                        }else{
                             receiptDate = rcptDate
                         }
                         
@@ -77,13 +84,18 @@ struct PayQRView: View {
                         dateFormatter.dateFormat = "EEEE"
                         let dayInWeek = dateFormatter.string(from: receiptCreated as? Date ?? NSDate() as Date)
                         
-                        receiptDate = "\(dayInWeek)\(", ")\(receiptDate ?? "N/A")"
+//                        receiptDate = "\(dayInWeek)\(", ")\(receiptDate ?? "N/A")"
+                        receiptDateTime = "\(dayInWeek)\(", ")\(receiptDate ?? "N/A")\(", ")\(receiptTime ?? "N/A")"
+                        
+                        let rcptID = String(describing: stripeReceiptId ?? "N/A")
+                        let strReceiptId = rcptID.dropLast(12)
                         
                         print("stripeReceiptId: ",stripeReceiptId as Any)
-                        print("receiptCreated: ",receiptCreated as Any)
-                        print("receiptDate: ",dayInWeek)
+                        print("strReceiptId: ",strReceiptId)
+                        print("receiptCreated: ",rcptDate as Any)
+                        print("receiptDate: ",receiptDateTime)
                         
-                        qrUrl = "\("https://dev-ewdtech.org/appmob/?param1=")\(stripeReceiptId ?? "N/A")\("&param2=")\(receiptDate ?? "N/A")\("&param3=")\( taxiNumber ?? "N/A")\("&param4=")\(driverID ?? "N/A")\("&param5=")\( driverABN ?? "N/A")\("&param6=")\(AmountDetail.instance.totalAmount.description)\("&param7=")\(AmountDetail.instance.serviceFee.description)\("&param8=")\(AmountDetail.instance.serviceFeeGst.description)\("&param9=")\(AmountDetail.instance.totalChargresWithTax.description)"
+                        qrUrl = "\("https://dev-ewdtech.org/appmob/?param1=")\(strReceiptId )\("&param2=")\(receiptDateTime ?? "N/A")\("&param3=")\( taxiNumber ?? "N/A")\("&param4=")\(driverID ?? "N/A")\("&param5=")\( driverABN ?? "N/A")\("&param6=")\(AmountDetail.instance.totalAmount.description)\("&param7=")\(AmountDetail.instance.serviceFee.description)\("&param8=")\(AmountDetail.instance.serviceFeeGst.description)\("&param9=")\(AmountDetail.instance.totalChargresWithTax.description)"
                         
                         print("qrUrl: ",qrUrl)
                     })
@@ -228,7 +240,10 @@ extension PayQRView{
                 let tAmount = Double( AmountDetail.instance.totalAmount.description)
                 let tChargesWithTax = Double( AmountDetail.instance.totalChargresWithTax.description)
                 
-                let QRUrl = "\("https://dev-ewdtech.org/appmob/?param1=")\(stripeReceiptId ?? "N/A")\("&param2=")\(receiptDate ?? "N/A")\("&param3=")\( taxiNumber ?? "N/A")\("&param4=")\(driverID ?? "N/A")\("&param5=")\( driverABN ?? "N/A")\("&param6=")\( tAmount ?? 0.00)\("&param7=")\(AmountDetail.instance.serviceFee.description)\("&param8=")\(AmountDetail.instance.serviceFeeGst.description)\("&param9=")\(tChargesWithTax ?? 0.00)"
+                let rcptID = String(describing: stripeReceiptId ?? "N/A")
+                let strReceiptId = rcptID.dropLast(12)
+                
+                let QRUrl = "\("https://dev-ewdtech.org/appmob/?param1=")\(strReceiptId )\("&param2=")\(receiptDateTime ?? "N/A")\("&param3=")\( taxiNumber ?? "N/A")\("&param4=")\(driverID ?? "N/A")\("&param5=")\( driverABN ?? "N/A")\("&param6=")\( tAmount ?? 0.00)\("&param7=")\(AmountDetail.instance.serviceFee.description)\("&param8=")\(AmountDetail.instance.serviceFeeGst.description)\("&param9=")\(tChargesWithTax ?? 0.00)"
                 
                 Image(uiImage: UIImage(data: getQRCodeDate(text: QRUrl)!)!)
                 
@@ -311,4 +326,12 @@ extension PayQRView{
            let uiimage = UIImage(ciImage: scaledCIImage)
            return uiimage.pngData()!
        }
+    
+    func convertUnixTimestamp(_ timestamp: Int) -> String {
+        let date = Date(timeIntervalSince1970: TimeInterval(timestamp))
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "EEEE dd-MM-yyyy HH:mm:ss"
+        dateFormatter.timeZone = TimeZone.current
+        return dateFormatter.string(from: date)
+    }
 }

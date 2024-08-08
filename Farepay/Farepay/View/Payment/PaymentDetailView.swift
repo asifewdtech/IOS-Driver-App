@@ -35,6 +35,7 @@ struct PaymentDetailView: View {
     @State var goToHome = false
     @State var locManager = CLLocationManager()
     @State private var toast: Toast? = nil
+    @State private var collectedFeeStripe: Double = 0.0
     
     //MARK: - Views
     var body: some View {
@@ -87,7 +88,8 @@ struct PaymentDetailView: View {
                     
 //                    AmountDetail.instance.totalChargresWithTax = totalChargresWithTax
 //                    print("totalCharges \(totalChargresWithTax)")
-                    
+                    collectedFeeStripe = srvcFee + srvcFeeGst
+                    AmountDetail.instance.collectionStrFee = collectedFeeStripe
                     
                     if let formattedString = formatter.string(from: (Decimal(totalChargresWithTx)) as NSNumber) {
                         totalChargresWithTax = formattedString
@@ -286,7 +288,7 @@ extension PaymentDetailView{
                         
                         do {
                             showLoadingIndicator = true
-                            try readerDiscoverModel1.collectPayment(amount: totalChargresWithTax.description)
+                            try readerDiscoverModel1.collectPayment(amount: totalChargresWithTax.description, serviceFee: serviceFee.description, serviceFeeGST: collectedFeeStripe)
 //                            showLoadingIndicator = false
                         }catch{
                             print("Payment don't transfered")
@@ -396,11 +398,22 @@ extension PaymentDetailView{
             switch response.result {
             case let .success(value):
                 if let results = (value as AnyObject).object(forKey: "results")! as? [NSDictionary] {
-                    if results.count > 0 {
-                        if results[1]["address_components"]! is [NSDictionary] {
-                            let address = results[0]["formatted_address"] as? String
-                            print("fareAddress: ",address)
-                            UserDefaults.standard.set(address, forKey: "fareAddress")
+//                    if results.count > 0 {
+//                        if results[1]["address_components"]! is [NSDictionary] {
+//                            let address = results[0]["formatted_address"] as? String
+//                            print("fareAddress: ",results[0])
+//                            UserDefaults.standard.set(address, forKey: "fareAddress")
+//                        }
+//                    }
+                    if let addressComponents = results[1]["address_components"]! as? [NSDictionary] {
+                        for component in addressComponents {
+                            if let temp = component.object(forKey: "types") as? [String] {
+                                if (temp[0] == "locality") {
+                                    let address = component["long_name"] as? String ?? "N/A"
+                                    print("city value: ",address)
+                                    UserDefaults.standard.set(address, forKey: "fareAddress")
+                                }
+                            }
                         }
                     }
                 }
@@ -431,6 +444,7 @@ class AmountDetail {
     var serviceFeeGst = 0.0
     var totalAmount = "0.0"
     var serviceFee = 0.0
+    var collectionStrFee = 0.0
 }
 
 class ReaderDiscoverModel1:NSObject,ObservableObject ,DiscoveryDelegate{
@@ -453,10 +467,11 @@ class ReaderDiscoverModel1:NSObject,ObservableObject ,DiscoveryDelegate{
     @Published var paymentDetail = PaymentDetailView(farePriceText: .constant("0.00"))
     @State var locManager = CLLocationManager()
     @State var fareAddress: String = ""
+    @AppStorage("accountId") private var appAccountId: String = ""
     
     @objc
     func discoverReaders() throws {
-        let config = try LocalMobileDiscoveryConfigurationBuilder().setSimulated(false).build()
+        let config = try LocalMobileDiscoveryConfigurationBuilder().setSimulated(true).build()
         self.discoverCancelable = Terminal.shared.discoverReaders(config, delegate: self) { error in
             if let error = error {
                 print("discoverReaders failed: \(error)")
@@ -484,13 +499,22 @@ class ReaderDiscoverModel1:NSObject,ObservableObject ,DiscoveryDelegate{
     }
     
     @objc
-    func collectPayment(amount: String) throws {
+    func collectPayment(amount: String, serviceFee: String, serviceFeeGST: Double) throws {
 //        firebaseFetch()
+        let formatter = NumberFormatter()
+        formatter.minimumFractionDigits = 2
+        formatter.maximumFractionDigits = 2
+        formatter.minimumIntegerDigits = 1
+        
         let developer = amount
         let array = developer.split(separator: ".").map(String.init)
         let arrAmount = "\(array[0])\(array[1])"
         print("Array amount: ",arrAmount)
-        
+          
+        let srvGDeveloper = String(serviceFeeGST)
+        let srvGArray = srvGDeveloper.split(separator: ".").map(String.init)
+        let srvGAmount = "\(srvGArray[0])\(srvGArray[1])"
+        print("srvArray amount: ",UInt(srvGAmount) as? NSNumber)
         
         let tNumber = UserDefaults.standard.string(forKey: "txNumber")
         let dABN = UserDefaults.standard.string(forKey: "driABN")
@@ -500,19 +524,18 @@ class ReaderDiscoverModel1:NSObject,ObservableObject ,DiscoveryDelegate{
         print("tNumber: ",tNumber, "dABN", dABN, "dLicence", dLicence, "fareAddress", fAddress)
         let param = [
             "taxiID": tNumber,
-            "ABN": dABN,
-            "Driverlicence": dLicence,
+//            "ABN": dABN,
+//            "Driverlicence": dLicence,
             "Address": fAddress
         ] as? [String: String]
         print("metadata params: ",param)
         
         let params = try PaymentIntentParametersBuilder(amount: UInt(arrAmount) ?? 0, currency: "AUD")
             .setPaymentMethodTypes(["card_present"])
+            .setApplicationFeeAmount(UInt(srvGAmount) as? NSNumber)
             .setCaptureMethod(CaptureMethod.automatic)
-//            .setMetadata(taxiParams)
-//            .setMetadata(driverABN)
-//            .setMetadata(driverLicence)
             .setMetadata(param)
+            .setTransferDataDestination(appAccountId)
             .build()
         
         Terminal.shared.createPaymentIntent(params) {
@@ -549,7 +572,7 @@ class ReaderDiscoverModel1:NSObject,ObservableObject ,DiscoveryDelegate{
                 self.cancelPay = true
                 NotificationCenter.default.post(name: NSNotification.Name("PAYMENTDETAIL"), object: nil)
             } else if let confirmedPaymentIntent = confirmResult {
-                print("confirmPaymentIntent succeeded", confirmedPaymentIntent)
+                print("c", confirmedPaymentIntent)
                 
                 let stripeChargesArr = confirmedPaymentIntent.charges
                 let stripeReceiptId = stripeChargesArr[0].stripeId
@@ -611,7 +634,7 @@ class ReaderDiscoverModel1:NSObject,ObservableObject ,DiscoveryDelegate{
                 if let reader = reader {
                     print("Successfully connected to reader: \(reader)")
                     do {
-                        try self.collectPayment(amount: AmountDetail.instance.totalChargresWithTax.description)
+                        try self.collectPayment(amount: AmountDetail.instance.totalChargresWithTax.description, serviceFee: AmountDetail.instance.serviceFee.description, serviceFeeGST: AmountDetail.instance.collectionStrFee)
                     }catch{
                         print("collect payment not call")
                     }

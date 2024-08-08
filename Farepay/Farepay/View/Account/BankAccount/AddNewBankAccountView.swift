@@ -24,12 +24,13 @@ struct AddNewBankAccountView: View {
     @State private var toast: Toast? = nil
     @State var apicalled = false
     @State private var isBankCreated: Bool = false
+    @Environment(\.rootPresentationMode) private var rootPresentationMode: Binding<RootPresentationMode>
     
     //MARK: - Views
     var body: some View {
             ZStack{
                 Color(.bgColor).edgesIgnoringSafeArea(.all)
-                VStack(spacing: 10){
+                VStack(spacing: 40){
 //                    NavigationLink("", destination: MainTabbedView().toolbar(.hidden, for: .navigationBar), isActive: $goToHome ).isDetailLink(false)
                     NavigationLink("", destination: UnderReviewView().toolbar(.hidden, for: .navigationBar), isActive: $goToHome ).isDetailLink(false)
                     
@@ -39,7 +40,6 @@ struct AddNewBankAccountView: View {
                     buttonArea
                 }
                 .toastView(toast: $toast)
-                .padding(.all, 15)
                 .onAppear(perform: {
                     let stripeSessionID = UserDefaults.standard.string(forKey: "stripeSessionID")
                     let stripeEphemeralKeySecret = UserDefaults.standard.string(forKey: "stripeEphemeralKeySecret")
@@ -52,6 +52,8 @@ struct AddNewBankAccountView: View {
                     
                     checkUserBankAccount()
                 })
+                .padding(.all, 15)
+                
                 if apicalled{
                     VStack{
                         ActivityIndicatorView(isVisible: $apicalled, type: .growingArc(.white, lineWidth: 5))
@@ -65,7 +67,7 @@ struct AddNewBankAccountView: View {
                 }
             }
             .environment(\.rootPresentationMode, $goToHome)
-        
+            .edgesIgnoringSafeArea(.top)
     }
 }
 
@@ -86,7 +88,7 @@ extension AddNewBankAccountView{
                 .onTapGesture {
                     presentationMode.wrappedValue.dismiss()
                 }
-            Text("Add New Account")
+            Text("Add Bank Account")
                 .font(.custom(.poppinsBold, size: 25))
                 .foregroundColor(.white)
             Spacer()
@@ -198,7 +200,25 @@ extension AddNewBankAccountView{
                     .cornerRadius(30)
 
             })
-      
+            
+            Button(action: {
+                setUserLogin(false)
+                do {
+                    try  Auth.auth().signOut()
+                } catch  {
+                    print("error")
+                }
+                
+                rootPresentationMode.wrappedValue.dismiss()
+            }, label: {
+                Text("Logout")
+                    .font(.custom(.poppinsBold, size: 25))
+                    .foregroundColor(.white)
+                    .frame(maxWidth: .infinity)
+                    .frame(height: 60)
+                    .background(Color(.buttonColor))
+                    .cornerRadius(30)
+            })
         }
     }
     

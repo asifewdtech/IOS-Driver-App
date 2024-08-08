@@ -30,7 +30,7 @@ struct NewsView: View {
                 NavigationLink {
                     AddNewBankAccountView().toolbar(.hidden, for: .navigationBar)
                 } label: {
-                    Text("Add New Account")
+                    Text("Add Bank Account")
                         .font(.custom(.poppinsBold, size: 22))
                         .foregroundColor(.white)
                         .frame(maxWidth: .infinity)

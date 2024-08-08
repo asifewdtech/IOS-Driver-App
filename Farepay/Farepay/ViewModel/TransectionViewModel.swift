@@ -46,7 +46,6 @@ class TransectionViewModel: ObservableObject {
 //                          print(result11.amount)
 //                      }
         
-        
         guard let httpResponse = response as? HTTPURLResponse  else {return }
         DispatchQueue.main.async {
             print("statusCode \(httpResponse.statusCode)")
@@ -83,4 +82,5 @@ struct MyResult: Codable {
     let created:Int
     let source_type:String
     let currency:String
+    let address: String
 }

@@ -8,6 +8,9 @@
 import SwiftUI
 import ActivityIndicatorView
 import UniformTypeIdentifiers
+import Alamofire
+import CoreLocation
+
 struct TransactionView: View {
     //MARK: - Variables
     @Binding var presentSideMenu: Bool
@@ -26,6 +29,8 @@ struct TransactionView: View {
     @State var weeklyTransection: String = ""
     @State var todayTransection: String = ""
     @State var threeMonthlyTransection: String = ""
+    @State private var userAddress: String = ""
+    @State var locManager = CLLocationManager()
     
     //MARK: - Views
     var body: some View {
@@ -67,6 +72,7 @@ struct TransactionView: View {
                         try await transectionViewModel.getAllTransection(url: weeklyTransection, method: .post, account_id: accountId)
                         
                     }
+                    fetchLatLong()
                 })
                 
                 
@@ -242,7 +248,7 @@ extension TransactionView{
         
         VStack{
         
-            if (transectionViewModel.arrTransaction.count == 0) {
+            if (transectionViewModel.arrTransactionRes.count == 0) {
                 VStack(alignment: .center, spacing: 200){
                 Text("No Record Found")
                     .font(.custom(.poppinsMedium, size: 25))
@@ -271,7 +277,7 @@ extension TransactionView{
                             Group{
                                 HStack{
                                     //                                Text(trans.object)
-                                    Text(" ")
+                                    Text(userAddress)
                                         .font(.custom(.poppinsSemiBold, size: 20))
                                         .foregroundColor(.white)
                                     Spacer()
@@ -285,7 +291,7 @@ extension TransactionView{
                                         .foregroundColor(Color(.darkGrayColor))
                                     Spacer()
                                     //                                Text(trans.currency)
-                                    Text("fare")
+                                    Text("Fare")
                                         .font(.custom(.poppinsMedium, size: 15))
                                         .foregroundColor(Color(.darkGrayColor))
                                 }
@@ -305,6 +311,47 @@ extension TransactionView{
                     Spacer().frame(height: 10)
                 }
             }
+            }
+        }
+    }
+    
+    func fetchLatLong() {
+        locManager.requestWhenInUseAuthorization()
+        
+        if (CLLocationManager.authorizationStatus() == CLAuthorizationStatus.authorizedWhenInUse ||
+            CLLocationManager.authorizationStatus() == CLAuthorizationStatus.authorizedAlways){
+            guard let currentLocation = locManager.location else {
+                return
+            }
+            print(currentLocation.coordinate.latitude)
+            print(currentLocation.coordinate.longitude)
+            
+            getAddressFromLatLong(latitude: currentLocation.coordinate.latitude, longitude: currentLocation.coordinate.longitude)
+        }
+    }
+    
+    func getAddressFromLatLong(latitude: Double, longitude : Double){
+        
+        let url = "https://maps.googleapis.com/maps/api/geocode/json?latlng=\(latitude),\(longitude)&key=AIzaSyDvzoBJGEDZ5LpZ002k8JvKfWgnepzwxdc"
+        
+        AF.request(url).validate().responseJSON { response in
+            switch response.result {
+            case let .success(value):
+                if let results = (value as AnyObject).object(forKey: "results")! as? [NSDictionary] {
+                    if let addressComponents = results[1]["address_components"]! as? [NSDictionary] {
+                        for component in addressComponents {
+                            if let temp = component.object(forKey: "types") as? [String] {
+                                if (temp[0] == "locality") {
+                                    let address = component["long_name"] as? String ?? "N/A"
+                                    print("city value: ",address)
+                                    userAddress = address
+                                }
+                            }
+                        }
+                    }
+                }
+            case .failure(let error):
+                print(error)
             }
         }
     }

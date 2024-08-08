@@ -127,7 +127,7 @@ extension BankAccountView{
     }
     
     var buttonArea: some View{
-        Text("Add New Account")
+        Text("Add Bank Account")
             .font(.custom(.poppinsBold, size: 25))
             .foregroundColor(.white)
             .frame(maxWidth: .infinity)
