@@ -43,10 +43,10 @@ struct MyResult1: Codable {
     let source_type:String
     let currency:String
     let source_transaction:String
-//    let metaData: [metaData]
-//}
-//
-//struct metaData: Codable {
-//    let Address: String
-//    let taxiID: String
+    let metadata: metaData
+}
+
+struct metaData: Codable {
+    let Address: String
+    let TaxiId: String
 }

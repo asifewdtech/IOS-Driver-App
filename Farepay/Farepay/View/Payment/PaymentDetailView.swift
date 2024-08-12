@@ -58,6 +58,7 @@ struct PaymentDetailView: View {
                 UserDefaults.standard.removeObject(forKey: "driABN")
                 UserDefaults.standard.removeObject(forKey: "driLicence")
                 UserDefaults.standard.removeObject(forKey: "fareAddress")
+                UserDefaults.standard.removeObject(forKey: "transHistoryFlow")
                 
                 if let cost = Double(farePriceText.trimmingCharacters(in: .whitespaces)) {
                     let formatter = NumberFormatter()
@@ -78,7 +79,7 @@ struct PaymentDetailView: View {
                     print("serviceFee\(serviceFee)")
                     
                     let srvcFeeGst = (amountWithFivePercent - srvcFee).roundToDecimal(2)
-                    //                    let y = srvcFeeGst.rounded()
+                    
                     if let srvcFeeGstString = formatter.string(from: (Decimal(srvcFeeGst)) as NSNumber) {
                         serviceFeeGst = srvcFeeGstString
                     }
@@ -445,6 +446,9 @@ class AmountDetail {
     var totalAmount = "0.0"
     var serviceFee = 0.0
     var collectionStrFee = 0.0
+    var fareDateTime = Date()
+    var fareDateTimeInt = 0
+    var fareStripeId = ""
 }
 
 class ReaderDiscoverModel1:NSObject,ObservableObject ,DiscoveryDelegate{
@@ -558,6 +562,9 @@ class ReaderDiscoverModel1:NSObject,ObservableObject ,DiscoveryDelegate{
                         self.showPay = true
                         self.confirmPaymentIntent(paymentIntent)
                         self.disconnectFromReader()
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 3){
+                            self.PassMetaDataToConAcc(transferId: paymentIntent.stripeId ?? "", address: fAddress, tNumberId: tNumber ?? "")
+                        }
                         NotificationCenter.default.post(name: NSNotification.Name("PAYMENTDETAIL"), object: nil)
                     }
                 }
@@ -572,7 +579,7 @@ class ReaderDiscoverModel1:NSObject,ObservableObject ,DiscoveryDelegate{
                 self.cancelPay = true
                 NotificationCenter.default.post(name: NSNotification.Name("PAYMENTDETAIL"), object: nil)
             } else if let confirmedPaymentIntent = confirmResult {
-                print("c", confirmedPaymentIntent)
+                print("confirmedPaymentIntent", confirmedPaymentIntent)
                 
                 let stripeChargesArr = confirmedPaymentIntent.charges
                 let stripeReceiptId = stripeChargesArr[0].stripeId
@@ -581,6 +588,9 @@ class ReaderDiscoverModel1:NSObject,ObservableObject ,DiscoveryDelegate{
                 UserDefaults.standard.set(stripeReceiptId, forKey: "stripeReceiptId")
                 UserDefaults.standard.set(receiptCreated, forKey: "receiptCreated")
                 
+                AmountDetail.instance.fareStripeId = stripeReceiptId
+                AmountDetail.instance.fareDateTime = receiptCreated
+                AmountDetail.instance.fareDateTimeInt = 0
                 
 //                self.showPay = true
 //                NotificationCenter.default.post(name: NSNotification.Name("PAYMENTDETAIL"), object: nil)
@@ -645,6 +655,38 @@ class ReaderDiscoverModel1:NSObject,ObservableObject ,DiscoveryDelegate{
         } catch {
             print("Error creating LocalMobileConnectionConfiguration: \(error)")
         }
+    }
+    
+    func PassMetaDataToConAcc(transferId: String, address: String, tNumberId: String){
+        let transGrpId = "group_\(transferId)"
+        var reportUrl = ""
+        if API.App_Envir == "Production" {
+            reportUrl = "https://ewlzgqybpa.execute-api.eu-north-1.amazonaws.com/default/PassMetaDataToConnectAccount?transferGroupId=\(transGrpId)&address=\(address)&taxiId=\(tNumberId)"
+        }
+        else if API.App_Envir == "Dev" {
+            reportUrl = "https://rgvkobwnek.execute-api.eu-north-1.amazonaws.com/default/PassMetaDataToConnectAccount?transferGroupId=\(transGrpId)&address=\(address)&taxiId=\(tNumberId)"
+        }
+        else if API.App_Envir == "Stagging" {
+            reportUrl = "https://ofrykfo9dg.execute-api.eu-north-1.amazonaws.com/default/PassMetaDataToConnectAccount?transferGroupId=\(transGrpId)&address=\(address)&taxiId=\(tNumberId)"
+        }else{
+            reportUrl = "https://ewlzgqybpa.execute-api.eu-north-1.amazonaws.com/default/PassMetaDataToConnectAccount?transferGroupId=\(transGrpId)&address=\(address)&taxiId=\(tNumberId)"
+        }
+        let urlNewAcc :String = reportUrl.replacingOccurrences(of: " ", with: "%20")
+        print("reportUrl: ",urlNewAcc)
+        
+        var request = URLRequest(url: URL(string: urlNewAcc)!,timeoutInterval: Double.infinity)
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        
+        request.httpMethod = "POST"
+        
+        let task = URLSession.shared.dataTask(with: request) { data, response, error in
+          guard let data = data else {
+            print("PassMetaDataToConAcc Err: ",String(describing: error))
+            return
+          }
+          print("PassMetaDataToConAcc Scc: ",String(data: data, encoding: .utf8)!)
+        }
+        task.resume()
     }
 }
 

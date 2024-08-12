@@ -40,8 +40,9 @@ struct TransactionDetailView: View {
                 
                 amount = Double( transactionType.amount) / 100
                     totalAmount = amount
+                print("totalAmount: \(amount)")
                 
-                    AmountDetail.instance.totalAmount = String(amount)
+//                    AmountDetail.instance.totalAmount = String(amount)
                     let amountWithFivePercent = amount * 5 / 100
                     print("amountWithFivePercent \(amountWithFivePercent)")
                     serviceFee = (amountWithFivePercent / 1.1).roundToDecimal(2)
@@ -54,15 +55,19 @@ struct TransactionDetailView: View {
                     print("serviceFeeGst \(serviceFeeGst)")
                     totalChargresWithTax = (serviceFee + serviceFeeGst + amount).roundToDecimal(2)
                     
-                    AmountDetail.instance.totalChargresWithTax = String(totalChargresWithTax)
+                    AmountDetail.instance.totalChargresWithTax = String(totalAmount) //String(totalChargresWithTax)
                     print("totalCharges \(totalChargresWithTax)")
                     
+                let totalFareAmount = (amount - serviceFee - serviceFeeGst).roundToDecimal(2)
+                AmountDetail.instance.totalAmount = String(totalFareAmount)
+                
                 let stripeReceiptId = transactionType.source_transaction
-                UserDefaults.standard.set(stripeReceiptId, forKey: "stripeReceiptId")
+                AmountDetail.instance.fareStripeId = stripeReceiptId
                 
                 let stripeReceiptDate = transactionType.created
-                UserDefaults.standard.set(stripeReceiptDate, forKey: "receiptCreated")
+                AmountDetail.instance.fareDateTimeInt = stripeReceiptDate
                 
+                UserDefaults.standard.set(1, forKey: "transHistoryFlow")
             })
             .padding(.all, 15)
         }
