@@ -28,61 +28,62 @@ struct PaymentView: View {
     
     //MARK: - Views
     var body: some View {
-        
-        ZStack{
-            NavigationLink("", destination: PaymentDetailView(farePriceText: $currencyManager.string1).toolbar(.hidden, for: .navigationBar), isActive: $willMoveToPaymentDetail).isDetailLink(false)
-            NavigationLink("", destination: TapToPayView().toolbar(.hidden, for: .navigationBar), isActive: $willMoveTapToPayView).isDetailLink(false)
-            NavigationLink("", destination: PayQRView().toolbar(.hidden, for: .navigationBar), isActive: $willMoveToQr).isDetailLink(false)
-            
-            Color(.bgColor)
-                .edgesIgnoringSafeArea(.all)
-            VStack{
-                topArea
-//                calculationArea
-                taxiNumberArea
-                Spacer()
+        NavigationView {
+            ZStack{
+                NavigationLink("", destination: PaymentDetailView(farePriceText: $currencyManager.string1).toolbar(.hidden, for: .navigationBar), isActive: $willMoveToPaymentDetail).isDetailLink(false)
+                NavigationLink("", destination: TapToPayView().toolbar(.hidden, for: .navigationBar), isActive: $willMoveTapToPayView).isDetailLink(false)
+                NavigationLink("", destination: PayQRView().toolbar(.hidden, for: .navigationBar), isActive: $willMoveToQr).isDetailLink(false)
                 
-                keypadArea
-                buttonArea
-            }
-            VStack{
-                if(self.showTaxi){
-                    taxiNumArea
-                }
-            }
-            .edgesIgnoringSafeArea(.all)
-            
-            .onAppear(perform: {
-                print("App_Envir value: ",API.App_Envir)
-                if API.App_Envir == "Production" {
-                    print("App_Envir val: Production")
-                }
-                else if API.App_Envir == "Dev" {
-                    print("App_Envir val: Dev")
-                }
-                else if API.App_Envir == "Stagging" {
-                    print("App_Envir val: Stagging")
-                }else{
-                    print("App_Envir val: Error")
-                }
-                showLoadingIndicator = false
-                currencyManager.string1 = ""
-                firebaseAPI()
-            })
-            
-            .toastView(toast: $toast)
-//            .padding(.all, 15)
-            
-            if showLoadingIndicator{
+                Color(.bgColor)
+                    .edgesIgnoringSafeArea(.all)
                 VStack{
-                    ActivityIndicatorView(isVisible: $showLoadingIndicator, type: .growingArc(.white, lineWidth: 5))
-                        .frame(width: 50.0, height: 50.0)
-                        .foregroundColor(.white)
-                        .padding(.top, 350)
+                    topArea
+                    //                calculationArea
+                    taxiNumberArea
+                    Spacer()
+                    
+                    keypadArea
+                    buttonArea
                 }
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
-                .background(Color.black.opacity(0.5))
+                VStack{
+                    if(self.showTaxi){
+                        taxiNumArea
+                    }
+                }
                 .edgesIgnoringSafeArea(.all)
+                
+                .onAppear(perform: {
+                    print("App_Envir value: ",API.App_Envir)
+                    if API.App_Envir == "Production" {
+                        print("App_Envir val: Production")
+                    }
+                    else if API.App_Envir == "Dev" {
+                        print("App_Envir val: Dev")
+                    }
+                    else if API.App_Envir == "Stagging" {
+                        print("App_Envir val: Stagging")
+                    }else{
+                        print("App_Envir val: Error")
+                    }
+                    showLoadingIndicator = false
+                    currencyManager.string1 = ""
+                    firebaseAPI()
+                })
+                
+                .toastView(toast: $toast)
+                //            .padding(.all, 15)
+                
+                if showLoadingIndicator{
+                    VStack{
+                        ActivityIndicatorView(isVisible: $showLoadingIndicator, type: .growingArc(.white, lineWidth: 5))
+                            .frame(width: 50.0, height: 50.0)
+                            .foregroundColor(.white)
+                            .padding(.top, 350)
+                    }
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    .background(Color.black.opacity(0.5))
+                    .edgesIgnoringSafeArea(.all)
+                }
             }
         }
     }

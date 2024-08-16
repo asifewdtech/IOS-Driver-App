@@ -27,74 +27,78 @@ struct UnderReviewView: View {
     @State private var toast: Toast? = nil
     @State var updateStripeDocs = false
     @Environment(\.presentationMode) private var presentationMode: Binding<PresentationMode>
+    @State private var willMoveToMainView = false
     
     var body: some View {
-//        NavigationView {
-        ZStack{
-            NavigationLink("", destination: MainTabbedView().toolbar(.hidden, for: .navigationBar), isActive: $goToHome).isDetailLink(false)
-//            NavigationLink("", destination: UnderReviewVC(), isActive: $updateStripeDocs)
-//            NavigationLink("", destination: UnderReviewVC().toolbar(.hidden, for: .navigationBar), isActive: $updateStripeDocs).isDetailLink(false)
-            
-            Color(.bgColor)
-                .edgesIgnoringSafeArea(.all)
-            VStack{
-            topArea
-        }
-            .toastView(toast: $toast)
-        .onAppear(){
-            Firestore.firestore().collection("usersInfo").document(Auth.auth().currentUser?.uid ?? "").getDocument { snapShot, error in
-                if let error = error {
-                    print(error.localizedDescription)
-                }else {
-                    
-                    guard let snap = snapShot else { return  }
-                    verifiSessionId  = snap.get("sessionID") as? String ?? ""
-                }
-            }
-            
-            
-//            let collectionRef = Firestore.firestore().collection("usersInfo")
-//            collectionRef.getDocuments { (snapshot, error) in
-//                
-//                if let err = error {
-//                    debugPrint("error fetching docs: \(err)")
-//                } else {
-//                    guard let snap = snapshot else {
-//                        return
-//                    }
-//                    for document in snap.documents {
-//                        let data = document.data()
-//                            
-////                            DispatchQueue.main.async {
-//                                print("error: ", error?.localizedDescription)
-//                                //
-//                                verifiSessionId = data["sessionID"] as? String ?? ""
-//                        print("FB verifiSessionId: ",verifiSessionId)
-//                                createSessionStripeIdentity()
-////                            }
-//                        }
-//                }
-//            }
-            
-//            CreateFileDownloadLink()
-            createSessionStripeIdentity()
-        }
-        .fullScreenCover(isPresented: $updateStripeDocs) {
-            UnderReviewVC()
-        }
-            if showLoadingIndicator{
+        NavigationView {
+            ZStack{
+                NavigationLink("", destination: MainTabbedView().toolbar(.hidden, for: .navigationBar), isActive: $goToHome).isDetailLink(false)
+                NavigationLink("", destination: Farepay.MainTabbedView().toolbar(.hidden, for: .navigationBar), isActive: $willMoveToMainView ).isDetailLink(false)
+                //            NavigationLink("", destination: UnderReviewVC(), isActive: $updateStripeDocs)
+                //            NavigationLink("", destination: UnderReviewVC().toolbar(.hidden, for: .navigationBar), isActive: $updateStripeDocs).isDetailLink(false)
+                
+                Color(.bgColor)
+                    .edgesIgnoringSafeArea(.all)
                 VStack{
-                    ActivityIndicatorView(isVisible: $showLoadingIndicator, type: .growingArc(.white, lineWidth: 5))
-                        .frame(width: 50.0, height: 50.0)
-                        .foregroundColor(.white)
-                        .padding(.top, 350)
+                    topArea
                 }
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
-                .background(Color.black.opacity(0.5))
-                .edgesIgnoringSafeArea(.all)
+                .toastView(toast: $toast)
+                .onAppear(){
+                    Firestore.firestore().collection("usersInfo").document(Auth.auth().currentUser?.uid ?? "").getDocument { snapShot, error in
+                        if let error = error {
+                            print(error.localizedDescription)
+                        }else {
+                            
+                            guard let snap = snapShot else { return  }
+                            verifiSessionId  = snap.get("sessionID") as? String ?? ""
+                        }
+                    }
+                    
+                    
+                    //            let collectionRef = Firestore.firestore().collection("usersInfo")
+                    //            collectionRef.getDocuments { (snapshot, error) in
+                    //
+                    //                if let err = error {
+                    //                    debugPrint("error fetching docs: \(err)")
+                    //                } else {
+                    //                    guard let snap = snapshot else {
+                    //                        return
+                    //                    }
+                    //                    for document in snap.documents {
+                    //                        let data = document.data()
+                    //
+                    ////                            DispatchQueue.main.async {
+                    //                                print("error: ", error?.localizedDescription)
+                    //                                //
+                    //                                verifiSessionId = data["sessionID"] as? String ?? ""
+                    //                        print("FB verifiSessionId: ",verifiSessionId)
+                    //                                createSessionStripeIdentity()
+                    ////                            }
+                    //                        }
+                    //                }
+                    //            }
+                    
+                    //            CreateFileDownloadLink()
+                    createSessionStripeIdentity()
+                }
+                .fullScreenCover(isPresented: $updateStripeDocs) {
+                    UnderReviewVC()
+                }
+                if showLoadingIndicator{
+                    VStack{
+                        ActivityIndicatorView(isVisible: $showLoadingIndicator, type: .growingArc(.white, lineWidth: 5))
+                            .frame(width: 50.0, height: 50.0)
+                            .foregroundColor(.white)
+                            .padding(.top, 350)
+                    }
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    .background(Color.black.opacity(0.5))
+                    .edgesIgnoringSafeArea(.all)
+                }
             }
         }
         .environment(\.rootPresentationMode, $goToHome)
+        .environment(\.rootPresentationMode, $willMoveToMainView)
     }
 }
 
@@ -480,7 +484,8 @@ extension UnderReviewView{
                         Firestore.firestore().collection("usersInfo").document(Auth.auth().currentUser?.uid ?? "").updateData(["frontimgid": verifiDict])
                         
                         showLoadingIndicator = false
-                        goToHome = true
+//                        goToHome = true
+                        willMoveToMainView = true
                     }
                     else {
                         print("Error id not foud.")

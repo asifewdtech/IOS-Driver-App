@@ -17,12 +17,25 @@ struct FarepayApp: App {
     //MARK: - Variables
     @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
     
-    
+//    @StateObject private var appRootManager = AppRootManager()
     
     //MARK: - Views
     var body: some Scene {
         WindowGroup {
             SplashView()
+//            Group {
+//                switch appRootManager.currentRoot {
+//                case .splash:
+//                    SplashView()
+//                    
+//                case .authentication:
+//                    LoginView()
+//                    
+//                case .home:
+//                    MainTabbedView()
+//                }
+//            }
+//            .environmentObject(appRootManager)
         }
     }
 }

@@ -26,6 +26,17 @@ struct CustomRoundedRectangle: Shape {
     }
 }
 
+final class AppRootManager: ObservableObject {
+    
+    @Published var currentRoot: eAppRoots = .splash
+    
+    enum eAppRoots {
+        case splash
+        case authentication
+        case home
+    }
+}
+
 struct ClearBackgroundView: UIViewRepresentable {
     func makeUIView(context: Context) -> UIView {
         return InnerView()

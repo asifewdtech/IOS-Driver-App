@@ -547,6 +547,7 @@ class ReaderDiscoverModel1:NSObject,ObservableObject ,DiscoveryDelegate{
             if let error = createError {
                 print("createPaymentIntent failed: \(error)")
                 self.errorPay = true
+                self.disconnectFromReader()
                 NotificationCenter.default.post(name: NSNotification.Name("PAYMENTDETAIL"), object: nil)
             } else if let paymentIntent = createResult {
                 print("createPaymentIntent succeeded")
@@ -577,6 +578,7 @@ class ReaderDiscoverModel1:NSObject,ObservableObject ,DiscoveryDelegate{
             if let error = confirmError {
                 print("confirmPaymentIntent failed: \(error)")
                 self.cancelPay = true
+                self.disconnectFromReader()
                 NotificationCenter.default.post(name: NSNotification.Name("PAYMENTDETAIL"), object: nil)
             } else if let confirmedPaymentIntent = confirmResult {
                 print("confirmedPaymentIntent", confirmedPaymentIntent)
@@ -649,6 +651,7 @@ class ReaderDiscoverModel1:NSObject,ObservableObject ,DiscoveryDelegate{
                         print("collect payment not call")
                     }
                 } else if let error = error {
+                    self.disconnectFromReader()
                     print("connectLocalMobileReader failed: \(error)")
                 }
             }

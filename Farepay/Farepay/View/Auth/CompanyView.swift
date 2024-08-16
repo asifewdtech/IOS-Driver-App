@@ -21,7 +21,7 @@ struct CompanyView: View {
     //MARK: - Views
     var body: some View {
         
-        NavigationStack {
+        NavigationView {
             ZStack{
                 
                 NavigationLink("", destination: RepresentativeView().toolbar(.hidden, for: .navigationBar), isActive: $willMoveToRepresentativeView).isDetailLink(false)

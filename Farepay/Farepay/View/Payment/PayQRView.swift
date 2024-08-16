@@ -329,27 +329,6 @@ extension PayQRView{
         return dateFormatter.string(from: date)
     }
     
-//    func formatDateTime(_ dateTimeString: String) -> String {
-//        // Initialize the date formatter
-//        let inputFormatter = DateFormatter()
-//        inputFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
-//        inputFormatter.timeZone = TimeZone.current
-//        print("dateTimeString: ",dateTimeString)
-//        // Convert the input string to a Date object
-//        guard let date = inputFormatter.date(from: dateTimeString) else {
-//            return "Invalid date format"
-//        }
-//
-//        // Define the output date format
-//        let outputFormatter = DateFormatter()
-//        outputFormatter.dateFormat = "EEEE, MMMM dd, yyyy 'at' h:mm a"
-//        outputFormatter.timeZone = TimeZone.current
-//
-//        // Convert the Date object to the desired output string
-//        let formattedDate = outputFormatter.string(from: date)
-//        return formattedDate
-//    }
-    
     func formatDateToDayDateTime(_ date: Date) -> String {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "EEEE, d-MM-yyyy, HH:mm:ss"

@@ -23,6 +23,7 @@ struct SplashView: View {
     @State private var showLoadingIndicator: Bool = true
     @AppStorage("accountId") var accountId: String = ""
     @State private var willMoveToUnderReviewView = false
+//    @EnvironmentObject private var appRootManager: AppRootManager
     
     //MARK: - Views
     var body: some View {
@@ -88,9 +89,8 @@ struct SplashView: View {
             print("1", Auth.auth().currentUser, ":2", isAccountCreated, ":3", isBankCreated, ":4", isAccountApproved)
             if Auth.auth().currentUser != nil {
                 if isAccountCreated && isBankCreated && (isAccountApproved != ""){
-//                    willMoveToLogin.toggle()
                     willMoveToMainView = true
-//                    willMoveToUnderReviewView.toggle()
+//                    appRootManager.currentRoot = .home
                 }
                 else if isAccountCreated == true && isBankCreated == false  {
                     willMoveToBankAccount = true
@@ -99,15 +99,12 @@ struct SplashView: View {
                     willMoveToUnderReviewView = true
                 }
                 else {
-//                    willMoveToCompanyView = true
                     willMoveToLogin.toggle()
-//                    willMoveToUnderReviewView.toggle()
                 }
             }
             
             else{
                 willMoveToLogin.toggle()
-//                willMoveToUnderReviewView.toggle()
             }
         }
     }

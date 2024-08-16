@@ -32,75 +32,76 @@ struct LoginView: View {
     
     //MARK: - Views
     var body: some View {
-        
-        ZStack{
-            Color(.bgColor)
-                .edgesIgnoringSafeArea(.all)
-            VStack{
-                ScrollView(showsIndicators: false){
-                    VStack(spacing: 40){
-                        topArea
-                        textArea
+        NavigationView {
+            ZStack{
+                Color(.bgColor)
+                    .edgesIgnoringSafeArea(.all)
+                VStack{
+                    ScrollView(showsIndicators: false){
+                        VStack(spacing: 40){
+                            topArea
+                            textArea
+                        }
+                        buttonArea
                     }
-                    buttonArea
                 }
-            }
-            .toastView(toast: $toast)
-            .padding(.all, 15)
-            .environment(\.rootPresentationMode, $userAuth.isAccountCreated)
-            
-            .onAppear(perform: {
+                .toastView(toast: $toast)
+                .padding(.all, 15)
+                .environment(\.rootPresentationMode, $userAuth.isAccountCreated)
                 
-                NotificationCenter.default.addObserver(forName: NSNotification.Name("SIGNIN"), object: nil, queue: .main) { (_) in
+                .onAppear(perform: {
                     
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                        if userAuth.isLoggedIn == false  {
-//                            toast = Toast(style: .error, message: userAuth.errorMessage)
-                            print("error")
-                        }else {
-                            Firestore.firestore().collection("usersInfo").document(Auth.auth().currentUser?.uid ?? "").getDocument { snapShot, error in
-                                if let error = error {
-                                    print(error.localizedDescription)
-                                    
-                                }else {
-                                    
-                                    guard let snap = snapShot else { return  }
-                                    
-                                    DispatchQueue.main.async {
-                                        isAccountCreated = snap.get("connectAccountCreated") as? Bool ?? false
-                                        isBankCreated = snap.get("bankAdded") as? Bool ?? false
-                                        if isAccountCreated  && isBankCreated {
-                                            goToHome = true
-                                            
-                                        }else if isAccountCreated && isBankCreated == false  {
-                                            willMoveToBankAccount = true
-                                        }
-                                        else {
-                                            showCompany = true
+                    NotificationCenter.default.addObserver(forName: NSNotification.Name("SIGNIN"), object: nil, queue: .main) { (_) in
+                        
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                            if userAuth.isLoggedIn == false  {
+                                //                            toast = Toast(style: .error, message: userAuth.errorMessage)
+                                print("error")
+                            }else {
+                                Firestore.firestore().collection("usersInfo").document(Auth.auth().currentUser?.uid ?? "").getDocument { snapShot, error in
+                                    if let error = error {
+                                        print(error.localizedDescription)
+                                        
+                                    }else {
+                                        
+                                        guard let snap = snapShot else { return  }
+                                        
+                                        DispatchQueue.main.async {
+                                            isAccountCreated = snap.get("connectAccountCreated") as? Bool ?? false
+                                            isBankCreated = snap.get("bankAdded") as? Bool ?? false
+                                            if isAccountCreated  && isBankCreated {
+                                                goToHome = true
+                                                
+                                            }else if isAccountCreated && isBankCreated == false  {
+                                                willMoveToBankAccount = true
+                                            }
+                                            else {
+                                                showCompany = true
+                                            }
                                         }
                                     }
                                 }
                             }
                         }
                     }
+                })
+                if showLoadingIndicator{
+                    VStack{
+                        ActivityIndicatorView(isVisible: $showLoadingIndicator, type: .growingArc(.white, lineWidth: 5))
+                            .frame(width: 50.0, height: 50.0)
+                            .foregroundColor(.white)
+                            .padding(.top, 350)
+                    }
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    .background(Color.black.opacity(0.5))
+                    .edgesIgnoringSafeArea(.all)
                 }
-            })
-            if showLoadingIndicator{
-                VStack{
-                    ActivityIndicatorView(isVisible: $showLoadingIndicator, type: .growingArc(.white, lineWidth: 5))
-                        .frame(width: 50.0, height: 50.0)
-                        .foregroundColor(.white)
-                        .padding(.top, 350)
-                }
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
-                .background(Color.black.opacity(0.5))
-                .edgesIgnoringSafeArea(.all)
             }
         }
-        .environment(\.rootPresentationMode, $moveToSignup)
+//        .environment(\.rootPresentationMode, $moveToSignup)
         .environment(\.rootPresentationMode, $goToHome)
-        .environment(\.rootPresentationMode, $showCompany)
-        .environment(\.rootPresentationMode, $willMoveToBankAccount)
+//        .environment(\.rootPresentationMode, $showCompany)
+//        .environment(\.rootPresentationMode, $willMoveToBankAccount)
     }
 }
 

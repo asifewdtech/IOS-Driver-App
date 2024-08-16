@@ -181,7 +181,7 @@ extension SignUpView{
         VStack(alignment: .leading, spacing: 20){
             
             Group{
-                MDCFilledTextFieldWrapper(leadingImage: .constant(.ic_Email), text: $nameText, placHolderText: .constant("Type your username (optional)"), isSecure: .constant(false))
+//                MDCFilledTextFieldWrapper(leadingImage: .constant(.ic_Email), text: $nameText, placHolderText: .constant("Type your username (optional)"), isSecure: .constant(false))
                 MDCFilledTextFieldWrapper(leadingImage: .constant(.ic_Email), text: $emailText, placHolderText: .constant("Enter your Email Address"), isSecure: .constant(false))
                     .keyboardType(.emailAddress)
                 Group{
@@ -342,8 +342,9 @@ extension SignUpView{
                         toast = Toast(style: .error, message: userAuth.errorMessage)
                     }else {
 //                        showCompany.toggle()
-                        goToLogin.toggle()
-                        toast = Toast(style: .success, message: "Registration Successfully.")
+//                        goToLogin.toggle()
+//                        toast = Toast(style: .success, message: "Registration Successfully.")
+                        presentationMode.wrappedValue.dismiss()
                     }
                 }
             }else {
