@@ -25,6 +25,10 @@ struct PaymentView: View {
     @State private var locationPermission = false
     @State var showTaxi = false
     @State var taxiNumber = ""
+    @State private var showPopupView = false
+    @AppStorage("accountId") private var appAccountId: String = ""
+    @State private var accStatusStr = ""
+    @State private var accStatusBool: Bool = false
     
     //MARK: - Views
     var body: some View {
@@ -53,6 +57,27 @@ struct PaymentView: View {
                 .edgesIgnoringSafeArea(.all)
                 
                 .onAppear(perform: {
+                    retriveAccountAPI()
+                    
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 2){
+                        showLoadingIndicator = false
+                        if accStatusBool {
+                            if accStatusStr == "pending"{
+                                let dialogMessage = UIAlertController(title: "Awaiting Approval", message: "Thank you for your application, we will be in touch within 24 hours.", preferredStyle: .alert)
+                                let window = UIApplication.shared.keyWindow
+                                window?.rootViewController?.present(dialogMessage, animated: true)
+                                
+                            }else if accStatusStr == "paused"{
+                                let dialogMessage = UIAlertController(title: "Awaiting Approval", message: "Your Farepay account has been paused, please contact support.", preferredStyle: .alert)
+                                let window = UIApplication.shared.keyWindow
+                                window?.rootViewController?.present(dialogMessage, animated: true)
+                                
+                            }else{
+                                print("Account Status is live.")
+                            }
+                        }
+                    }
+                    
                     print("App_Envir value: ",API.App_Envir)
                     if API.App_Envir == "Production" {
                         print("App_Envir val: Production")
@@ -517,6 +542,59 @@ extension PaymentView{
         showLoadingIndicator = false
 //        presentationMode.wrappedValue.dismiss()
         willMoveToQr = true
+    }
+    
+    func retriveAccountAPI () {
+        showLoadingIndicator = true
+        var reportUrl = ""
+        if API.App_Envir == "Production" {
+            reportUrl = "https://v2ycufp3t0.execute-api.eu-north-1.amazonaws.com/default/RetriveAccount?accountId=\(appAccountId)"
+        }
+        else if API.App_Envir == "Dev" {
+            reportUrl = "https://tv2wmq0d74.execute-api.eu-north-1.amazonaws.com/default/RetriveAccount?accountId=\(appAccountId)"
+        }
+        else if API.App_Envir == "Stagging" {
+            reportUrl = "https://pucqerawzi.execute-api.eu-north-1.amazonaws.com/default/RetriveAccount?accountId=\(appAccountId)"
+        }else{
+            reportUrl = "https://v2ycufp3t0.execute-api.eu-north-1.amazonaws.com/default/RetriveAccount?accountId=\(appAccountId)"
+        }
+        
+        var request = URLRequest(url: URL(string: reportUrl)!,timeoutInterval: Double.infinity)
+        request.httpMethod = "GET"
+        
+        let task = URLSession.shared.dataTask(with: request) { data, response, error in
+            guard let data = data else {
+                print(String(describing: error))
+                return
+            }
+//            showLoadingIndicator = false
+            print("retriveAccountAPI: ",String(data: data, encoding: .utf8)!)
+            do {
+                if let jsonDict = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any]{
+                    if let accStatus = jsonDict["accountStatus"] as? String {
+                        print("Success accStatus parsing JSON: \(accStatus)")
+                        if accStatus == "pending"{
+                            accStatusStr = "pending"
+                            accStatusBool = true
+                            
+                        }else if accStatus == "paused"{
+                            accStatusStr = "paused"
+                            accStatusBool = true
+                            
+                        }else{
+                            print("Account Status is live.")
+                            accStatusStr = "live"
+                            accStatusBool = false
+                        }
+                    }
+                }
+            }
+            catch{
+                print("Error parsing JSON: \(error)")
+            }
+        }
+        task.resume()
+        
     }
 }
 

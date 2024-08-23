@@ -411,8 +411,8 @@
 			children = (
 				F511937D2A97C4DF00554604 /* FarepayApp.swift */,
 				F511938F2A97C6CD00554604 /* Auth */,
-				F5C15A992AA26BF10065DE0B /* SideMenu */,
 				F5500E1D2AA10AB800B39655 /* Payment */,
+				F5C15A992AA26BF10065DE0B /* SideMenu */,
 				F5C15A9E2AA26CA50065DE0B /* GiftCard */,
 				F50BE06F2AA6501C00DD465A /* Payout */,
 				F50BE0722AA6588500DD465A /* Transaction */,
@@ -899,7 +899,7 @@
 				CODE_SIGN_ENTITLEMENTS = Farepay/Farepay.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 40;
+				CURRENT_PROJECT_VERSION = 43;
 				DEVELOPMENT_ASSET_PATHS = "\"Farepay/Preview Content\"";
 				DEVELOPMENT_TEAM = F2D64HKJXK;
 				ENABLE_PREVIEWS = YES;
@@ -1013,7 +1013,7 @@
 				CODE_SIGN_ENTITLEMENTS = Farepay/Farepay.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 40;
+				CURRENT_PROJECT_VERSION = 43;
 				DEVELOPMENT_ASSET_PATHS = "\"Farepay/Preview Content\"";
 				DEVELOPMENT_TEAM = F2D64HKJXK;
 				ENABLE_PREVIEWS = YES;
@@ -1121,7 +1121,7 @@
 				CODE_SIGN_ENTITLEMENTS = Farepay/Farepay.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 40;
+				CURRENT_PROJECT_VERSION = 43;
 				DEVELOPMENT_ASSET_PATHS = "\"Farepay/Preview Content\"";
 				DEVELOPMENT_TEAM = F2D64HKJXK;
 				ENABLE_PREVIEWS = YES;
@@ -1229,7 +1229,7 @@
 				CODE_SIGN_ENTITLEMENTS = Farepay/Farepay.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 40;
+				CURRENT_PROJECT_VERSION = 43;
 				DEVELOPMENT_ASSET_PATHS = "\"Farepay/Preview Content\"";
 				DEVELOPMENT_TEAM = F2D64HKJXK;
 				ENABLE_PREVIEWS = YES;
@@ -1401,7 +1401,7 @@
 				CODE_SIGN_ENTITLEMENTS = Farepay/Farepay.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 40;
+				CURRENT_PROJECT_VERSION = 43;
 				DEVELOPMENT_ASSET_PATHS = "\"Farepay/Preview Content\"";
 				DEVELOPMENT_TEAM = F2D64HKJXK;
 				ENABLE_PREVIEWS = YES;
@@ -1451,7 +1451,7 @@
 				CODE_SIGN_ENTITLEMENTS = Farepay/Farepay.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 40;
+				CURRENT_PROJECT_VERSION = 43;
 				DEVELOPMENT_ASSET_PATHS = "\"Farepay/Preview Content\"";
 				DEVELOPMENT_TEAM = F2D64HKJXK;
 				ENABLE_PREVIEWS = YES;

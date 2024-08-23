@@ -32,6 +32,7 @@ struct TransactionView: View {
     @State var lifeTimeTransection: String = ""
     @State private var userAddress: String = ""
     @State var locManager = CLLocationManager()
+    @AppStorage("accountId") private var appAccountId: String = ""
     
     //MARK: - Views
     var body: some View {
@@ -49,6 +50,7 @@ struct TransactionView: View {
                     Spacer()
                 }
                 .onAppear(perform: {
+                    print("appAccountId: ",appAccountId)
                     if API.App_Envir == "Production" {
                         weeklyTransection = "https://96ezrwsgj5.execute-api.eu-north-1.amazonaws.com/default/FetchTransactionsThisWeek"
                         todayTransection = "https://kmmtbm0rte.execute-api.eu-north-1.amazonaws.com/default/TransctionFilters"
@@ -77,7 +79,6 @@ struct TransactionView: View {
                         try await transectionViewModel.getAllTransection(url: weeklyTransection, method: .post, account_id: accountId)
                         
                     }
-                    fetchLatLong()
                 })
                 
                 
@@ -289,12 +290,14 @@ extension TransactionView{
                                         .font(.custom(.poppinsSemiBold, size: 20))
                                         .foregroundColor(.white)
                                     Spacer()
-                                    Text("$\(Double( trans.amount) / 100)".description)
+//                                    Text("$\(Double( trans.amount) / 100)".description)
+                                    Text("$\(excldeFareTaxes(fareAmount: trans.amount))".description)
                                         .font(.custom(.poppinsSemiBold, size: 20))
                                         .foregroundColor(.white)
                                 }
                                 HStack{
-                                    Text(dateToString(date:Date(timeIntervalSince1970: TimeInterval(trans.created))))
+//                                    Text(dateToString(date:Date(timeIntervalSince1970: TimeInterval(trans.created))))
+                                    Text("\(convertUnixTimestamp(trans.created))".description)
                                         .font(.custom(.poppinsMedium, size: 12))
                                         .foregroundColor(Color(.darkGrayColor))
                                     Spacer()
@@ -323,45 +326,42 @@ extension TransactionView{
         }
     }
     
-    func fetchLatLong() {
-        locManager.requestWhenInUseAuthorization()
-        
-        if (CLLocationManager.authorizationStatus() == CLAuthorizationStatus.authorizedWhenInUse ||
-            CLLocationManager.authorizationStatus() == CLAuthorizationStatus.authorizedAlways){
-            guard let currentLocation = locManager.location else {
-                return
-            }
-            print(currentLocation.coordinate.latitude)
-            print(currentLocation.coordinate.longitude)
-            
-            getAddressFromLatLong(latitude: currentLocation.coordinate.latitude, longitude: currentLocation.coordinate.longitude)
-        }
+    func convertUnixTimestamp(_ timestamp: Int) -> String {
+        let date = Date(timeIntervalSince1970: TimeInterval(timestamp))
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "EEEE, dd MMM yyyy, hh:mm a"
+        dateFormatter.timeZone = TimeZone.current
+        return dateFormatter.string(from: date)
     }
     
-    func getAddressFromLatLong(latitude: Double, longitude : Double){
+    func excldeFareTaxes(fareAmount: Int) -> String {
+        let formatter = NumberFormatter()
+        formatter.minimumFractionDigits = 2
+        formatter.maximumFractionDigits = 2
+        formatter.numberStyle = .decimal
         
-        let url = "https://maps.googleapis.com/maps/api/geocode/json?latlng=\(latitude),\(longitude)&key=AIzaSyDvzoBJGEDZ5LpZ002k8JvKfWgnepzwxdc"
+        let amount = Double( fareAmount) / 100
+            let totalAmount = amount
+//        print("totalAmount: \(amount)")
         
-        AF.request(url).validate().responseJSON { response in
-            switch response.result {
-            case let .success(value):
-                if let results = (value as AnyObject).object(forKey: "results")! as? [NSDictionary] {
-                    if let addressComponents = results[1]["address_components"]! as? [NSDictionary] {
-                        for component in addressComponents {
-                            if let temp = component.object(forKey: "types") as? [String] {
-                                if (temp[0] == "locality") {
-                                    let address = component["long_name"] as? String ?? "N/A"
-                                    print("city value: ",address)
-                                    userAddress = address
-                                }
-                            }
-                        }
-                    }
-                }
-            case .failure(let error):
-                print(error)
-            }
-        }
+            let amountWithFivePercent = amount * 5 / 100
+//            print("amountWithFivePercent \(amountWithFivePercent)")
+            let serviceFee = (amountWithFivePercent / 1.1).roundToDecimal(2)
+            
+            AmountDetail.instance.serviceFee = serviceFee
+//            print("serviceFee\(serviceFee)")
+            
+            let serviceFeeGst = (amountWithFivePercent - serviceFee).roundToDecimal(2)
+            AmountDetail.instance.serviceFeeGst = serviceFeeGst
+//            print("serviceFeeGst \(serviceFeeGst)")
+            let totalChargresWithTax = (serviceFee + serviceFeeGst + amount).roundToDecimal(2)
+            
+            AmountDetail.instance.totalChargresWithTax = String(totalAmount) //String(totalChargresWithTax)
+//            print("totalCharges \(totalChargresWithTax)")
+            
+        let totalFareAmount = (amount - serviceFee - serviceFeeGst).roundToDecimal(2)
+        let qwe = formatter.string(from: totalFareAmount as NSNumber) ?? "N/A"
+        return qwe
     }
 }
 

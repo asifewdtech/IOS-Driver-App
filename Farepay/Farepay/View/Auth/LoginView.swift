@@ -29,6 +29,7 @@ struct LoginView: View {
     @State private var isBankCreated: Bool = false
     @State private var moveToSignup: Bool = false
     @State var isChecked = false
+    @AppStorage("accountId") var appAccountId: String = ""
     
     //MARK: - Views
     var body: some View {
@@ -266,6 +267,7 @@ extension LoginView{
                                         DispatchQueue.main.async {
                                             print("error: ", error?.localizedDescription)
                                             
+                                            let isAccountId = snap.get("accountId") as? String ?? ""
                                             let isAccountCreated = snap.get("connectAccountCreated") as? Bool ?? false
                                             print("login Acc response: ",isAccountCreated)
                                             let bankAccced = snap.get("bankAdded") as? Bool  ?? false
@@ -303,6 +305,7 @@ extension LoginView{
                                                                     let userEmail1 = data["email"] as? String
                                                                     print("Email exist: ", userEmail)
                                                                     
+                                                                    appAccountId = isAccountId
                                                                     if isAccountCreated1 && bankAccced1 {
                                                                         goToHome = true
                                                                         
@@ -339,6 +342,7 @@ extension LoginView{
                                                 print("cannot proceed")
                                                 showCompany = true
                                             }
+                                            appAccountId = isAccountId
                                         }
                                     }
                                 }
@@ -623,7 +627,6 @@ struct DropdownSelector: View {
 //        }
 //    }
 //}
-
 
 let businessType: [DropdownOption] = [
         DropdownOption(key: UUID().uuidString, value: "Individual"),

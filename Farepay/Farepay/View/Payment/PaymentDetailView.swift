@@ -475,7 +475,20 @@ class ReaderDiscoverModel1:NSObject,ObservableObject ,DiscoveryDelegate{
     
     @objc
     func discoverReaders() throws {
-        let config = try LocalMobileDiscoveryConfigurationBuilder().setSimulated(true).build()
+        var isSimulator: Bool = false
+        if API.App_Envir == "Production" {
+            isSimulator = false
+        }
+        else if API.App_Envir == "Dev" {
+            isSimulator = true
+        }
+        else if API.App_Envir == "Stagging" {
+            isSimulator = false
+        }else{
+            isSimulator = false
+        }
+        
+        let config = try LocalMobileDiscoveryConfigurationBuilder().setSimulated(isSimulator).build()
         self.discoverCancelable = Terminal.shared.discoverReaders(config, delegate: self) { error in
             if let error = error {
                 print("discoverReaders failed: \(error)")

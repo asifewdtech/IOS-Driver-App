@@ -26,6 +26,7 @@ struct PayQRView: View {
     @State var receiptDate: String?
     @State var receiptTime: String?
     @State var receiptDateTime: String?
+    @State private var formatter = NumberFormatter()
     
     //MARK: - Views
     var body: some View {
@@ -63,6 +64,10 @@ struct PayQRView: View {
                                 
                             }
                         }
+                        formatter.minimumFractionDigits = 2
+                        formatter.maximumFractionDigits = 2
+                        formatter.numberStyle = .decimal
+                        
                         stripeReceiptId = AmountDetail.instance.fareStripeId.description
                         let receiptCreated = AmountDetail.instance.fareDateTime
                         let receiptCreatedInt = AmountDetail.instance.fareDateTimeInt
@@ -191,7 +196,8 @@ extension PayQRView{
                             .font(.custom(.poppinsBold, size: 20))
                     }
                     Spacer()
-                    Text("\("$")\(AmountDetail.instance.serviceFee.description)")
+//                    Text("\("$")\(AmountDetail.instance.serviceFee.description)")
+                    Text("$\(formatter.string(from: AmountDetail.instance.serviceFee as NSNumber) ?? "N/A")")
                         .foregroundColor(.white)
                         .font(.custom(.poppinsBold, size: 20))
                 }
@@ -208,7 +214,8 @@ extension PayQRView{
                             .font(.custom(.poppinsBold, size: 20))
                     }
                     Spacer()
-                    Text("\("$")\(AmountDetail.instance.serviceFeeGst.description)")
+//                    Text("\("$")\(AmountDetail.instance.serviceFeeGst.description)")
+                    Text("$\(formatter.string(from: AmountDetail.instance.serviceFeeGst as NSNumber) ?? "N/A")")
                         .foregroundColor(.white)
                         .font(.custom(.poppinsBold, size: 20))
                 }
@@ -324,14 +331,14 @@ extension PayQRView{
     func convertUnixTimestamp(_ timestamp: Int) -> String {
         let date = Date(timeIntervalSince1970: TimeInterval(timestamp))
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "EEEE, dd-MM-yyyy, HH:mm:ss"
+        dateFormatter.dateFormat = "EEEE, dd MMM yyyy, hh:mm a"
         dateFormatter.timeZone = TimeZone.current
         return dateFormatter.string(from: date)
     }
     
     func formatDateToDayDateTime(_ date: Date) -> String {
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "EEEE, d-MM-yyyy, HH:mm:ss"
+        dateFormatter.dateFormat = "EEEE, dd MMM yyyy, hh:mm a"
         dateFormatter.timeZone = TimeZone.current
         return dateFormatter.string(from: date)
     }

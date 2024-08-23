@@ -18,7 +18,11 @@ struct TransactionDetailView: View {
     @State private var totalAmount = 0.0
     @State private var serviceFee = 0.0
     @State private var serviceFeeGst = 0.0
+    @State private var serviceFeeStr: String = ""
+    @State private var serviceFeeGstStr: String = ""
     @State var amount = 0.0
+    @State private var fareExcludeTax: String = ""
+    
     //MARK: - Views
     var body: some View {
         
@@ -36,7 +40,7 @@ struct TransactionDetailView: View {
                 let formatter = NumberFormatter()
                 formatter.minimumFractionDigits = 2
                 formatter.maximumFractionDigits = 2
-                formatter.minimumIntegerDigits = 1
+                formatter.numberStyle = .decimal
                 
                 amount = Double( transactionType.amount) / 100
                     totalAmount = amount
@@ -48,17 +52,21 @@ struct TransactionDetailView: View {
                     serviceFee = (amountWithFivePercent / 1.1).roundToDecimal(2)
                     
                     AmountDetail.instance.serviceFee = serviceFee
+                
                     print("serviceFee\(serviceFee)")
-                    
+                    serviceFeeStr = formatter.string(from: serviceFee as NSNumber) ?? "N/A"
+                
                     serviceFeeGst = (amountWithFivePercent - serviceFee).roundToDecimal(2)
                     AmountDetail.instance.serviceFeeGst = serviceFeeGst
                     print("serviceFeeGst \(serviceFeeGst)")
+                serviceFeeGstStr = formatter.string(from: serviceFeeGst as NSNumber) ?? "N/A"
                     totalChargresWithTax = (serviceFee + serviceFeeGst + amount).roundToDecimal(2)
                     
                     AmountDetail.instance.totalChargresWithTax = String(totalAmount) //String(totalChargresWithTax)
                     print("totalCharges \(totalChargresWithTax)")
                     
                 let totalFareAmount = (amount - serviceFee - serviceFeeGst).roundToDecimal(2)
+                fareExcludeTax = formatter.string(from: totalFareAmount as NSNumber) ?? "N/A"
                 AmountDetail.instance.totalAmount = String(totalFareAmount)
                 
                 let stripeReceiptId = transactionType.source_transaction
@@ -88,7 +96,7 @@ extension TransactionDetailView{
             
             Image(uiImage: .backArrow)
                 .resizable()
-                .frame(width: 35, height: 30)
+                .frame(width: 25, height: 20)
                 .onTapGesture {
                     presentationMode.wrappedValue.dismiss()
                 }
@@ -112,7 +120,8 @@ extension TransactionDetailView{
         
         VStack(spacing: 15){
 //            Text(transactionType == .giftCard ? "$500.00" : transactionType == .chargeFare ? "$100.00" : "$715.00")
-            Text("$\(totalAmount.description)")
+//            Text("$\(totalAmount.description)")
+            Text("$\(fareExcludeTax.description)")
                 .font(.custom(.poppinsBold, size: 50))
                 .foregroundColor(.white)
 //            Text(transactionType == .giftCard ? "Gift Card" : transactionType == .chargeFare ? "Charge Fare" : "Bank Transfer")
@@ -176,7 +185,8 @@ extension TransactionDetailView{
                         .font(.custom(.poppinsBold, size: 20))
                         .foregroundColor(.white)
                     Spacer()
-                    Text("$ \(totalAmount.description)")
+//                    Text("$ \(totalAmount.description)")
+                    Text("$\(fareExcludeTax.description)")
                         .font(.custom(.poppinsMedium, size: 18))
                         .foregroundColor(.white)
                 }
@@ -185,7 +195,7 @@ extension TransactionDetailView{
                         .font(.custom(.poppinsBold, size: 20))
                         .foregroundColor(.white)
                     Spacer()
-                    Text("$ \(serviceFee.description)")
+                    Text("$ \(serviceFeeStr.description)")
                         .font(.custom(.poppinsMedium, size: 18))
                         .foregroundColor(.white)
                 }
@@ -194,7 +204,7 @@ extension TransactionDetailView{
                         .font(.custom(.poppinsBold, size: 20))
                         .foregroundColor(.white)
                     Spacer()
-                    Text("$ \(serviceFeeGst.description)")
+                    Text("$ \(serviceFeeGstStr.description)")
                         .font(.custom(.poppinsMedium, size: 18))
                         .foregroundColor(.white)
                 }

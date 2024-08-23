@@ -25,7 +25,7 @@ class TransectionViewModel: ObservableObject {
         request.httpMethod = method.rawValue
         
         let param = [
-            "body": "{\"account_id\" : \"\(account_id)\"}"
+            "account_id" : account_id
         ] as [String:Any]
         
         request.httpBody = try JSONSerialization.data(withJSONObject: param, options: JSONSerialization.WritingOptions())

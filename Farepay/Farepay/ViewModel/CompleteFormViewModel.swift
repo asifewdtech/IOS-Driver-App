@@ -31,8 +31,6 @@ class CompleteFormViewModel: ObservableObject {
         
         var request = URLRequest(url: url)
         request.httpMethod = method.rawValue
-        
-        
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         
         let (data, response) = try await URLSession.shared.data(for: request)

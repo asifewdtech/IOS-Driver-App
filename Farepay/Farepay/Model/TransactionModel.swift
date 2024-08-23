@@ -43,6 +43,7 @@ struct MyResult1: Codable {
     let source_type:String
     let currency:String
     let source_transaction:String
+    let destination:String
     let metadata: metaData
 }
 
