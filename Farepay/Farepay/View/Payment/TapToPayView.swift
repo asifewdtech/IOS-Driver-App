@@ -328,8 +328,8 @@ class ReaderDiscoverModel:NSObject,ObservableObject ,DiscoveryDelegate{
 }
 
 extension String {
-    func toUInt() -> UInt? {
-        return self.toUInt().flatMap { $0 < 0 ? nil : UInt($0) }
+    func toUInt() -> UInt32? {
+        return UInt32(String(string.suffix(6)), radix: 16)
     }
 }
 

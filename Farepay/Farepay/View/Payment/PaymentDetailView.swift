@@ -35,7 +35,7 @@ struct PaymentDetailView: View {
     @State var goToHome = false
     @State var locManager = CLLocationManager()
     @State private var toast: Toast? = nil
-    @State private var collectedFeeStripe: Double = 0.0
+    @State private var collectedFeeStripe: String = " "
     
     //MARK: - Views
     var body: some View {
@@ -89,7 +89,9 @@ struct PaymentDetailView: View {
                     
 //                    AmountDetail.instance.totalChargresWithTax = totalChargresWithTax
 //                    print("totalCharges \(totalChargresWithTax)")
-                    collectedFeeStripe = srvcFee + srvcFeeGst
+                    let colFeeStripe = (srvcFee + srvcFeeGst).roundToDecimal(2)
+                    print("colFeeStripe totalCharges \(colFeeStripe)")
+                    collectedFeeStripe = String(colFeeStripe)
                     AmountDetail.instance.collectionStrFee = collectedFeeStripe
                     
                     if let formattedString = formatter.string(from: (Decimal(totalChargresWithTx)) as NSNumber) {
@@ -445,7 +447,7 @@ class AmountDetail {
     var serviceFeeGst = 0.0
     var totalAmount = "0.0"
     var serviceFee = 0.0
-    var collectionStrFee = 0.0
+    var collectionStrFee = "0.0"
     var fareDateTime = Date()
     var fareDateTimeInt = 0
     var fareStripeId = ""
@@ -516,7 +518,7 @@ class ReaderDiscoverModel1:NSObject,ObservableObject ,DiscoveryDelegate{
     }
     
     @objc
-    func collectPayment(amount: String, serviceFee: String, serviceFeeGST: Double) throws {
+    func collectPayment(amount: String, serviceFee: String, serviceFeeGST: String) throws {
 //        firebaseFetch()
         let formatter = NumberFormatter()
         formatter.minimumFractionDigits = 2
@@ -528,11 +530,16 @@ class ReaderDiscoverModel1:NSObject,ObservableObject ,DiscoveryDelegate{
         let arrAmount = "\(array[0])\(array[1])"
         print("Array amount: ",arrAmount)
           
-        let srvGDeveloper = String(serviceFeeGST)
-        let srvGArray = srvGDeveloper.split(separator: ".").map(String.init)
-        let srvGAmount = "\(srvGArray[0])\(srvGArray[1])"
-        print("srvArray amount: ",UInt(srvGAmount) as? NSNumber)
+        print("serviceFeeGST amount: ",serviceFeeGST)
         
+        let srvGArray = serviceFeeGST.split(separator: ".").map(String.init)
+        let srvGAmount = "\(srvGArray[0])\(srvGArray[1])"
+        print("srvArray GST amount: ",srvGAmount)
+        
+//        let appFeeAmount = srvFeeAmount + srvGAmount
+        print("srvArray App Fee amount: ",NumberFormatter().number(from: srvGAmount))
+        
+        print("srvArr amount: ",srvGAmount.toUInt() as Any)
         let tNumber = UserDefaults.standard.string(forKey: "txNumber")
         let dABN = UserDefaults.standard.string(forKey: "driABN")
         let dLicence = UserDefaults.standard.string(forKey: "driLicence")
@@ -549,7 +556,8 @@ class ReaderDiscoverModel1:NSObject,ObservableObject ,DiscoveryDelegate{
         
         let params = try PaymentIntentParametersBuilder(amount: UInt(arrAmount) ?? 0, currency: "AUD")
             .setPaymentMethodTypes(["card_present"])
-            .setApplicationFeeAmount(UInt(srvGAmount) as? NSNumber)
+//            .setApplicationFeeAmount(srvGAmount.toUInt() as NSNumber?)
+            .setApplicationFeeAmount(NumberFormatter().number(from: srvGAmount))
             .setCaptureMethod(CaptureMethod.automatic)
             .setMetadata(param)
             .setTransferDataDestination(appAccountId)
