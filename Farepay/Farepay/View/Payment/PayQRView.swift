@@ -209,7 +209,7 @@ extension PayQRView{
                         Image(uiImage: .ic_GST)
                             .resizable()
                             .frame(width: 30, height: 30)
-                        Text("Service Fee GST")
+                        Text("Service Fee GST:")
                             .foregroundColor(.white)
                             .font(.custom(.poppinsBold, size: 20))
                     }

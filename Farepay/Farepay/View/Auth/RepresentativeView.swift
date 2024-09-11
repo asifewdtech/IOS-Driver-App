@@ -52,7 +52,7 @@ struct RepresentativeView: View {
     @State var streetAddr: String = ""
     @State var countryAddr: String = ""
     @State var cityAddr: String = ""
-    @State var stateAddr: String = "New South Wales"
+    @State var stateAddr: String = ""
     @State var postalAddr: String = ""
     @State var verifyIdetityText: String = "Verify your identity"
     @State var locManager = CLLocationManager()
@@ -77,6 +77,11 @@ struct RepresentativeView: View {
             }
             .onAppear(perform: {
 //                fetchLatLong()
+                userText = "\(userIdentityDetail.instance.firstName)\(" ")\(userIdentityDetail.instance.lastName)"
+                streetAddr = "\(userIdentityDetail.instance.Street)\(" ")\(userIdentityDetail.instance.appartment)"
+                cityAddr = userIdentityDetail.instance.city
+                postalAddr = userIdentityDetail.instance.postalCode
+                stateAddr = userIdentityDetail.instance.state
             })
             .padding(.all, 15)
             .toastView(toast: $toast)
@@ -151,6 +156,7 @@ extension RepresentativeView{
             Group{
 
                 MDCFilledTextFieldWrapper(leadingImage: .constant(.ic_User), text: $userText, placHolderText: .constant("Type your Full Name"), isSecure: .constant(false))
+                    .allowsHitTesting(false)
                 MDCFilledTextFieldWrapper(leadingImage: .constant(.ic_Calander), text: $dateText, placHolderText: .constant("Type your Date of Birth"), isSecure: .constant(false))
                     .onTapGesture {
                         showDatePicker.toggle()
@@ -335,6 +341,7 @@ extension RepresentativeView{
                 Group {
                     HStack (spacing: 20){
                         MDCFilledTextFieldWrapper(leadingImage: .constant(.ic_Home), text: $streetAddr, placHolderText: .constant("Street Address"), isSecure: .constant(false))
+                            .allowsHitTesting(false)
                     }
                     .frame(height: 70)
                     .cornerRadius(10)
@@ -347,6 +354,7 @@ extension RepresentativeView{
                     
                     HStack (spacing: 20){
                         MDCFilledTextFieldWrapper(leadingImage: .constant(.ic_Home), text: $cityAddr, placHolderText: .constant("City"), isSecure: .constant(false))
+                            .allowsHitTesting(false)
                     }
                     .frame(height: 70)
                     .cornerRadius(10)
@@ -390,6 +398,7 @@ extension RepresentativeView{
                         
                         HStack {
                             MDCFilledTextFieldWrapper(leadingImage: .constant(.ic_Home), text: $postalAddr, placHolderText: .constant("Postal Code"), isSecure: .constant(false),isNumberPad: true)
+                                .allowsHitTesting(false)
                         }
                         .frame(height: 70)
                         .cornerRadius(10)
@@ -418,7 +427,7 @@ extension RepresentativeView{
                     .foregroundColor(.white)
             }
             
-            HStack(spacing: 15){
+/*  new          HStack(spacing: 15){
                 ZStack{
                     if let image = licenseFrontImage {
                         Image(uiImage: image)
@@ -512,9 +521,9 @@ extension RepresentativeView{
                         .foregroundColor(Color(.darkGrayColor))
                         .font(.custom(.poppinsMedium, size: 16))
                 }
-            }
+            }*/
             
-            /*HStack(spacing: 15){
+/*  old          HStack(spacing: 15){
                 ZStack{
                     
                     if let image = licenseBackImage{
@@ -646,9 +655,9 @@ extension RepresentativeView{
 //                else if (streetAddr.isEmpty || cityAddr.isEmpty || countryAddr.isEmpty || postalAddr.isEmpty) {
                     toast = Toast(style: .error, message: "Address Filed cannot be empty.")
                 }
-                else if stripeFlowStatus != "Completed" {
-                    toast = Toast(style: .error, message: "Verification Flow is not Complete.")
-                }
+//                else if stripeFlowStatus != "Completed" {
+//                    toast = Toast(style: .error, message: "Verification Flow is not Complete.")
+//                }
 //                else if frontImageId == "" {
 //                    toast = Toast(style: .error, message: "Please Upload Front Driver Licence Image.")
 //                }
@@ -680,7 +689,7 @@ extension RepresentativeView{
         let userAddress = "\(streetAddr)\(", ")\(cityAddr)\(", ")\(stateAddr)\(", ")\(postalAddr)\(", ")\("Australia")"
         let parameters = "{\n  \"address\": {\n\"addressLines\": [\"\(userAddress)\"]\n  },\n}"
         
-        print("parameters: ",parameters)
+        print("address parameters: ",parameters)
         
         let postData = parameters.data(using: .utf8)
         

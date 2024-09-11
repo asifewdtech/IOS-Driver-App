@@ -1,8 +1,8 @@
 //
-//  UnderReviewView.swift
+//  StripeIdentityVerificationView.swift
 //  Farepay
 //
-//  Created by Mursil on 08/01/2024.
+//  Created by Mursil on 05/09/2024.
 //
 
 import SwiftUI
@@ -14,29 +14,23 @@ import FirebaseAuth
 import FirebaseFirestore
 import ActivityIndicatorView
 
-struct UnderReviewView: View {
-    
+struct StripeIdentityVerificationView: View {
     @State private var verifiStatusId: String? = nil
     @State private var verifiReportId: String? = nil
     @State private var verifiFileId1: String? = nil
     @State private var fileIdBit: String? = nil
-    @State private var verifiSessionId: String? = ""
+//    @State private var verifiSessionId: String? = ""
     @State private var verifiephemeralKeySecret: String? = ""
     @State private var showLoadingIndicator: Bool = false
-    @State private var goToHome = false
+    @State private var goToForm2 = false
     @State private var toast: Toast? = nil
     @State var updateStripeDocs = false
     @Environment(\.presentationMode) private var presentationMode: Binding<PresentationMode>
-    @State private var willMoveToMainView = false
-    @State private var isPresentedPopUp: Bool = false
     
     var body: some View {
         NavigationView {
             ZStack{
-                NavigationLink("", destination: MainTabbedView().toolbar(.hidden, for: .navigationBar), isActive: $goToHome).isDetailLink(false)
-                NavigationLink("", destination: Farepay.MainTabbedView().toolbar(.hidden, for: .navigationBar), isActive: $willMoveToMainView ).isDetailLink(false)
-                //            NavigationLink("", destination: UnderReviewVC(), isActive: $updateStripeDocs)
-                //            NavigationLink("", destination: UnderReviewVC().toolbar(.hidden, for: .navigationBar), isActive: $updateStripeDocs).isDetailLink(false)
+                NavigationLink("", destination: RepresentativeView().toolbar(.hidden, for: .navigationBar), isActive: $goToForm2).isDetailLink(false)
                 
                 Color(.bgColor)
                     .edgesIgnoringSafeArea(.all)
@@ -54,36 +48,10 @@ struct UnderReviewView: View {
 //                            verifiSessionId  = snap.get("sessionID") as? String ?? ""
                         }
                     }
-                    
-                    
-                    //            let collectionRef = Firestore.firestore().collection("usersInfo")
-                    //            collectionRef.getDocuments { (snapshot, error) in
-                    //
-                    //                if let err = error {
-                    //                    debugPrint("error fetching docs: \(err)")
-                    //                } else {
-                    //                    guard let snap = snapshot else {
-                    //                        return
-                    //                    }
-                    //                    for document in snap.documents {
-                    //                        let data = document.data()
-                    //
-                    ////                            DispatchQueue.main.async {
-                    //                                print("error: ", error?.localizedDescription)
-                    //                                //
-                    //                                verifiSessionId = data["sessionID"] as? String ?? ""
-                    //                        print("FB verifiSessionId: ",verifiSessionId)
-                    //                                createSessionStripeIdentity()
-                    ////                            }
-                    //                        }
-                    //                }
-                    //            }
-                    
-                    //            CreateFileDownloadLink()
                     createSessionStripeIdentity()
                 }
                 .fullScreenCover(isPresented: $updateStripeDocs) {
-                    UnderReviewVC()
+                    StripeIdentityVerificationVC()
                 }
                 if showLoadingIndicator{
                     VStack{
@@ -97,36 +65,18 @@ struct UnderReviewView: View {
                     .edgesIgnoringSafeArea(.all)
                 }
             }
-            .fullScreenCover(isPresented: $isPresentedPopUp) {
-                StepsView(presentedAsModal: $isPresentedPopUp)
-            }
         }
-//        .environment(\.rootPresentationMode, $goToHome)
-//        .environment(\.rootPresentationMode, $willMoveToMainView)
+        .environment(\.rootPresentationMode, $goToForm2)
     }
 }
 
-struct underReview_Previews: PreviewProvider {
+struct stripeIdentityVerification_Previews: PreviewProvider {
     static var previews: some View {
-        UnderReviewView()
+        StripeIdentityVerificationView()
     }
 }
 
-class userIdentityDetail {
-    static let instance = userIdentityDetail()
-    var id = ""
-    var city = ""
-    var country = ""
-    var Street = ""
-    var appartment = ""
-    var postalCode = ""
-    var state = ""
-    var firstName = ""
-    var lastName = ""
-    var status = ""
-}
-
-extension UnderReviewView{
+extension StripeIdentityVerificationView{
     
     var topArea: some View{
         VStack {
@@ -137,7 +87,6 @@ extension UnderReviewView{
             }
             
             HStack {
-//                Text("Account being created")
                 Text("Identity Under Verification")
                     .font(.custom(.poppinsBold, size: 24))
                     .foregroundColor(.white)
@@ -145,11 +94,9 @@ extension UnderReviewView{
             }
             
             HStack {
-//                Text("We’re setting up your new Farepay account and we can’t wait to be in touch soon as it’s approved.")
                 Text("We're verifying your identity and we can't wait to be in touch as soon as it's verified.")
                     .font(.custom(.poppinsMedium, size: 13))
                     .foregroundColor(.gray)
-                    .multilineTextAlignment(.center)
                     
             }
             .frame(minWidth: 330, maxWidth: 330, minHeight: 40, maxHeight: 40, alignment: .center)
@@ -185,7 +132,7 @@ extension UnderReviewView{
     }
     
     func getVerificationStatus(){
-        verifiSessionId = UserDefaults.standard.string(forKey: "stripeSessionID")
+        let verifiSessionId = UserDefaults.standard.string(forKey: "stripeSessionID")
         var statusUrl = ""
         if API.App_Envir == "Production" {
             statusUrl = "\("https://xcb4cymcy5.execute-api.eu-north-1.amazonaws.com/default/GetVerificationStatus?sessionId=")\(verifiSessionId ?? "")"
@@ -219,7 +166,6 @@ extension UnderReviewView{
                         verifiReportId = verifiDict
                         if verifiStatus == "verified"{
                             getVerificationReport()
-                            GetVerifiedFieldsFromIdentity(reportId: verifiDict ?? "")
                         }
                         else if verifiStatus == "requires_input"{
                             //on docs failure
@@ -284,7 +230,7 @@ extension UnderReviewView{
                         print("file 1 id: ",filesDict[0])
 //                        verifiFileId1 = filesDict[0] as? String
 //                        print("file 2 id: ",filesDict[1])
-//                        
+//
 //                        CreateFileDownloadLink()
                     }
                 }
@@ -324,32 +270,6 @@ extension UnderReviewView{
 //            let fileUrl = String(data: data, encoding: .utf8)!
             
             let fileUrl = String(data: data, encoding: .utf8)!
-//            uploadIdentityDocument(path: fileUrl, name: "image1")
-            
-//            do {
-//                if let jsonDict = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any]{
-//                    if let fileUrlError = jsonDict["message"] as? String{
-//                        print("error: \(fileUrlError)")
-//                    }
-//                    else{
-//                        let fileUrl = String(data: data, encoding: .utf8)!
-//                        uploadIdentityDocument(path: fileUrl, name: "image1")
-//                    }
-//                } else {
-//                    print("Image JSON error")
-//                }
-//            }
-//            catch{
-//                print("Error parsing JSON: \(error)")
-//            }
-            
-            imageFromUrl(urlString: fileUrl)
-//            let fImgUrl = "\("{")\("message")\(":")\("Internal Server Error")\("}")"
-//            print("File url str: ", fileUrl)
-//            print("File error url str: ", fImgUrl)
-//            if fileUrl != fImgUrl {
-//                uploadIdentityDocument(path: fileUrl, name: "image1")
-//            }
         }
         task.resume()
     }
@@ -403,68 +323,6 @@ extension UnderReviewView{
     }
     
     
-/*    func uploadFileToStripe(image: UIImage, name: String) {
-//    func uploadIdentityDocument(path: String, name: String) {
-        let debugApiKey = "pk_test_51NIP8NA1ElCzYWXLGk8qzA0KbU0BRdIBv1ILFkC49SnPwXZwT7kBoZa2fJtPLrBGTNGwaPwAaOBztc5HEKlbjOj800fUtGTMCq"
-        let productionApiKey = "pk_live_51NIP8NA1ELCzYWXLithoGBwoHpD2Dpqr7E2chyCwqfTeQBVFy710g95XWnmVPT1Wj3Y5jnYKJ@eES2gxiRexpc007xB712LS"
-        
-        let stripeClient: STPAPIClient
-                #if DEBUG
-                stripeClient = STPAPIClient(publishableKey: debugApiKey)
-                #else
-                stripeClient = STPAPIClient(publishableKey: productionApiKey)
-                #endif
-//        print("fileUrl path: \(path), name: \(name)")
-//        // Read the file data
-//        let fileData = try! Data(contentsOf: URL(fileURLWithPath: path))
-        
-        let imageData = image.pngData()! as NSData
-        let base64 = imageData.base64EncodedData(options: .lineLength64Characters)
-        
-        // Create file upload parameters
-        let uploadParameters: [String: Any] = [
-//            "purpose": "IdentityDocument",
-            "file": base64,
-            "purpose": STPFilePurpose.identityDocument
-//            "file": [
-//                "data": fileData,
-//                "name": name,
-//                "type": "application/octet-stream"
-//            ]
-        ]
-        
-        // Stripe file upload request
-        let stripeHeaders: HTTPHeaders = [
-            "Authorization": "Bearer \(debugApiKey)"
-        ]
-        print("upload File header: ",stripeHeaders)
-        let parameters: [String: Any] = [
-            "purpose": "STPFilePurpose.identityDocument"
-        ]
-        print("upload File params: ",parameters)
-        let purpose: STPFilePurpose = .identityDocument
-        
-        
-//        AF.upload(multipartFormData: { multipartFormData in
-//            for (key, value) in parameters {
-//                if let data = (value as? String)?.data(using: .utf8) {
-//                    multipartFormData.append(data, withName: key)
-//                }
-//            }
-        AF.upload(multipartFormData: { multipartFormData in
-            multipartFormData.append(base64, withName: "file", fileName: name, mimeType: "image/png")
-            multipartFormData.append(Data("identity_document".utf8), withName: "purpose")
-        }, to: "https://files.stripe.com/v1/files", headers: stripeHeaders, interceptor: nil)
-        .responseJSON { response in
-            switch response.result {
-            case .success(let value):
-                print("File upload successful: \(value)")
-            case .failure(let error):
-                print("File upload failed: \(error)")
-            }
-        }
-    }*/
-    
     func FileUploadonStripe(fileImage: UIImage, name: String) {
         
 //        let imageData = fileImage.pngData()! as NSData
@@ -508,8 +366,7 @@ extension UnderReviewView{
                         
                         showLoadingIndicator = false
 //                        goToHome = true
-//                        willMoveToMainView = true
-                        isPresentedPopUp.toggle()
+                        goToForm2 = true
                     }
                     else {
                         print("Error id not foud.")
@@ -522,70 +379,9 @@ extension UnderReviewView{
         }
         task.resume()
     }
-    
-    func GetVerifiedFieldsFromIdentity(reportId: String) {
-        
-        var urlReqIs = ""
-        if API.App_Envir == "Production" {
-            urlReqIs = "https://41czhgdl5c.execute-api.eu-north-1.amazonaws.com/default/GetVerifiedFieldsFromIdentity?reportId=\(reportId)"
-        }
-        else if API.App_Envir == "Dev" {
-            urlReqIs = "https://5xublp4eyd.execute-api.eu-north-1.amazonaws.com/default/GetVerifiedFieldsFromIdentity?reportId=\(reportId)"
-        }
-        else if API.App_Envir == "Stagging" {
-            urlReqIs = "https://41czhgdl5c.execute-api.eu-north-1.amazonaws.com/default/GetVerifiedFieldsFromIdentity?reportId=\(reportId)"
-        }else{
-            urlReqIs = "https://41czhgdl5c.execute-api.eu-north-1.amazonaws.com/default/GetVerifiedFieldsFromIdentity?reportId=\(reportId)"
-        }
-        
-        var request = URLRequest(url: URL(string: urlReqIs)!,timeoutInterval: Double.infinity)
-        request.httpMethod = "GET"
-        
-        let task = URLSession.shared.dataTask(with: request) { data, response, error in
-          guard let data = data else {
-            print(String(describing: error))
-            return
-          }
-          print("GetVerifiedFieldsFromIdentity: ",String(data: data, encoding: .utf8)!)
-            do {
-                if let jsonDict = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any]{
-                    if let firstName = jsonDict["first_name"] as? String,
-                        let lastName = jsonDict["last_name"] as? String,
-                    let document = jsonDict["address"] as? NSDictionary{
-                        print("Success parsing first_name: \(firstName)")
-                        print("Success parsing last_name: \(lastName)")
-                        
-                        let street = document["line1"] as? String
-                        let appartment = document["line2"] as? String
-                        let city = document["city"] as? String
-                        let state = document["state"] as? String
-                        let country = document["country"] as? String
-                        let postalCode = document["postal_code"] as? String
-                        
-                        
-                        userIdentityDetail.instance.firstName = firstName
-                        userIdentityDetail.instance.lastName = lastName
-                        userIdentityDetail.instance.Street = street ?? ""
-                        userIdentityDetail.instance.appartment = appartment ?? ""
-                        userIdentityDetail.instance.city = city ?? ""
-                        userIdentityDetail.instance.state = state ?? ""
-                        userIdentityDetail.instance.country = country ?? ""
-                        userIdentityDetail.instance.postalCode = postalCode ?? ""
-                    }
-                    else {
-                        print("Error status not found.")
-                    }
-                }
-            }
-            catch{
-                print("Error parsing JSON: \(error)")
-            }
-        }
-        task.resume()
-    }
 }
 
-struct UnderReviewVC: UIViewControllerRepresentable {
+struct StripeIdentityVerificationVC: UIViewControllerRepresentable {
     
     func updateUIViewController(_ uiViewController: UIViewControllerType, context: Context) {}
 
@@ -599,12 +395,6 @@ struct UnderReviewVC: UIViewControllerRepresentable {
             super.viewDidLoad()
             didTapVerifyButton()
             
-//            let stripeSessionID = UserDefaults.standard.string(forKey: "stripeSessionID") ?? ""
-//            let stripeEphemeralKeySecret = UserDefaults.standard.string(forKey: "stripeEphemeralKeySecret") ?? ""
-//            print("stripeSessionID: ",stripeSessionID)
-//            print("stripeEphemeralKeySecret: ",stripeEphemeralKeySecret)
-//            
-//            self.presentVerificationSheet(verificationSessionId: stripeSessionID, ephemeralKeySecret: stripeEphemeralKeySecret)
             UserDefaults.standard.removeObject(forKey: "stripeFlowStatus")
         }
         

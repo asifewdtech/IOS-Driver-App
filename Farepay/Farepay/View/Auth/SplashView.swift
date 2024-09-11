@@ -95,9 +95,9 @@ struct SplashView: View {
                 else if isAccountCreated == true && isBankCreated == false  {
                     willMoveToBankAccount = true
                 }
-                else if (isAccountCreated == true) && (isBankCreated == true) && (isAccountApproved == ""){
-                    willMoveToUnderReviewView = true
-                }
+//                else if (isAccountCreated == true) && (isBankCreated == true) && (isAccountApproved == ""){
+//                    willMoveToUnderReviewView = true
+//                }
                 else {
                     willMoveToLogin.toggle()
                 }

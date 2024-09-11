@@ -31,8 +31,8 @@ struct AddNewBankAccountView: View {
             ZStack{
                 Color(.bgColor).edgesIgnoringSafeArea(.all)
                 VStack(spacing: 40){
-//                    NavigationLink("", destination: MainTabbedView().toolbar(.hidden, for: .navigationBar), isActive: $goToHome ).isDetailLink(false)
-                    NavigationLink("", destination: UnderReviewView().toolbar(.hidden, for: .navigationBar), isActive: $goToHome ).isDetailLink(false)
+                    NavigationLink("", destination: MainTabbedView().toolbar(.hidden, for: .navigationBar), isActive: $goToHome ).isDetailLink(false)
+//                    NavigationLink("", destination: UnderReviewView().toolbar(.hidden, for: .navigationBar), isActive: $goToHome ).isDetailLink(false)
                     
                     topArea
                     textArea

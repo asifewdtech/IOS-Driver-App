@@ -75,13 +75,30 @@ class UserAuthViewModel:NSObject, ObservableObject,ASAuthorizationControllerDele
                 
             }else {
                 self.isLoggedIn = true
-                
+                sendVerificationMail()
             }
         }
         catch {
             print("There was an issue when trying to sign in: \(error)")
             self.isLoggedIn  = false
             self.errorMessage = error.localizedDescription
+        }
+    }
+    
+    private var authUser : FirebaseAuth.User? {
+        return Auth.auth().currentUser
+    }
+    
+    func sendVerificationMail() {
+        if self.authUser != nil && !self.authUser!.isEmailVerified {
+            self.authUser!.sendEmailVerification(completion: { (error) in
+                // Notify the user that the mail has sent or couldn't because of an error.
+                print("FirebaseAuth.User? success")
+            })
+        }
+        else {
+            // Either the user is not available, or the user is already verified.
+            print("FirebaseAuth.User? error")
         }
     }
     

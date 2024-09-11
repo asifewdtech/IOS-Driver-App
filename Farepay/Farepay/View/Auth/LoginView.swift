@@ -11,6 +11,7 @@ import FirebaseAuth
 import FirebaseFirestore
 import ActivityIndicatorView
 import AuthenticationServices
+import LocalAuthentication
 
 struct LoginView: View {
     
@@ -253,6 +254,9 @@ extension LoginView{
                             
                             if userAuth.isLoggedIn == false  {
                                 toast = Toast(style: .error, message: userAuth.errorMessage)
+                            }
+                            else if( !Auth.auth().currentUser!.isEmailVerified) {
+                                toast = Toast(style: .error, message: "Please verify your email address.")
                             }else {
 //                                let collectionRef = Firestore.firestore().collection("usersInfo")
 //                                collectionRef.getDocuments { (snapshot, error) in
@@ -346,14 +350,13 @@ extension LoginView{
                                         }
                                     }
                                 }
+                                UserDefaults.standard.set(true, forKey: "isNewUser")
                             }
                         }
                     }
-                    UserDefaults.standard.set(true, forKey: "isNewUser")
                 }else {
                     toast = Toast(style: .error, message: "Please Enter and Password Should be minium 6 character")
                 }
-
             }, label: {
                 Text("\(.SignIn)")
                     .font(.custom(.poppinsBold, size: 25))
@@ -484,6 +487,32 @@ extension LoginView{
         }else {
             userAuth.checkUserAccountCreated()
             showCompany = true
+        }
+    }
+    
+    func authenticateAppPswd (){
+        var context = LAContext()
+        
+        context.canEvaluatePolicy(.deviceOwnerAuthentication, error: nil)
+        context.localizedCancelTitle = "Enter Username/Password"
+        // First check if we have the needed hardware support.
+        var error: NSError?
+        guard context.canEvaluatePolicy(.deviceOwnerAuthentication, error: &error) else {
+            print(error?.localizedDescription ?? "Can't evaluate policy")
+            
+            // Fall back to a asking for username and password.
+            // ...
+            return
+        }
+        Task {
+            do {
+                try await context.evaluatePolicy(.deviceOwnerAuthentication, localizedReason: "Log in to your account")
+//                state = .loggedin
+                moveToSignup = true
+            } catch let error {
+                print(error.localizedDescription)
+                
+            }
         }
     }
 }
