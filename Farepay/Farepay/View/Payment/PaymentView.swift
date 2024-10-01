@@ -57,7 +57,14 @@ struct PaymentView: View {
                 .edgesIgnoringSafeArea(.all)
                 
                 .onAppear(perform: {
-                    retriveAccountAPI()
+                    let firstTime = UserDefaults.standard.integer(forKey: "firstTime")
+                    if firstTime == 1{
+                        accStatusStr = "pending"
+                        accStatusBool = true
+                        UserDefaults.standard.removeObject(forKey: "firstTime")
+                    }else{
+                        retriveAccountAPI()
+                    }
                     
                     DispatchQueue.main.asyncAfter(deadline: .now() + 2){
                         showLoadingIndicator = false
@@ -582,7 +589,7 @@ extension PaymentView{
                             accStatusBool = true
                             
                         }else{
-                            print("Account Status is live.")
+                            print("Account API Status is live.")
                             accStatusStr = "live"
                             accStatusBool = false
                         }

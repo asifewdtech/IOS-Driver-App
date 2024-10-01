@@ -81,7 +81,9 @@ struct PayQRView: View {
                         
                         
                         let rcptID = String(describing: stripeReceiptId ?? "N/A")
-                        let strReceiptId = rcptID.dropLast(12)
+                        let strReceiptId1 = rcptID.dropLast(12)
+                        let strReceiptId2 = rcptID.dropFirst(12)
+                        let strReceiptId = "\(strReceiptId1)\("\n")\(strReceiptId2)"
                         
                         print("stripeReceiptId: ",stripeReceiptId as Any)
                         print("strReceiptId: ",strReceiptId)
@@ -242,7 +244,9 @@ extension PayQRView{
                 let tChargesWithTax = Double( AmountDetail.instance.totalChargresWithTax.description)
                 
                 let rcptID = String(describing: stripeReceiptId ?? "N/A")
-                let strReceiptId = rcptID.dropLast(12)
+                let strReceiptId1 = rcptID.dropLast(12)
+                let strReceiptId2 = rcptID.dropFirst(12)
+                let strReceiptId = "\(strReceiptId1)\("\n")\(strReceiptId2)"
                 
                 let QRUrl = "\("https://dev-ewdtech.org/appmob/?param1=")\(strReceiptId )\("&param2=")\(receiptDateTime ?? "N/A")\("&param3=")\( taxiNumber ?? "N/A")\("&param4=")\(driverID ?? "N/A")\("&param5=")\( driverABN ?? "N/A")\("&param6=")\( tAmount ?? 0.00)\("&param7=")\(AmountDetail.instance.serviceFee.description)\("&param8=")\(AmountDetail.instance.serviceFeeGst.description)\("&param9=")\(tChargesWithTax ?? 0.00)"
                 

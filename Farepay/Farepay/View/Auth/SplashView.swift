@@ -88,7 +88,7 @@ struct SplashView: View {
             
             print("1", Auth.auth().currentUser, ":2", isAccountCreated, ":3", isBankCreated, ":4", isAccountApproved)
             if Auth.auth().currentUser != nil {
-                if isAccountCreated && isBankCreated && (isAccountApproved != ""){
+                if isAccountCreated && isBankCreated {
                     willMoveToMainView = true
 //                    appRootManager.currentRoot = .home
                 }

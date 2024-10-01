@@ -124,6 +124,8 @@ class userIdentityDetail {
     var firstName = ""
     var lastName = ""
     var status = ""
+    var dateOfBirth = ""
+    var driverLicense = ""
 }
 
 extension UnderReviewView{
@@ -220,6 +222,7 @@ extension UnderReviewView{
                         if verifiStatus == "verified"{
                             getVerificationReport()
                             GetVerifiedFieldsFromIdentity(reportId: verifiDict ?? "")
+                            GetSensitiveVerifiedFieldsFromIdentity(sessionId: verifiSessionId ?? "")
                         }
                         else if verifiStatus == "requires_input"{
                             //on docs failure
@@ -571,6 +574,59 @@ extension UnderReviewView{
                         userIdentityDetail.instance.state = state ?? ""
                         userIdentityDetail.instance.country = country ?? ""
                         userIdentityDetail.instance.postalCode = postalCode ?? ""
+                    }
+                    else {
+                        print("Error status not found.")
+                    }
+                }
+            }
+            catch{
+                print("Error parsing JSON: \(error)")
+            }
+        }
+        task.resume()
+    }
+    
+    func GetSensitiveVerifiedFieldsFromIdentity(sessionId: String){
+        var urlReqIs = ""
+        if API.App_Envir == "Production" {
+            urlReqIs = "https://cayqax63tk.execute-api.eu-north-1.amazonaws.com/default/GetSensitiveVerifiedFieldsFromIdentity?sessionId=\(sessionId)"
+        }
+        else if API.App_Envir == "Dev" {
+            urlReqIs = "https://kuvhkqx4b7.execute-api.eu-north-1.amazonaws.com/default/GetSensitiveVerifiedFieldsFromIdentity?sessionId=\(sessionId)"
+        }
+        else if API.App_Envir == "Stagging" {
+            urlReqIs = "https://cayqax63tk.execute-api.eu-north-1.amazonaws.com/default/GetSensitiveVerifiedFieldsFromIdentity?sessionId=\(sessionId)"
+        }else{
+            urlReqIs = "https://cayqax63tk.execute-api.eu-north-1.amazonaws.com/default/GetSensitiveVerifiedFieldsFromIdentity?sessionId=\(sessionId)"
+        }
+        
+        var request = URLRequest(url: URL(string: urlReqIs)!,timeoutInterval: Double.infinity)
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+
+        request.httpMethod = "GET"
+        
+        let task = URLSession.shared.dataTask(with: request) { data, response, error in
+          guard let data = data else {
+            print(String(describing: error))
+            return
+          }
+          print("GetSensitiveVerifiedFieldsFromIdentity: ",String(data: data, encoding: .utf8)!)
+            do {
+                if let jsonDict = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any]{
+                    if let driverLicense = jsonDict["documentNumber"] as? String,
+                    let document = jsonDict["dateOfBirth"] as? NSDictionary{
+                        print("Success parsing documentNumber: \(driverLicense)")
+                        
+                        let day = document["day"] as? Int
+                        let month = document["month"] as? Int
+                        let year = document["year"] as? Int
+                        print("Success parsing day: \(day)")
+                        print("Success parsing month: \(month)")
+                        print("Success parsing year: \(year)")
+                        
+                        userIdentityDetail.instance.driverLicense = driverLicense
+                        userIdentityDetail.instance.dateOfBirth = "\(day ?? 00)-\(month ?? 00)-\(year ?? 0000)"
                     }
                     else {
                         print("Error status not found.")

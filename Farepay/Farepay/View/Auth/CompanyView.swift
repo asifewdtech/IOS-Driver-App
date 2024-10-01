@@ -216,7 +216,7 @@ extension CompanyView{
             Button(action: {
                 PresentedPopUp()
             }, label: {
-                Text("Proceed")
+                Text("PROCEED")
                     .font(.custom(.poppinsBold, size: 25))
                     .foregroundColor(.white)
                     .frame(maxWidth: .infinity)

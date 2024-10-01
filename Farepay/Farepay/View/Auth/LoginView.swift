@@ -254,9 +254,9 @@ extension LoginView{
                             
                             if userAuth.isLoggedIn == false  {
                                 toast = Toast(style: .error, message: userAuth.errorMessage)
-                            }
-                            else if( !Auth.auth().currentUser!.isEmailVerified) {
-                                toast = Toast(style: .error, message: "Please verify your email address.")
+//                            }
+//                            else if( !Auth.auth().currentUser!.isEmailVerified) {
+//                                toast = Toast(style: .error, message: "Please verify your email address.")
                             }else {
 //                                let collectionRef = Firestore.firestore().collection("usersInfo")
 //                                collectionRef.getDocuments { (snapshot, error) in

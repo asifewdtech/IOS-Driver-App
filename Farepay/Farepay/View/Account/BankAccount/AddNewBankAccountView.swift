@@ -50,6 +50,7 @@ struct AddNewBankAccountView: View {
                     Firestore.firestore().collection("usersInfo").document(Auth.auth().currentUser?.uid ?? "").updateData(["sessionID": stripeSessionID ?? "", "ephemeralKeySecret": stripeEphemeralKeySecret ?? ""])
 //                    Firestore.firestore().collection("usersInfo").document(Auth.auth().currentUser?.uid ?? "").updateData(["ephemeralKeySecret": stripeEphemeralKeySecret ?? ""])
                     
+                    UserDefaults.standard.set("1", forKey: "firstTime")
                     checkUserBankAccount()
                 })
                 .padding(.all, 15)
@@ -114,7 +115,11 @@ extension AddNewBankAccountView{
 //            .frame(height: 60)
 //            .background(Color(.darkBlueColor))
 //            .cornerRadius(10)
-             
+            Text("Please be sure to double check these bank details are entered accurately to avoid issues with settlement to your bank account.")
+                .font(.custom(.poppinsMedium, size: 14))
+                .foregroundColor(.gray)
+                .multilineTextAlignment(.center)
+            
             MDCFilledTextFieldWrapper(leadingImage: .constant(.ic_AccountHolder), text: $accountHolderName, placHolderText: .constant("Type account holder's name"), isSecure: .constant(false))
                 .frame(height: 70)
             

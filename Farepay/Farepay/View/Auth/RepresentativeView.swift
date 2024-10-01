@@ -26,6 +26,8 @@ struct RepresentativeView: View {
     @State private var businessNumberText: String = ""
     @State private var authorityNumberText: String = ""
     @State private var mobileNumberText: String = ""
+    @State private var driverABNText: String = ""
+    @State private var driverLicenseText: String = ""
     
     @State private var licenseFrontImage: UIImage? = nil
     @State private var islicenseFrontImagePickerPresented = false
@@ -82,6 +84,9 @@ struct RepresentativeView: View {
                 cityAddr = userIdentityDetail.instance.city
                 postalAddr = userIdentityDetail.instance.postalCode
                 stateAddr = userIdentityDetail.instance.state
+                countryAddr = userIdentityDetail.instance.country
+                dateText = userIdentityDetail.instance.dateOfBirth
+                driverLicenseText = userIdentityDetail.instance.driverLicense
             })
             .padding(.all, 15)
             .toastView(toast: $toast)
@@ -158,9 +163,10 @@ extension RepresentativeView{
                 MDCFilledTextFieldWrapper(leadingImage: .constant(.ic_User), text: $userText, placHolderText: .constant("Type your Full Name"), isSecure: .constant(false))
                     .allowsHitTesting(false)
                 MDCFilledTextFieldWrapper(leadingImage: .constant(.ic_Calander), text: $dateText, placHolderText: .constant("Type your Date of Birth"), isSecure: .constant(false))
-                    .onTapGesture {
-                        showDatePicker.toggle()
-                    }
+                    .allowsHitTesting(false)
+//                    .onTapGesture {
+//                        showDatePicker.toggle()
+//                    }
                 
                 MDCFilledTextFieldWrapper(leadingImage: .constant(.ic_Email), text: $emailText, placHolderText: .constant("Type your email"), isSecure: .constant(false))
                     .allowsHitTesting(false)
@@ -187,6 +193,11 @@ extension RepresentativeView{
                 .background(Color(.darkBlueColor))
                 
                 MDCFilledTextFieldWrapper(leadingImage: .constant(.ic_Authority), text: $authorityNumberText.max(10), placHolderText: .constant("Type your driver authority No"), isSecure: .constant(false),isNumberPad: true)
+                
+                MDCFilledTextFieldWrapper(leadingImage: .constant(.ic_Card), text: $driverABNText.max(11), placHolderText: .constant("Enter your driver ABN"), isSecure: .constant(false),isNumberPad: true)
+                
+                MDCFilledTextFieldWrapper(leadingImage: .constant(.ic_Contact), text: $driverLicenseText.max(11), placHolderText: .constant("Enter your Driver Licence"), isSecure: .constant(false),isNumberPad: true)
+                    .allowsHitTesting(false)
                 
                 /*ZStack{
 
@@ -353,7 +364,7 @@ extension RepresentativeView{
 //                    .cornerRadius(10)
                     
                     HStack (spacing: 20){
-                        MDCFilledTextFieldWrapper(leadingImage: .constant(.ic_Home), text: $cityAddr, placHolderText: .constant("City"), isSecure: .constant(false))
+                        MDCFilledTextFieldWrapper(leadingImage: .constant(.ic_Home), text: $cityAddr, placHolderText: .constant("Suburb"), isSecure: .constant(false))
                             .allowsHitTesting(false)
                     }
                     .frame(height: 70)
@@ -361,35 +372,28 @@ extension RepresentativeView{
                     
                     HStack (spacing: 20){
                         HStack (spacing: 0) {
-                            let stateNames = ["New South Wales",
-                                          "Queensland",
-                                          "South Australia",
-                                          "Tasmania",
-                                          "Victoria",
-                                          "Western Australia"]
-//                            MDCFilledTextFieldWrapper(leadingImage: .constant(.ic_Home), text: $stateAddr, placHolderText: .constant("State/Province"), isSecure: .constant(false))
-//                            DropdownSelector(
-//                                placeholder: .stateProvince, leftImage: .ic_Home,
-//                                options: provinceType,
-//                                onOptionSelected: { option in
-//                                    print(option)
-////                                    self.companyText = option.value
-//                                })
-//                            .foregroundColor(.white)
-//                            .frame(height: 70)
-                            Image(uiImage: .ic_Home)
-                                .resizable()
-                                .frame(width: 30, height: 30)
-                                .padding(.leading, 10)
+//                            let stateNames = ["New South Wales",
+//                                          "Queensland",
+//                                          "South Australia",
+//                                          "Tasmania",
+//                                          "Victoria",
+//                                          "Western Australia"]
+//                            Image(uiImage: .ic_Home)
+//                                .resizable()
+//                                .frame(width: 30, height: 30)
+//                                .padding(.leading, 10)
+//                            
+//                            Picker("State/Province", selection: $stateAddr) {
+//                                ForEach(stateNames, id: \.self) {
+//                                    Text($0)
+//                                }
+//                                .font(.custom("Poppins-Medium", size:14))
+//                            }
+//                            .accentColor(.white)
+//                            .padding(.leading, 0)
                             
-                            Picker("State/Province", selection: $stateAddr) {
-                                ForEach(stateNames, id: \.self) {
-                                    Text($0)
-                                }
-                                .font(.custom("Poppins-Medium", size:14))
-                            }
-                            .accentColor(.white)
-                            .padding(.leading, 0)
+                            MDCFilledTextFieldWrapper(leadingImage: .constant(.ic_Home), text: $stateAddr, placHolderText: .constant("State/Province"), isSecure: .constant(false))
+                                .allowsHitTesting(false)
                         }
                         .frame(height: 70)
                         .frame(width: 170)
@@ -655,6 +659,15 @@ extension RepresentativeView{
 //                else if (streetAddr.isEmpty || cityAddr.isEmpty || countryAddr.isEmpty || postalAddr.isEmpty) {
                     toast = Toast(style: .error, message: "Address Filed cannot be empty.")
                 }
+                else if driverABNText.isEmpty {
+                    toast = Toast(style: .error, message: "ABN field cannot be empty.")
+                }
+                else if driverABNText.count <= 10 {
+                    toast = Toast(style: .error, message: "ABN Should be 11 Digits.")
+                }
+                else if driverLicenseText.isEmpty {
+                    toast = Toast(style: .error, message: "Driver Licence field cannot be empty.")
+                }
 //                else if stripeFlowStatus != "Completed" {
 //                    toast = Toast(style: .error, message: "Verification Flow is not Complete.")
 //                }
@@ -780,7 +793,7 @@ extension RepresentativeView{
             let addressTextStr = validateFormattedAddress.replacingOccurrences(of: " ", with: "%20", options: .literal, range: nil)
             let addrTextStr = addressTextStr.replacingOccurrences(of: "#", with: "%20", options: .literal, range: nil)
             
-            let driverABN = UserDefaults.standard.string(forKey: "driverABN")
+//            let driverABN = UserDefaults.standard.string(forKey: "driverABN")
             let driverLicence = UserDefaults.standard.string(forKey: "driverLicence")
             let stripeVeriSessionID = UserDefaults.standard.string(forKey: "stripeSessionID")
 //            let urlStr = "\(uploadInformationUrl)username=default&userEmail=\(Auth.auth().currentUser?.email ?? "")&firstname=\(firstPart)&day=3&month=10&year=2000&address=\(addrTextStr)&phone=61\(mobileNumberText)&lastname=\(secondPart)&frontimgid=\(frontImageId)&backimgid=\(backImageId)"
@@ -798,7 +811,7 @@ extension RepresentativeView{
                 uploadInformatUrl = "https://uvipi4nbv2.execute-api.eu-north-1.amazonaws.com/default/Test?"
             }
             
-            let urlCreateAccount = "\(uploadInformatUrl)username=\(firstPart)&userEmail=\(Auth.auth().currentUser?.email ?? "")&firstname=\(firstPart)&lastname=\(secondPart)&day=\(datePart)&month=\(monthPart)&year=\(yearPart)&address=\(streetAddr)&city=\(cityAddr)&state=\(stateAddr)&postalCode=\(postalAddr)&country=\("Australia")&phone=61\(mobileNumberText)&frontimgid=\(stripeVeriSessionID ?? "1234")&abn=\(driverABN ?? "1234")&driverlicence=\(driverLicence ?? "1234")&driverauthority=\(authorityNumberText)&meta-data"
+            let urlCreateAccount = "\(uploadInformatUrl)username=\(firstPart)&userEmail=\(Auth.auth().currentUser?.email ?? "")&firstname=\(firstPart)&lastname=\(secondPart)&day=\(datePart)&month=\(monthPart)&year=\(yearPart)&address=\(streetAddr)&city=\(cityAddr)&state=\(stateAddr)&postalCode=\(postalAddr)&country=\("Australia")&phone=61\(mobileNumberText)&frontimgid=\(stripeVeriSessionID ?? "1234")&abn=\(driverABNText )&driverlicence=\(driverLicenseText)&driverauthority=\(authorityNumberText)&meta-data"
             
             let urlNewAcc :String = urlCreateAccount.replacingOccurrences(of: " ", with: "%20")
             
@@ -807,7 +820,7 @@ extension RepresentativeView{
             let url = URL(string: urlNewAcc)
             print("Create Account url: ",url)
             try  await
-            completeFormViewModel.postData(url:url!,method:.post,name: userText,phone: mobileNumberText,driverID: authorityNumberText,driverABN: driverABN ?? "00")
+            completeFormViewModel.postData(url:url!,method:.post,name: userText,phone: mobileNumberText,driverID: authorityNumberText,driverABN: driverABNText)
             apicalled = false
             
             DispatchQueue.main.async {

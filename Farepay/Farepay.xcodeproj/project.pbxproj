@@ -903,7 +903,7 @@
 				CODE_SIGN_ENTITLEMENTS = Farepay/Farepay.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 43;
+				CURRENT_PROJECT_VERSION = 46;
 				DEVELOPMENT_ASSET_PATHS = "\"Farepay/Preview Content\"";
 				DEVELOPMENT_TEAM = F2D64HKJXK;
 				ENABLE_PREVIEWS = YES;
@@ -1017,7 +1017,7 @@
 				CODE_SIGN_ENTITLEMENTS = Farepay/Farepay.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 43;
+				CURRENT_PROJECT_VERSION = 46;
 				DEVELOPMENT_ASSET_PATHS = "\"Farepay/Preview Content\"";
 				DEVELOPMENT_TEAM = F2D64HKJXK;
 				ENABLE_PREVIEWS = YES;
@@ -1125,7 +1125,7 @@
 				CODE_SIGN_ENTITLEMENTS = Farepay/Farepay.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 43;
+				CURRENT_PROJECT_VERSION = 46;
 				DEVELOPMENT_ASSET_PATHS = "\"Farepay/Preview Content\"";
 				DEVELOPMENT_TEAM = F2D64HKJXK;
 				ENABLE_PREVIEWS = YES;
@@ -1233,7 +1233,7 @@
 				CODE_SIGN_ENTITLEMENTS = Farepay/Farepay.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 43;
+				CURRENT_PROJECT_VERSION = 46;
 				DEVELOPMENT_ASSET_PATHS = "\"Farepay/Preview Content\"";
 				DEVELOPMENT_TEAM = F2D64HKJXK;
 				ENABLE_PREVIEWS = YES;
@@ -1405,7 +1405,7 @@
 				CODE_SIGN_ENTITLEMENTS = Farepay/Farepay.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 43;
+				CURRENT_PROJECT_VERSION = 46;
 				DEVELOPMENT_ASSET_PATHS = "\"Farepay/Preview Content\"";
 				DEVELOPMENT_TEAM = F2D64HKJXK;
 				ENABLE_PREVIEWS = YES;
@@ -1455,7 +1455,7 @@
 				CODE_SIGN_ENTITLEMENTS = Farepay/Farepay.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 43;
+				CURRENT_PROJECT_VERSION = 46;
 				DEVELOPMENT_ASSET_PATHS = "\"Farepay/Preview Content\"";
 				DEVELOPMENT_TEAM = F2D64HKJXK;
 				ENABLE_PREVIEWS = YES;
