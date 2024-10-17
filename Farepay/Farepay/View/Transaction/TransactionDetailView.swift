@@ -62,12 +62,17 @@ struct TransactionDetailView: View {
                 serviceFeeGstStr = formatter.string(from: serviceFeeGst as NSNumber) ?? "N/A"
                     totalChargresWithTax = (serviceFee + serviceFeeGst + amount).roundToDecimal(2)
                     
-                    AmountDetail.instance.totalChargresWithTax = String(totalAmount) //String(totalChargresWithTax)
+                if let formattedString = formatter.string(from: (Decimal(totalAmount)) as NSNumber) {
+                    AmountDetail.instance.totalChargresWithTax = formattedString
+                }
+//                    AmountDetail.instance.totalChargresWithTax = String(totalAmount) //String(totalChargresWithTax)
                     print("totalCharges \(totalChargresWithTax)")
                     
                 let totalFareAmount = (amount - serviceFee - serviceFeeGst).roundToDecimal(2)
                 fareExcludeTax = formatter.string(from: totalFareAmount as NSNumber) ?? "N/A"
-                AmountDetail.instance.totalAmount = String(totalFareAmount)
+                if let formattedTAStr = formatter.string(from: (Decimal(totalFareAmount)) as NSNumber) {
+                    AmountDetail.instance.totalAmount = String(formattedTAStr)
+                }
                 
                 let stripeReceiptId = transactionType.source_transaction
                 AmountDetail.instance.fareStripeId = stripeReceiptId
@@ -76,6 +81,7 @@ struct TransactionDetailView: View {
                 AmountDetail.instance.fareDateTimeInt = stripeReceiptDate
                 
                 UserDefaults.standard.set(1, forKey: "transHistoryFlow")
+                UserDefaults.standard.set(transactionType.metadata.Address, forKey: "fareAddress")
             })
             .padding(.all, 15)
         }

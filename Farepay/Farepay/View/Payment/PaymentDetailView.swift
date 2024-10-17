@@ -67,7 +67,9 @@ struct PaymentDetailView: View {
                     formatter.minimumIntegerDigits = 1
                     
                     totalAmount = cost
-                    AmountDetail.instance.totalAmount = String(cost)
+                    if let formattedTAStr = formatter.string(from: (Decimal(totalAmount)) as NSNumber) {
+                        AmountDetail.instance.totalAmount = formattedTAStr
+                    }
                     print("amountWith \(cost)")
                     let amountWithFivePercent = cost * 5 / 100
                     print("amountWithFivePercent \(amountWithFivePercent)")
@@ -120,7 +122,7 @@ struct PaymentDetailView: View {
                         }
                         if readerDiscoverModel1.cancelPay {
                             showLoadingIndicator = false
-                            toast = Toast(style: .error, message: "Paymet could not successful, Please try again!")
+                            toast = Toast(style: .error, message: "Payment could not successful, Please try again!")
                             DispatchQueue.main.asyncAfter(deadline: .now() + 2){
                                 presentationMode.wrappedValue.dismiss()
                             }

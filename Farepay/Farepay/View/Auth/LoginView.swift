@@ -43,8 +43,9 @@ struct LoginView: View {
                         VStack(spacing: 40){
                             topArea
                             textArea
+                            Spacer()
+                            buttonArea
                         }
-                        buttonArea
                     }
                 }
                 .toastView(toast: $toast)
@@ -134,7 +135,7 @@ extension LoginView{
                 .font(.custom(.poppinsMedium, size: 18))
                 .foregroundColor(Color(.darkGrayColor))
             
-            HStack(spacing: 15){
+/*            HStack(spacing: 15){
                 // Google Apple Sign in
                 Button(action: {
                     showLoadingIndicator = true
@@ -173,7 +174,7 @@ extension LoginView{
                     .background(Color(.darkBlueColor))
                     .cornerRadius(10)
                 })
-            }
+            }*/
         }
     }
     
@@ -254,9 +255,9 @@ extension LoginView{
                             
                             if userAuth.isLoggedIn == false  {
                                 toast = Toast(style: .error, message: userAuth.errorMessage)
-//                            }
-//                            else if( !Auth.auth().currentUser!.isEmailVerified) {
-//                                toast = Toast(style: .error, message: "Please verify your email address.")
+                            }
+                            else if( !Auth.auth().currentUser!.isEmailVerified) {
+                                toast = Toast(style: .error, message: "Please verify your email address.")
                             }else {
 //                                let collectionRef = Firestore.firestore().collection("usersInfo")
 //                                collectionRef.getDocuments { (snapshot, error) in

@@ -79,6 +79,7 @@ struct TransactionView: View {
                         try await transectionViewModel.getAllTransection(url: weeklyTransection, method: .post, account_id: accountId)
                         
                     }
+                    UserDefaults.standard.removeObject(forKey: "fareAddress")
                 })
                 
                 

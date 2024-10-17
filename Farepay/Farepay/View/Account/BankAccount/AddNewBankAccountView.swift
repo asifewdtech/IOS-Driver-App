@@ -206,24 +206,24 @@ extension AddNewBankAccountView{
 
             })
             
-            Button(action: {
-                setUserLogin(false)
-                do {
-                    try  Auth.auth().signOut()
-                } catch  {
-                    print("error")
-                }
-                
-                rootPresentationMode.wrappedValue.dismiss()
-            }, label: {
-                Text("Logout")
-                    .font(.custom(.poppinsBold, size: 25))
-                    .foregroundColor(.white)
-                    .frame(maxWidth: .infinity)
-                    .frame(height: 60)
-                    .background(Color(.buttonColor))
-                    .cornerRadius(30)
-            })
+//            Button(action: {
+//                setUserLogin(false)
+//                do {
+//                    try  Auth.auth().signOut()
+//                } catch  {
+//                    print("error")
+//                }
+//                
+//                rootPresentationMode.wrappedValue.dismiss()
+//            }, label: {
+//                Text("Logout")
+//                    .font(.custom(.poppinsBold, size: 25))
+//                    .foregroundColor(.white)
+//                    .frame(maxWidth: .infinity)
+//                    .frame(height: 60)
+//                    .background(Color(.buttonColor))
+//                    .cornerRadius(30)
+//            })
         }
     }
     

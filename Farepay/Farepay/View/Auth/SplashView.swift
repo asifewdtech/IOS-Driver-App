@@ -24,6 +24,7 @@ struct SplashView: View {
     @AppStorage("accountId") var accountId: String = ""
     @State private var willMoveToUnderReviewView = false
 //    @EnvironmentObject private var appRootManager: AppRootManager
+    @State private var willMoveToAuthPswd = false
     
     //MARK: - Views
     var body: some View {
@@ -38,6 +39,8 @@ struct SplashView: View {
                 NavigationLink("", destination: Farepay.MainTabbedView().toolbar(.hidden, for: .navigationBar), isActive: $willMoveToMainView ).isDetailLink(false)
                 
                 NavigationLink("", destination: Farepay.UnderReviewView().toolbar(.hidden, for: .navigationBar), isActive: $willMoveToUnderReviewView ).isDetailLink(false)
+                
+                NavigationLink("", destination: Farepay.AuthenticateFaceIdPswdView().toolbar(.hidden, for: .navigationBar), isActive: $willMoveToAuthPswd ).isDetailLink(false)
                 
                 Color(.bgColor)
                     .edgesIgnoringSafeArea(.all)
@@ -89,8 +92,9 @@ struct SplashView: View {
             print("1", Auth.auth().currentUser, ":2", isAccountCreated, ":3", isBankCreated, ":4", isAccountApproved)
             if Auth.auth().currentUser != nil {
                 if isAccountCreated && isBankCreated {
-                    willMoveToMainView = true
-//                    appRootManager.currentRoot = .home
+//                    willMoveToMainView = true
+                    UserDefaults.standard.set(1, forKey: "firstTimeFaceID")
+                    willMoveToAuthPswd = true
                 }
                 else if isAccountCreated == true && isBankCreated == false  {
                     willMoveToBankAccount = true

@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		1815D5212B4BCB550067202C /* UnderReviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1815D5202B4BCB550067202C /* UnderReviewView.swift */; };
 		183909182BD8EE57003D8051 /* TapToPayGuidlinesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 183909172BD8EE57003D8051 /* TapToPayGuidlinesView.swift */; };
+		183A32762CB673570089FA3C /* AuthenticateFaceIdPswdView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 183A32752CB673570089FA3C /* AuthenticateFaceIdPswdView.swift */; };
 		187AB27D2B2992A900B170EE /* DelegateAnnouncer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 187AB27C2B2992A900B170EE /* DelegateAnnouncer.swift */; };
 		18B3B00A2C8992440094A843 /* StripeIdentityVerificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18B3B0092C8992440094A843 /* StripeIdentityVerificationView.swift */; };
 		18D4F27A2C50D24F00EEEE6B /* ConfigurationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18D4F2792C50D24F00EEEE6B /* ConfigurationManager.swift */; };
@@ -117,6 +118,7 @@
 		09880E2E0268724DC1688895 /* Pods-Farepay.debug-stagging.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Farepay.debug-stagging.xcconfig"; path = "Target Support Files/Pods-Farepay/Pods-Farepay.debug-stagging.xcconfig"; sourceTree = "<group>"; };
 		1815D5202B4BCB550067202C /* UnderReviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnderReviewView.swift; sourceTree = "<group>"; };
 		183909172BD8EE57003D8051 /* TapToPayGuidlinesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TapToPayGuidlinesView.swift; sourceTree = "<group>"; };
+		183A32752CB673570089FA3C /* AuthenticateFaceIdPswdView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticateFaceIdPswdView.swift; sourceTree = "<group>"; };
 		187AB27C2B2992A900B170EE /* DelegateAnnouncer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DelegateAnnouncer.swift; sourceTree = "<group>"; };
 		18B3B0092C8992440094A843 /* StripeIdentityVerificationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StripeIdentityVerificationView.swift; sourceTree = "<group>"; };
 		18D4F2762C50CF6700EEEE6B /* Farepay-Dev.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "Farepay-Dev.xcconfig"; sourceTree = "<group>"; };
@@ -509,6 +511,7 @@
 		F5500E1D2AA10AB800B39655 /* Payment */ = {
 			isa = PBXGroup;
 			children = (
+				183A32752CB673570089FA3C /* AuthenticateFaceIdPswdView.swift */,
 				F5D118512A9FB6A000C027FA /* PaymentView.swift */,
 				F554AC152AA0FC03007EED59 /* PaymentDetailView.swift */,
 				F5500E1E2AA10CB400B39655 /* TapToPayView.swift */,
@@ -820,6 +823,7 @@
 				F5449ABD2AB0D09000BE5AF4 /* Date+Extension.swift in Sources */,
 				1815D5212B4BCB550067202C /* UnderReviewView.swift in Sources */,
 				F5192AEB2AA11B8900DF5ED1 /* PayQRView.swift in Sources */,
+				183A32762CB673570089FA3C /* AuthenticateFaceIdPswdView.swift in Sources */,
 				3294382F2ADD0DAB000C18B8 /* OtpViewModel.swift in Sources */,
 				F5C15AA22AA26E6A0065DE0B /* MainTabbedView.swift in Sources */,
 				F5449AC12AB0DA8E00BE5AF4 /* ExportPopUpView.swift in Sources */,
@@ -903,7 +907,7 @@
 				CODE_SIGN_ENTITLEMENTS = Farepay/Farepay.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 46;
+				CURRENT_PROJECT_VERSION = 50;
 				DEVELOPMENT_ASSET_PATHS = "\"Farepay/Preview Content\"";
 				DEVELOPMENT_TEAM = F2D64HKJXK;
 				ENABLE_PREVIEWS = YES;
@@ -1017,7 +1021,7 @@
 				CODE_SIGN_ENTITLEMENTS = Farepay/Farepay.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 46;
+				CURRENT_PROJECT_VERSION = 50;
 				DEVELOPMENT_ASSET_PATHS = "\"Farepay/Preview Content\"";
 				DEVELOPMENT_TEAM = F2D64HKJXK;
 				ENABLE_PREVIEWS = YES;
@@ -1125,7 +1129,7 @@
 				CODE_SIGN_ENTITLEMENTS = Farepay/Farepay.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 46;
+				CURRENT_PROJECT_VERSION = 50;
 				DEVELOPMENT_ASSET_PATHS = "\"Farepay/Preview Content\"";
 				DEVELOPMENT_TEAM = F2D64HKJXK;
 				ENABLE_PREVIEWS = YES;
@@ -1233,7 +1237,7 @@
 				CODE_SIGN_ENTITLEMENTS = Farepay/Farepay.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 46;
+				CURRENT_PROJECT_VERSION = 50;
 				DEVELOPMENT_ASSET_PATHS = "\"Farepay/Preview Content\"";
 				DEVELOPMENT_TEAM = F2D64HKJXK;
 				ENABLE_PREVIEWS = YES;
@@ -1405,7 +1409,7 @@
 				CODE_SIGN_ENTITLEMENTS = Farepay/Farepay.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 46;
+				CURRENT_PROJECT_VERSION = 50;
 				DEVELOPMENT_ASSET_PATHS = "\"Farepay/Preview Content\"";
 				DEVELOPMENT_TEAM = F2D64HKJXK;
 				ENABLE_PREVIEWS = YES;
@@ -1455,7 +1459,7 @@
 				CODE_SIGN_ENTITLEMENTS = Farepay/Farepay.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 46;
+				CURRENT_PROJECT_VERSION = 50;
 				DEVELOPMENT_ASSET_PATHS = "\"Farepay/Preview Content\"";
 				DEVELOPMENT_TEAM = F2D64HKJXK;
 				ENABLE_PREVIEWS = YES;

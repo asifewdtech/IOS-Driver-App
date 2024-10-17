@@ -16,8 +16,11 @@ struct FarepayApp: App {
     
     //MARK: - Variables
     @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
+    @Environment(\.scenePhase) var scenePhase
+    @State private var showAuthenticationView = false
+    @ObservedObject private var currencyManager = CurrencyManager(amount: 0)
+    @State private var showContentView = false
     
-//    @StateObject private var appRootManager = AppRootManager()
     
     //MARK: - Views
     var body: some Scene {
@@ -36,6 +39,30 @@ struct FarepayApp: App {
 //                }
 //            }
 //            .environmentObject(appRootManager)
+            
+                .onChange(of: scenePhase, perform: { newScenePhase in
+                    switch newScenePhase {
+                    case .active:
+                        let callFaceID = UserDefaults.standard.integer(forKey: "callFaceID")
+                        if callFaceID == 1 {
+                            NotificationCenter.default.post(name: Notification.Name("appDidBecomeActive"), object: nil)
+//                            NotificationCenter.default.post(name: Notification.Name("removeCurrencyFare"), object: nil)
+//                            currencyManager.string1 = ""
+                            UserDefaults.standard.removeObject(forKey: "callFaceID")
+                        }
+                        print ("AppState: active")
+//                        showAuthenticationView = true
+                    case .background:
+                        UserDefaults.standard.set(1, forKey: "callFaceID")
+//                        showAuthenticationView = true
+//                        NotificationCenter.default.post(name: Notification.Name("appDidBecomeActive"), object: nil)
+                        print ("AppState: background")
+                    case .inactive:
+                        print("AppState: inactive")
+                    default:
+                        print( "AppState: unknown")
+                    }
+                })
         }
     }
 }
