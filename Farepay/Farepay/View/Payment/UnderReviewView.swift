@@ -167,6 +167,7 @@ extension UnderReviewView{
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
           guard let data = data else {
             print(String(describing: error))
+              toast = Toast(style: .error, message: "createSessionStripeIdentity - \(error)")
             return
           }
           print("createSessionStripeIdentity is: ",String(data: data, encoding: .utf8)!)
@@ -181,6 +182,7 @@ extension UnderReviewView{
             }
             catch{
                 print("Error parsing JSON: \(error)")
+                toast = Toast(style: .error, message: "create Session StripeIdentity - \(error)")
             }
         }
         task.resume()
@@ -209,6 +211,7 @@ extension UnderReviewView{
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
           guard let data = data else {
             print(String(describing: error))
+              toast = Toast(style: .error, message: "getVerificationStatus - \(error)")
             return
           }
           print("getVerificationStatus is: ",String(data: data, encoding: .utf8)!)
@@ -229,23 +232,30 @@ extension UnderReviewView{
                             updateStripeDocs.toggle()
                             showLoadingIndicator = false
                             print("Error failed status found.")
+                            toast = Toast(style: .error, message: "Verification Status - Documents failed. Please upload  the documents again.")
                         }
                         else if verifiStatus == "processing"{
                             //on docs async success/failure
-                            showLoadingIndicator = false
-                            print("Error async success status found.")
+                            print("async success status found.")
+                            toast = Toast(style: .error, message: "Verification Status - We're verifying your identity and please wait.")
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 60){
+                                getVerificationStatus()
+//                                showLoadingIndicator = false
+                            }
                         }
                         else{
-                            toast = Toast(style: .error, message: "Status not found.")
+                            toast = Toast(style: .error, message: "Verification Status - Documents Failed.")
                             print("Error unknown status found.")
                         }
                     }
                     else {
+                        toast = Toast(style: .error, message: "Verification Status - Error status not found.")
                         print("Error status not found.")
                     }
                 }
             }
             catch{
+                toast = Toast(style: .error, message: "Verification Status - Error parsing JSON.")
                 print("Error parsing JSON: \(error)")
             }
         }
@@ -271,6 +281,7 @@ extension UnderReviewView{
         
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
           guard let data = data else {
+              toast = Toast(style: .error, message: "Verification Report - \(error).")
             print(String(describing: error))
             return
           }
@@ -293,6 +304,7 @@ extension UnderReviewView{
                 }
             }
             catch{
+                toast = Toast(style: .error, message: "Verification Report - Error parsing JSON: \(error).")
                 print("Error parsing JSON: \(error)")
             }
         }
@@ -320,6 +332,7 @@ extension UnderReviewView{
         
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
           guard let data = data else {
+              toast = Toast(style: .error, message: "CreateFileDownloadLink - \(error).")
             print(String(describing: error))
             return
           }
@@ -384,6 +397,7 @@ extension UnderReviewView{
                 
 //                uploadIdentityDocument(path: fileURL.absoluteString, name: "image003.jpg")
             } catch {
+                toast = Toast(style: .error, message: "saveImageToDocumentDirectory - \(error).")
                 print("error saving file:", error)
             }
         }
@@ -497,6 +511,7 @@ extension UnderReviewView{
         
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
           guard let data = data else {
+              toast = Toast(style: .error, message: "FileUploadonStripe - \(error).")
             print(String(describing: error))
             return
           }
@@ -515,11 +530,13 @@ extension UnderReviewView{
                         isPresentedPopUp.toggle()
                     }
                     else {
+                        toast = Toast(style: .error, message: "FileUploadonStripe - Error id not foud: \(error).")
                         print("Error id not foud.")
                     }
                 }
             }
             catch{
+                toast = Toast(style: .error, message: "FileUploadonStripe - Error parsing JSON: \(error).")
                 print("Error parsing JSON: \(error)")
             }
         }
@@ -546,6 +563,7 @@ extension UnderReviewView{
         
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
           guard let data = data else {
+              toast = Toast(style: .error, message: "GetVerifiedFieldsFromIdentity - \(error).")
             print(String(describing: error))
             return
           }
@@ -576,11 +594,13 @@ extension UnderReviewView{
                         userIdentityDetail.instance.postalCode = postalCode ?? ""
                     }
                     else {
+                        toast = Toast(style: .error, message: "GetVerifiedFieldsFromIdentity - Error status not found: \(error).")
                         print("Error status not found.")
                     }
                 }
             }
             catch{
+                toast = Toast(style: .error, message: "GetVerifiedFieldsFromIdentity - Error parsing JSON: \(error).")
                 print("Error parsing JSON: \(error)")
             }
         }
@@ -608,6 +628,7 @@ extension UnderReviewView{
         
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
           guard let data = data else {
+              toast = Toast(style: .error, message: "GetSensitiveVerifiedFieldsFromIdentity - \(error).")
             print(String(describing: error))
             return
           }
@@ -629,11 +650,13 @@ extension UnderReviewView{
                         userIdentityDetail.instance.dateOfBirth = "\(day ?? 00)-\(month ?? 00)-\(year ?? 0000)"
                     }
                     else {
+                        toast = Toast(style: .error, message: "GetSensitiveVerifiedFieldsFromIdentity - Error status not found: \(error).")
                         print("Error status not found.")
                     }
                 }
             }
             catch{
+                toast = Toast(style: .error, message: "GetSensitiveVerifiedFieldsFromIdentity - Error parsing JSON: \(error).")
                 print("Error parsing JSON: \(error)")
             }
         }

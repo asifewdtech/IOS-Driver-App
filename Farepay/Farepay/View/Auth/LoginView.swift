@@ -31,6 +31,7 @@ struct LoginView: View {
     @State private var moveToSignup: Bool = false
     @State var isChecked = false
     @AppStorage("accountId") var appAccountId: String = ""
+    @State private var goToForgotPassword = false
     
     //MARK: - Views
     var body: some View {
@@ -39,14 +40,14 @@ struct LoginView: View {
                 Color(.bgColor)
                     .edgesIgnoringSafeArea(.all)
                 VStack{
-                    ScrollView(showsIndicators: false){
+//                    ScrollView(showsIndicators: false){
                         VStack(spacing: 40){
                             topArea
                             textArea
-                            Spacer()
+//                            Spacer()
                             buttonArea
                         }
-                    }
+//                    }
                 }
                 .toastView(toast: $toast)
                 .padding(.all, 15)
@@ -185,12 +186,15 @@ extension LoginView{
             Group{
                 MDCFilledTextFieldWrapper(leadingImage: .constant(.ic_Email), text: $emailText, placHolderText: .constant("Enter your Email Address"), isSecure: .constant(false))
                     .keyboardType(.emailAddress)
+                    .frame(maxHeight: 70)
                 Group{
                     if isSecure{
                         MDCFilledTextFieldWrapper(leadingImage: .constant(.ic_Password), isTrailingImage: true, text: $passwordText, placHolderText: .constant("Type your password"), isSecure: .constant(true))
+                            .frame(maxHeight: 70)
                     }
                     else{
                         MDCFilledTextFieldWrapper(leadingImage: .constant(.ic_Password), isTrailingImage: true, text: $passwordText, placHolderText: .constant("Type your password"), isSecure: .constant(false))
+                            .frame(maxHeight: 70)
                     }
                 }
                 .overlay{
@@ -207,17 +211,29 @@ extension LoginView{
             .cornerRadius(10)
             
             HStack(spacing: 10){
-                Image(systemName: isChecked ? "checkmark.square.fill" : "square")
-                    .resizable()
-                    .frame(width: 20, height: 20)
-                    .foregroundStyle(.white)
-                    .onTapGesture {
-                        
-                        isChecked.toggle()
-                    }
-                Text("\(.RememberMe)")
-                    .font(.custom(.poppinsMedium, size: 20))
-                    .foregroundColor(.white)
+                HStack(spacing: 10){
+                    Image(systemName: isChecked ? "checkmark.square.fill" : "square")
+                        .resizable()
+                        .frame(width: 20, height: 20)
+                        .foregroundStyle(.white)
+                        .onTapGesture {
+                            
+                            isChecked.toggle()
+                        }
+                    Text("\(.RememberMe)")
+                        .font(.custom(.poppinsMedium, size: 18))
+                        .foregroundColor(.white)
+                }
+                    Spacer()
+                    Button(action: {
+                        goToForgotPassword = true
+                    }, label: {
+                        Text("Forgot Password")
+                            .font(.custom(.poppinsMedium, size: 18))
+                            .foregroundColor(.white)
+                            .underline()
+                    })
+                
             }
         }
     }
@@ -231,6 +247,7 @@ extension LoginView{
             NavigationLink("", destination: Farepay.NewsView().toolbar(.hidden, for: .navigationBar), isActive: $willMoveToBankAccount ).isDetailLink(false)
             NavigationLink("", destination: SignUpView().toolbar(.hidden, for: .navigationBar), isActive: $moveToSignup ).isDetailLink(false)
             NavigationLink("", destination: Farepay.UnderReviewView().toolbar(.hidden, for: .navigationBar), isActive: $willMoveToUnderReviewView ).isDetailLink(false)
+            NavigationLink("", destination: Farepay.ForgotPasswordView().toolbar(.hidden, for: .navigationBar), isActive: $goToForgotPassword ).isDetailLink(false)
             
             Button(action: {
                 if emailText.isEmpty {
@@ -255,9 +272,9 @@ extension LoginView{
                             
                             if userAuth.isLoggedIn == false  {
                                 toast = Toast(style: .error, message: userAuth.errorMessage)
-                            }
-                            else if( !Auth.auth().currentUser!.isEmailVerified) {
-                                toast = Toast(style: .error, message: "Please verify your email address.")
+//                            }
+//                            else if( !Auth.auth().currentUser!.isEmailVerified) {
+//                                toast = Toast(style: .error, message: "Please verify your email address.")
                             }else {
 //                                let collectionRef = Firestore.firestore().collection("usersInfo")
 //                                collectionRef.getDocuments { (snapshot, error) in

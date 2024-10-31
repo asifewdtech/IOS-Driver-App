@@ -42,9 +42,14 @@ struct TransactionDetailView: View {
                 formatter.maximumFractionDigits = 2
                 formatter.numberStyle = .decimal
                 
-                amount = Double( transactionType.amount) / 100
+                let val = 1 + 0.05
+                let val1 = Double((transactionType.amount))
+                let val2 = (val1 / val)
+                let amount = (val2 / 100).roundToDecimal(2)
+                
+//                amount = Double( transactionType.amount) / 100
                     totalAmount = amount
-                print("totalAmount: \(amount)")
+                print("totalAmount: \(totalAmount)")
                 
 //                    AmountDetail.instance.totalAmount = String(amount)
                     let amountWithFivePercent = amount * 5 / 100
@@ -68,11 +73,13 @@ struct TransactionDetailView: View {
 //                    AmountDetail.instance.totalChargresWithTax = String(totalAmount) //String(totalChargresWithTax)
                     print("totalCharges \(totalChargresWithTax)")
                     
-                let totalFareAmount = (amount - serviceFee - serviceFeeGst).roundToDecimal(2)
-                fareExcludeTax = formatter.string(from: totalFareAmount as NSNumber) ?? "N/A"
-                if let formattedTAStr = formatter.string(from: (Decimal(totalFareAmount)) as NSNumber) {
-                    AmountDetail.instance.totalAmount = String(formattedTAStr)
-                }
+//                let totalFareAmount = (amount - serviceFee - serviceFeeGst).roundToDecimal(2)
+//                fareExcludeTax = formatter.string(from: totalFareAmount as NSNumber) ?? "N/A"
+                fareExcludeTax = formatter.string(from: amount as NSNumber) ?? "N/A"
+                AmountDetail.instance.totalAmount = String(amount)
+//                if let formattedTAStr = formatter.string(from: (Decimal(totalFareAmount)) as NSNumber) {
+//                    AmountDetail.instance.totalAmount = String(formattedTAStr)
+//                }
                 
                 let stripeReceiptId = transactionType.source_transaction
                 AmountDetail.instance.fareStripeId = stripeReceiptId

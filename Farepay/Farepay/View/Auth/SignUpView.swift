@@ -34,6 +34,7 @@ struct SignUpView: View {
     @State private var isAccountCreated: Bool = false
     @State private var isBankCreated: Bool = false
     @State private var goToHome = false
+    @State private var showEmailVerifiAlert = false
     
     //MARK: - Views
     var body: some View {
@@ -91,6 +92,16 @@ struct SignUpView: View {
                         }
                     }
                 })
+                .alert(
+                    "Sign Up successfully",
+                    isPresented: $showEmailVerifiAlert
+                ) {
+                    Button("Continue") {
+                        presentationMode.wrappedValue.dismiss()
+                    }
+                } message: {
+                    Text("Thank you for signing up, we have sent you email verification. Please check your email to continue.")
+                }
             if showLoadingIndicator{
                 VStack{
                     ActivityIndicatorView(isVisible: $showLoadingIndicator, type: .growingArc(.white, lineWidth: 5))
@@ -344,7 +355,8 @@ extension SignUpView{
 //                        showCompany.toggle()
 //                        goToLogin.toggle()
 //                        toast = Toast(style: .success, message: "Registration Successfully.")
-                        presentationMode.wrappedValue.dismiss()
+//                        presentationMode.wrappedValue.dismiss()
+                        showEmailVerifiAlert  = true
                     }
                 }
             }else {

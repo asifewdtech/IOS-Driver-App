@@ -22,6 +22,7 @@ struct CompanyView: View {
     @State private var licenseFrontImage: UIImage? = nil
     @State private var isStripeIdentityPickerPresented = false
     @State var isChecked = false
+    @State private var isPresentingStripeIdentityVC = false
     
     //MARK: - Views
     var body: some View {
@@ -57,6 +58,10 @@ struct CompanyView: View {
                 .toastView(toast: $toast)
                 .padding(.all, 15)
             }
+            .sheet(isPresented: $isPresentingStripeIdentityVC) {
+                        // Pass the binding to control dismissal
+                        StripeIdentityVC()
+                    }
             .onReceive(NotificationCenter.default.publisher(for: .proceedNext)) { _ in
                 print("Received Custom Notification")
                 willMoveToRepresentativeView.toggle()
@@ -185,11 +190,12 @@ extension CompanyView{
                 }
             }
             .onTapGesture {
-                isStripeIdentityPickerPresented.toggle()
+//                isStripeIdentityPickerPresented.toggle()
+                isPresentingStripeIdentityVC = true
             }
-            .fullScreenCover(isPresented: $isStripeIdentityPickerPresented) {
-                StripeIdentityVC()
-            }
+//            .fullScreenCover(isPresented: $isStripeIdentityPickerPresented) {
+//                StripeIdentityVC()
+//            }
             .overlay(
                 RoundedRectangle(cornerRadius: 20)
                     .stroke(style: StrokeStyle(lineWidth: 2, dash: [5]))

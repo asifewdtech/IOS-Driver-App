@@ -30,7 +30,6 @@ struct PaymentView: View {
     @AppStorage("accountId") private var appAccountId: String = ""
     @State private var accStatusStr = ""
     @State private var accStatusBool: Bool = false
-    @State private var showFaceIDView = false
     
     //MARK: - Views
     var body: some View {
@@ -59,11 +58,6 @@ struct PaymentView: View {
                 .edgesIgnoringSafeArea(.all)
                 
                 .onAppear(perform: {
-//                    NotificationCenter.default.addObserver(forName: Notification.Name("removeCurrencyFare"), object: nil, queue: .main) { _ in
-////                                        showContentView = true
-////                        showFaceIDView = true
-////                        currencyManager.string1 = ""
-//                    }
                     
                     let firstTime = UserDefaults.standard.integer(forKey: "firstTime")
                     if firstTime == 1{
@@ -112,9 +106,7 @@ struct PaymentView: View {
                 
                 .toastView(toast: $toast)
                 //            .padding(.all, 15)
-                .fullScreenCover(isPresented: $showFaceIDView) {
-                    AuthenticateFaceIdPswdView()
-                }
+                
                 if showLoadingIndicator{
                     VStack{
                         ActivityIndicatorView(isVisible: $showLoadingIndicator, type: .growingArc(.white, lineWidth: 5))
@@ -427,8 +419,8 @@ extension PaymentView{
                 else if qwer == 0.0 {
                     toast = Toast(style: .error, message: "Please enter your Fare.")
                 }
-                else if qwer <= 0.5 {
-                    toast = Toast(style: .error, message: "Fare should be greater than $0.50.")
+                else if qwer <= 4.49 {
+                    toast = Toast(style: .error, message: "Fare should be equal to or greater than $4.50.")
                 }
                 else {
                 setMainView(false)

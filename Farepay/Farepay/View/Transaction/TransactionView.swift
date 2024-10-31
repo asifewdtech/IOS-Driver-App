@@ -291,8 +291,14 @@ extension TransactionView{
                                         .font(.custom(.poppinsSemiBold, size: 20))
                                         .foregroundColor(.white)
                                     Spacer()
-//                                    Text("$\(Double( trans.amount) / 100)".description)
-                                    Text("$\(excldeFareTaxes(fareAmount: trans.amount))".description)
+                                    let val = 1 + 0.05
+                                    let val1 = Double((trans.amount))
+                                    let val2 = (val1 / val)
+                                    let val3 = (val2 / 100).roundToDecimal(2)
+                                    
+                                    Text("$\(val3)".description)
+                                    
+//                                    Text("$\(excldeFareTaxes(fareAmount: trans.amount))".description)
                                         .font(.custom(.poppinsSemiBold, size: 20))
                                         .foregroundColor(.white)
                                 }
