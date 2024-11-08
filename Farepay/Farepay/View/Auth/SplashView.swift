@@ -17,6 +17,8 @@ struct SplashView: View {
     @State private var willMoveToBankAccount: Bool = false
     @State private var isBankCreated: Bool = false
     @State private var isAccountApproved: String = ""
+    @State private var isSessionID: String = ""
+    @State private var isIdentityVerified: Bool = false
     @State private var willMoveToLogin = false
     @State private var willMoveToMainView = false
     @State private var willMoveToCompanyView = false
@@ -25,6 +27,7 @@ struct SplashView: View {
     @State private var willMoveToUnderReviewView = false
 //    @EnvironmentObject private var appRootManager: AppRootManager
     @State private var willMoveToAuthPswd = false
+    @State private var willMoveToForm2: Bool = false
     
     //MARK: - Views
     var body: some View {
@@ -41,6 +44,8 @@ struct SplashView: View {
                 NavigationLink("", destination: Farepay.UnderReviewView().toolbar(.hidden, for: .navigationBar), isActive: $willMoveToUnderReviewView ).isDetailLink(false)
                 
                 NavigationLink("", destination: Farepay.AuthenticateFaceIdPswdView().toolbar(.hidden, for: .navigationBar), isActive: $willMoveToAuthPswd ).isDetailLink(false)
+                
+                NavigationLink("", destination: Farepay.RepresentativeView().toolbar(.hidden, for: .navigationBar), isActive: $willMoveToForm2 ).isDetailLink(false)
                 
                 Color(.bgColor)
                     .edgesIgnoringSafeArea(.all)
@@ -89,19 +94,25 @@ struct SplashView: View {
         DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
             showLoadingIndicator.toggle()
             
-            print("1", Auth.auth().currentUser, ":2", isAccountCreated, ":3", isBankCreated, ":4", isAccountApproved)
+            print("1", Auth.auth().currentUser, ":2", isAccountCreated, ":3", isBankCreated, ":4", isAccountApproved, ":5", isSessionID, ":6", isIdentityVerified)
             if Auth.auth().currentUser != nil {
-                if isAccountCreated && isBankCreated {
-//                    willMoveToMainView = true
+                if !(isSessionID == "") && (isAccountCreated == true) && (isBankCreated == true) && (isIdentityVerified == true) {
+                    //                    willMoveToMainView = true
                     UserDefaults.standard.set(1, forKey: "firstTimeFaceID")
                     willMoveToAuthPswd = true
                 }
-                else if isAccountCreated == true && isBankCreated == false  {
+                else if !(isSessionID == "") && (isAccountCreated == false) && (isBankCreated == false) && (isIdentityVerified == false) {
+                    willMoveToUnderReviewView = true
+                }
+                else if !(isSessionID == "") && (isAccountCreated == false) && (isBankCreated == false) && (isIdentityVerified == true) {
+                    willMoveToForm2 = true
+                }
+                else if !(isSessionID == "") && (isAccountCreated == true) && (isBankCreated == false) && (isIdentityVerified == true)  {
                     willMoveToBankAccount = true
                 }
-//                else if (isAccountCreated == true) && (isBankCreated == true) && (isAccountApproved == ""){
-//                    willMoveToUnderReviewView = true
-//                }
+                else if !(isSessionID == "") && (isAccountCreated == true) && (isBankCreated == true) && (isIdentityVerified == true) {
+                    willMoveToMainView = true
+                }
                 else {
                     willMoveToLogin.toggle()
                 }
@@ -180,6 +191,9 @@ struct SplashView: View {
                             print("emailText: ",emailText)
                             DispatchQueue.main.async {
                                 print("error: ", error?.localizedDescription)
+                                
+                                isIdentityVerified = data["identityVerified"] as? Bool ?? false
+                                isSessionID = data["sessionID"] as? String ?? ""
                                 
                                 isAccountCreated = data["connectAccountCreated"] as? Bool ?? false
                                 isBankCreated = data["bankAdded"] as? Bool ?? false

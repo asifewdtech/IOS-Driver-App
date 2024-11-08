@@ -8,6 +8,8 @@
 import SwiftUI
 import Combine
 import StripeIdentity
+import FirebaseFirestore
+import FirebaseAuth
 
 struct CompanyView: View {
     
@@ -22,7 +24,10 @@ struct CompanyView: View {
     @State private var licenseFrontImage: UIImage? = nil
     @State private var isStripeIdentityPickerPresented = false
     @State var isChecked = false
+    @State private var identityStatus = "Identity Verifiction Pending"
     @State private var isPresentingStripeIdentityVC = false
+    
+    let db = Firestore.firestore()
     
     //MARK: - Views
     var body: some View {
@@ -46,6 +51,8 @@ struct CompanyView: View {
                     buttonArea
                 }
                 .onAppear(perform: {
+                    print("Identity Verifiction Pending")
+                    
                     UserDefaults.standard.removeObject(forKey: "stripeFlowStatus")
                     UserDefaults.standard.removeObject(forKey: "driverABN")
                     UserDefaults.standard.removeObject(forKey: "driverLicence")
@@ -53,6 +60,7 @@ struct CompanyView: View {
                     
                     NotificationCenter.default.addObserver(forName: NSNotification.Name("VerifiComplete"), object: nil, queue: .main) { (_) in
                         isChecked.toggle()
+                        identityStatus = "Identity Verification Complete"
                     }
                 })
                 .toastView(toast: $toast)
@@ -62,9 +70,12 @@ struct CompanyView: View {
                         // Pass the binding to control dismissal
                         StripeIdentityVC()
                     }
-            .onReceive(NotificationCenter.default.publisher(for: .proceedNext)) { _ in
-                print("Received Custom Notification")
-                willMoveToRepresentativeView.toggle()
+//            .onReceive(NotificationCenter.default.publisher(for: .proceedNext)) { _ in
+//                print("Received Custom Notification")
+//                willMoveToRepresentativeView.toggle()
+//            }
+            .fullScreenCover(isPresented: $isPresentedPopUp) {
+                StepsView(presentedAsModal: $isPresentedPopUp)
             }
         }
     }
@@ -191,7 +202,10 @@ extension CompanyView{
             }
             .onTapGesture {
 //                isStripeIdentityPickerPresented.toggle()
-                isPresentingStripeIdentityVC = true
+                let stripeFlowStatus = UserDefaults.standard.string(forKey: "stripeFlowStatus")
+                if stripeFlowStatus != "Completed" {
+                    isPresentingStripeIdentityVC = true
+                }
             }
 //            .fullScreenCover(isPresented: $isStripeIdentityPickerPresented) {
 //                StripeIdentityVC()
@@ -209,7 +223,7 @@ extension CompanyView{
                     .frame(width: 20, height: 20)
                     .foregroundStyle(.white)
                     
-                Text("Identity Verified")
+                Text(identityStatus)
                     .font(.custom(.poppinsMedium, size: 20))
                     .foregroundColor(.white)
             }
@@ -220,7 +234,8 @@ extension CompanyView{
         
         VStack(spacing: 20){
             Button(action: {
-                PresentedPopUp()
+//                PresentedPopUp()
+                createAccOnFirebase()
             }, label: {
                 Text("PROCEED")
                     .font(.custom(.poppinsBold, size: 25))
@@ -232,9 +247,6 @@ extension CompanyView{
                     
                     
             })
-                .fullScreenCover(isPresented: $isPresentedPopUp) {
-                    StepsView(presentedAsModal: $isPresentedPopUp)
-                }
         }
     }
     
@@ -265,6 +277,41 @@ extension CompanyView{
         }else{
 //            isPresentedPopUp.toggle()
             willMoveToUnderReviewView.toggle()
+        }
+    }
+    
+    func createAccOnFirebase() {
+        let userEmail = Auth.auth().currentUser?.email ?? ""
+        let stripeSessionID = UserDefaults.standard.string(forKey: "stripeSessionID")
+        let stripeEphemeralKeySecret = UserDefaults.standard.string(forKey: "stripeEphemeralKeySecret")
+        do {
+            self.db.collection("usersInfo").document(Auth.auth().currentUser?.uid ?? "").setData([
+                "connectAccountCreated": false,
+                "accountId": "",
+                "userName": "",
+                "phonenumber": "",
+                "email": userEmail,
+                "bankAdded": false,
+                "driverID": "",
+                "driverABN": "",
+                "driverAuthNo": "",
+                "emphemeralKeySecret": stripeEphemeralKeySecret,
+                "identityStatusUpdated": false,
+                "identityVerified": false,
+                "sessionID": stripeSessionID,
+                "taxiID": ""
+            ]) { error in
+                if let error = error {
+                    // Fail Response
+                    print("Error writing document: \(error.localizedDescription)")
+                } else {
+                    // Success Response
+                    PresentedPopUp()
+                    print("Document successfully written!")
+                }
+            }
+        }catch{
+            print("createAccOnFirebase Error")
         }
     }
 }

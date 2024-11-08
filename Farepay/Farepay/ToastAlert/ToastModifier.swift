@@ -18,11 +18,9 @@ struct ToastModifier: ViewModifier {
       .frame(maxWidth: .infinity, maxHeight: .infinity)
       .overlay(
         ZStack(alignment:.bottom) {
-            
-          mainToastView()
-            
+            mainToastView()
         }
-            .animation(.spring(), value: toast)
+        .animation(.spring(), value: toast)
       )
       .onChange(of: toast) { value in
         showToast()
@@ -32,8 +30,7 @@ struct ToastModifier: ViewModifier {
   @ViewBuilder func mainToastView() -> some View {
     if let toast = toast {
       VStack {
-       
-          Spacer()
+        Spacer()
         ToastView(
           style: toast.style,
           message: toast.message,
@@ -41,7 +38,6 @@ struct ToastModifier: ViewModifier {
         ) {
           dismissToast()
         }
-        
       }
       .transition(.move(edge: .bottom))
       .transition(AnyTransition.opacity.animation(.linear))

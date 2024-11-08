@@ -76,7 +76,7 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         IQKeyboardManager.shared.enable = true
         IQKeyboardManager.shared.shouldResignOnTouchOutside = true
         IQKeyboardManager.shared.shouldShowToolbarPlaceholder = false
-        IQKeyboardManager.shared.toolbarTintColor = UIColor.bgColor
+//        IQKeyboardManager.shared.toolbarTintColor = UIColor.bgColor
         return true
     }
     

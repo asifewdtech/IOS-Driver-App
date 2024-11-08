@@ -55,16 +55,17 @@ class CompleteFormViewModel: ObservableObject {
                     print("AccountStatus is: ",AccountStatus)
                     self.email = Auth.auth().currentUser?.email ?? ""
                     
-                    self.db.collection("usersInfo").document(Auth.auth().currentUser?.uid ?? "").setData(["connectAccountCreated" : true,
-                                                                                                 "accountId":self.accountId,
-                                                                                                 "userName":name,
-                                                                                                 "phonenumber":"\("+61")\(phone)",
-                                                                                                          "email": self.email,
-                                                                                                          "bankAdded": false,
-                                                                                                          "driverID": driverID,
-                                                                                                          "driverABN":driverABN
-                                                                                                ])
+//                    self.db.collection("usersInfo").document(Auth.auth().currentUser?.uid ?? "").setData(["connectAccountCreated" : true,
+//                                                                                                 "accountId":self.accountId,
+//                                                                                                 "userName":name,
+//                                                                                                 "phonenumber":"\("+61")\(phone)",
+//                                                                                                          "email": self.email,
+//                                                                                                          "bankAdded": false,
+//                                                                                                          "driverID": driverID,
+//                                                                                                          "driverABN":driverABN
+//                                                                                                ])
                    
+                    Firestore.firestore().collection("usersInfo").document(Auth.auth().currentUser?.uid ?? "").updateData(["connectAccountCreated" : true, "accountId":self.accountId, "userName":name, "phonenumber":"\("+61")\(phone)", "email": self.email, "bankAdded": false, "driverID": driverID, "driverABN":driverABN])
                     
                 } catch {
                     print("errorMsg")

@@ -18,8 +18,10 @@ struct ToastView: View {
     HStack(alignment: .center, spacing: 12) {
       Image(systemName: style.iconFileName)
         .foregroundColor(style.themeColor)
+        .imageScale(.large) // Increased icon size
+      
       Text(message)
-        .font(Font.caption)
+        .font(.system(size: 16, weight: .regular)) // Increased font size and added weight
         .foregroundColor(Color(.darkGrayColor))
       
       Spacer(minLength: 10)
@@ -29,18 +31,18 @@ struct ToastView: View {
       } label: {
         Image(systemName: "xmark")
           .foregroundColor(style.themeColor)
+          .imageScale(.medium) // Adjusted close button size
       }
     }
-    .padding()
+    .padding(.vertical, 12) // Slightly increased vertical padding
+    .padding(.horizontal, 16) // Slightly increased horizontal padding
     .frame(minWidth: 0, maxWidth: width)
-    .background(  Color.white)
+    .background(Color.white)
     .cornerRadius(8)
     .overlay(
       RoundedRectangle(cornerRadius: 8)
-        
         .stroke(Color(.black), lineWidth: 1)
         .opacity(0.6)
-        
     )
     .padding(.horizontal, 16)
   }

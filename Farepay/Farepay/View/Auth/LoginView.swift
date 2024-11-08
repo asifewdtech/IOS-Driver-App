@@ -22,6 +22,7 @@ struct LoginView: View {
     @StateObject var userAuth =  UserAuthViewModel()
     @State private var toast: Toast? = nil
     @State private var showCompany = false
+    @State private var goToForm2 = false
     @State private var goToHome = false
     @State private var willMoveToBankAccount: Bool = false
     @State private var willMoveToUnderReviewView = false
@@ -132,7 +133,7 @@ extension LoginView{
                     setMainView(false)
                 }
             
-            Text("Please enter your detail to login")
+            Text("Please enter your details to login")
                 .font(.custom(.poppinsMedium, size: 18))
                 .foregroundColor(Color(.darkGrayColor))
             
@@ -248,6 +249,7 @@ extension LoginView{
             NavigationLink("", destination: SignUpView().toolbar(.hidden, for: .navigationBar), isActive: $moveToSignup ).isDetailLink(false)
             NavigationLink("", destination: Farepay.UnderReviewView().toolbar(.hidden, for: .navigationBar), isActive: $willMoveToUnderReviewView ).isDetailLink(false)
             NavigationLink("", destination: Farepay.ForgotPasswordView().toolbar(.hidden, for: .navigationBar), isActive: $goToForgotPassword ).isDetailLink(false)
+            NavigationLink("", destination: Farepay.RepresentativeView().toolbar(.hidden, for: .navigationBar), isActive: $goToForm2 ).isDetailLink(false)
             
             Button(action: {
                 if emailText.isEmpty {
@@ -298,11 +300,13 @@ extension LoginView{
                                             print("login accApproved response: ",isAccountApproved)
                                             let userEmail = snap.get("email") as? String
                                             print("Email is: ", userEmail)
+                                            let isIdentityVerified = snap.get("identityVerified") as? Bool ?? false
+                                            let isSessionID = snap.get("sessionID") as? String ?? ""
                                             if userEmail == nil {
                                                 print("Email not found")
                                                 //                                            toast = Toast(style: .error, message: "Something went wrong, Please try again.")
                                             }
-                                            if isAccountCreated == false{
+                                            if isSessionID == ""{
                                                 
                                                 let collectionRef = Firestore.firestore().collection("usersInfo")
                                                 collectionRef.getDocuments { (snapshot, error) in
@@ -326,20 +330,21 @@ extension LoginView{
                                                                     print(" bankAcc response: ",bankAccced)
                                                                     let userEmail1 = data["email"] as? String
                                                                     print("Email exist: ", userEmail)
+                                                                    let identityVerified = data["identityVerified"] as? Bool ?? false
+                                                                    let sessionID = data["sessionID"] as? String ?? ""
                                                                     
                                                                     appAccountId = isAccountId
-                                                                    if isAccountCreated1 && bankAccced1 {
-                                                                        goToHome = true
-                                                                        
-                                                                    }else if isAccountCreated1 == false{
-//                                                                        willMoveToBankAccount = true
-                                                                        showCompany = true
+                                                                    if !(sessionID == "") && (isAccountCreated1 == false) && (bankAccced1 == false) && (identityVerified == false){
+                                                                        willMoveToUnderReviewView = true
                                                                     }
-                                                                    else if bankAccced1 == false  {
+                                                                    else if !(sessionID == "") && (isAccountCreated1 == false) && (bankAccced1 == false) && (identityVerified == true){
+                                                                        goToForm2 = true
+                                                                    }
+                                                                    else if !(sessionID == "") && (isAccountCreated1 == true) && (bankAccced1 == false) && (identityVerified == true){
                                                                         willMoveToBankAccount = true
                                                                     }
-                                                                    else if (isAccountCreated == true) && (isBankCreated == true) && (isAccountApproved == ""){
-                                                                        willMoveToUnderReviewView = true
+                                                                    else if !(sessionID == "") && (isAccountCreated1 == true) && (bankAccced1 == true) && (identityVerified == true){
+                                                                        goToHome = true
                                                                     }
                                                                     else {
                                                                         toast = Toast(style: .error, message: "Something went wrong. Please try again.")
@@ -351,13 +356,16 @@ extension LoginView{
                                                     }
                                                 }
                                             }
-                                            else if bankAccced == false  {
-                                                willMoveToBankAccount = true
-                                            }
-                                            else if (isAccountCreated == true) && (isBankCreated == true) && (isAccountApproved == ""){
+                                            else if !(isSessionID == "") && (isAccountCreated == false) && (isBankCreated == false) && (isIdentityVerified == false){
                                                 willMoveToUnderReviewView = true
                                             }
-                                            else if isAccountCreated == true  && bankAccced == true {
+                                            else if !(isSessionID == "") && (isAccountCreated == false) && (isBankCreated == false) && (isIdentityVerified == true){
+                                                goToForm2 = true
+                                            }
+                                            else if !(isSessionID == "") && (isAccountCreated == true) && (isBankCreated == false) && (isIdentityVerified == true){
+                                                willMoveToBankAccount = true
+                                            }
+                                            else if !(isSessionID == "") && (isAccountCreated == true) && (isBankCreated == true) && (isIdentityVerified == true){
                                                 goToHome = true
                                             }
                                             else {

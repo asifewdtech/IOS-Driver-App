@@ -20,67 +20,66 @@ struct UnderReviewView: View {
     @State private var verifiReportId: String? = nil
     @State private var verifiFileId1: String? = nil
     @State private var fileIdBit: String? = nil
-    @State private var verifiSessionId: String? = ""
+    @State private var isVerifiSessionId: String? = ""
     @State private var verifiephemeralKeySecret: String? = ""
     @State private var showLoadingIndicator: Bool = false
     @State private var goToHome = false
     @State private var toast: Toast? = nil
     @State var updateStripeDocs = false
     @Environment(\.presentationMode) private var presentationMode: Binding<PresentationMode>
-    @State private var willMoveToMainView = false
+    @State private var willMoveToForm2 = false
     @State private var isPresentedPopUp: Bool = false
+    @State private var verificaStatus: String = "Identity Under Verification"
+    @State private var verifiMessage: String = "We're verifying your identity and we can't wait to be in touch as soon as it's verified."
+    @State private var isButtonActive: Bool = false
     
     var body: some View {
         NavigationView {
             ZStack{
                 NavigationLink("", destination: MainTabbedView().toolbar(.hidden, for: .navigationBar), isActive: $goToHome).isDetailLink(false)
-                NavigationLink("", destination: Farepay.MainTabbedView().toolbar(.hidden, for: .navigationBar), isActive: $willMoveToMainView ).isDetailLink(false)
+                NavigationLink("", destination: Farepay.RepresentativeView().toolbar(.hidden, for: .navigationBar), isActive: $willMoveToForm2 ).isDetailLink(false)
                 //            NavigationLink("", destination: UnderReviewVC(), isActive: $updateStripeDocs)
                 //            NavigationLink("", destination: UnderReviewVC().toolbar(.hidden, for: .navigationBar), isActive: $updateStripeDocs).isDetailLink(false)
                 
                 Color(.bgColor)
                     .edgesIgnoringSafeArea(.all)
                 VStack{
+//                    Spacer()
+                    Spacer()
                     topArea
+                    Spacer()
+                    buttonArea
                 }
+                .padding(.all, 15)
                 .toastView(toast: $toast)
                 .onAppear(){
+                    NotificationCenter.default.addObserver(forName: NSNotification.Name("VerifiResubmitted"), object: nil, queue: .main) { (_) in
+                        verificaStatus = "Identity Under Verification"
+                        verifiMessage = "We're verifying your identity and we can't wait to be in touch as soon as it's verified."
+                        isButtonActive = false
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 20){
+                            getVerificationStatus()
+                        }
+                    }
                     Firestore.firestore().collection("usersInfo").document(Auth.auth().currentUser?.uid ?? "").getDocument { snapShot, error in
                         if let error = error {
                             print(error.localizedDescription)
+                            
                         }else {
                             
                             guard let snap = snapShot else { return  }
-//                            verifiSessionId  = snap.get("sessionID") as? String ?? ""
+                            
+                            DispatchQueue.main.async {
+                                let identityReportID = snap.get("identityReportID") as? String
+                                isVerifiSessionId = snap.get("sessionID") as? String
+                                print("isVerifiSessionId is: \(isVerifiSessionId)")
+                                
+                                getVerificationStatus()
+                            }
                         }
                     }
+//                    createSessionStripeIdentity()
                     
-                    
-                    //            let collectionRef = Firestore.firestore().collection("usersInfo")
-                    //            collectionRef.getDocuments { (snapshot, error) in
-                    //
-                    //                if let err = error {
-                    //                    debugPrint("error fetching docs: \(err)")
-                    //                } else {
-                    //                    guard let snap = snapshot else {
-                    //                        return
-                    //                    }
-                    //                    for document in snap.documents {
-                    //                        let data = document.data()
-                    //
-                    ////                            DispatchQueue.main.async {
-                    //                                print("error: ", error?.localizedDescription)
-                    //                                //
-                    //                                verifiSessionId = data["sessionID"] as? String ?? ""
-                    //                        print("FB verifiSessionId: ",verifiSessionId)
-                    //                                createSessionStripeIdentity()
-                    ////                            }
-                    //                        }
-                    //                }
-                    //            }
-                    
-                    //            CreateFileDownloadLink()
-                    createSessionStripeIdentity()
                 }
                 .fullScreenCover(isPresented: $updateStripeDocs) {
                     UnderReviewVC()
@@ -99,6 +98,10 @@ struct UnderReviewView: View {
             }
             .fullScreenCover(isPresented: $isPresentedPopUp) {
                 StepsView(presentedAsModal: $isPresentedPopUp)
+            }
+            .onReceive(NotificationCenter.default.publisher(for: .proceedNext)) { _ in
+                print("Received Custom Notification")
+                willMoveToForm2.toggle()
             }
         }
 //        .environment(\.rootPresentationMode, $goToHome)
@@ -140,7 +143,7 @@ extension UnderReviewView{
             
             HStack {
 //                Text("Account being created")
-                Text("Identity Under Verification")
+                Text(verificaStatus)
                     .font(.custom(.poppinsBold, size: 24))
                     .foregroundColor(.white)
                     
@@ -148,13 +151,32 @@ extension UnderReviewView{
             
             HStack {
 //                Text("We’re setting up your new Farepay account and we can’t wait to be in touch soon as it’s approved.")
-                Text("We're verifying your identity and we can't wait to be in touch as soon as it's verified.")
+                Text(verifiMessage)
                     .font(.custom(.poppinsMedium, size: 13))
                     .foregroundColor(.gray)
                     .multilineTextAlignment(.center)
                     
             }
-            .frame(minWidth: 330, maxWidth: 330, minHeight: 40, maxHeight: 40, alignment: .center)
+            .frame(minWidth: 330, maxWidth: 330, minHeight: 40, maxHeight: 80, alignment: .center)
+        }
+    }
+    var buttonArea: some View{
+        
+        HStack {
+                Button(action: {
+                    updateStripeDocs.toggle()
+                    
+                }, label: {
+                    Text("Verification Identity Again")
+                        .font(.custom(.poppinsBold, size: 20))
+                        .foregroundColor(.white)
+                        .frame(maxWidth: .infinity)
+                        .frame(height: 60)
+                        .background(Color(.buttonColor))
+                        .cornerRadius(30)
+                    
+                })
+                .opacity(isButtonActive ? 1 : 0)
         }
     }
     
@@ -189,18 +211,18 @@ extension UnderReviewView{
     }
     
     func getVerificationStatus(){
-        verifiSessionId = UserDefaults.standard.string(forKey: "stripeSessionID")
+        
         var statusUrl = ""
         if API.App_Envir == "Production" {
-            statusUrl = "\("https://xcb4cymcy5.execute-api.eu-north-1.amazonaws.com/default/GetVerificationStatus?sessionId=")\(verifiSessionId ?? "")"
+            statusUrl = "\("https://xcb4cymcy5.execute-api.eu-north-1.amazonaws.com/default/GetVerificationStatus?sessionId=")\(isVerifiSessionId ?? "")"
         }
         else if API.App_Envir == "Dev" {
-            statusUrl = "\("https://r7w9wuoj3m.execute-api.eu-north-1.amazonaws.com/default/GetVerificationStatus?sessionId=")\(verifiSessionId ?? "")"
+            statusUrl = "\("https://r7w9wuoj3m.execute-api.eu-north-1.amazonaws.com/default/GetVerificationStatus?sessionId=")\(isVerifiSessionId ?? "")"
         }
         else if API.App_Envir == "Stagging" {
-            statusUrl = "\("https://utmnlv10l8.execute-api.eu-north-1.amazonaws.com/default/GetVerificationStatus?sessionId=")\(verifiSessionId ?? "")"
+            statusUrl = "\("https://utmnlv10l8.execute-api.eu-north-1.amazonaws.com/default/GetVerificationStatus?sessionId=")\(isVerifiSessionId ?? "")"
         }else{
-            statusUrl = "\("https://xcb4cymcy5.execute-api.eu-north-1.amazonaws.com/default/GetVerificationStatus?sessionId=")\(verifiSessionId ?? "")"
+            statusUrl = "\("https://xcb4cymcy5.execute-api.eu-north-1.amazonaws.com/default/GetVerificationStatus?sessionId=")\(isVerifiSessionId ?? "")"
         }
          
         print("getVerificationStatus url: ",statusUrl)
@@ -223,18 +245,28 @@ extension UnderReviewView{
                         print("Success parsing id: \(verifiDict)")
                         verifiReportId = verifiDict
                         if verifiStatus == "verified"{
+                            verificaStatus = "Identity Verified"
+                            verifiMessage = "Congratulations! Your identity is verified. Please wait a while to proceed further."
+                            
                             getVerificationReport()
-                            GetVerifiedFieldsFromIdentity(reportId: verifiDict ?? "")
-                            GetSensitiveVerifiedFieldsFromIdentity(sessionId: verifiSessionId ?? "")
+//                            GetVerifiedFieldsFromIdentity(reportId: verifiDict ?? "")
+//                            GetSensitiveVerifiedFieldsFromIdentity(sessionId: verifiSessionId ?? "")
                         }
                         else if verifiStatus == "requires_input"{
+                            verificaStatus = "Identity Verification Failed"
+                            verifiMessage = "We need more input from your side to verify your account. Please click the button below to provide more information."
+                            
                             //on docs failure
-                            updateStripeDocs.toggle()
+//                            updateStripeDocs.toggle()
+                            isButtonActive = true
                             showLoadingIndicator = false
                             print("Error failed status found.")
                             toast = Toast(style: .error, message: "Verification Status - Documents failed. Please upload  the documents again.")
                         }
                         else if verifiStatus == "processing"{
+                            verificaStatus = "Identity Under Processing"
+                            verifiMessage = "Your identity under processing. We can't wait to be in touch as soon as it's verified."
+                            
                             //on docs async success/failure
                             print("async success status found.")
                             toast = Toast(style: .error, message: "Verification Status - We're verifying your identity and please wait.")
@@ -244,6 +276,10 @@ extension UnderReviewView{
                             }
                         }
                         else{
+                            isButtonActive = true
+                            verificaStatus = "Identity Verification Cancel"
+                            verifiMessage = "Your Identity is cancel. Please upload your documents again."
+//                            updateStripeDocs.toggle()
                             toast = Toast(style: .error, message: "Verification Status - Documents Failed.")
                             print("Error unknown status found.")
                         }
@@ -522,12 +558,12 @@ extension UnderReviewView{
                         print("Success FileUploadonStripe id: \(verifiDict)")
                         
                         UserDefaults.standard.set(verifiDict, forKey: "stripeFrontImgId")
-                        Firestore.firestore().collection("usersInfo").document(Auth.auth().currentUser?.uid ?? "").updateData(["frontimgid": verifiDict])
+//                        Firestore.firestore().collection("usersInfo").document(Auth.auth().currentUser?.uid ?? "").updateData(["frontimgid": verifiDict])
                         
                         showLoadingIndicator = false
-//                        goToHome = true
-//                        willMoveToMainView = true
-                        isPresentedPopUp.toggle()
+                        
+//                        isPresentedPopUp.toggle()
+                        updateIdentityOnFB()
                     }
                     else {
                         toast = Toast(style: .error, message: "FileUploadonStripe - Error id not foud: \(error).")
@@ -543,124 +579,17 @@ extension UnderReviewView{
         task.resume()
     }
     
-    func GetVerifiedFieldsFromIdentity(reportId: String) {
-        
-        var urlReqIs = ""
-        if API.App_Envir == "Production" {
-            urlReqIs = "https://41czhgdl5c.execute-api.eu-north-1.amazonaws.com/default/GetVerifiedFieldsFromIdentity?reportId=\(reportId)"
-        }
-        else if API.App_Envir == "Dev" {
-            urlReqIs = "https://5xublp4eyd.execute-api.eu-north-1.amazonaws.com/default/GetVerifiedFieldsFromIdentity?reportId=\(reportId)"
-        }
-        else if API.App_Envir == "Stagging" {
-            urlReqIs = "https://41czhgdl5c.execute-api.eu-north-1.amazonaws.com/default/GetVerifiedFieldsFromIdentity?reportId=\(reportId)"
-        }else{
-            urlReqIs = "https://41czhgdl5c.execute-api.eu-north-1.amazonaws.com/default/GetVerifiedFieldsFromIdentity?reportId=\(reportId)"
-        }
-        
-        var request = URLRequest(url: URL(string: urlReqIs)!,timeoutInterval: Double.infinity)
-        request.httpMethod = "GET"
-        
-        let task = URLSession.shared.dataTask(with: request) { data, response, error in
-          guard let data = data else {
-              toast = Toast(style: .error, message: "GetVerifiedFieldsFromIdentity - \(error).")
-            print(String(describing: error))
-            return
-          }
-          print("GetVerifiedFieldsFromIdentity: ",String(data: data, encoding: .utf8)!)
-            do {
-                if let jsonDict = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any]{
-                    if let firstName = jsonDict["first_name"] as? String,
-                        let lastName = jsonDict["last_name"] as? String,
-                    let document = jsonDict["address"] as? NSDictionary{
-                        print("Success parsing first_name: \(firstName)")
-                        print("Success parsing last_name: \(lastName)")
-                        
-                        let street = document["line1"] as? String
-                        let appartment = document["line2"] as? String
-                        let city = document["city"] as? String
-                        let state = document["state"] as? String
-                        let country = document["country"] as? String
-                        let postalCode = document["postal_code"] as? String
-                        
-                        
-                        userIdentityDetail.instance.firstName = firstName
-                        userIdentityDetail.instance.lastName = lastName
-                        userIdentityDetail.instance.Street = street ?? ""
-                        userIdentityDetail.instance.appartment = appartment ?? ""
-                        userIdentityDetail.instance.city = city ?? ""
-                        userIdentityDetail.instance.state = state ?? ""
-                        userIdentityDetail.instance.country = country ?? ""
-                        userIdentityDetail.instance.postalCode = postalCode ?? ""
-                    }
-                    else {
-                        toast = Toast(style: .error, message: "GetVerifiedFieldsFromIdentity - Error status not found: \(error).")
-                        print("Error status not found.")
-                    }
-                }
-            }
-            catch{
-                toast = Toast(style: .error, message: "GetVerifiedFieldsFromIdentity - Error parsing JSON: \(error).")
-                print("Error parsing JSON: \(error)")
+    func updateIdentityOnFB(){
+        Firestore.firestore().collection("usersInfo").document(Auth.auth().currentUser?.uid ?? "").updateData(["identityVerified": true, "identityReportID":verifiReportId]){ error in
+            if let error = error {
+                // Fail Response
+                print("Error writing document: \(error.localizedDescription)")
+            } else {
+                // Success Response
+                isPresentedPopUp.toggle()
+                print("Document successfully written!")
             }
         }
-        task.resume()
-    }
-    
-    func GetSensitiveVerifiedFieldsFromIdentity(sessionId: String){
-        var urlReqIs = ""
-        if API.App_Envir == "Production" {
-            urlReqIs = "https://cayqax63tk.execute-api.eu-north-1.amazonaws.com/default/GetSensitiveVerifiedFieldsFromIdentity?sessionId=\(sessionId)"
-        }
-        else if API.App_Envir == "Dev" {
-            urlReqIs = "https://kuvhkqx4b7.execute-api.eu-north-1.amazonaws.com/default/GetSensitiveVerifiedFieldsFromIdentity?sessionId=\(sessionId)"
-        }
-        else if API.App_Envir == "Stagging" {
-            urlReqIs = "https://cayqax63tk.execute-api.eu-north-1.amazonaws.com/default/GetSensitiveVerifiedFieldsFromIdentity?sessionId=\(sessionId)"
-        }else{
-            urlReqIs = "https://cayqax63tk.execute-api.eu-north-1.amazonaws.com/default/GetSensitiveVerifiedFieldsFromIdentity?sessionId=\(sessionId)"
-        }
-        
-        var request = URLRequest(url: URL(string: urlReqIs)!,timeoutInterval: Double.infinity)
-        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-
-        request.httpMethod = "GET"
-        
-        let task = URLSession.shared.dataTask(with: request) { data, response, error in
-          guard let data = data else {
-              toast = Toast(style: .error, message: "GetSensitiveVerifiedFieldsFromIdentity - \(error).")
-            print(String(describing: error))
-            return
-          }
-          print("GetSensitiveVerifiedFieldsFromIdentity: ",String(data: data, encoding: .utf8)!)
-            do {
-                if let jsonDict = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any]{
-                    if let driverLicense = jsonDict["documentNumber"] as? String,
-                    let document = jsonDict["dateOfBirth"] as? NSDictionary{
-                        print("Success parsing documentNumber: \(driverLicense)")
-                        
-                        let day = document["day"] as? Int
-                        let month = document["month"] as? Int
-                        let year = document["year"] as? Int
-                        print("Success parsing day: \(day)")
-                        print("Success parsing month: \(month)")
-                        print("Success parsing year: \(year)")
-                        
-                        userIdentityDetail.instance.driverLicense = driverLicense
-                        userIdentityDetail.instance.dateOfBirth = "\(day ?? 00)-\(month ?? 00)-\(year ?? 0000)"
-                    }
-                    else {
-                        toast = Toast(style: .error, message: "GetSensitiveVerifiedFieldsFromIdentity - Error status not found: \(error).")
-                        print("Error status not found.")
-                    }
-                }
-            }
-            catch{
-                toast = Toast(style: .error, message: "GetSensitiveVerifiedFieldsFromIdentity - Error parsing JSON: \(error).")
-                print("Error parsing JSON: \(error)")
-            }
-        }
-        task.resume()
     }
 }
 
@@ -688,7 +617,22 @@ struct UnderReviewVC: UIViewControllerRepresentable {
         }
         
         func didTapVerifyButton(){
-            var urlRequest = URLRequest(url: URL(string: "https://92tbqakpob.execute-api.eu-north-1.amazonaws.com/default/CreateSessionStripeIdentity")!)
+            var urlReqIs = ""
+            if API.App_Envir == "Production" {
+                urlReqIs = "https://zj921xefzb.execute-api.eu-north-1.amazonaws.com/default/CreateSessionStripeIdentity"
+            }
+            else if API.App_Envir == "Dev" {
+                urlReqIs = "https://rpljmup273.execute-api.eu-north-1.amazonaws.com/default/CreateSessionStripeIdentity"
+                UserDefaults.standard.set("Completed", forKey: "stripeFlowStatus")
+            }
+            else if API.App_Envir == "Stagging" {
+                urlReqIs = "https://92tbqakpob.execute-api.eu-north-1.amazonaws.com/default/CreateSessionStripeIdentity"
+            }else{
+                urlReqIs = "https://zj921xefzb.execute-api.eu-north-1.amazonaws.com/default/CreateSessionStripeIdentity"
+            }
+            
+            var urlRequest = URLRequest(url: URL(string: urlReqIs)!)
+        
             urlRequest.httpMethod = "POST"
             
             let task = URLSession.shared.dataTask(with: urlRequest) { [weak self] data, response, error in
@@ -728,10 +672,10 @@ struct UnderReviewVC: UIViewControllerRepresentable {
                 switch result {
                 case .flowCompleted:
                     print("Verification Flow Completed!")
-                    UserDefaults.standard.set("Completed", forKey: "stripeFlowStatus")
+                    //                    UserDefaults.standard.set("Completed", forKey: "stripeFlowStatus")
                     dismiss(animated: true, completion: nil)
                     Firestore.firestore().collection("usersInfo").document(Auth.auth().currentUser?.uid ?? "").updateData(["sessionID": verificationSessionId])
-                    
+                    NotificationCenter.default.post(name: NSNotification.Name("VerifiResubmitted"), object: nil)
                     UserDefaults.standard.set(verificationSessionId, forKey: "stripeSessionID")
                     print("sessionID: \(verificationSessionId)")
                 case .flowCanceled:

@@ -224,7 +224,7 @@ extension PaymentDetailView{
                 
                 HStack{
                     
-                    Text("Service Charges :")
+                    Text("Service Fee :")
                         .foregroundColor(Color(.darkGrayColor))
                         .font(.custom(.poppinsMedium, size: 23))
                     Spacer()

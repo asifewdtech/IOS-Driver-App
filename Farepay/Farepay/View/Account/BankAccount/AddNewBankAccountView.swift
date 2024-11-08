@@ -41,13 +41,13 @@ struct AddNewBankAccountView: View {
                 }
                 .toastView(toast: $toast)
                 .onAppear(perform: {
-                    let stripeSessionID = UserDefaults.standard.string(forKey: "stripeSessionID")
-                    let stripeEphemeralKeySecret = UserDefaults.standard.string(forKey: "stripeEphemeralKeySecret")
-                    
-                    print("stripeSessionID: ",stripeSessionID ?? "")
-                    print("stripeEphemeralKeySecret: ",stripeEphemeralKeySecret ?? "")
-                    
-                    Firestore.firestore().collection("usersInfo").document(Auth.auth().currentUser?.uid ?? "").updateData(["sessionID": stripeSessionID ?? "", "ephemeralKeySecret": stripeEphemeralKeySecret ?? ""])
+//                    let stripeSessionID = UserDefaults.standard.string(forKey: "stripeSessionID")
+//                    let stripeEphemeralKeySecret = UserDefaults.standard.string(forKey: "stripeEphemeralKeySecret")
+//                    
+//                    print("stripeSessionID: ",stripeSessionID ?? "")
+//                    print("stripeEphemeralKeySecret: ",stripeEphemeralKeySecret ?? "")
+//                    
+//                    Firestore.firestore().collection("usersInfo").document(Auth.auth().currentUser?.uid ?? "").updateData(["sessionID": stripeSessionID ?? "", "ephemeralKeySecret": stripeEphemeralKeySecret ?? ""])
 //                    Firestore.firestore().collection("usersInfo").document(Auth.auth().currentUser?.uid ?? "").updateData(["ephemeralKeySecret": stripeEphemeralKeySecret ?? ""])
                     
                     UserDefaults.standard.set("1", forKey: "firstTime")
@@ -184,11 +184,11 @@ extension AddNewBankAccountView{
                             apicalled = false
                             
                             if completeFormViewModel.goToHomeScreen {
-                                if isBankCreated {
-                                    presentationMode.wrappedValue.dismiss()
-                                }else {
+//                                if isBankCreated {
+//                                    presentationMode.wrappedValue.dismiss()
+//                                }else {
                                     self.goToHome = true
-                                }
+//                                }
                             }else {
                                 toast = Toast(style: .error, message: completeFormViewModel.errorMsg)
                             }

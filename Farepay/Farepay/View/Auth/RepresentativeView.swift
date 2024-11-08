@@ -79,14 +79,34 @@ struct RepresentativeView: View {
             }
             .onAppear(perform: {
 //                fetchLatLong()
-                userText = "\(userIdentityDetail.instance.firstName)\(" ")\(userIdentityDetail.instance.lastName)"
-                streetAddr = "\(userIdentityDetail.instance.Street)\(" ")\(userIdentityDetail.instance.appartment)"
-                cityAddr = userIdentityDetail.instance.city
-                postalAddr = userIdentityDetail.instance.postalCode
-                stateAddr = userIdentityDetail.instance.state
-                countryAddr = userIdentityDetail.instance.country
-                dateText = userIdentityDetail.instance.dateOfBirth
-                driverLicenseText = userIdentityDetail.instance.driverLicense
+                
+                Firestore.firestore().collection("usersInfo").document(Auth.auth().currentUser?.uid ?? "").getDocument { snapShot, error in
+                    if let error = error {
+                        print(error.localizedDescription)
+                        
+                    }else {
+                        
+                        guard let snap = snapShot else { return  }
+                        
+                        DispatchQueue.main.async {
+                            let identityReportID = snap.get("identityReportID") as? String
+                            let identitySessionID = snap.get("sessionID") as? String
+                            
+                            GetVerifiedFieldsFromIdentity(reportId: identityReportID ?? "")
+                            GetSensitiveVerifiedFieldsFromIdentity(sessionId: identitySessionID ?? "")
+                        }
+                    }
+                }
+                
+                
+//                userText = "\(userIdentityDetail.instance.firstName)\(" ")\(userIdentityDetail.instance.lastName)"
+//                streetAddr = "\(userIdentityDetail.instance.Street)\(" ")\(userIdentityDetail.instance.appartment)"
+//                cityAddr = userIdentityDetail.instance.city
+//                postalAddr = userIdentityDetail.instance.postalCode
+//                stateAddr = userIdentityDetail.instance.state
+//                countryAddr = userIdentityDetail.instance.country
+//                dateText = userIdentityDetail.instance.dateOfBirth
+//                driverLicenseText = userIdentityDetail.instance.driverLicense
             })
             .padding(.all, 15)
             .toastView(toast: $toast)
@@ -161,9 +181,9 @@ extension RepresentativeView{
             Group{
 
                 MDCFilledTextFieldWrapper(leadingImage: .constant(.ic_User), text: $userText, placHolderText: .constant("Type your Full Name"), isSecure: .constant(false))
-                    .allowsHitTesting(false)
+//                    .allowsHitTesting(false)
                 MDCFilledTextFieldWrapper(leadingImage: .constant(.ic_Calander), text: $dateText, placHolderText: .constant("Type your Date of Birth"), isSecure: .constant(false))
-                    .allowsHitTesting(false)
+//                    .allowsHitTesting(false)
 //                    .onTapGesture {
 //                        showDatePicker.toggle()
 //                    }
@@ -197,7 +217,7 @@ extension RepresentativeView{
                 MDCFilledTextFieldWrapper(leadingImage: .constant(.ic_Card), text: $driverABNText.max(11), placHolderText: .constant("Enter your driver ABN"), isSecure: .constant(false),isNumberPad: true)
                 
                 MDCFilledTextFieldWrapper(leadingImage: .constant(.ic_Contact), text: $driverLicenseText.max(11), placHolderText: .constant("Enter your Driver Licence"), isSecure: .constant(false),isNumberPad: true)
-                    .allowsHitTesting(false)
+//                    .allowsHitTesting(false)
                 
                 /*ZStack{
 
@@ -352,7 +372,7 @@ extension RepresentativeView{
                 Group {
                     HStack (spacing: 20){
                         MDCFilledTextFieldWrapper(leadingImage: .constant(.ic_Home), text: $streetAddr, placHolderText: .constant("Street Address"), isSecure: .constant(false))
-                            .allowsHitTesting(false)
+//                            .allowsHitTesting(false)
                     }
                     .frame(height: 70)
                     .cornerRadius(10)
@@ -365,7 +385,7 @@ extension RepresentativeView{
                     
                     HStack (spacing: 20){
                         MDCFilledTextFieldWrapper(leadingImage: .constant(.ic_Home), text: $cityAddr, placHolderText: .constant("Suburb"), isSecure: .constant(false))
-                            .allowsHitTesting(false)
+//                            .allowsHitTesting(false)
                     }
                     .frame(height: 70)
                     .cornerRadius(10)
@@ -393,7 +413,7 @@ extension RepresentativeView{
 //                            .padding(.leading, 0)
                             
                             MDCFilledTextFieldWrapper(leadingImage: .constant(.ic_Home), text: $stateAddr, placHolderText: .constant("State/Province"), isSecure: .constant(false))
-                                .allowsHitTesting(false)
+//                                .allowsHitTesting(false)
                         }
                         .frame(height: 70)
                         .frame(width: 170)
@@ -402,7 +422,7 @@ extension RepresentativeView{
                         
                         HStack {
                             MDCFilledTextFieldWrapper(leadingImage: .constant(.ic_Home), text: $postalAddr, placHolderText: .constant("Postal Code"), isSecure: .constant(false),isNumberPad: true)
-                                .allowsHitTesting(false)
+//                                .allowsHitTesting(false)
                         }
                         .frame(height: 70)
                         .cornerRadius(10)
@@ -652,8 +672,8 @@ extension RepresentativeView{
                 else if authorityNumberText.isEmpty {
                     toast = Toast(style: .error, message: "Driver Authority No. Field cannot be empty.")
                 }
-                else if authorityNumberText.count <= 9 {
-                    toast = Toast(style: .error, message: "Driver Authority No. should be 10.")
+                else if authorityNumberText.count <= 5 {
+                    toast = Toast(style: .error, message: "Driver Authority No. should be between 6 to 10.")
                 }
                 else if (streetAddr.isEmpty || cityAddr.isEmpty || postalAddr.isEmpty) {
 //                else if (streetAddr.isEmpty || cityAddr.isEmpty || countryAddr.isEmpty || postalAddr.isEmpty) {
@@ -682,7 +702,8 @@ extension RepresentativeView{
 //                }
                 else {
                     apicalled = true
-                    callAddressValidationAPI()
+//                    callAddressValidationAPI()
+                    callRegisterUserinfoAPI()
                 }
                
             } label: {
@@ -999,6 +1020,139 @@ extension RepresentativeView{
             print("verify Idetity Text:",verifyIdetityText)
             apicalled = false
         }
+    }
+    
+    
+    func GetVerifiedFieldsFromIdentity(reportId: String) {
+        
+        var urlReqIs = ""
+        if API.App_Envir == "Production" {
+            urlReqIs = "https://41czhgdl5c.execute-api.eu-north-1.amazonaws.com/default/GetVerifiedFieldsFromIdentity?reportId=\(reportId)"
+        }
+        else if API.App_Envir == "Dev" {
+            urlReqIs = "https://5xublp4eyd.execute-api.eu-north-1.amazonaws.com/default/GetVerifiedFieldsFromIdentity?reportId=\(reportId)"
+        }
+        else if API.App_Envir == "Stagging" {
+            urlReqIs = "https://41czhgdl5c.execute-api.eu-north-1.amazonaws.com/default/GetVerifiedFieldsFromIdentity?reportId=\(reportId)"
+        }else{
+            urlReqIs = "https://41czhgdl5c.execute-api.eu-north-1.amazonaws.com/default/GetVerifiedFieldsFromIdentity?reportId=\(reportId)"
+        }
+        
+        var request = URLRequest(url: URL(string: urlReqIs)!,timeoutInterval: Double.infinity)
+        request.httpMethod = "GET"
+        
+        let task = URLSession.shared.dataTask(with: request) { data, response, error in
+          guard let data = data else {
+              toast = Toast(style: .error, message: "GetVerifiedFieldsFromIdentity - \(error).")
+            print(String(describing: error))
+            return
+          }
+          print("GetVerifiedFieldsFromIdentity: ",String(data: data, encoding: .utf8)!)
+            do {
+                if let jsonDict = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any]{
+                    if let firstName = jsonDict["first_name"] as? String,
+                        let lastName = jsonDict["last_name"] as? String,
+                    let document = jsonDict["address"] as? NSDictionary{
+                        print("Success parsing first_name: \(firstName)")
+                        print("Success parsing last_name: \(lastName)")
+                        
+                        let street = document["line1"] as? String
+                        let appartment = document["line2"] as? String
+                        let city = document["city"] as? String
+                        let state = document["state"] as? String
+                        let country = document["country"] as? String
+                        let postalCode = document["postal_code"] as? String
+                        
+                        
+                        userIdentityDetail.instance.firstName = firstName
+                        userIdentityDetail.instance.lastName = lastName
+                        userIdentityDetail.instance.Street = street ?? ""
+                        userIdentityDetail.instance.appartment = appartment ?? ""
+                        userIdentityDetail.instance.city = city ?? ""
+                        userIdentityDetail.instance.state = state ?? ""
+                        userIdentityDetail.instance.country = country ?? ""
+                        userIdentityDetail.instance.postalCode = postalCode ?? ""
+                        
+                        
+                        userText = "\(firstName)\(" ")\(lastName)"
+                        streetAddr = "\(street ?? "NA")\(" ")\(appartment ?? "NA")"
+                        cityAddr = city ?? "NA"
+                        postalAddr = postalCode ?? "NA"
+                        stateAddr = state ?? "NA"
+                        countryAddr = country ?? "NA"
+                    }
+                    else {
+                        toast = Toast(style: .error, message: "GetVerifiedFieldsFromIdentity - Error status not found: \(error).")
+                        print("Error status not found.")
+                    }
+                }
+            }
+            catch{
+                toast = Toast(style: .error, message: "GetVerifiedFieldsFromIdentity - Error parsing JSON: \(error).")
+                print("Error parsing JSON: \(error)")
+            }
+        }
+        task.resume()
+    }
+    
+    func GetSensitiveVerifiedFieldsFromIdentity(sessionId: String){
+        var urlReqIs = ""
+        if API.App_Envir == "Production" {
+            urlReqIs = "https://cayqax63tk.execute-api.eu-north-1.amazonaws.com/default/GetSensitiveVerifiedFieldsFromIdentity?sessionId=\(sessionId)"
+        }
+        else if API.App_Envir == "Dev" {
+            urlReqIs = "https://kuvhkqx4b7.execute-api.eu-north-1.amazonaws.com/default/GetSensitiveVerifiedFieldsFromIdentity?sessionId=\(sessionId)"
+        }
+        else if API.App_Envir == "Stagging" {
+            urlReqIs = "https://cayqax63tk.execute-api.eu-north-1.amazonaws.com/default/GetSensitiveVerifiedFieldsFromIdentity?sessionId=\(sessionId)"
+        }else{
+            urlReqIs = "https://cayqax63tk.execute-api.eu-north-1.amazonaws.com/default/GetSensitiveVerifiedFieldsFromIdentity?sessionId=\(sessionId)"
+        }
+        print("GetSensitiveVerifiedFieldsFromIdentity urlReq: ",urlReqIs)
+        var request = URLRequest(url: URL(string: urlReqIs)!,timeoutInterval: Double.infinity)
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        
+        request.httpMethod = "GET"
+        
+        let task = URLSession.shared.dataTask(with: request) { data, response, error in
+          guard let data = data else {
+              toast = Toast(style: .error, message: "GetSensitiveVerifiedFieldsFromIdentity - \(error).")
+            print(String(describing: error))
+            return
+          }
+          print("GetSensitiveVerifiedFieldsFromIdentity: ",String(data: data, encoding: .utf8)!)
+            do {
+                if let jsonDict = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any]{
+                    if let driverLicense = jsonDict["documentNumber"] as? String,
+                    let document = jsonDict["dateOfBirth"] as? NSDictionary{
+                        print("Success parsing documentNumber: \(driverLicense)")
+                        
+                        let day = document["day"] as? Int
+                        let month = document["month"] as? Int
+                        let year = document["year"] as? Int
+                        print("Success parsing day: \(day)")
+                        print("Success parsing month: \(month)")
+                        print("Success parsing year: \(year)")
+                        
+                        userIdentityDetail.instance.driverLicense = driverLicense
+                        userIdentityDetail.instance.dateOfBirth = "\(day ?? 00)-\(month ?? 00)-\(year ?? 0000)"
+                        
+                        
+                        dateText = "\(day ?? 00)-\(month ?? 00)-\(year ?? 0000)"
+                        driverLicenseText = driverLicense
+                    }
+                    else {
+                        toast = Toast(style: .error, message: "GetSensitiveVerifiedFieldsFromIdentity - Error status not found: \(error).")
+                        print("Error status not found.")
+                    }
+                }
+            }
+            catch{
+                toast = Toast(style: .error, message: "GetSensitiveVerifiedFieldsFromIdentity - Error parsing JSON: \(error).")
+                print("Error parsing JSON: \(error)")
+            }
+        }
+        task.resume()
     }
 }
 
