@@ -43,7 +43,7 @@ struct TransactionDetailView: View {
                 formatter.numberStyle = .decimal
                 
                 let val = 1 + 0.05
-                let val1 = Double((transactionType.amount))
+                let val1 = Double((transactionType.amount ?? 0))
                 let val2 = (val1 / val)
                 let amount = (val2 / 100).roundToDecimal(2)
                 
@@ -76,19 +76,19 @@ struct TransactionDetailView: View {
 //                let totalFareAmount = (amount - serviceFee - serviceFeeGst).roundToDecimal(2)
 //                fareExcludeTax = formatter.string(from: totalFareAmount as NSNumber) ?? "N/A"
                 fareExcludeTax = formatter.string(from: amount as NSNumber) ?? "N/A"
-                AmountDetail.instance.totalAmount = String(amount)
+                AmountDetail.instance.totalAmount = formatter.string(from: amount as NSNumber) ?? "N/A"
 //                if let formattedTAStr = formatter.string(from: (Decimal(totalFareAmount)) as NSNumber) {
 //                    AmountDetail.instance.totalAmount = String(formattedTAStr)
 //                }
                 
                 let stripeReceiptId = transactionType.source_transaction
-                AmountDetail.instance.fareStripeId = stripeReceiptId
+                AmountDetail.instance.fareStripeId = stripeReceiptId ?? ""
                 
                 let stripeReceiptDate = transactionType.created
-                AmountDetail.instance.fareDateTimeInt = stripeReceiptDate
+                AmountDetail.instance.fareDateTimeInt = stripeReceiptDate ?? 0
                 
                 UserDefaults.standard.set(1, forKey: "transHistoryFlow")
-                UserDefaults.standard.set(transactionType.metadata.Address, forKey: "fareAddress")
+                UserDefaults.standard.set(transactionType.metadata?.Address, forKey: "fareAddress")
             })
             .padding(.all, 15)
         }
@@ -114,7 +114,7 @@ extension TransactionDetailView{
                     presentationMode.wrappedValue.dismiss()
                 }
 //            Text(transactionType.source_type == .giftCard ? "Gift Card" : transactionType.source_type == .chargeFare ? "Charge Fare" : "Bank Transfer")
-            Text("Charge Fare")
+            Text("Fare Processed")
                 .font(.custom(.poppinsBold, size: 25))
                 .foregroundColor(.white)
             Spacer()
@@ -139,10 +139,10 @@ extension TransactionDetailView{
                 .foregroundColor(.white)
 //            Text(transactionType == .giftCard ? "Gift Card" : transactionType == .chargeFare ? "Charge Fare" : "Bank Transfer")
 //            Text(transactionType.source_type)
-            Text("Charge Fare")
+            Text("Charged at")
                 .font(.custom(.poppinsBold, size: 20))
                 .foregroundColor(.white)
-            Text(dateToString(date:Date(timeIntervalSince1970: TimeInterval(transactionType.created))))
+            Text("\(dateToString(date:Date(timeIntervalSince1970: TimeInterval(transactionType.created ?? 0)))) \(" in ") \(String(describing: transactionType.metadata?.Address))")
                 .font(.custom(.poppinsMedium, size: 12))
                 .foregroundColor(.white)
         }

@@ -14,7 +14,7 @@ enum SideMenuRowType: Int, CaseIterable{
 //    case Payout
     case Transactions
 //    case ReferaFriend
-    case PrivacyPolicy
+//    case PrivacyPolicy
     case TermsofUse
     case useTapToPay
     
@@ -30,8 +30,8 @@ enum SideMenuRowType: Int, CaseIterable{
             return "Transactions"
 //        case .ReferaFriend:
 //            return "Refer a Friend"
-        case .PrivacyPolicy:
-            return "Privacy Policy"
+//        case .PrivacyPolicy:
+//            return "Privacy Policy"
         case .TermsofUse:
             return "Terms of Use"
             
@@ -51,8 +51,8 @@ enum SideMenuRowType: Int, CaseIterable{
             return .ic_Transactions
 //        case .ReferaFriend:
 //            return .ic_Refer
-        case .PrivacyPolicy:
-            return .ic_Refer
+//        case .PrivacyPolicy:
+//            return .ic_Refer
         case .TermsofUse:
             return .ic_Refer
         case .useTapToPay:

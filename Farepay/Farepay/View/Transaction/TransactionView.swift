@@ -33,6 +33,7 @@ struct TransactionView: View {
     @State private var userAddress: String = ""
     @State var locManager = CLLocationManager()
     @AppStorage("accountId") private var appAccountId: String = ""
+    let formatter = NumberFormatter()
     
     //MARK: - Views
     var body: some View {
@@ -76,10 +77,15 @@ struct TransactionView: View {
                     }
                     
                     Task {
-                        try await transectionViewModel.getAllTransection(url: weeklyTransection, method: .post, account_id: accountId)
+//                        try await transectionViewModel.getAllTransection(url: weeklyTransection, method: .post, account_id: accountId)
+                        try await transectionViewModel.getAllTransection(url: lifeTimeTransection, method: .post, account_id: accountId)
                         
                     }
                     UserDefaults.standard.removeObject(forKey: "fareAddress")
+                    
+                    formatter.minimumFractionDigits = 2
+                    formatter.maximumFractionDigits = 2
+                    formatter.numberStyle = .decimal
                 })
                 
                 
@@ -182,20 +188,20 @@ extension TransactionView{
                                 
                             }
                         
-                        Button {
-                            showingOptions = true
-                        } label: {
-                            let width = dropdownlbl.widthOfString(usingFont: UIFont(name: .poppinsMedium, size: 15)!) + 20.0
-                            Text("\(dropdownlbl)  \(Image(systemName: "chevron.down"))")
-                                .font(.custom(.poppinsMedium, size: 12))
-                                .foregroundColor(.white)
-                                .frame(width: width, height: 50)
-                                .padding(.horizontal)
-                                .overlay(
-                                    RoundedRectangle(cornerRadius: 10)
-                                        .stroke(Color(.darkGrayColor), lineWidth: 2)
-                                )
-                        }
+//                        Button {
+//                            showingOptions = true
+//                        } label: {
+//                            let width = dropdownlbl.widthOfString(usingFont: UIFont(name: .poppinsMedium, size: 15)!) + 20.0
+//                            Text("\(dropdownlbl)  \(Image(systemName: "chevron.down"))")
+//                                .font(.custom(.poppinsMedium, size: 12))
+//                                .foregroundColor(.white)
+//                                .frame(width: width, height: 50)
+//                                .padding(.horizontal)
+//                                .overlay(
+//                                    RoundedRectangle(cornerRadius: 10)
+//                                        .stroke(Color(.darkGrayColor), lineWidth: 2)
+//                                )
+//                        }
                         
                         
                         
@@ -286,17 +292,18 @@ extension TransactionView{
                         VStack(spacing: 5){
                             Group{
                                 HStack{
-                                    Text(trans.metadata.Address)
+                                    Text(trans.metadata?.Address ?? "Australia")
 //                                    Text(userAddress)
                                         .font(.custom(.poppinsSemiBold, size: 20))
                                         .foregroundColor(.white)
                                     Spacer()
                                     let val = 1 + 0.05
-                                    let val1 = Double((trans.amount))
+                                    let val1 = Double((trans.amount ?? 0))
                                     let val2 = (val1 / val)
                                     let val3 = (val2 / 100).roundToDecimal(2)
+                                    let val4 = formatter.string(from: val3 as NSNumber) ?? "0"
                                     
-                                    Text("$\(val3)".description)
+                                    Text("$\(val4)".description)
                                     
 //                                    Text("$\(excldeFareTaxes(fareAmount: trans.amount))".description)
                                         .font(.custom(.poppinsSemiBold, size: 20))
@@ -304,7 +311,7 @@ extension TransactionView{
                                 }
                                 HStack{
 //                                    Text(dateToString(date:Date(timeIntervalSince1970: TimeInterval(trans.created))))
-                                    Text("\(convertUnixTimestamp(trans.created))".description)
+                                    Text("\(convertUnixTimestamp(trans.created ?? 0))".description)
                                         .font(.custom(.poppinsMedium, size: 12))
                                         .foregroundColor(Color(.darkGrayColor))
                                     Spacer()

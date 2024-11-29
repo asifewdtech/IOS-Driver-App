@@ -20,7 +20,7 @@ class TransectionViewModel: ObservableObject {
         guard let url = URL(string: url) else {
             throw URLError(.badURL)
         }
-        
+        print("getAllTransection: ",url)
         var request = URLRequest(url: url)
         request.httpMethod = method.rawValue
         

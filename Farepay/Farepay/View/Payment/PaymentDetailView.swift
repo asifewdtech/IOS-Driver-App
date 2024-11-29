@@ -342,7 +342,7 @@ extension PaymentDetailView{
                 let alert = UIAlertController(title: "Title", message:"Location is require to proceed further." , preferredStyle: .alert)
                 alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
                 alert.addAction(UIAlertAction(title: "Settings", style: .default, handler: { _ in
-                    let url = URL(string: UIApplication.openSettingsURLString)!
+                    guard let url = URL(string: UIApplication.openSettingsURLString) else { return }
                     UIApplication.shared.open(url, options: [:], completionHandler: nil)
                 }))
                 //                                try present(alert, animated: true, completion: nil)
@@ -402,15 +402,8 @@ extension PaymentDetailView{
         AF.request(url).validate().responseJSON { response in
             switch response.result {
             case let .success(value):
-                if let results = (value as AnyObject).object(forKey: "results")! as? [NSDictionary] {
-//                    if results.count > 0 {
-//                        if results[1]["address_components"]! is [NSDictionary] {
-//                            let address = results[0]["formatted_address"] as? String
-//                            print("fareAddress: ",results[0])
-//                            UserDefaults.standard.set(address, forKey: "fareAddress")
-//                        }
-//                    }
-                    if let addressComponents = results[1]["address_components"]! as? [NSDictionary] {
+                if let results = (value as AnyObject).object(forKey: "results")  as? [NSDictionary] {
+                    if let addressComponents = results[1]["address_components"] as? [NSDictionary] {
                         for component in addressComponents {
                             if let temp = component.object(forKey: "types") as? [String] {
                                 if (temp[0] == "locality") {
@@ -538,11 +531,8 @@ class ReaderDiscoverModel1:NSObject,ObservableObject ,DiscoveryDelegate{
         let srvGAmount = "\(srvGArray[0])\(srvGArray[1])"
         print("srvArray GST amount: ",srvGAmount)
         
-//        let appFeeAmount = srvFeeAmount + srvGAmount
-        print("srvArray App Fee amount: ",NumberFormatter().number(from: srvGAmount))
-        
         print("srvArr amount: ",srvGAmount.toUInt() as Any)
-        let tNumber = UserDefaults.standard.string(forKey: "txNumber")
+        let tNumber = UserDefaults.standard.string(forKey: "txNumber") ?? "0"
         let dABN = UserDefaults.standard.string(forKey: "driABN")
         let dLicence = UserDefaults.standard.string(forKey: "driLicence")
         let fAddress = UserDefaults.standard.string(forKey: "fareAddress") ?? "Australia"
@@ -700,7 +690,8 @@ class ReaderDiscoverModel1:NSObject,ObservableObject ,DiscoveryDelegate{
         let urlNewAcc :String = reportUrl.replacingOccurrences(of: " ", with: "%20")
         print("reportUrl: ",urlNewAcc)
         
-        var request = URLRequest(url: URL(string: urlNewAcc)!,timeoutInterval: Double.infinity)
+        guard let url = URL(string: urlNewAcc) else { return }
+        var request = URLRequest(url: url, timeoutInterval: Double.infinity)
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         
         request.httpMethod = "POST"
@@ -710,7 +701,7 @@ class ReaderDiscoverModel1:NSObject,ObservableObject ,DiscoveryDelegate{
             print("PassMetaDataToConAcc Err: ",String(describing: error))
             return
           }
-          print("PassMetaDataToConAcc Scc: ",String(data: data, encoding: .utf8)!)
+          print("PassMetaDataToConAcc Scc: ",String(data: data, encoding: .utf8))
         }
         task.resume()
     }

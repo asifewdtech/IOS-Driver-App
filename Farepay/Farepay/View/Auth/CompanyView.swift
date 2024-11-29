@@ -24,8 +24,9 @@ struct CompanyView: View {
     @State private var licenseFrontImage: UIImage? = nil
     @State private var isStripeIdentityPickerPresented = false
     @State var isChecked = false
-    @State private var identityStatus = "Identity Verifiction Pending"
+    @State private var identityStatus = "Identity Verification Pending"
     @State private var isPresentingStripeIdentityVC = false
+    @State private var showProceedBtn: Bool = false
     
     let db = Firestore.firestore()
     
@@ -51,7 +52,7 @@ struct CompanyView: View {
                     buttonArea
                 }
                 .onAppear(perform: {
-                    print("Identity Verifiction Pending")
+                    print("Identity Verification Pending")
                     
                     UserDefaults.standard.removeObject(forKey: "stripeFlowStatus")
                     UserDefaults.standard.removeObject(forKey: "driverABN")
@@ -61,6 +62,7 @@ struct CompanyView: View {
                     NotificationCenter.default.addObserver(forName: NSNotification.Name("VerifiComplete"), object: nil, queue: .main) { (_) in
                         isChecked.toggle()
                         identityStatus = "Identity Verification Complete"
+                        showProceedBtn = true
                     }
                 })
                 .toastView(toast: $toast)
@@ -107,14 +109,14 @@ extension CompanyView{
                     .frame(height: 1)
             }
             
-            HStack(spacing: 5){
-                
-                Color(.ErrorColor)
-                    .frame(height: 5)
-                Color(.darkGrayColor)
-                    .frame(height: 5)
-            }
-            .frame(width: 250)
+//            HStack(spacing: 5){
+//                
+//                Color(.ErrorColor)
+//                    .frame(height: 5)
+//                Color(.darkGrayColor)
+//                    .frame(height: 5)
+//            }
+//            .frame(width: 250)
             
 //            Text("COMPANY INFORMATION")
             Text("Tap below for Identity Verification")
@@ -233,20 +235,22 @@ extension CompanyView{
     var buttonArea: some View{
         
         VStack(spacing: 20){
-            Button(action: {
-//                PresentedPopUp()
-                createAccOnFirebase()
-            }, label: {
-                Text("PROCEED")
-                    .font(.custom(.poppinsBold, size: 25))
-                    .foregroundColor(.white)
-                    .frame(maxWidth: .infinity)
-                    .frame(height: 60)
-                    .background(Color(.buttonColor))
-                    .cornerRadius(30)
+            if showProceedBtn {
+                Button(action: {
+                    //                PresentedPopUp()
+                    createAccOnFirebase()
+                }, label: {
+                    Text("PROCEED")
+                        .font(.custom(.poppinsBold, size: 25))
+                        .foregroundColor(.white)
+                        .frame(maxWidth: .infinity)
+                        .frame(height: 60)
+                        .background(Color(.buttonColor))
+                        .cornerRadius(30)
                     
                     
-            })
+                })
+            }
         }
     }
     

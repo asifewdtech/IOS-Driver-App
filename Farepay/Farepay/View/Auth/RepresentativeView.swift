@@ -167,7 +167,7 @@ extension RepresentativeView{
             }
             .frame(width: 250)
             
-            Text("REPRESENTIVE INFORMATION")
+            Text("Driver Registration")
                 .font(.custom(.poppinsBold, size: 20))
                 .foregroundColor(.white)
             

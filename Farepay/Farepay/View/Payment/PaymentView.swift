@@ -58,34 +58,19 @@ struct PaymentView: View {
                 .edgesIgnoringSafeArea(.all)
                 
                 .onAppear(perform: {
-                    
-                    let firstTime = UserDefaults.standard.integer(forKey: "firstTime")
-                    if firstTime == 1{
-                        accStatusStr = "pending"
-                        accStatusBool = true
-                        UserDefaults.standard.removeObject(forKey: "firstTime")
-                    }else{
+                    showLoadingIndicator = true
                         retriveAccountAPI()
-                    }
                     
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 2){
-                        showLoadingIndicator = false
-                        if accStatusBool {
-                            if accStatusStr == "pending"{
-                                let dialogMessage = UIAlertController(title: "Awaiting Approval", message: "Thank you for your application, we will be in touch within 24 hours.", preferredStyle: .alert)
-                                let window = UIApplication.shared.keyWindow
-                                window?.rootViewController?.present(dialogMessage, animated: true)
-                                
-                            }else if accStatusStr == "paused"{
-                                let dialogMessage = UIAlertController(title: "Awaiting Approval", message: "Your Farepay account has been paused, please contact support.", preferredStyle: .alert)
-                                let window = UIApplication.shared.keyWindow
-                                window?.rootViewController?.present(dialogMessage, animated: true)
-                                
-                            }else{
-                                print("Account Status is live.")
-                            }
+                        NotificationCenter.default.addObserver(forName: NSNotification.Name("AwaitingApprovalBool"), object: nil, queue: .main) { _ in
+                            self.handleAccountStatus()
                         }
-                    }
+                        
+                        // Observer for when the app becomes active
+                        NotificationCenter.default.addObserver(forName: UIApplication.didBecomeActiveNotification, object: nil, queue: .main) { _ in
+//                            self.handleAccountStatus()
+                            retriveAccountAPI()
+                        }
+                    
                     
                     print("App_Envir value: ",API.App_Envir)
                     if API.App_Envir == "Production" {
@@ -413,7 +398,7 @@ extension PaymentView{
                 let qwer = NumberFormatter().number(from: asdf)?.doubleValue ?? 0.51
                 print("currencyManager.dbl: ",qwer as Any)
                 if taxiNumber == "" {
-                    toast = Toast(style: .error, message: "Taxi Number is required.")
+                    toast = Toast(style: .error, message: "Taxi Number is required, please enter the taxi plate number of the taxi you are driving today")
                     self.showTaxi.toggle()
                 }
                 else if qwer == 0.0 {
@@ -464,6 +449,17 @@ extension PaymentView{
                 .frame(minWidth: 0, maxWidth: 150, minHeight: 0, maxHeight: 40, alignment: .leading)
                 .padding(.trailing, 170)
                 
+                HStack(spacing: 20) {
+                    Text("Please enter the taxi plate number of the taxi you are driving today")
+                        .font(.custom(.poppinsMedium, size: 12))
+                        .foregroundColor(Color(.darkGray))
+                }
+                .padding(.leading, 15)
+                .padding(.trailing, 15)
+//                .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity, alignment: .leading)
+//                .multilineTextAlignment(.leading)
+                .lineLimit(4)
+                
                 HStack(spacing: 5){
                         Image(uiImage: .taxiNumIcon)
                             .resizable()
@@ -504,7 +500,7 @@ extension PaymentView{
                 .cornerRadius(40)
                 Spacer()
                 }
-            .frame(minWidth: 320, maxWidth: 350, minHeight: 150, maxHeight: 170)
+            .frame(minWidth: 320, maxWidth: 350, minHeight: 150, maxHeight: 200)
                 .background(Color.white)
                 .cornerRadius(20)
         }
@@ -513,16 +509,6 @@ extension PaymentView{
     }
     
     func firebaseAPI() {
-//        Firestore.firestore().collection("usersInfo").document(Auth.auth().currentUser?.uid ?? "").getDocument { snapShot, error in
-//            if let error = error {
-//                print(error.localizedDescription)
-//            }else {
-//                
-//                guard let snap = snapShot else { return  }
-//               taxiNumber  = "\(snap.get("taxiID") as? String ?? "")"
-//                print("taxiNumber: ",taxiNumber)
-//            }
-//        }
         
         let collectionRef = Firestore.firestore().collection("usersInfo")
         collectionRef.getDocuments { (snapshot, error) in
@@ -554,7 +540,7 @@ extension PaymentView{
     }
     
     func retriveAccountAPI () {
-        showLoadingIndicator = true
+//        showLoadingIndicator = true
         var reportUrl = ""
         if API.App_Envir == "Production" {
             reportUrl = "https://v2ycufp3t0.execute-api.eu-north-1.amazonaws.com/default/RetriveAccount?accountId=\(appAccountId)"
@@ -572,6 +558,7 @@ extension PaymentView{
         request.httpMethod = "GET"
         
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
+            showLoadingIndicator = false
             guard let data = data else {
                 print(String(describing: error))
                 return
@@ -585,15 +572,17 @@ extension PaymentView{
                         if accStatus == "pending"{
                             accStatusStr = "pending"
                             accStatusBool = true
+                            NotificationCenter.default.post(name: NSNotification.Name("AwaitingApprovalBool"), object: nil)
                             
                         }else if accStatus == "paused"{
                             accStatusStr = "paused"
                             accStatusBool = true
-                            
+                            NotificationCenter.default.post(name: NSNotification.Name("AwaitingApprovalBool"), object: nil)
                         }else{
                             print("Account API Status is live.")
                             accStatusStr = "live"
                             accStatusBool = false
+                            NotificationCenter.default.post(name: NSNotification.Name("AwaitingApprovalBool"), object: nil)
                         }
                     }
                 }
@@ -604,6 +593,27 @@ extension PaymentView{
         }
         task.resume()
         
+    }
+    
+    private func handleAccountStatus() {
+        showLoadingIndicator = false
+        if accStatusBool {
+            var dialogMessage: UIAlertController?
+            
+            if accStatusStr == "pending" {
+                dialogMessage = UIAlertController(title: "Awaiting approval", message: "Thank you for your application. We are reviewing your details, and will be in touch within 24 hours", preferredStyle: .alert)
+            } else if accStatusStr == "paused" {
+                dialogMessage = UIAlertController(title: "Awaiting approval", message: "Your Farepay account has been paused, please contact support.", preferredStyle: .alert)
+            } else {
+                print("Account Status is live.")
+            }
+            
+            // Show the dialog message if it was set
+            if let dialog = dialogMessage {
+                let window = UIApplication.shared.keyWindow
+                window?.rootViewController?.present(dialog, animated: true)
+            }
+        }
     }
 }
 

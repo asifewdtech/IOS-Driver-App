@@ -274,9 +274,9 @@ extension LoginView{
                             
                             if userAuth.isLoggedIn == false  {
                                 toast = Toast(style: .error, message: userAuth.errorMessage)
-//                            }
-//                            else if( !Auth.auth().currentUser!.isEmailVerified) {
-//                                toast = Toast(style: .error, message: "Please verify your email address.")
+                            }
+                            else if( !Auth.auth().currentUser!.isEmailVerified) {
+                                toast = Toast(style: .error, message: "We have sent you an email verification. Please verify your email address.")
                             }else {
 //                                let collectionRef = Firestore.firestore().collection("usersInfo")
 //                                collectionRef.getDocuments { (snapshot, error) in
@@ -327,7 +327,7 @@ extension LoginView{
                                                                     let isAccountCreated1 = data["connectAccountCreated"] as? Bool ?? false
                                                                     print(" Acc response: ",isAccountCreated)
                                                                     let bankAccced1 = data["bankAdded"] as? Bool ?? false
-                                                                    print(" bankAcc response: ",bankAccced)
+                                                                    print(" bankAcc response: ",bankAccced1)
                                                                     let userEmail1 = data["email"] as? String
                                                                     print("Email exist: ", userEmail)
                                                                     let identityVerified = data["identityVerified"] as? Bool ?? false
@@ -356,16 +356,16 @@ extension LoginView{
                                                     }
                                                 }
                                             }
-                                            else if !(isSessionID == "") && (isAccountCreated == false) && (isBankCreated == false) && (isIdentityVerified == false){
+                                            else if !(isSessionID == "") && (isAccountCreated == false) && (bankAccced == false) && (isIdentityVerified == false){
                                                 willMoveToUnderReviewView = true
                                             }
-                                            else if !(isSessionID == "") && (isAccountCreated == false) && (isBankCreated == false) && (isIdentityVerified == true){
+                                            else if !(isSessionID == "") && (isAccountCreated == false) && (bankAccced == false) && (isIdentityVerified == true){
                                                 goToForm2 = true
                                             }
-                                            else if !(isSessionID == "") && (isAccountCreated == true) && (isBankCreated == false) && (isIdentityVerified == true){
+                                            else if !(isSessionID == "") && (isAccountCreated == true) && (bankAccced == false) && (isIdentityVerified == true){
                                                 willMoveToBankAccount = true
                                             }
-                                            else if !(isSessionID == "") && (isAccountCreated == true) && (isBankCreated == true) && (isIdentityVerified == true){
+                                            else if !(isSessionID == "") && (isAccountCreated == true) && (bankAccced == true) && (isIdentityVerified == true){
                                                 goToHome = true
                                             }
                                             else {

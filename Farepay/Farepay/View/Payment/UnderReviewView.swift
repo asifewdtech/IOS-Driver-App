@@ -29,8 +29,8 @@ struct UnderReviewView: View {
     @Environment(\.presentationMode) private var presentationMode: Binding<PresentationMode>
     @State private var willMoveToForm2 = false
     @State private var isPresentedPopUp: Bool = false
-    @State private var verificaStatus: String = "Identity Under Verification"
-    @State private var verifiMessage: String = "We're verifying your identity and we can't wait to be in touch as soon as it's verified."
+    @State private var verificaStatus: String = "Identity verification in progress"
+    @State private var verifiMessage: String = "We’re verifying your identity. Please wait and do not exit the application. This may take a few minutes"
     @State private var isButtonActive: Bool = false
     
     var body: some View {
@@ -54,8 +54,8 @@ struct UnderReviewView: View {
                 .toastView(toast: $toast)
                 .onAppear(){
                     NotificationCenter.default.addObserver(forName: NSNotification.Name("VerifiResubmitted"), object: nil, queue: .main) { (_) in
-                        verificaStatus = "Identity Under Verification"
-                        verifiMessage = "We're verifying your identity and we can't wait to be in touch as soon as it's verified."
+                        verificaStatus = "Identity verification in progress"
+                        verifiMessage = "We’re verifying your identity. Please wait and do not exit the application. This may take a few minutes"
                         isButtonActive = false
                         DispatchQueue.main.asyncAfter(deadline: .now() + 20){
                             getVerificationStatus()

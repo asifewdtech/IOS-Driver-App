@@ -36,18 +36,18 @@ struct transactionModel: Codable {
 }
 
 struct MyResult1: Codable {
-    let id:String
-    let object:String
-    let amount:Int
-    let created:Int
-    let source_type:String
-    let currency:String
-    let source_transaction:String
-    let destination:String
-    let metadata: metaData
+    let id:String?
+    let object:String?
+    let amount:Int?
+    let created:Int?
+    let source_type:String?
+    let currency:String?
+    let source_transaction:String?
+    let destination:String?
+    let metadata: metaData?
 }
 
 struct metaData: Codable {
-    let Address: String
-    let TaxiId: String
+    let Address: String?
+    let TaxiId: String?
 }

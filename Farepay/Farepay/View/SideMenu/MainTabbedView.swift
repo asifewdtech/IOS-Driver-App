@@ -37,21 +37,21 @@ struct MainTabbedView: View {
 //            case 3:
 //                ReferAFriendView(presentSideMenu: $presentSideMenu)
 //                    .tag(3)
+//            case 2:
+//                PrivacyPolicyView(presentSideMenu: $presentSideMenu)
+////                WebView(url: URL(string: "https://farepay.app/privacy")!)
+////                BrowserWebView(url: URL(string: "https://farepay.app/privacy")!, viewModel: BrowserViewModel())
+////                Link("Farepay", destination: URL(string: "https://farepay.app/privacy")!)
+//                    .tag(3)
             case 2:
-                PrivacyPolicyView(presentSideMenu: $presentSideMenu)
-//                WebView(url: URL(string: "https://farepay.app/privacy")!)
-//                BrowserWebView(url: URL(string: "https://farepay.app/privacy")!, viewModel: BrowserViewModel())
-//                Link("Farepay", destination: URL(string: "https://farepay.app/privacy")!)
-                    .tag(3)
-            case 3:
                 TermsView(presentSideMenu: $presentSideMenu)
 //                WebView(url: URL(string: "https://farepay.app/terms-of-use")!)
 //                BrowserWebView(url: URL(string: "https://farepay.app/terms-of-use")!, viewModel: BrowserViewModel())
                 
-                    .tag(4)
-            case 4:
+                    .tag(3)
+            case 3:
                 TapToPayGuidlinesView(presentSideMenu: $presentSideMenu)
-                    .tag(5)
+                    .tag(4)
             case 5:
                 AccountView(presentSideMenu: $presentSideMenu)
                     .tag(6)

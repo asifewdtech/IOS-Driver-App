@@ -93,14 +93,14 @@ struct SignUpView: View {
                     }
                 })
                 .alert(
-                    "Sign Up successfully",
+                    "Sign up successful",
                     isPresented: $showEmailVerifiAlert
                 ) {
                     Button("Continue") {
                         presentationMode.wrappedValue.dismiss()
                     }
                 } message: {
-                    Text("Thank you for signing up, we have sent you email verification. Please check your email to continue.")
+                    Text("Thank you for signing up to Farepay. We have sent you an email verification. Please check your email and follow the instructions to continue.")
                 }
             if showLoadingIndicator{
                 VStack{
@@ -247,33 +247,49 @@ extension SignUpView{
                         isChecked.toggle()
                         print("Agree")
                     }
-                HStack(spacing: 4) {
-                    Text("I agree with")
-                        .font(.custom(.poppinsMedium, size: 18))
-                        .foregroundColor(.white)
-                    Button(action: {
-//                        Link("Farepay", destination: URL(string: "https://farepay.app/terms-of-use")!)
-                        openURL(URL(string: "https://farepay.app/terms-of-use")!)
-                    }, label: {
-                        Text("\("terms")")
-                            .font(.custom(.poppinsBold, size: 18))
-                            .foregroundColor(.white)
-                            .underline()
-                    })
-                    Text("and")
-                        .font(.custom(.poppinsMedium, size: 18))
-                        .foregroundColor(.white)
-                    
-                    Button(action: {
-//                        Link("Farepay", destination: URL(string: "https://farepay.app/privacy")!)
-                        openURL(URL(string: "https://farepay.app/privacy")!)
-                    }, label: {
-                        Text("\("privacy.")")
-                            .font(.custom(.poppinsBold, size: 18))
-                            .foregroundColor(.white)
-                            .underline()
-                    })
-                }
+                HStack {
+                            Button(action: {
+                                if let url = URL(string: "https://farepay.app/terms-of-use") {
+                                    UIApplication.shared.open(url)
+                                }
+                            }) {
+                                Text("I agree with Farepay’s Terms of Use and Privacy Policy")
+                                    .font(.custom("Poppins-Bold", size: 16))
+                                    .foregroundColor(.white)
+                                    .underline()
+                                    .multilineTextAlignment(.leading) // Aligns text to leading
+                                    .frame(maxWidth: .infinity, alignment: .leading) // Expands and aligns text
+                            }
+                        }
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                
+//                HStack(spacing: 4) {
+//                    Text("I agree with")
+//                        .font(.custom(.poppinsMedium, size: 18))
+//                        .foregroundColor(.white)
+//                    Button(action: {
+////                        Link("Farepay", destination: URL(string: "https://farepay.app/terms-of-use")!)
+//                        openURL(URL(string: "https://farepay.app/terms-of-use")!)
+//                    }, label: {
+//                        Text("\("terms")")
+//                            .font(.custom(.poppinsBold, size: 18))
+//                            .foregroundColor(.white)
+//                            .underline()
+//                    })
+//                    Text("and")
+//                        .font(.custom(.poppinsMedium, size: 18))
+//                        .foregroundColor(.white)
+//                    
+//                    Button(action: {
+////                        Link("Farepay", destination: URL(string: "https://farepay.app/privacy")!)
+//                        openURL(URL(string: "https://farepay.app/privacy")!)
+//                    }, label: {
+//                        Text("\("privacy.")")
+//                            .font(.custom(.poppinsBold, size: 18))
+//                            .foregroundColor(.white)
+//                            .underline()
+//                    })
+//                }
             }
         }
     }
@@ -340,7 +356,7 @@ extension SignUpView{
             toast = Toast(style: .error, message: "Re-Password field cannot be empty.")
         }else {
             if passwordText != ReTypePasswordText {
-                toast = Toast(style: .error, message: "Both Password Should be matched.")
+                toast = Toast(style: .error, message: "Both passwords must match")
             }else if isChecked {
                 
                 Task {
@@ -361,7 +377,7 @@ extension SignUpView{
                 }
             }else {
                 showLoadingIndicator = false
-                toast = Toast(style: .error, message: "Accept the Term and Privacy")
+                toast = Toast(style: .error, message: "To sign up, you must accept Farepay’s Terms of Use")
             }
         }
     }
