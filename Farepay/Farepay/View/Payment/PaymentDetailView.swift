@@ -28,7 +28,6 @@ struct PaymentDetailView: View {
     @State var txNumber = ""
     @State var driABN = ""
     @State var driLicence = ""
-    @StateObject var readerDiscoverModel1 = ReaderDiscoverModel1()
     @State private var willMoveToQr = false
     @State var showLoadingIndicator: Bool = false
     @State private var locationPermission = false
@@ -36,122 +35,138 @@ struct PaymentDetailView: View {
     @State var locManager = CLLocationManager()
     @State private var toast: Toast? = nil
     @State private var collectedFeeStripe: String = " "
+    @StateObject private var readerManager = ReaderConnectionManager()
+    @StateObject private var paymentManager = PaymentInitiationManager()
+    @AppStorage("accountId") private var appAccountId: String = ""
     
     //MARK: - Views
     var body: some View {
-        
-        ZStack{
-            NavigationLink("", destination: Farepay.MainTabbedView().toolbar(.hidden, for: .navigationBar), isActive: $goToHome ).isDetailLink(false)
+        ZStack {
+            NavigationLink("", destination: Farepay.MainTabbedView().toolbar(.hidden, for: .navigationBar), isActive: $goToHome).isDetailLink(false)
             NavigationLink("", destination: ReaderConnectView().toolbar(.hidden, for: .navigationBar), isActive: $willMoveTapToPayView).isDetailLink(false)
             NavigationLink("", destination: PayQRView().toolbar(.hidden, for: .navigationBar), isActive: $willMoveToQr).isDetailLink(false)
             
             Color(.bgColor)
                 .edgesIgnoringSafeArea(.all)
-            VStack{
-                
+            
+            VStack {
                 topArea
                 Spacer()
                 buttonArea
             }
-            .onAppear(perform: {
+            .onAppear {
+                let connectReaderBit = UserDefaults.standard.integer(forKey: "connectReaderBit")
+                if connectReaderBit == 1{
+                    UserDefaults.standard.removeObject(forKey: "connectReaderBit")
+                    showLoadingIndicator = true
+                    readerManager.discoverReaders()
+                }
+                
+                // Clear previous user defaults
                 UserDefaults.standard.removeObject(forKey: "txNumber")
                 UserDefaults.standard.removeObject(forKey: "driABN")
                 UserDefaults.standard.removeObject(forKey: "driLicence")
                 UserDefaults.standard.removeObject(forKey: "fareAddress")
                 UserDefaults.standard.removeObject(forKey: "transHistoryFlow")
-                
-                if let cost = Double(farePriceText.trimmingCharacters(in: .whitespaces)) {
-                    let formatter = NumberFormatter()
-                    formatter.minimumFractionDigits = 2
-                    formatter.maximumFractionDigits = 2
-                    formatter.minimumIntegerDigits = 1
-                    
-                    totalAmount = cost
-                    if let formattedTAStr = formatter.string(from: (Decimal(totalAmount)) as NSNumber) {
-                        AmountDetail.instance.totalAmount = formattedTAStr
-                    }
-                    print("amountWith \(cost)")
-                    let amountWithFivePercent = cost * 5 / 100
-                    print("amountWithFivePercent \(amountWithFivePercent)")
-                    let srvcFee = (amountWithFivePercent / 1.1).roundToDecimal(2)
-                    if let srvcFeeString = formatter.string(from: (Decimal(srvcFee)) as NSNumber) {
-                        serviceFee = srvcFeeString
-                    }
-                    AmountDetail.instance.serviceFee = srvcFee
-                    print("serviceFee\(serviceFee)")
-                    
-                    let srvcFeeGst = (amountWithFivePercent - srvcFee).roundToDecimal(2)
-                    
-                    if let srvcFeeGstString = formatter.string(from: (Decimal(srvcFeeGst)) as NSNumber) {
-                        serviceFeeGst = srvcFeeGstString
-                    }
-                    AmountDetail.instance.serviceFeeGst = srvcFeeGst
-                    print("serviceFeeGst \(serviceFeeGst)")
-                    let totalChargresWithTx = (srvcFee + srvcFeeGst + cost).roundToDecimal(2)
-                    
-//                    AmountDetail.instance.totalChargresWithTax = totalChargresWithTax
-//                    print("totalCharges \(totalChargresWithTax)")
-                    let colFeeStripe = (srvcFee + srvcFeeGst).roundToDecimal(2)
-                    print("colFeeStripe totalCharges \(colFeeStripe)")
-                    collectedFeeStripe = String(colFeeStripe)
-                    AmountDetail.instance.collectionStrFee = collectedFeeStripe
-                    
-                    if let formattedString = formatter.string(from: (Decimal(totalChargresWithTx)) as NSNumber) {
-                        totalChargresWithTax = formattedString
-                        AmountDetail.instance.totalChargresWithTax = formattedString
-                    } else {
-                        print("Failed to format the decimal value")
-                    }
-                    fetchFirebase()
-                    fetchLatLong()
-                }
-                
                 UserDefaults.standard.removeObject(forKey: "stripeReceiptId")
                 UserDefaults.standard.removeObject(forKey: "receiptCreated")
                 
-                NotificationCenter.default.addObserver(forName: NSNotification.Name("PAYMENTDETAIL"), object: nil, queue: .main) { (_) in
-                        if readerDiscoverModel1.showPay {
-                            do {
-                                DispatchQueue.main.asyncAfter(deadline: .now() + 5){
-                                    willMoveToQr = true
-                                    showLoadingIndicator = false
-                                }
-                            }catch{
-                                print("Payment don't transfered")
-                            }
-                        }
-                        if readerDiscoverModel1.cancelPay {
-                            showLoadingIndicator = false
-                            toast = Toast(style: .error, message: "Payment could not successful, Please try again!")
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 2){
-                                presentationMode.wrappedValue.dismiss()
-                            }
-                        }
-                    
-                    if readerDiscoverModel1.errorPay {
-                        showLoadingIndicator = false
-                        toast = Toast(style: .error, message: "Something went wrong, Please try again!")
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 2){
-                            presentationMode.wrappedValue.dismiss()
-                        }
-                    }
+                // Calculate fees and amounts
+                calculateFees()
+                
+                NotificationCenter.default.addObserver(forName: NSNotification.Name("StopLoaderIndicator"), object: nil, queue: .main) { (_) in
+                    showLoadingIndicator = false
                 }
-            })
+            }
             .toastView(toast: $toast)
             .padding(.all, 20)
             
-            if showLoadingIndicator{
-                VStack{
-                    ActivityIndicatorView(isVisible: $showLoadingIndicator, type: .growingArc(.white, lineWidth: 5))
-                        .frame(width: 50.0, height: 50.0)
-                        .foregroundColor(.green)
-                        .padding(.top, 350)
-                }
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
-                .background(Color.black.opacity(0.5))
-                .edgesIgnoringSafeArea(.all)
+            // Payment Status Handling
+            paymentStatusOverlay
+            
+            // Loading Indicator
+            if showLoadingIndicator {
+                loadingIndicatorView
             }
         }
+    }
+    
+    // Extracted payment status handling
+    private var paymentStatusOverlay: some View {
+        Group {
+            switch paymentManager.paymentStatus {
+            case .processing:
+                ProgressView() // Added a loading indicator for processing state
+                
+            case .success:
+                Text("Payment Successful")
+//                EmptyView()
+                    .onAppear {
+                        readerManager.disconnectReader()
+                        showLoadingIndicator = false
+                        willMoveToQr = true
+                    }
+                
+            case .failed:
+                Text("Payment Failed")
+//                EmptyView()
+                    .onAppear {
+                        readerManager.disconnectReader()
+                        showLoadingIndicator = false
+                        presentationMode.wrappedValue.dismiss()
+                    }
+                
+            case .idle:
+                EmptyView()
+            }
+        }
+    }
+    
+    // Loading indicator view
+    private var loadingIndicatorView: some View {
+        VStack {
+            ActivityIndicatorView(isVisible: $showLoadingIndicator, type: .growingArc(.white, lineWidth: 5))
+                .frame(width: 50.0, height: 50.0)
+                .foregroundColor(.green)
+                .padding(.top, 350)
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .background(Color.black.opacity(0.5))
+        .edgesIgnoringSafeArea(.all)
+    }
+    
+    // Fee calculation method
+    private func calculateFees() {
+        guard let cost = Double(farePriceText.trimmingCharacters(in: .whitespaces)) else { return }
+        
+        let formatter = NumberFormatter()
+        formatter.minimumFractionDigits = 2
+        formatter.maximumFractionDigits = 2
+        formatter.minimumIntegerDigits = 1
+        
+        totalAmount = cost
+        AmountDetail.instance.totalAmount = formatter.string(from: (Decimal(totalAmount)) as NSNumber) ?? "0.00"
+        
+        let amountWithFivePercent = cost * 5 / 100
+        let srvcFee = (amountWithFivePercent / 1.1).roundToDecimal(2)
+        serviceFee = formatter.string(from: (Decimal(srvcFee)) as NSNumber) ?? "0.00"
+        AmountDetail.instance.serviceFee = srvcFee
+        
+        let srvcFeeGst = (amountWithFivePercent - srvcFee).roundToDecimal(2)
+        serviceFeeGst = formatter.string(from: (Decimal(srvcFeeGst)) as NSNumber) ?? "0.00"
+        AmountDetail.instance.serviceFeeGst = srvcFeeGst
+        
+        let totalChargresWithTx = (srvcFee + srvcFeeGst + cost).roundToDecimal(2)
+        let colFeeStripe = (srvcFee + srvcFeeGst).roundToDecimal(2)
+        
+        collectedFeeStripe = String(colFeeStripe)
+        AmountDetail.instance.collectionStrFee = collectedFeeStripe
+        
+        totalChargresWithTax = formatter.string(from: (Decimal(totalChargresWithTx)) as NSNumber) ?? "0.00"
+        AmountDetail.instance.totalChargresWithTax = totalChargresWithTax
+        
+        fetchFirebase()
+        fetchLatLong()
     }
 }
 
@@ -287,33 +302,41 @@ extension PaymentDetailView{
 //                willMoveTapToPayView.toggle()
 //                print(currencyManager.string)
                 
-                DispatchQueue.main.async {
-                    
-                    if readerDiscoverModel1.showPay {
-                        
-                        do {
-                            showLoadingIndicator = true
-                            try readerDiscoverModel1.collectPayment(amount: totalChargresWithTax.description, serviceFee: serviceFee.description, serviceFeeGST: collectedFeeStripe)
+//                DispatchQueue.main.async {
+//                    
+//                    if readerDiscoverModel1.showPay {
+//                        
+//                        do {
+//                            showLoadingIndicator = true
+//                            try readerDiscoverModel1.collectPayment(amount: totalChargresWithTax.description, serviceFee: serviceFee.description, serviceFeeGST: collectedFeeStripe)
+////                            showLoadingIndicator = false
+//                        }catch{
+//                            print("Payment don't transfered")
 //                            showLoadingIndicator = false
-                        }catch{
-                            print("Payment don't transfered")
-                            showLoadingIndicator = false
-                        }
-                    }
-                    else {
-                        do {
-                            showLoadingIndicator = true
-                            try readerDiscoverModel1.discoverReaders()
+//                        }
+//                    }
+//                    else {
+//                        do {
+//                            showLoadingIndicator = true
+//                            try readerDiscoverModel1.discoverReaders()
+////                            showLoadingIndicator = false
+//                        }catch{
+//                            print("Readers not discovered")
 //                            showLoadingIndicator = false
-                        }catch{
-                            print("Readers not discovered")
-                            showLoadingIndicator = false
-                        }
-                    }
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 40){
-                        showLoadingIndicator = false
-                    }
-                }
+//                        }
+//                    }
+//                    DispatchQueue.main.asyncAfter(deadline: .now() + 40){
+//                        showLoadingIndicator = false
+//                    }
+//                }
+                
+                showLoadingIndicator = true
+                paymentManager.initiatePayment(
+                                        amount: AmountDetail.instance.totalChargresWithTax.description,
+                                        serviceFee: AmountDetail.instance.serviceFee.description,
+                                        serviceFeeGST: AmountDetail.instance.collectionStrFee,
+                                        appAccountId: appAccountId
+                                    )
                 
             } label: {
                 
@@ -421,8 +444,9 @@ extension PaymentDetailView{
         }
     }
     
-    func navigateToInvoiice() {
-//        UINavigationController.ins
+    func navigateToInvoice() {
+        willMoveToQr = true
+        showLoadingIndicator = false
     }
     
 }
@@ -448,7 +472,7 @@ class AmountDetail {
     var fareStripeId = ""
 }
 
-class ReaderDiscoverModel1:NSObject,ObservableObject ,DiscoveryDelegate{
+/*class ReaderDiscoverModel1:NSObject,ObservableObject ,DiscoveryDelegate{
     
     var discoverCancelable: Cancelable?
     var collectCancelable: Cancelable?
@@ -705,5 +729,223 @@ class ReaderDiscoverModel1:NSObject,ObservableObject ,DiscoveryDelegate{
         }
         task.resume()
     }
+}*/
+
+
+class ReaderConnectionManager: NSObject, ObservableObject, DiscoveryDelegate {
+    private var discoverCancelable: Cancelable?
+    
+    @Published var isReaderConnected = false
+    @Published var connectionError: Error?
+    
+    func discoverReaders() {
+        // Determine simulator status based on environment
+        let isSimulator: Bool = {
+            switch API.App_Envir {
+            case "Dev": return true
+            default: return false
+            }
+        }()
+        
+        do {
+            let config = try LocalMobileDiscoveryConfigurationBuilder()
+                .setSimulated(isSimulator)
+                .build()
+            
+            self.discoverCancelable = Terminal.shared.discoverReaders(config, delegate: self) { error in
+                if let error = error {
+                    print("discoverReaders failed: \(error)")
+                    self.connectionError = error
+                    self.isReaderConnected = false
+                } else {
+                    print("discoverReaders succeeded")
+                }
+            }
+        } catch {
+            print("Error creating discovery configuration: \(error)")
+            self.connectionError = error
+        }
+    }
+    
+    func terminal(_ terminal: Terminal, didUpdateDiscoveredReaders readers: [Reader]) {
+        guard let selectedReader = readers.first else { return }
+        
+        let termiialLocationID: String = {
+            switch API.App_Envir {
+            case "Production": return "tml_Ff2ffAMANyDVrx"
+            case "Dev": return "tml_FLrhpAr3WfbIVw"
+            case "Stagging": return "tml_Ff2ffAMANyDVrx"
+            default: return "tml_Ff2ffAMANyDVrx"
+            }
+        }()
+        
+        do {
+            let connectionConfig = try LocalMobileConnectionConfigurationBuilder(
+                locationId: selectedReader.locationId ?? termiialLocationID
+            ).build()
+            
+            Terminal.shared.connectLocalMobileReader(
+                selectedReader,
+                delegate: LocalMobileReaderDelegateAnnouncer.shared,
+                connectionConfig: connectionConfig
+            ) { [weak self] reader, error in
+                if let reader = reader {
+                    NotificationCenter.default.post(name: NSNotification.Name("StopLoaderIndicator"), object: nil)
+                    print("Successfully connected to reader: \(reader)")
+                    self?.isReaderConnected = true
+                } else if let error = error {
+                    NotificationCenter.default.post(name: NSNotification.Name("StopLoaderIndicator"), object: nil)
+                    print("connectLocalMobileReader failed: \(error)")
+                    self?.connectionError = error
+                }
+            }
+        } catch {
+            NotificationCenter.default.post(name: NSNotification.Name("StopLoaderIndicator"), object: nil)
+            print("Error creating LocalMobileConnectionConfiguration: \(error)")
+            self.connectionError = error
+        }
+    }
+    
+    func disconnectReader() {
+        Terminal.shared.disconnectReader { error in
+            if let error = error {
+                print("Disconnect failed: \(error)")
+            } else {
+                print("Reader Disconnected")
+            }
+        }
+    }
 }
 
+// Part 2: Payment Initiation Manager
+class PaymentInitiationManager: ObservableObject {
+    @Published var paymentStatus: PaymentStatus = .idle
+    @AppStorage("accountId") private var apAccountId: String = ""
+    
+    enum PaymentStatus {
+        case idle, processing, success, failed
+    }
+    
+    func initiatePayment(
+        amount: String,
+        serviceFee: String,
+        serviceFeeGST: String,
+        appAccountId: String
+    ) {
+        do {
+            let formatter = NumberFormatter()
+            formatter.minimumFractionDigits = 2
+            formatter.maximumFractionDigits = 2
+            formatter.minimumIntegerDigits = 1
+            
+            let developer = amount
+            let array = developer.split(separator: ".").map(String.init)
+            let arrAmount = "\(array[0])\(array[1])"
+            print("Array amount: ",arrAmount)
+              
+            print("serviceFeeGST amount: ",serviceFeeGST)
+            
+            let srvGArray = serviceFeeGST.split(separator: ".").map(String.init)
+            let srvGAmount = "\(srvGArray[0])\(srvGArray[1])"
+            print("srvArray GST amount: ",srvGAmount)
+            
+            print("srvArr amount: ",srvGAmount.toUInt() as Any)
+            let tNumber = UserDefaults.standard.string(forKey: "txNumber") ?? "0"
+            let dABN = UserDefaults.standard.string(forKey: "driABN")
+            let dLicence = UserDefaults.standard.string(forKey: "driLicence")
+            let fAddress = UserDefaults.standard.string(forKey: "fareAddress") ?? "Australia"
+            
+            print("tNumber: ",tNumber, ",dABN", dABN, ",dLicence", dLicence, ",fareAddress", fAddress)
+            print("appAccountId: ",appAccountId, ",srvGAmount", NumberFormatter().number(from: srvGAmount))
+            let param = [
+                "taxiID": tNumber,
+    //            "ABN": dABN,
+    //            "Driverlicence": dLicence,
+                "Address": fAddress
+            ] as? [String: String]
+            print("metadata params: ",param)
+            
+            let params = try PaymentIntentParametersBuilder(amount: UInt(arrAmount) ?? 0, currency: "AUD")
+                .setPaymentMethodTypes(["card_present"])
+//                .setApplicationFeeAmount(srvGAmount.toUInt() as NSNumber?)
+                .setApplicationFeeAmount(NumberFormatter().number(from: srvGAmount))
+                .setCaptureMethod(CaptureMethod.automatic)
+                .setMetadata(param)
+                .setTransferDataDestination(apAccountId)
+                .build()
+            
+            Terminal.shared.createPaymentIntent(params) {
+              createResult, createError in
+                if let error = createError {
+                    print("createPaymentIntent failed: \(error)")
+                    
+//                    self.disconnectFromReader()
+                    NotificationCenter.default.post(name: NSNotification.Name("PAYMENTDETAIL"), object: nil)
+                } else if let paymentIntent = createResult {
+                    print("createPaymentIntent succeeded")
+                    Terminal.shared.collectPaymentMethod(paymentIntent) { collectResult, collectError in
+                        if let error = collectError {
+                            print("collectPaymentMethod failed: \(error)")
+                            
+//                            self.disconnectReader()
+                            self.paymentStatus = .failed
+                            NotificationCenter.default.post(name: NSNotification.Name("PAYMENTDETAIL"), object: nil)
+                        } else if let paymentIntent = collectResult {
+                            print("collectPaymentMethod succeeded", paymentIntent)
+                            self.paymentStatus = .success
+                            self.confirmPaymentIntent(paymentIntent)
+//                            self.disconnectFromReader()
+//                            DispatchQueue.main.asyncAfter(deadline: .now() + 3){
+//                                self.PassMetaDataToConAcc(transferId: paymentIntent.stripeId ?? "", address: fAddress, tNumberId: tNumber ?? "")
+//                            }
+//                            NotificationCenter.default.post(name: NSNotification.Name("PAYMENTDETAIL"), object: nil)
+                        }
+                    }
+                }
+            }
+        } catch {
+            print("Payment initiation error: \(error)")
+            paymentStatus = .failed
+        }
+    }
+    
+    private func collectPaymentMethod(paymentIntent: PaymentIntent) {
+        Terminal.shared.collectPaymentMethod(paymentIntent) { [weak self] collectResult, collectError in
+            if let error = collectError {
+                print("collectPaymentMethod failed: \(error)")
+                self?.paymentStatus = .failed
+                return
+            }
+            
+            guard let collectedPaymentIntent = collectResult else {
+                self?.paymentStatus = .failed
+                return
+            }
+            
+            self?.confirmPaymentIntent(collectedPaymentIntent)
+        }
+    }
+    
+    private func confirmPaymentIntent(_ paymentIntent: PaymentIntent) {
+        Terminal.shared.confirmPaymentIntent(paymentIntent) { [weak self] confirmResult, confirmError in
+            if let error = confirmError {
+                print("confirmPaymentIntent failed: \(error)")
+                self?.paymentStatus = .failed
+                return
+            }
+            
+            guard let confirmedPaymentIntent = confirmResult else {
+                self?.paymentStatus = .failed
+                return
+            }
+            
+            // Store receipt details
+            if let stripeChargesArr = confirmedPaymentIntent.charges.first {
+                UserDefaults.standard.set(stripeChargesArr.stripeId, forKey: "stripeReceiptId")
+                UserDefaults.standard.set(confirmedPaymentIntent.created, forKey: "receiptCreated")
+            }
+            
+            self?.paymentStatus = .success
+        }
+    }
+}

@@ -142,7 +142,7 @@ extension TransactionDetailView{
             Text("Charged at")
                 .font(.custom(.poppinsBold, size: 20))
                 .foregroundColor(.white)
-            Text("\(dateToString(date:Date(timeIntervalSince1970: TimeInterval(transactionType.created ?? 0)))) \(" in ") \(String(describing: transactionType.metadata?.Address))")
+            Text("\(dateToString(date:Date(timeIntervalSince1970: TimeInterval(transactionType.created ?? 0)))) \(" in ") \(transactionType.metadata?.Address ?? " ")")
                 .font(.custom(.poppinsMedium, size: 12))
                 .foregroundColor(.white)
         }

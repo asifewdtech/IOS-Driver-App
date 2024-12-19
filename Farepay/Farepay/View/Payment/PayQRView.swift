@@ -80,7 +80,7 @@ struct PayQRView: View {
                         }
                         
                         
-                        let rcptID = String(describing: stripeReceiptId ?? "N/A")
+                        let rcptID = stripeReceiptId ?? ""
                         let strReceiptId1 = rcptID.dropLast(12)
                         let strReceiptId2 = rcptID.dropFirst(12)
                         let strReceiptId = "\(strReceiptId1)\("\n")\(strReceiptId2)"
@@ -91,7 +91,7 @@ struct PayQRView: View {
                         print("receiptCreatedInt: ",receiptCreatedInt)
                         print("receiptDate: ",receiptDateTime)
                         
-                        qrUrl = "\("https://dev-ewdtech.org/appmob/?param1=")\(strReceiptId )\("&param2=")\(receiptDateTime ?? "N/A")\("&param3=")\( taxiNumber ?? "N/A")\("&param4=")\(driverID ?? "N/A")\("&param5=")\( driverABN ?? "N/A")\("&param6=")\(AmountDetail.instance.totalAmount.description)\("&param7=")\(AmountDetail.instance.serviceFee.description)\("&param8=")\(AmountDetail.instance.serviceFeeGst.description)\("&param9=")\(AmountDetail.instance.totalChargresWithTax.description)"
+                        qrUrl = "\("https://farepay.app/receipts/?param1=")\(strReceiptId )\("&param2=")\(receiptDateTime ?? "N/A")\("&param3=")\( taxiNumber ?? "N/A")\("&param4=")\(driverID ?? "N/A")\("&param5=")\( driverABN ?? "N/A")\("&param6=")\(AmountDetail.instance.totalAmount.description)\("&param7=")\(AmountDetail.instance.serviceFee.description)\("&param8=")\(AmountDetail.instance.serviceFeeGst.description)\("&param9=")\(AmountDetail.instance.totalChargresWithTax.description)"
                         
                         print("qrUrl: ",qrUrl)
                     })
@@ -248,12 +248,12 @@ extension PayQRView{
                 let totalSrvFee = formatter.string(from: AmountDetail.instance.serviceFee as NSNumber) ?? "0.00"
                 let totalSrvFeeGST = formatter.string(from: AmountDetail.instance.serviceFeeGst as NSNumber) ?? "0.00"
                 
-                let rcptID = String(describing: stripeReceiptId ?? "N/A")
+                let rcptID = stripeReceiptId ?? ""
                 let strReceiptId1 = rcptID.dropLast(12)
                 let strReceiptId2 = rcptID.dropFirst(12)
                 let strReceiptId = "\(strReceiptId1)\("\n")\(strReceiptId2)"
                 
-                let QRUrl = "\("https://dev-ewdtech.org/appmob/?param1=")\(strReceiptId )\("&param2=")\(receiptDateTime ?? "N/A")\("&param3=")\( taxiNumber ?? "N/A")\("&param4=")\(driverID ?? "N/A")\("&param5=")\( driverABN ?? "N/A")\("&param6=")\(  totalAm ?? "0.00")\("&param7=")\(totalSrvFee)\("&param8=")\(totalSrvFeeGST)\("&param9=")\(totalCharWithTax ?? "0.00")\("&param10=")\(fAddress)"
+                let QRUrl = "\("https://farepay.app/receipts/?param1=")\(strReceiptId )\("&param2=")\(receiptDateTime ?? "N/A")\("&param3=")\( taxiNumber ?? "N/A")\("&param4=")\(driverID ?? "N/A")\("&param5=")\( driverABN ?? "N/A")\("&param6=")\(  totalAm ?? "0.00")\("&param7=")\(totalSrvFee)\("&param8=")\(totalSrvFeeGST)\("&param9=")\(totalCharWithTax ?? "0.00")\("&param10=")\(fAddress)"
                 
                 Image(uiImage: UIImage(data: getQRCodeDate(text: QRUrl)!)!)
                 

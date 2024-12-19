@@ -20,7 +20,7 @@ struct PaymentView: View {
     @Binding var presentSideMenu: Bool
     @State private var toast: Toast? = nil
     @State private var willMoveTapToPayView = false
-    @StateObject var readerDiscoverModel1 = ReaderDiscoverModel1()
+//    @StateObject var readerDiscoverModel1 = ReaderDiscoverModel1()
     @State private var willMoveToQr = false
     @State private var showLoadingIndicator: Bool = false
     @State private var locationPermission = false
@@ -409,6 +409,7 @@ extension PaymentView{
                 }
                 else {
                 setMainView(false)
+                    UserDefaults.standard.set(1, forKey: "connectReaderBit")
                 print("currencyManager.string1: ", currencyManager.string1)
                 willMoveToPaymentDetail.toggle()
             }
