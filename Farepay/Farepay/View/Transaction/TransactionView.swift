@@ -298,6 +298,7 @@ extension TransactionView{
                                         .foregroundColor(.white)
                                     Spacer()
                                     let val = 1 + 0.05
+//                                    let val = 1 + 0.0455
                                     let val1 = Double((trans.amount ?? 0))
                                     let val2 = (val1 / val)
                                     let val3 = (val2 / 100).roundToDecimal(2)

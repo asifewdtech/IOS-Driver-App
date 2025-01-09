@@ -55,6 +55,10 @@ struct PaymentDetailView: View {
                 buttonArea
             }
             .onAppear {
+//                matrixAPICall()
+                fetchFirebase()
+                fetchLatLong()
+                
                 let connectReaderBit = UserDefaults.standard.integer(forKey: "connectReaderBit")
                 if connectReaderBit == 1{
                     UserDefaults.standard.removeObject(forKey: "connectReaderBit")
@@ -72,7 +76,7 @@ struct PaymentDetailView: View {
                 UserDefaults.standard.removeObject(forKey: "receiptCreated")
                 
                 // Calculate fees and amounts
-                calculateFees()
+//                calculateFees()
                 
                 NotificationCenter.default.addObserver(forName: NSNotification.Name("StopLoaderIndicator"), object: nil, queue: .main) { (_) in
                     showLoadingIndicator = false
@@ -165,8 +169,7 @@ struct PaymentDetailView: View {
         totalChargresWithTax = formatter.string(from: (Decimal(totalChargresWithTx)) as NSNumber) ?? "0.00"
         AmountDetail.instance.totalChargresWithTax = totalChargresWithTax
         
-        fetchFirebase()
-        fetchLatLong()
+        
     }
 }
 
@@ -188,6 +191,7 @@ extension PaymentDetailView{
                     .resizable()
                     .frame(width: 30, height: 25)
                     .onTapGesture {
+                        readerManager.disconnectReader()
                         presentationMode.wrappedValue.dismiss()
                     }
                 
@@ -411,8 +415,8 @@ extension PaymentDetailView{
             guard let currentLocation = locManager.location else {
                 return
             }
-            print(currentLocation.coordinate.latitude)
-            print(currentLocation.coordinate.longitude)
+            print("fetchLatLong latitude: ",currentLocation.coordinate.latitude)
+            print("fetchLatLong longitude: ",currentLocation.coordinate.longitude)
             
             getAddressFromLatLong(latitude: currentLocation.coordinate.latitude, longitude: currentLocation.coordinate.longitude)
         }
@@ -426,6 +430,7 @@ extension PaymentDetailView{
             switch response.result {
             case let .success(value):
                 if let results = (value as AnyObject).object(forKey: "results")  as? [NSDictionary] {
+                    print("getAddressFromLatLong: ",results)
                     if let addressComponents = results[1]["address_components"] as? [NSDictionary] {
                         for component in addressComponents {
                             if let temp = component.object(forKey: "types") as? [String] {
@@ -433,6 +438,7 @@ extension PaymentDetailView{
                                     let address = component["long_name"] as? String ?? "N/A"
                                     print("city value: ",address)
                                     UserDefaults.standard.set(address, forKey: "fareAddress")
+                                    matrixAPICall()
                                 }
                             }
                         }
@@ -449,6 +455,62 @@ extension PaymentDetailView{
         showLoadingIndicator = false
     }
     
+    func matrixAPICall(){
+        let fAddress = "New%20South%20Wales" //UserDefaults.standard.string(forKey: "fareAddress") ?? "New%20South%20Wales"
+        let latlongStr = fAddress.replacingOccurrences(of: " ", with: "%20", options: .literal, range: nil)
+        
+        var request = URLRequest(url: URL(string: "\("https://lwur9h24j0.execute-api.eu-north-1.amazonaws.com/default/CalculateFareAndFee?fareInclGST=")\(farePriceText.trimmingCharacters(in: .whitespaces))&state=\(latlongStr)")!,timeoutInterval: Double.infinity)
+        print("matrixAPICall url: ",request)
+        request.httpMethod = "GET"
+        
+        let task = URLSession.shared.dataTask(with: request) { data, response, error in
+          guard let data = data else {
+            print(String(describing: error))
+            return
+          }
+          print("matrixAPICall is: ",String(data: data, encoding: .utf8)!)
+            do {
+                if let jsonDict = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] {
+                    if let statusDict = jsonDict["step4Implementation"] as? String {
+                        print("Success matrixAPICall parsing JSON: \(statusDict)")
+                        
+                        // Split the string into components
+                        let array = statusDict.split(separator: "+").map(String.init)
+                        let array1 = array[2].split(separator: "=").map(String.init)
+                        
+                        // Ensure valid numbers before formatting
+                        if let serviceFeeValue = Double(array[1].trimmingCharacters(in: .whitespaces)),
+                           let serviceFeeGstValue = Double(array1[0].trimmingCharacters(in: .whitespaces)),
+                           let totalChargesValue = Double(array1[1].trimmingCharacters(in: .whitespaces)) {
+                            
+                            let formatter = NumberFormatter()
+                            formatter.minimumFractionDigits = 2
+                            formatter.maximumFractionDigits = 2
+                            formatter.minimumIntegerDigits = 1
+                            
+                            // Format the numbers as strings
+                            serviceFee = formatter.string(for: serviceFeeValue) ?? "0.00"
+                            serviceFeeGst = formatter.string(for: serviceFeeGstValue) ?? "0.00"
+                            totalChargresWithTax = formatter.string(for: totalChargesValue) ?? "0.00"
+                            
+                            AmountDetail.instance.totalChargresWithTax = formatter.string(for: totalChargesValue) ?? "0.00"
+                            AmountDetail.instance.totalAmount = formatter.string(for: totalChargesValue) ?? "0.00"
+                            AmountDetail.instance.serviceFee = serviceFeeValue
+                            AmountDetail.instance.serviceFeeGst = serviceFeeGstValue
+                            AmountDetail.instance.collectionStrFee = array[2]
+                        } else {
+                            print("Error: Could not parse numbers from the string.")
+                        }
+                    }
+                }
+            }
+            catch{
+                print("Error parsing JSON: \(error)")
+                toast = Toast(style: .error, message: "create Session StripeIdentity - \(error)")
+            }
+        }
+        task.resume()
+    }
 }
 
 
@@ -943,6 +1005,14 @@ class PaymentInitiationManager: ObservableObject {
             if let stripeChargesArr = confirmedPaymentIntent.charges.first {
                 UserDefaults.standard.set(stripeChargesArr.stripeId, forKey: "stripeReceiptId")
                 UserDefaults.standard.set(confirmedPaymentIntent.created, forKey: "receiptCreated")
+                
+                let stripeChargesArr = confirmedPaymentIntent.charges
+                let stripeReceiptId = stripeChargesArr[0].stripeId
+                let receiptCreated = confirmedPaymentIntent.created
+                
+                AmountDetail.instance.fareStripeId = stripeReceiptId
+                AmountDetail.instance.fareDateTime = receiptCreated
+                AmountDetail.instance.fareDateTimeInt = 0
             }
             
             self?.paymentStatus = .success
