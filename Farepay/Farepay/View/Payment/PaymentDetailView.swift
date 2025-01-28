@@ -103,7 +103,7 @@ struct PaymentDetailView: View {
                 ProgressView() // Added a loading indicator for processing state
                 
             case .success:
-                Text("Payment Successful")
+                Text("")
 //                EmptyView()
                     .onAppear {
                         readerManager.disconnectReader()
@@ -438,6 +438,11 @@ extension PaymentDetailView{
                                     let address = component["long_name"] as? String ?? "N/A"
                                     print("city value: ",address)
                                     UserDefaults.standard.set(address, forKey: "fareAddress")
+                                }
+                                if (temp[0] == "administrative_area_level_1") {
+                                    let address = component["long_name"] as? String ?? "N/A"
+                                    print("state value: ",address)
+                                    UserDefaults.standard.set(address, forKey: "fareStateAddress")
                                     matrixAPICall()
                                 }
                             }
@@ -450,16 +455,22 @@ extension PaymentDetailView{
         }
     }
     
-    func navigateToInvoice() {
-        willMoveToQr = true
-        showLoadingIndicator = false
-    }
-    
     func matrixAPICall(){
-        let fAddress = "New%20South%20Wales" //UserDefaults.standard.string(forKey: "fareAddress") ?? "New%20South%20Wales"
+//        let fAddress = UserDefaults.standard.string(forKey: "fareStateAddress") ?? "New%20South%20Wales"
+        var fAddress = ""
+        if API.App_Envir == "Production" {
+            fAddress = UserDefaults.standard.string(forKey: "fareStateAddress") ?? "New%20South%20Wales"
+        }
+        else if API.App_Envir == "Dev" {
+            fAddress = "New%20South%20Wales"
+        }else{
+            fAddress = UserDefaults.standard.string(forKey: "fareStateAddress") ?? "New%20South%20Wales"
+        }
+        
+        
         let latlongStr = fAddress.replacingOccurrences(of: " ", with: "%20", options: .literal, range: nil)
         
-        var request = URLRequest(url: URL(string: "\("https://lwur9h24j0.execute-api.eu-north-1.amazonaws.com/default/CalculateFareAndFee?fareInclGST=")\(farePriceText.trimmingCharacters(in: .whitespaces))&state=\(latlongStr)")!,timeoutInterval: Double.infinity)
+        var request = URLRequest(url: URL(string: "\("https://scu64u0v0g.execute-api.eu-north-1.amazonaws.com/default/CalculateFareAndFee?fareInclGST=")\(farePriceText.trimmingCharacters(in: .whitespaces))&state=\(latlongStr)")!,timeoutInterval: Double.infinity)
         print("matrixAPICall url: ",request)
         request.httpMethod = "GET"
         
@@ -470,43 +481,71 @@ extension PaymentDetailView{
           }
           print("matrixAPICall is: ",String(data: data, encoding: .utf8)!)
             do {
+//                if let jsonDict = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] {
+//                    if let statusDict = jsonDict["step4Implementation"] as? String {
+//                        print("Success matrixAPICall parsing JSON: \(statusDict)")
+//                        
+//                        // Split the string into components
+//                        let array = statusDict.split(separator: "+").map(String.init)
+//                        let array1 = array[2].split(separator: "=").map(String.init)
+//                        
+//                        // Ensure valid numbers before formatting
+//                        if let serviceFeeValue = Double(array[1].trimmingCharacters(in: .whitespaces)),
+//                           let serviceFeeGstValue = Double(array1[0].trimmingCharacters(in: .whitespaces)),
+//                           let totalChargesValue = Double(array1[1].trimmingCharacters(in: .whitespaces)) {
+//                            
+//                            let formatter = NumberFormatter()
+//                            formatter.minimumFractionDigits = 2
+//                            formatter.maximumFractionDigits = 2
+//                            formatter.minimumIntegerDigits = 1
+//                            
+//                            // Format the numbers as strings
+//                            serviceFee = formatter.string(for: serviceFeeValue) ?? "0.00"
+//                            serviceFeeGst = formatter.string(for: serviceFeeGstValue) ?? "0.00"
+//                            totalChargresWithTax = formatter.string(for: totalChargesValue) ?? "0.00"
+//                            
+//                            AmountDetail.instance.totalChargresWithTax = formatter.string(for: totalChargesValue) ?? "0.00"
+//                            AmountDetail.instance.totalAmount = formatter.string(for: totalChargesValue) ?? "0.00"
+//                            AmountDetail.instance.serviceFee = serviceFeeValue
+//                            AmountDetail.instance.serviceFeeGst = serviceFeeGstValue
+//                            AmountDetail.instance.collectionStrFee = array[2]
+//                        } else {
+//                            print("Error: Could not parse numbers from the string.")
+//                        }
+//                    }
+//                }
                 if let jsonDict = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] {
-                    if let statusDict = jsonDict["step4Implementation"] as? String {
-                        print("Success matrixAPICall parsing JSON: \(statusDict)")
-                        
-                        // Split the string into components
-                        let array = statusDict.split(separator: "+").map(String.init)
-                        let array1 = array[2].split(separator: "=").map(String.init)
-                        
-                        // Ensure valid numbers before formatting
-                        if let serviceFeeValue = Double(array[1].trimmingCharacters(in: .whitespaces)),
-                           let serviceFeeGstValue = Double(array1[0].trimmingCharacters(in: .whitespaces)),
-                           let totalChargesValue = Double(array1[1].trimmingCharacters(in: .whitespaces)) {
-                            
-                            let formatter = NumberFormatter()
-                            formatter.minimumFractionDigits = 2
-                            formatter.maximumFractionDigits = 2
-                            formatter.minimumIntegerDigits = 1
-                            
-                            // Format the numbers as strings
-                            serviceFee = formatter.string(for: serviceFeeValue) ?? "0.00"
-                            serviceFeeGst = formatter.string(for: serviceFeeGstValue) ?? "0.00"
-                            totalChargresWithTax = formatter.string(for: totalChargesValue) ?? "0.00"
-                            
-                            AmountDetail.instance.totalChargresWithTax = formatter.string(for: totalChargesValue) ?? "0.00"
-                            AmountDetail.instance.totalAmount = formatter.string(for: totalChargesValue) ?? "0.00"
-                            AmountDetail.instance.serviceFee = serviceFeeValue
-                            AmountDetail.instance.serviceFeeGst = serviceFeeGstValue
-                            AmountDetail.instance.collectionStrFee = array[2]
-                        } else {
-                            print("Error: Could not parse numbers from the string.")
-                        }
-                    }
+                    // Safely extract the values from the JSON response
+                    let serviceFeeMatrix = jsonDict["serviceFee"] as? String
+                    let serviceFeeGstMatrix = jsonDict["serviceFeeGst"] as? String
+                    let totalFeeMatrix = jsonDict["total"] as? String
+
+                    // Convert strings to Double for further manipulation if needed
+                    let serviceFeeValue = Double(serviceFeeMatrix ?? "0") ?? 0.00
+                    let serviceFeeGstValue = Double(serviceFeeGstMatrix ?? "0") ?? 0.00
+                    let totalFeeValue = Double(totalFeeMatrix ?? "0") ?? 0.00
+
+                    // Set up number formatter for consistent output
+                    let formatter = NumberFormatter()
+                    formatter.minimumFractionDigits = 2
+                    formatter.maximumFractionDigits = 2
+                    formatter.minimumIntegerDigits = 1
+
+                    // Format and assign values
+                    serviceFee = formatter.string(for: serviceFeeValue) ?? "0.00"
+                    serviceFeeGst = formatter.string(for: serviceFeeGstValue) ?? "0.00"
+                    totalChargresWithTax = formatter.string(for: totalFeeValue) ?? "0.00"
+                    
+                    AmountDetail.instance.totalChargresWithTax = formatter.string(for: totalFeeValue) ?? "0.00"
+                    AmountDetail.instance.totalAmount = formatter.string(for: totalFeeValue) ?? "0.00"
+                    AmountDetail.instance.serviceFee = serviceFeeValue
+                    AmountDetail.instance.serviceFeeGst = serviceFeeGstValue
+                    AmountDetail.instance.collectionStrFee = serviceFeeGst
                 }
             }
             catch{
                 print("Error parsing JSON: \(error)")
-                toast = Toast(style: .error, message: "create Session StripeIdentity - \(error)")
+                toast = Toast(style: .error, message: "Matrix API Call - \(error)")
             }
         }
         task.resume()
@@ -957,9 +996,9 @@ class PaymentInitiationManager: ObservableObject {
                             self.paymentStatus = .success
                             self.confirmPaymentIntent(paymentIntent)
 //                            self.disconnectFromReader()
-//                            DispatchQueue.main.asyncAfter(deadline: .now() + 3){
-//                                self.PassMetaDataToConAcc(transferId: paymentIntent.stripeId ?? "", address: fAddress, tNumberId: tNumber ?? "")
-//                            }
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 3){
+                                self.PassMetaDataToConAcc(transferId: paymentIntent.stripeId ?? "", address: fAddress, tNumberId: tNumber)
+                            }
 //                            NotificationCenter.default.post(name: NSNotification.Name("PAYMENTDETAIL"), object: nil)
                         }
                     }
@@ -1017,5 +1056,38 @@ class PaymentInitiationManager: ObservableObject {
             
             self?.paymentStatus = .success
         }
+    }
+    
+    func PassMetaDataToConAcc(transferId: String, address: String, tNumberId: String){
+        let transGrpId = "group_\(transferId)"
+        var reportUrl = ""
+        if API.App_Envir == "Production" {
+            reportUrl = "https://ewlzgqybpa.execute-api.eu-north-1.amazonaws.com/default/PassMetaDataToConnectAccount?transferGroupId=\(transGrpId)&address=\(address)&taxiId=\(tNumberId)"
+        }
+        else if API.App_Envir == "Dev" {
+            reportUrl = "https://rgvkobwnek.execute-api.eu-north-1.amazonaws.com/default/PassMetaDataToConnectAccount?transferGroupId=\(transGrpId)&address=\(address)&taxiId=\(tNumberId)"
+        }
+        else if API.App_Envir == "Stagging" {
+            reportUrl = "https://ofrykfo9dg.execute-api.eu-north-1.amazonaws.com/default/PassMetaDataToConnectAccount?transferGroupId=\(transGrpId)&address=\(address)&taxiId=\(tNumberId)"
+        }else{
+            reportUrl = "https://ewlzgqybpa.execute-api.eu-north-1.amazonaws.com/default/PassMetaDataToConnectAccount?transferGroupId=\(transGrpId)&address=\(address)&taxiId=\(tNumberId)"
+        }
+        let urlNewAcc :String = reportUrl.replacingOccurrences(of: " ", with: "%20")
+        print("reportUrl: ",urlNewAcc)
+        
+        guard let url = URL(string: urlNewAcc) else { return }
+        var request = URLRequest(url: url, timeoutInterval: Double.infinity)
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        
+        request.httpMethod = "POST"
+        
+        let task = URLSession.shared.dataTask(with: request) { data, response, error in
+          guard let data = data else {
+            print("PassMetaDataToConAcc Err: ",String(describing: error))
+            return
+          }
+          print("PassMetaDataToConAcc Scc: ",String(data: data, encoding: .utf8))
+        }
+        task.resume()
     }
 }

@@ -97,16 +97,6 @@ struct RepresentativeView: View {
                         }
                     }
                 }
-                
-                
-//                userText = "\(userIdentityDetail.instance.firstName)\(" ")\(userIdentityDetail.instance.lastName)"
-//                streetAddr = "\(userIdentityDetail.instance.Street)\(" ")\(userIdentityDetail.instance.appartment)"
-//                cityAddr = userIdentityDetail.instance.city
-//                postalAddr = userIdentityDetail.instance.postalCode
-//                stateAddr = userIdentityDetail.instance.state
-//                countryAddr = userIdentityDetail.instance.country
-//                dateText = userIdentityDetail.instance.dateOfBirth
-//                driverLicenseText = userIdentityDetail.instance.driverLicense
             })
             .padding(.all, 15)
             .toastView(toast: $toast)
@@ -217,157 +207,6 @@ extension RepresentativeView{
                 MDCFilledTextFieldWrapper(leadingImage: .constant(.ic_Card), text: $driverABNText.max(11), placHolderText: .constant("Enter your driver ABN"), isSecure: .constant(false),isNumberPad: true)
                 
                 MDCFilledTextFieldWrapper(leadingImage: .constant(.ic_Contact), text: $driverLicenseText.max(11), placHolderText: .constant("Enter your Driver Licence"), isSecure: .constant(false),isNumberPad: true)
-//                    .allowsHitTesting(false)
-                
-                /*ZStack{
-
-                    HStack(alignment: .center, spacing: 10){
-                        
-                        Image(uiImage: .ic_Home)
-                            .resizable()
-                            .frame(width: 30, height: 30)
-                        
-                        
-                        TextEditor(text: $addressText)
-                            .font(.custom(.poppinsMedium, size: 18))
-                            .foregroundColor(.white)
-                            .scrollContentBackground(.hidden)
-                            .padding(.vertical, 30)
-                            .overlay(
-                                
-                                VStack{
-                                    Text(addressText == "" ? "Street Address" : "")
-                                        .font(.custom(.poppinsMedium, size: 18))
-                                        .foregroundColor(Color(.darkGrayColor))
-//                                    Spacer()
-                                },
-                                alignment: .leading
-                            )
-                    }
-                    .padding([.all], 10)
-                }
-                .frame(height: 100)
-                .background(Color(.darkBlueColor))
-                
-                ZStack{
-                    HStack(alignment: .center, spacing: 10){
-                        
-                        Image(uiImage: .ic_Home)
-                            .resizable()
-                            .frame(width: 30, height: 30)
-                        
-                        
-                        TextEditor(text: $addressText)
-                            .font(.custom(.poppinsMedium, size: 18))
-                            .foregroundColor(.white)
-                            .scrollContentBackground(.hidden)
-                            .padding(.vertical, 20)
-                            .overlay(
-
-                                VStack{
-
-                                    Text(addressText == "" ? "Country" : "")
-                                        .font(.custom(.poppinsMedium, size: 18))
-                                        .foregroundColor(Color(.darkGrayColor))
-//                                    Spacer()
-                                },
-                                alignment: .leading
-                            )
-                    }
-                    .padding([.all], 10)
-                }
-                .frame(height: 60)
-                .background(Color(.darkBlueColor))
-                
-                ZStack{
-                    HStack(alignment: .center, spacing: 10){
-                        
-                        Image(uiImage: .ic_Home)
-                            .resizable()
-                            .frame(width: 30, height: 30)
-                        
-                        
-                        TextEditor(text: $addressText)
-                            .font(.custom(.poppinsMedium, size: 18))
-                            .foregroundColor(.white)
-                            .scrollContentBackground(.hidden)
-                            .padding(.vertical, 20)
-                            .overlay(
-
-                                VStack{
-
-                                    Text(addressText == "" ? "City" : "")
-                                        .font(.custom(.poppinsMedium, size: 18))
-                                        .foregroundColor(Color(.darkGrayColor))
-//                                    Spacer()
-                                },
-                                alignment: .leading
-                            )
-                    }
-                    .padding([.all], 10)
-                }
-                .frame(height: 60)
-                .background(Color(.darkBlueColor))
-                
-                HStack(spacing: 20){
-                    HStack{
-                        Image(uiImage: .ic_Home)
-                            .resizable()
-                            .frame(width: 30, height: 30)
-                            .padding(.leading, 10)
-                        
-                        TextEditor(text: $addressText)
-                            .font(.custom(.poppinsMedium, size: 18))
-                            .foregroundColor(.white)
-                            .scrollContentBackground(.hidden)
-                            .padding(.vertical, 20)
-                            .background(Color(.darkBlueColor))
-                            .overlay(
-                                VStack{
-                                    
-                                    Text(addressText == "" ? "State/Province" : "")
-                                        .font(.custom(.poppinsMedium, size: 18))
-                                        .foregroundColor(Color(.darkGrayColor))
-//                                    Spacer()
-                                },
-                                alignment: .leading
-                            )
-                    }
-                    .background(Color(.darkBlueColor))
-                    .cornerRadius(10)
-                    
-                    
-                    HStack{
-                        Image(uiImage: .ic_Home)
-                            .resizable()
-                            .frame(width: 30, height: 30)
-                            .padding(.leading, 10)
-                        
-                        TextEditor(text: $addressText)
-                            .font(.custom(.poppinsMedium, size: 18))
-                            .foregroundColor(.white)
-                            .scrollContentBackground(.hidden)
-                            .padding(.vertical, 20)
-                            
-                            .overlay(
-                                VStack{
-                                    
-                                    Text(addressText == "" ? "Postal Code" : "")
-                                        .font(.custom(.poppinsMedium, size: 18))
-                                        .foregroundColor(Color(.darkGrayColor))
-//                                    Spacer()
-                                },
-                                alignment: .leading
-                            )
-                    }
-                    .background(Color(.darkBlueColor))
-                    .cornerRadius(10)
-                    
-                }
-                .frame(height: 60)
-                .frame(maxWidth: .infinity)
-                .cornerRadius(10)
-                */
                 
                 Group {
                     HStack (spacing: 20){
@@ -377,40 +216,15 @@ extension RepresentativeView{
                     .frame(height: 70)
                     .cornerRadius(10)
                     
-//                    HStack (spacing: 20){
-//                        MDCFilledTextFieldWrapper(leadingImage: .constant(.ic_Home), text: $countryAddr, placHolderText: .constant("Country"), isSecure: .constant(false))
-//                    }
-//                    .frame(height: 70)
-//                    .cornerRadius(10)
                     
                     HStack (spacing: 20){
                         MDCFilledTextFieldWrapper(leadingImage: .constant(.ic_Home), text: $cityAddr, placHolderText: .constant("Suburb"), isSecure: .constant(false))
-//                            .allowsHitTesting(false)
                     }
                     .frame(height: 70)
                     .cornerRadius(10)
                     
                     HStack (spacing: 20){
                         HStack (spacing: 0) {
-//                            let stateNames = ["New South Wales",
-//                                          "Queensland",
-//                                          "South Australia",
-//                                          "Tasmania",
-//                                          "Victoria",
-//                                          "Western Australia"]
-//                            Image(uiImage: .ic_Home)
-//                                .resizable()
-//                                .frame(width: 30, height: 30)
-//                                .padding(.leading, 10)
-//                            
-//                            Picker("State/Province", selection: $stateAddr) {
-//                                ForEach(stateNames, id: \.self) {
-//                                    Text($0)
-//                                }
-//                                .font(.custom("Poppins-Medium", size:14))
-//                            }
-//                            .accentColor(.white)
-//                            .padding(.leading, 0)
                             
                             MDCFilledTextFieldWrapper(leadingImage: .constant(.ic_Home), text: $stateAddr, placHolderText: .constant("State/Province"), isSecure: .constant(false))
 //                                .allowsHitTesting(false)
@@ -450,187 +264,6 @@ extension RepresentativeView{
                     .font(.custom(.poppinsMedium, size: 17))
                     .foregroundColor(.white)
             }
-            
-/*  new          HStack(spacing: 15){
-                ZStack{
-                    if let image = licenseFrontImage {
-                        Image(uiImage: image)
-                            .resizable()
-                            .frame(width: 80, height: 80)
-                    }
-                    else{
-                        Image(uiImage: .ic_UploadImage)
-                            .resizable()
-                            .frame(width: 30, height: 25)
-                    }
-
-                }
-                .frame(maxWidth: .infinity)
-                .frame(width: 80, height: 80)
-                .background(Color(.darkBlueColor))
-                
-                .onReceive(Just(licenseFrontImage)) { newImage in
-                    if let newImage = newImage {
-                        if frontImageId == "" && uploadFrontImage == nil  {
-                            uploadImage(image: newImage, isFront: true)
-                        }
-                    }
-//                    if stripeIdentityStatus == "Completed" {
-//                        toast = Toast(style: .success, message: "Verification Flow Completed!")
-//                    }
-//                    else if stripeIdentityStatus == "Canceled" {
-//                        toast = Toast(style: .error, message: "Verification Flow Canceled. Please try again!")
-//                    }
-//                    else if stripeIdentityStatus == "Failed" {
-//                        toast = Toast(style: .error, message: "Verification Flow Failed. Please try again!")
-//                    }
-//                    else{
-//                        toast = Toast(style: .error, message: "Something went wrong.")
-//                    }
-                }
-                .onTapGesture {
-                    uploadFrontImage = nil
-                    checkVerifyIden()
-                    islicenseFrontImagePickerPresented.toggle()
-                }
-                .fullScreenCover(isPresented: $islicenseFrontImagePickerPresented) {
-//                    ImagePicker(selectedImage: $licenseFrontImage)
-                    RepresentativeVC()
-                }
-                .overlay(
-                    RoundedRectangle(cornerRadius: 8)
-                        .stroke(style: StrokeStyle(lineWidth: 2, dash: [5]))
-                        .foregroundColor(licenseFrontImage != nil ? Color(.darkGrayColor) : Color(.buttonColor))
-                )
-                
-                if licenseFrontImage != nil{
-                    VStack(alignment: .leading, spacing: 12){
-                        Text("Front Image")
-                            .foregroundColor(.white)
-                            .font(.custom(.poppinsMedium, size: 16))
-                            .lineLimit(1)
-                        HStack(spacing: 15){
-                            Text("Delete")
-                                .frame(width: 90, height: 30)
-                                .foregroundColor(Color(.ErrorColor))
-                                .font(.custom(.poppinsMedium, size: 16))
-                                .overlay{
-                                    RoundedRectangle(cornerRadius: 100)
-                                        .stroke(Color(.ErrorColor), lineWidth: 1)
-                                }
-                                .onTapGesture {
-                                    licenseFrontImage = nil
-                                    frontImageId = ""
-                                    uploadFrontImage = nil
-                                }
-                            Text("View")
-                                .frame(width: 90, height: 30)
-                                .foregroundColor(Color(.buttonColor))
-                                .font(.custom(.poppinsMedium, size: 16))
-                                .overlay{
-                                    RoundedRectangle(cornerRadius: 100)
-                                        .stroke(Color(.buttonColor), lineWidth: 1)
-                                }
-                                .onTapGesture {
-                                    isPresentedPreview.toggle()
-                                }
-                                .fullScreenCover(isPresented: $isPresentedPreview) {
-                                    ImagePreView(presentedAsModal: $isPresentedPreview,image: $licenseFrontImage)
-                                }
-                        }
-                    }
-                }
-                else{
-                    Text(verifyIdetityText)
-                        .foregroundColor(Color(.darkGrayColor))
-                        .font(.custom(.poppinsMedium, size: 16))
-                }
-            }*/
-            
-/*  old          HStack(spacing: 15){
-                ZStack{
-                    
-                    if let image = licenseBackImage{
-                        Image(uiImage: image)
-                            .resizable()
-                            .frame(width: 80, height: 80)
-                    }
-                    else{
-                        Image(uiImage: .ic_UploadImage)
-                            .resizable()
-                            .frame(width: 30, height: 25)
-                    }
-               
-                }
-                .frame(maxWidth: .infinity)
-                .frame(width: 80, height: 80)
-                .background(Color(.darkBlueColor))
-                .onReceive(Just(licenseBackImage)) { newImage in
-                    if let newImage = newImage {
-                        
-                        
-                        if backImageId == "" && uploadBackImage  == nil  {
-                            uploadImage(image: newImage, isFront: false)
-                            
-                        }
-                    }
-                }
-                .onTapGesture {
-                    uploadBackImage = nil
-                    islicenseBackImagePickerPresented.toggle()
-                }
-                .fullScreenCover(isPresented: $islicenseBackImagePickerPresented) {
-                    ImagePicker(selectedImage: $licenseBackImage)
-                }
-                .overlay(
-                    RoundedRectangle(cornerRadius: 8)
-                        .stroke(style: StrokeStyle(lineWidth: 2, dash: [5]))
-                        .foregroundColor(licenseBackImage != nil ? Color(.darkGrayColor) : Color(.buttonColor))
-                )
-                
-                if licenseBackImage != nil{
-                    VStack(alignment: .leading, spacing: 12){
-                        Text("Back Image")
-                            .foregroundColor(.white)
-                            .font(.custom(.poppinsMedium, size: 16))
-                            .lineLimit(1)
-                        HStack(spacing: 15){
-                            Text("Delete")
-                                .frame(width: 90, height: 30)
-                                .foregroundColor(Color(.ErrorColor))
-                                .font(.custom(.poppinsMedium, size: 16))
-                                .overlay{
-                                    RoundedRectangle(cornerRadius: 100)
-                                        .stroke(Color(.ErrorColor), lineWidth: 1)
-                                }
-                                .onTapGesture {
-                                    licenseBackImage = nil
-                                    backImageId = ""
-                                    uploadBackImage = nil
-                                }
-                            Text("View")
-                                .frame(width: 90, height: 30)
-                                .foregroundColor(Color(.buttonColor))
-                                .font(.custom(.poppinsMedium, size: 16))
-                                .overlay{
-                                    RoundedRectangle(cornerRadius: 100)
-                                        .stroke(Color(.buttonColor), lineWidth: 1)
-                                }
-                                .onTapGesture {
-                                    isPresentedPreview.toggle()
-                                }
-                                .fullScreenCover(isPresented: $isPresentedPreview) {
-                                    ImagePreView(presentedAsModal: $isPresentedPreview,image: $licenseBackImage)
-                                }
-                        }
-                    }
-                }
-                else{
-                    Text("Driver License Image \n(Back)")
-                        .foregroundColor(Color(.darkGrayColor))
-                        .font(.custom(.poppinsMedium, size: 16))
-                }
-            }*/
         }
     }
     
@@ -643,16 +276,6 @@ extension RepresentativeView{
             
             Button {
                 
-//                var firstPart = "NA"
-//                var secondPart = "NA"
-                
-//                if let index = userText.firstIndex(of: " "){
-//                    firstPart = String(userText.prefix(upTo: index))
-//                    secondPart = userText[index...].string
-//                } else {
-//                    firstPart = userText
-//                    secondPart = "NA"
-//                }
                 
                 let stripeFlowStatus = UserDefaults.standard.string(forKey: "stripeFlowStatus")
                 print("stripeFlowStatus ",stripeFlowStatus)
@@ -718,6 +341,7 @@ extension RepresentativeView{
         }
     }
     
+//    check the user address validation
     func callAddressValidationAPI() {
         
         let userAddress = "\(streetAddr)\(", ")\(cityAddr)\(", ")\(stateAddr)\(", ")\(postalAddr)\(", ")\("Australia")"
@@ -780,10 +404,9 @@ extension RepresentativeView{
         task.resume()
     }
     
+//    New user Register on stripe connect account
     func callRegisterUserinfoAPI() {
         Task {
-            
-            //                        try  await/* completeFormViewModel.postData(url:"\(uploadInformationUrl)username=default&userEmail=\(Auth.auth().currentUser?.email ?? "")&firstname=\(firstPart)&day=3&month=10&year=2000&address=\(addressText)&phone=61\(mobileNumberText)&lastname=\(secondPart)&frontimgid=\(frontImageId)&backimgid=\(backImageId)"*/,method:.post,name: userText,phone: mobileNumberText)
             
             var firstPart = "NA"
             var secondPart = "NA"
@@ -861,98 +484,7 @@ extension RepresentativeView{
         }
     }
     
-    func uploadImage(image:UIImage,isFront:Bool) {
-        
-    
-        apicalled = true
-        if isFront {
-            uploadFrontImage = true
-        }else {
-            uploadBackImage = true
-        }
-
-        if let imageData = image.jpegData(compressionQuality: 0.05) {
-            let base64String = imageData.base64EncodedString()
-
-            var uploadImgToStripe = ""
-            if API.App_Envir == "Production" {
-                uploadImgToStripe = "https://e0s02woxs8.execute-api.eu-north-1.amazonaws.com/default/FileUploadFromStripe"
-            }
-            else if API.App_Envir == "Dev" {
-                uploadImgToStripe = "https://jrd5bqi19g.execute-api.eu-north-1.amazonaws.com/default/FileUploadFromStripe"
-            }
-            else if API.App_Envir == "Stagging" {
-                uploadImgToStripe = "https://yf476ojrmb.execute-api.eu-north-1.amazonaws.com/default/FileUploadFromStripe"
-            }else{
-                uploadImgToStripe = "https://e0s02woxs8.execute-api.eu-north-1.amazonaws.com/default/FileUploadFromStripe"
-            }
-            
-            // Create an API request with the Base64 image data
-            if let url = URL(string: uploadImgToStripe) {
-                var request = URLRequest(url: url)
-                request.httpMethod = "POST"
-                request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-
-                let imageUploadData = ["image": base64String]
-//                print(imageUploadData)
-                if let jsonData = try? JSONSerialization.data(withJSONObject: imageUploadData) {
-                    print("jsonData: ",jsonData)
-                    request.httpBody = jsonData
-                    
-                }
-                URLSession.shared.dataTask(with: request) { data, response, error in
-                    
-                    guard let data = data else { return  }
-                    
-                    
-                    do {
-                        // make sure this JSON is in the format we expect
-                        if let json = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] {
-                            print("img res: ",json)
-                            // try to read out a string array
-                            if let messageJson = json["message"] as? String{
-                                toast = Toast(style: .error, message: messageJson)
-                            }
-                            else if let imageId = json["id"] as? String {
-                                print(imageId)
-                                if isFront {
-                                    frontImageId = imageId
-
-                                }else {
-                                    backImageId = imageId
-
-                                }
-                            }
-                        }
-                        apicalled = false
-                    } catch let error as NSError {
-                        print("Failed to load: \(error.localizedDescription)")
-                        apicalled = false
-                        
-                    }
-                    
-//                    apicalled = false
-                    
-                }.resume()
-            }
-        }
-    }
-    
-    /*func fetchLatLong() {
-        locManager.requestWhenInUseAuthorization()
-        
-                if (CLLocationManager.authorizationStatus() == CLAuthorizationStatus.authorizedWhenInUse ||
-                    CLLocationManager.authorizationStatus() == CLAuthorizationStatus.authorizedAlways){
-                    guard let currentLocation = locManager.location else {
-                        return
-                    }
-                    print(currentLocation.coordinate.latitude)
-                    print(currentLocation.coordinate.longitude)
-                    
-                    getAddressFromLatLong(latitude: currentLocation.coordinate.latitude, longitude: currentLocation.coordinate.longitude)
-                }
-    }*/
-    
+//    Fetch the user current Address
     func getAddressFromLatLong(latitude: Double, longitude : Double){
         
         let url = "https://maps.googleapis.com/maps/api/geocode/json?latlng=\(latitude),\(longitude)&key=AIzaSyDvzoBJGEDZ5LpZ002k8JvKfWgnepzwxdc"
@@ -1223,108 +755,5 @@ extension Date {
         dateFormatter.dateFormat = "dd-MM-YYYY"
         // Convert Date to String
         return dateFormatter.string(from: self)
-    }
-    
-}
-
-
-struct RepresentativeVC: UIViewControllerRepresentable {
-    
-    func updateUIViewController(_ uiViewController: UIViewControllerType, context: Context) {}
-
-    func makeUIViewController(context: Context) -> UIViewController {
-        
-        return verifyDocs()
-    }
-    
-    class verifyDocs : UIViewController {
-        @State private var showCompany = false
-        @Environment(\.presentationMode) private var presentationMode
-        @State var repView = RepresentativeView()
-        @State var stripeIdStatus: String = "NA"
-        
-        override func viewDidLoad() {
-            super.viewDidLoad()
-            didTapVerifyButton()
-//            self.presentVerificationSheet(verificationSessionId: "vs_1PQjBDA1ElCzYWXL9YzcEG9n", ephemeralKeySecret: "ek_test_YWNjdF8xTklQOE5BMUVsQ3pZV1hMLDQ2OFdwV0hJSUh3U2wxMENXMW0wQm1iTDQyUWFEMzU_00PTrJTVci")
-            UserDefaults.standard.removeObject(forKey: "stripeFlowStatus")
-        }
-        
-        func didTapVerifyButton(){
-            var urlReqIs = ""
-            if API.App_Envir == "Production" {
-                urlReqIs = "https://zj921xefzb.execute-api.eu-north-1.amazonaws.com/default/CreateSessionStripeIdentity"
-            }
-            else if API.App_Envir == "Dev" {
-                urlReqIs = "https://rpljmup273.execute-api.eu-north-1.amazonaws.com/default/CreateSessionStripeIdentity"
-                UserDefaults.standard.set("Completed", forKey: "stripeFlowStatus")
-            }
-            else if API.App_Envir == "Stagging" {
-                urlReqIs = "https://92tbqakpob.execute-api.eu-north-1.amazonaws.com/default/CreateSessionStripeIdentity"
-            }else{
-                urlReqIs = "https://zj921xefzb.execute-api.eu-north-1.amazonaws.com/default/CreateSessionStripeIdentity"
-            }
-            
-            var urlRequest = URLRequest(url: URL(string: urlReqIs)!)
-        
-            urlRequest.httpMethod = "POST"
-            
-            let task = URLSession.shared.dataTask(with: urlRequest) { [weak self] data, response, error in
-                DispatchQueue.main.async { [weak self] in
-                    
-                    let data1 = data
-                    let responseJson1 = try? JSONDecoder().decode([String: String].self, from: data1!)
-                    print("responseJson1: ",responseJson1)
-                    guard error == nil,
-                          let data = data,
-                          let responseJson = try? JSONDecoder().decode([String: String].self, from: data),
-                          let verificationSessionId = responseJson["verificationSessionId"],
-                          let ephemeralKeySecret = responseJson["ephemeralKeySecret"] else {
-                        // Handle error
-                        print(error as Any)
-                        return
-                    }
-                    print("stripeSessionID: ",verificationSessionId)
-                    print("stripeEphemeralKeySecret: ",ephemeralKeySecret)
-                    
-                    self?.presentVerificationSheet(verificationSessionId: verificationSessionId, ephemeralKeySecret: ephemeralKeySecret)
-                }
-            }
-            task.resume()
-        }
-        
-        func presentVerificationSheet(verificationSessionId: String, ephemeralKeySecret: String){
-            let configuration = IdentityVerificationSheet.Configuration(
-                brandLogo: UIImage(named: "licenseImage")!
-            )
-            
-            let verificationSheet = IdentityVerificationSheet(
-                verificationSessionId: verificationSessionId,
-                ephemeralKeySecret: ephemeralKeySecret,
-                configuration: configuration
-            )
-            
-            verificationSheet.present(from: self, completion: { [self] result in
-                switch result {
-                case .flowCompleted:
-                    print("Verification Flow Completed!")
-                    UserDefaults.standard.set("Completed", forKey: "stripeFlowStatus")
-                    dismiss(animated: true, completion: nil)
-                    UserDefaults.standard.set(verificationSessionId, forKey: "stripeSessionID")
-                    UserDefaults.standard.set(ephemeralKeySecret, forKey: "stripeEphemeralKeySecret")
-                    print("sessionID: \(verificationSessionId)")
-                case .flowCanceled:
-                    print("Verification Flow Canceled!")
-                    UserDefaults.standard.set("Canceled", forKey: "stripeFlowStatus")
-                    dismiss(animated: true, completion: nil)
-                case .flowFailed(let error):
-                    print("Verification Flow Failed!")
-                    UserDefaults.standard.set("Failed", forKey: "stripeFlowStatus")
-                    print(error.localizedDescription)
-                    dismiss(animated: true, completion: nil)
-                }
-                
-            })
-        }
     }
 }

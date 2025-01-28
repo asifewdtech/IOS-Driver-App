@@ -60,7 +60,11 @@ struct PaymentView: View {
                 .onAppear(perform: {
                     showLoadingIndicator = true
                         retriveAccountAPI()
-                    
+                    let firstTime = UserDefaults.standard.integer(forKey: "firstTime")
+                    if firstTime == 1{
+                        sendApprovalGateEmailToAdmin()
+                        UserDefaults.standard.removeObject(forKey: "firstTime")
+                    }
                         NotificationCenter.default.addObserver(forName: NSNotification.Name("AwaitingApprovalBool"), object: nil, queue: .main) { _ in
                             self.handleAccountStatus()
                         }
@@ -200,43 +204,6 @@ extension PaymentView{
     
     var calculationArea : some View {
         VStack{
-            
-            //            HStack(spacing: 30){
-            //                
-            //                
-            //                
-            //                Text("Charge Fare ")
-            //                    .foregroundColor(.white)
-            //                    .font(.custom(.poppinsBold, size: 25))
-            //                
-            //                Spacer()
-            //            }
-            //            .frame(maxWidth: .infinity)
-            //            
-            //            ZStack{
-            //                HStack{
-            //                    
-            //                    Text("$")
-            //                        .font(.custom(.poppinsMedium, size: 25))
-            //                        .foregroundColor(Color(.darkGrayColor))
-            //                    Spacer()
-            //                    
-            //                    //                    TextField("", text: $totalChargresWithTax, prompt: Text("0.00").foregroundColor(Color(.white)))
-            //                    
-            //                    Text(totalChargresWithTax.description)
-            //                        .font(.custom(.poppinsBold, size: 40))
-            //                        .frame(height: 30)
-            //                        .foregroundColor(.white)
-            //                        .multilineTextAlignment(.trailing)
-            //                        .lineLimit(1)
-            ////                        .disabled(isDisabled)
-            //                }
-            //                .padding(.horizontal, 20)
-            //            }
-            //            .frame(maxWidth: .infinity)
-            //            .frame(height: 80)
-            //            .background(Color(.darkBlueColor))
-            //            .cornerRadius(10)
             
             VStack(spacing: 5){
                 
@@ -413,14 +380,6 @@ extension PaymentView{
                 print("currencyManager.string1: ", currencyManager.string1)
                 willMoveToPaymentDetail.toggle()
             }
-//                willMoveTapToPayView.toggle()
-                
-                //                if currencyManager.string.count == 2 && currencyManager.string.count <= 2 {
-                //                    toast = Toast(style: .error, message: "Fare Pay should be minimum 10 AUD.")
-                //                }else {
-                //                    willMoveToPaymentDetail.toggle()
-                //                    print(currencyManager.string)
-                //                }
             } label: {
                 
                 Text("CHARGE")
@@ -437,6 +396,7 @@ extension PaymentView{
         .padding(.bottom, 20)
     }
     
+    //Show Taxi Number Popup
     var taxiNumArea: some View{
         VStack{
             VStack {
@@ -540,6 +500,7 @@ extension PaymentView{
         willMoveToQr = true
     }
     
+    //Check approval gate status API
     func retriveAccountAPI () {
 //        showLoadingIndicator = true
         var reportUrl = ""
@@ -596,6 +557,7 @@ extension PaymentView{
         
     }
     
+    //Show approval gate popup
     private func handleAccountStatus() {
         showLoadingIndicator = false
         if accStatusBool {
@@ -616,5 +578,69 @@ extension PaymentView{
             }
         }
     }
+    
+    // Send the emails to admin when user first time arrive
+    func sendApprovalGateEmailToAdmin(){
+        let emailBody: String = "A new user has signed up and is awaiting approval. Please review their details and approve or reject the account."
+    
+        let user = Auth.auth().currentUser
+        let firestore = Firestore.firestore()
+        
+        let htmlBody = """
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <title>User Account Approval Request</title>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        </head>
+        <body style="margin: 0; padding: 0; background-color: #f2f2f2; font-family: Arial, sans-serif;">
+            <div style="display: flex; justify-content: center; align-items: center; padding: 10px; background-color: #f2f2f2;">
+                <div style="max-width: 600px; width: 100%; background-color: #ffffff; padding: 20px; border: 1px solid #ddd; border-radius: 5px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);">
+                    <img src="https://firebasestorage.googleapis.com/v0/b/fare-pay-397712.appspot.com/o/images%2Faccount_being_created.png?alt=media&token=869162c8-e3ea-4458-ace9-53dc5db6f348" alt="Approval Image" style="width: 100%; height: auto; margin-bottom: 10px;">
+                    <h2 style="font-size: 24px; margin: 0 0 10px;">Account Approval Request</h2>
+                    <p style="font-size: 16px; line-height: 1.5; margin: 0 0 10px;">\(emailBody)</p>
+                    <p style="font-size: 16px; line-height: 1.5; margin: 0 0 10px;">User Email: \(user?.email ?? "")</p>
+                    <p style="font-size: 16px; line-height: 1.5; margin: 0 0 10px;">Please review the application and take necessary action.</p>
+                    <p style="font-size: 16px; line-height: 1.5; margin: 0 0 10px;"><br>Best regards,</p>
+                    <p style="font-size: 16px; line-height: 1.5; margin: 0 0 10px;">Farepay Team</p>
+                </div>
+            </div>
+        </body>
+        </html>
+        """
+        var adminEmails: [String] = [""]
+        if API.App_Envir == "Production" {
+            adminEmails = ["Davidlao2002@gmail.com", "ali_yaseen@live.com"]
+        }
+        else if API.App_Envir == "Dev" {
+            adminEmails = ["muhammadmursil98@gmail.com", "mursilkamoka@gmail.com"]
+        }else{
+            adminEmails = ["Davidlao2002@gmail.com", "ali_yaseen@live.com"]
+        }
+//        let adminEmails: [String] = ["Davidlao2002@gmail.com", "ali_yaseen@live.com"]
+//        let devEmails: [String] = ["muhammadmursil98@gmail.com", "mursilkamoka@gmail.com"]
+        
+        let emailData: [String: Any] = [
+            "to": adminEmails,
+            
+            "message": [
+                "subject": "Account Approval Request",
+                "text": emailBody,
+                "html": htmlBody
+            ]
+        ]
+        
+        firestore.collection("mail").addDocument(data: emailData) { error in
+            if let error = error {
+//                self.retrySendingEmailToAdmin()
+                print("Error sending approval request email: \(error.localizedDescription)")
+            } else {
+//                self.setEmailSentToAdminPersisted(true)
+                print("Approval request email successfully sent to admin.")
+            }
+        }
+    }
+
 }
 

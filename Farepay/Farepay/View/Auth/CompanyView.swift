@@ -109,16 +109,6 @@ extension CompanyView{
                     .frame(height: 1)
             }
             
-//            HStack(spacing: 5){
-//                
-//                Color(.ErrorColor)
-//                    .frame(height: 5)
-//                Color(.darkGrayColor)
-//                    .frame(height: 5)
-//            }
-//            .frame(width: 250)
-            
-//            Text("COMPANY INFORMATION")
             Text("Tap below for Identity Verification")
                 .font(.custom(.poppinsBold, size: 18))
                 .foregroundColor(.white)
@@ -131,29 +121,6 @@ extension CompanyView{
         VStack(alignment: .leading, spacing: 20){
             
             Group{
-                
-//                ZStack{
-//                    
-//                    HStack(spacing: 10){
-//                        
-//                        Image(uiImage: .ic_Company)
-//                            .resizable()
-//                            .frame(width: 30, height: 30)
-//                        
-//                        TextField("", text: $companyText, prompt: Text("\(.selectCompany)").foregroundColor(Color(.darkGrayColor)))
-//                            .font(.custom(.poppinsMedium, size: 18))
-//                            .frame(height: 30)
-//                            .foregroundColor(.white)
-//                            .disabled(true)
-//                        
-//                        Image(uiImage: .ic_DropDown)
-//                            .resizable()
-//                            .frame(width: 30, height: 30)
-//                        
-//                    }
-//                    .padding([.leading, .trailing], 20)
-//                }
-//                .frame(height: 60)
                 
                 HStack(spacing: 10){
                     
@@ -197,21 +164,14 @@ extension CompanyView{
             .cornerRadius(20)
             .onReceive(Just(licenseFrontImage)) { newImage in
                 if let newImage = newImage {
-//                    if frontImageId == "" && uploadFrontImage == nil  {
-//                        uploadImage(image: newImage, isFront: true)
-//                    }
                 }
             }
             .onTapGesture {
-//                isStripeIdentityPickerPresented.toggle()
                 let stripeFlowStatus = UserDefaults.standard.string(forKey: "stripeFlowStatus")
                 if stripeFlowStatus != "Completed" {
                     isPresentingStripeIdentityVC = true
                 }
             }
-//            .fullScreenCover(isPresented: $isStripeIdentityPickerPresented) {
-//                StripeIdentityVC()
-//            }
             .overlay(
                 RoundedRectangle(cornerRadius: 20)
                     .stroke(style: StrokeStyle(lineWidth: 2, dash: [5]))
@@ -255,31 +215,11 @@ extension CompanyView{
     }
     
     func PresentedPopUp()  {
-//        if (companyText != "Individual") && (companyText != "Business") {
-//            toast = Toast(style: .error, message: "Company Type field cannot be empty.")
-//        }
-//        else if cardText.isEmpty {
-//            toast = Toast(style: .error, message: "ABN field cannot be empty.")
-//        }
-//        else if cardText.count <= 10 {
-//            toast = Toast(style: .error, message: "ABN Should be 11 Digits.")
-//        }
-//        else if contactText.isEmpty {
-//            toast = Toast(style: .error, message: "Driver Licence field cannot be empty.")
-//        }
-//        else if contactText.count <= 7 {
-//            toast = Toast(style: .error, message: "Driver Licence Should be 8-11 Digits.")
-//        }
-//        else{
-//            UserDefaults.standard.removeObject(forKey: "stripeFlowStatus")
-//            UserDefaults.standard.set(cardText, forKey: "driverABN")
-//            UserDefaults.standard.set(contactText, forKey: "driverLicence")
         let stripeFlowStatus = UserDefaults.standard.string(forKey: "stripeFlowStatus")
         print("stripeFlowStatus ",stripeFlowStatus)
         if stripeFlowStatus != "Completed" {
             toast = Toast(style: .error, message: "Verification Flow is not Complete.")
         }else{
-//            isPresentedPopUp.toggle()
             willMoveToUnderReviewView.toggle()
         }
     }
@@ -332,6 +272,7 @@ extension Binding where Value == String {
     }
 }
 
+//Stripe Identity verification Module
 struct StripeIdentityVC: UIViewControllerRepresentable {
     
     func updateUIViewController(_ uiViewController: UIViewControllerType, context: Context) {}

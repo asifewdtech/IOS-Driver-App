@@ -16,23 +16,32 @@ import LocalAuthentication
 struct LoginView: View {
     
     //MARK: - Variables
-    @State private var emailText: String = ""
-    @State private var passwordText: String = ""
-    @State private var isSecure = true
-    @StateObject var userAuth =  UserAuthViewModel()
-    @State private var toast: Toast? = nil
-    @State private var showCompany = false
-    @State private var goToForm2 = false
-    @State private var goToHome = false
-    @State private var willMoveToBankAccount: Bool = false
-    @State private var willMoveToUnderReviewView = false
-    @State private var showLoadingIndicator: Bool = false
-    @State private var isAccountCreated: Bool = false
-    @State private var isBankCreated: Bool = false
-    @State private var moveToSignup: Bool = false
-    @State var isChecked = false
-    @AppStorage("accountId") var appAccountId: String = ""
-    @State private var goToForgotPassword = false
+    /// Text fields state
+        @State private var emailText: String = ""
+        @State private var passwordText: String = ""
+        @State private var isSecure = true  // Controls password field visibility
+        
+        /// View model for user authentication
+        @StateObject var userAuth = UserAuthViewModel()
+        
+        /// UI state variables
+        @State private var toast: Toast? = nil  // For showing toast messages
+        @State private var showLoadingIndicator: Bool = false
+        
+        /// Navigation state variables
+        @State private var showCompany = false
+        @State private var goToForm2 = false
+        @State private var goToHome = false
+        @State private var willMoveToBankAccount: Bool = false
+        @State private var willMoveToUnderReviewView = false
+        @State private var moveToSignup: Bool = false
+        @State private var goToForgotPassword = false
+        
+        /// User account state
+        @State private var isAccountCreated: Bool = false
+        @State private var isBankCreated: Bool = false
+        @State var isChecked = false  // Remember me checkbox
+        @AppStorage("accountId") var appAccountId: String = ""
     
     //MARK: - Views
     var body: some View {
@@ -136,47 +145,6 @@ extension LoginView{
             Text("Please enter your details to login")
                 .font(.custom(.poppinsMedium, size: 18))
                 .foregroundColor(Color(.darkGrayColor))
-            
-/*            HStack(spacing: 15){
-                // Google Apple Sign in
-                Button(action: {
-                    showLoadingIndicator = true
-                    userAuth.performAppleSignIn()
-//                    DispatchQueue.main.asyncAfter(deadline: .now() + 5){
-//                        showLoadingIndicator = false
-////                        showCompany.toggle()
-//                    }
-                }, label: {
-                    ZStack{
-                        
-                        Image(uiImage: .AppleLogo)
-                            .resizable()
-                            .frame(width: 35, height: 35)
-                    }
-                    .frame(maxWidth: .infinity)
-                    .frame(height: 55)
-                    .background(Color(.darkBlueColor))
-                    .cornerRadius(10)
-                })
-                
-                // Google Sign In
-                Button(action: {
-//                    userAuth.signIn()
-                    googleSignIn()
-                    
-                }, label: {
-                    ZStack{
-                        
-                        Image(uiImage: .GoogleLogo)
-                            .resizable()
-                            .frame(width: 35, height: 35)
-                    }
-                    .frame(maxWidth: .infinity)
-                    .frame(height: 55)
-                    .background(Color(.darkBlueColor))
-                    .cornerRadius(10)
-                })
-            }*/
         }
     }
     
@@ -398,15 +366,6 @@ extension LoginView{
                     .font(.custom(.poppinsMedium, size: 18))
                     .foregroundColor(Color(.darkGrayColor))
                 
-//                NavigationLink(destination: {
-//                    Farepay.SignUpView().toolbar(.hidden, for: .navigationBar)
-//                }, label: {
-//                    Text("\(.SignUp)")
-//                        .font(.custom(.poppinsBold, size: 20))
-//                        .foregroundColor(Color(.white))
-//                        .underline()
-//                })
-                
                 Button(action: {
                     moveToSignup = true
                 }, label: {
@@ -470,16 +429,6 @@ extension LoginView{
                                     }
                                 }
                             }
-//                            if isAccountCreated  && isBankCreated == true{
-//                                goToHome = true
-//                                
-//                            }else if isAccountCreated && isBankCreated == false  {
-//                                willMoveToBankAccount = true
-//                            }
-//                            else {
-//                                showCompany = true
-//                            }
-//                            goToHome = true
                         }else {
                             userAuth.checkUserAccountCreated()
                             showCompany = true
@@ -651,37 +600,6 @@ struct DropdownSelector: View {
         }
     }
 }
-
-//struct DropdownSelector_Previews: PreviewProvider {
-//    @State private static var address: String = ""
-//
-//    static var uniqueKey: String {
-//        UUID().uuidString
-//    }
-//
-//    static let options: [DropdownOption] = [
-//        DropdownOption(key: uniqueKey, value: "Sunday"),
-//        DropdownOption(key: uniqueKey, value: "Monday"),
-//        DropdownOption(key: uniqueKey, value: "Tuesday"),
-//        DropdownOption(key: uniqueKey, value: "Wednesday"),
-//        DropdownOption(key: uniqueKey, value: "Thursday"),
-//        DropdownOption(key: uniqueKey, value: "Friday"),
-//        DropdownOption(key: uniqueKey, value: "Saturday")
-//    ]
-//    static var previews: some View {
-//        
-//        VStack(spacing: 20) {
-//            DropdownSelector(
-//                placeholder: "Day of the week",
-//                options: options,
-//                onOptionSelected: { option in
-//                    print(option)
-//            })
-//            .padding(.horizontal)
-//            .zIndex(1)
-//        }
-//    }
-//}
 
 let businessType: [DropdownOption] = [
         DropdownOption(key: UUID().uuidString, value: "Individual"),
