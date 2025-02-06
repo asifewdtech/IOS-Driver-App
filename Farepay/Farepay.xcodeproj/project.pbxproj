@@ -12,7 +12,30 @@
 		183909182BD8EE57003D8051 /* TapToPayGuidlinesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 183909172BD8EE57003D8051 /* TapToPayGuidlinesView.swift */; };
 		183A32762CB673570089FA3C /* AuthenticateFaceIdPswdView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 183A32752CB673570089FA3C /* AuthenticateFaceIdPswdView.swift */; };
 		187AB27D2B2992A900B170EE /* DelegateAnnouncer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 187AB27C2B2992A900B170EE /* DelegateAnnouncer.swift */; };
+		187AE61C2D5345EA006697DC /* PaymentView.md in Resources */ = {isa = PBXBuildFile; fileRef = 187AE61B2D5345EA006697DC /* PaymentView.md */; };
+		187AE61E2D53467F006697DC /* PaymentDetailView.md in Resources */ = {isa = PBXBuildFile; fileRef = 187AE61D2D53467F006697DC /* PaymentDetailView.md */; };
+		187AE6202D534714006697DC /* AuthenticateFaceIdPswdView.md in Resources */ = {isa = PBXBuildFile; fileRef = 187AE61F2D534714006697DC /* AuthenticateFaceIdPswdView.md */; };
+		187AE6222D53475A006697DC /* TapToPayView.md in Resources */ = {isa = PBXBuildFile; fileRef = 187AE6212D53475A006697DC /* TapToPayView.md */; };
+		187AE6242D5347AF006697DC /* TryAgainView.md in Resources */ = {isa = PBXBuildFile; fileRef = 187AE6232D5347AF006697DC /* TryAgainView.md */; };
+		187AE6262D5347ED006697DC /* PayQRView.md in Resources */ = {isa = PBXBuildFile; fileRef = 187AE6252D5347ED006697DC /* PayQRView.md */; };
+		187AE6282D534848006697DC /* ReaderConnectView.md in Resources */ = {isa = PBXBuildFile; fileRef = 187AE6272D534848006697DC /* ReaderConnectView.md */; };
+		187AE62A2D5348AB006697DC /* UnderReviewView.md in Resources */ = {isa = PBXBuildFile; fileRef = 187AE6292D5348AB006697DC /* UnderReviewView.md */; };
+		187EC98C2D549FB000F300AA /* MainTabbedView.md in Resources */ = {isa = PBXBuildFile; fileRef = 187EC98B2D549FB000F300AA /* MainTabbedView.md */; };
+		187EC98E2D54A06C00F300AA /* SideMenu.md in Resources */ = {isa = PBXBuildFile; fileRef = 187EC98D2D54A06C00F300AA /* SideMenu.md */; };
+		187EC9902D54A0B600F300AA /* SideMenuView.md in Resources */ = {isa = PBXBuildFile; fileRef = 187EC98F2D54A0B600F300AA /* SideMenuView.md */; };
+		187EC9932D54A12B00F300AA /* TransactionView.md in Resources */ = {isa = PBXBuildFile; fileRef = 187EC9922D54A12B00F300AA /* TransactionView.md */; };
+		187EC9952D54A16D00F300AA /* ExportPopUpView.md in Resources */ = {isa = PBXBuildFile; fileRef = 187EC9942D54A16D00F300AA /* ExportPopUpView.md */; };
+		187EC9972D54A1A700F300AA /* TransactionDetailView.md in Resources */ = {isa = PBXBuildFile; fileRef = 187EC9962D54A1A700F300AA /* TransactionDetailView.md */; };
 		18B3B00A2C8992440094A843 /* StripeIdentityVerificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18B3B0092C8992440094A843 /* StripeIdentityVerificationView.swift */; };
+		18CF66502D51DDA700A53322 /* LoginView.md in Resources */ = {isa = PBXBuildFile; fileRef = 18CF664F2D51DDA700A53322 /* LoginView.md */; };
+		18CF66522D51E01900A53322 /* SignUpView.md in Resources */ = {isa = PBXBuildFile; fileRef = 18CF66512D51E01900A53322 /* SignUpView.md */; };
+		18CF66542D51ED5B00A53322 /* CompanyView.md in Resources */ = {isa = PBXBuildFile; fileRef = 18CF66532D51ED5B00A53322 /* CompanyView.md */; };
+		18CF66562D51EEE100A53322 /* StepsView.md in Resources */ = {isa = PBXBuildFile; fileRef = 18CF66552D51EEE100A53322 /* StepsView.md */; };
+		18CF66582D51EFF800A53322 /* ForgotPasswordView.md in Resources */ = {isa = PBXBuildFile; fileRef = 18CF66572D51EFF800A53322 /* ForgotPasswordView.md */; };
+		18CF665A2D51F05D00A53322 /* NewsView.md in Resources */ = {isa = PBXBuildFile; fileRef = 18CF66592D51F05D00A53322 /* NewsView.md */; };
+		18CF665C2D51F0AE00A53322 /* SplashView.md in Resources */ = {isa = PBXBuildFile; fileRef = 18CF665B2D51F0AE00A53322 /* SplashView.md */; };
+		18CF665E2D51F13500A53322 /* ImagePreView.md in Resources */ = {isa = PBXBuildFile; fileRef = 18CF665D2D51F13500A53322 /* ImagePreView.md */; };
+		18CF66622D51F2E800A53322 /* RepresentativeView.md in Resources */ = {isa = PBXBuildFile; fileRef = 18CF66612D51F2E800A53322 /* RepresentativeView.md */; };
 		18D4F27A2C50D24F00EEEE6B /* ConfigurationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18D4F2792C50D24F00EEEE6B /* ConfigurationManager.swift */; };
 		18D7CF8C2B1DA4640022FBBE /* ActivityIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18D7CF8B2B1DA4640022FBBE /* ActivityIndicator.swift */; };
 		322FC4222AFA44F80053C82C /* TransectionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 322FC4212AFA44F80053C82C /* TransectionViewModel.swift */; };
@@ -122,7 +145,30 @@
 		183909172BD8EE57003D8051 /* TapToPayGuidlinesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TapToPayGuidlinesView.swift; sourceTree = "<group>"; };
 		183A32752CB673570089FA3C /* AuthenticateFaceIdPswdView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticateFaceIdPswdView.swift; sourceTree = "<group>"; };
 		187AB27C2B2992A900B170EE /* DelegateAnnouncer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DelegateAnnouncer.swift; sourceTree = "<group>"; };
+		187AE61B2D5345EA006697DC /* PaymentView.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = PaymentView.md; sourceTree = "<group>"; };
+		187AE61D2D53467F006697DC /* PaymentDetailView.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = PaymentDetailView.md; sourceTree = "<group>"; };
+		187AE61F2D534714006697DC /* AuthenticateFaceIdPswdView.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = AuthenticateFaceIdPswdView.md; sourceTree = "<group>"; };
+		187AE6212D53475A006697DC /* TapToPayView.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = TapToPayView.md; sourceTree = "<group>"; };
+		187AE6232D5347AF006697DC /* TryAgainView.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = TryAgainView.md; sourceTree = "<group>"; };
+		187AE6252D5347ED006697DC /* PayQRView.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = PayQRView.md; sourceTree = "<group>"; };
+		187AE6272D534848006697DC /* ReaderConnectView.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = ReaderConnectView.md; sourceTree = "<group>"; };
+		187AE6292D5348AB006697DC /* UnderReviewView.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = UnderReviewView.md; sourceTree = "<group>"; };
+		187EC98B2D549FB000F300AA /* MainTabbedView.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = MainTabbedView.md; sourceTree = "<group>"; };
+		187EC98D2D54A06C00F300AA /* SideMenu.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = SideMenu.md; sourceTree = "<group>"; };
+		187EC98F2D54A0B600F300AA /* SideMenuView.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = SideMenuView.md; sourceTree = "<group>"; };
+		187EC9922D54A12B00F300AA /* TransactionView.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = TransactionView.md; sourceTree = "<group>"; };
+		187EC9942D54A16D00F300AA /* ExportPopUpView.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = ExportPopUpView.md; sourceTree = "<group>"; };
+		187EC9962D54A1A700F300AA /* TransactionDetailView.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = TransactionDetailView.md; sourceTree = "<group>"; };
 		18B3B0092C8992440094A843 /* StripeIdentityVerificationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StripeIdentityVerificationView.swift; sourceTree = "<group>"; };
+		18CF664F2D51DDA700A53322 /* LoginView.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = LoginView.md; sourceTree = "<group>"; };
+		18CF66512D51E01900A53322 /* SignUpView.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = SignUpView.md; sourceTree = "<group>"; };
+		18CF66532D51ED5B00A53322 /* CompanyView.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = CompanyView.md; sourceTree = "<group>"; };
+		18CF66552D51EEE100A53322 /* StepsView.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = StepsView.md; sourceTree = "<group>"; };
+		18CF66572D51EFF800A53322 /* ForgotPasswordView.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = ForgotPasswordView.md; sourceTree = "<group>"; };
+		18CF66592D51F05D00A53322 /* NewsView.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = NewsView.md; sourceTree = "<group>"; };
+		18CF665B2D51F0AE00A53322 /* SplashView.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = SplashView.md; sourceTree = "<group>"; };
+		18CF665D2D51F13500A53322 /* ImagePreView.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = ImagePreView.md; sourceTree = "<group>"; };
+		18CF66612D51F2E800A53322 /* RepresentativeView.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = RepresentativeView.md; sourceTree = "<group>"; };
 		18D4F2762C50CF6700EEEE6B /* Farepay-Dev.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "Farepay-Dev.xcconfig"; sourceTree = "<group>"; };
 		18D4F2772C50CF7B00EEEE6B /* Farepay-Stagging.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "Farepay-Stagging.xcconfig"; sourceTree = "<group>"; };
 		18D4F2782C50CF8B00EEEE6B /* Farepay-Prod.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "Farepay-Prod.xcconfig"; sourceTree = "<group>"; };
@@ -267,6 +313,76 @@
 			path = TapToPayGuidlines;
 			sourceTree = "<group>";
 		};
+		187AE61A2D533462006697DC /* Payment */ = {
+			isa = PBXGroup;
+			children = (
+				187AE61F2D534714006697DC /* AuthenticateFaceIdPswdView.md */,
+				187AE61B2D5345EA006697DC /* PaymentView.md */,
+				187AE61D2D53467F006697DC /* PaymentDetailView.md */,
+				187AE6212D53475A006697DC /* TapToPayView.md */,
+				187AE6232D5347AF006697DC /* TryAgainView.md */,
+				187AE6252D5347ED006697DC /* PayQRView.md */,
+				187AE6272D534848006697DC /* ReaderConnectView.md */,
+				187AE6292D5348AB006697DC /* UnderReviewView.md */,
+			);
+			path = Payment;
+			sourceTree = "<group>";
+		};
+		187AE62B2D5348B8006697DC /* SideMenu */ = {
+			isa = PBXGroup;
+			children = (
+				187EC98B2D549FB000F300AA /* MainTabbedView.md */,
+				187EC98D2D54A06C00F300AA /* SideMenu.md */,
+				187EC98F2D54A0B600F300AA /* SideMenuView.md */,
+			);
+			path = SideMenu;
+			sourceTree = "<group>";
+		};
+		187EC9912D54A0E200F300AA /* Transaction */ = {
+			isa = PBXGroup;
+			children = (
+				187EC9922D54A12B00F300AA /* TransactionView.md */,
+				187EC9942D54A16D00F300AA /* ExportPopUpView.md */,
+				187EC9962D54A1A700F300AA /* TransactionDetailView.md */,
+			);
+			path = Transaction;
+			sourceTree = "<group>";
+		};
+		18CF664E2D51DD5F00A53322 /* Documentation */ = {
+			isa = PBXGroup;
+			children = (
+				18CF66602D51F2B000A53322 /* View */,
+			);
+			path = Documentation;
+			sourceTree = "<group>";
+		};
+		18CF665F2D51F2A200A53322 /* Auth */ = {
+			isa = PBXGroup;
+			children = (
+				18CF665B2D51F0AE00A53322 /* SplashView.md */,
+				18CF664F2D51DDA700A53322 /* LoginView.md */,
+				18CF66512D51E01900A53322 /* SignUpView.md */,
+				18CF66532D51ED5B00A53322 /* CompanyView.md */,
+				18CF66552D51EEE100A53322 /* StepsView.md */,
+				18CF66612D51F2E800A53322 /* RepresentativeView.md */,
+				18CF66572D51EFF800A53322 /* ForgotPasswordView.md */,
+				18CF66592D51F05D00A53322 /* NewsView.md */,
+				18CF665D2D51F13500A53322 /* ImagePreView.md */,
+			);
+			path = Auth;
+			sourceTree = "<group>";
+		};
+		18CF66602D51F2B000A53322 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				187EC9912D54A0E200F300AA /* Transaction */,
+				187AE62B2D5348B8006697DC /* SideMenu */,
+				187AE61A2D533462006697DC /* Payment */,
+				18CF665F2D51F2A200A53322 /* Auth */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
 		18D4F2752C50CF4800EEEE6B /* Configuration */ = {
 			isa = PBXGroup;
 			children = (
@@ -391,6 +507,7 @@
 				F511938D2A97C6AD00554604 /* Model */,
 				F511938C2A97C6A800554604 /* View */,
 				F51193832A97C4E200554604 /* Preview Content */,
+				18CF664E2D51DD5F00A53322 /* Documentation */,
 			);
 			path = Farepay;
 			sourceTree = "<group>";
@@ -702,13 +819,36 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				187EC98C2D549FB000F300AA /* MainTabbedView.md in Resources */,
+				187AE62A2D5348AB006697DC /* UnderReviewView.md in Resources */,
 				F51193A12A97CFF900554604 /* Poppins-SemiBold.ttf in Resources */,
+				18CF66542D51ED5B00A53322 /* CompanyView.md in Resources */,
+				187AE61E2D53467F006697DC /* PaymentDetailView.md in Resources */,
+				187AE6262D5347ED006697DC /* PayQRView.md in Resources */,
+				187AE61C2D5345EA006697DC /* PaymentView.md in Resources */,
 				32E005CE2AD51DFF008CA8ED /* GoogleService-Info.plist in Resources */,
+				187EC9952D54A16D00F300AA /* ExportPopUpView.md in Resources */,
+				18CF665E2D51F13500A53322 /* ImagePreView.md in Resources */,
+				187EC9972D54A1A700F300AA /* TransactionDetailView.md in Resources */,
 				F51193852A97C4E200554604 /* Preview Assets.xcassets in Resources */,
+				187AE6222D53475A006697DC /* TapToPayView.md in Resources */,
+				187EC9902D54A0B600F300AA /* SideMenuView.md in Resources */,
+				187AE6242D5347AF006697DC /* TryAgainView.md in Resources */,
+				18CF66522D51E01900A53322 /* SignUpView.md in Resources */,
+				187EC9932D54A12B00F300AA /* TransactionView.md in Resources */,
+				187AE6282D534848006697DC /* ReaderConnectView.md in Resources */,
+				18CF66562D51EEE100A53322 /* StepsView.md in Resources */,
 				F511939F2A97CFDB00554604 /* Poppins-Medium.ttf in Resources */,
 				F51193A32A97D02B00554604 /* Poppins-Thin.ttf in Resources */,
+				18CF66622D51F2E800A53322 /* RepresentativeView.md in Resources */,
+				18CF66582D51EFF800A53322 /* ForgotPasswordView.md in Resources */,
 				F511939D2A97CFC800554604 /* Poppins-Bold.ttf in Resources */,
+				18CF665A2D51F05D00A53322 /* NewsView.md in Resources */,
 				F51193822A97C4E200554604 /* Assets.xcassets in Resources */,
+				187EC98E2D54A06C00F300AA /* SideMenu.md in Resources */,
+				187AE6202D534714006697DC /* AuthenticateFaceIdPswdView.md in Resources */,
+				18CF665C2D51F0AE00A53322 /* SplashView.md in Resources */,
+				18CF66502D51DDA700A53322 /* LoginView.md in Resources */,
 				F5C18CEF2A9D047E00B05031 /* SplashScreen.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -911,7 +1051,7 @@
 				CODE_SIGN_ENTITLEMENTS = Farepay/Farepay.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 54;
+				CURRENT_PROJECT_VERSION = 65;
 				DEVELOPMENT_ASSET_PATHS = "\"Farepay/Preview Content\"";
 				DEVELOPMENT_TEAM = F2D64HKJXK;
 				ENABLE_PREVIEWS = YES;
@@ -1025,7 +1165,7 @@
 				CODE_SIGN_ENTITLEMENTS = Farepay/Farepay.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 54;
+				CURRENT_PROJECT_VERSION = 65;
 				DEVELOPMENT_ASSET_PATHS = "\"Farepay/Preview Content\"";
 				DEVELOPMENT_TEAM = F2D64HKJXK;
 				ENABLE_PREVIEWS = YES;
@@ -1133,7 +1273,7 @@
 				CODE_SIGN_ENTITLEMENTS = Farepay/Farepay.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 54;
+				CURRENT_PROJECT_VERSION = 65;
 				DEVELOPMENT_ASSET_PATHS = "\"Farepay/Preview Content\"";
 				DEVELOPMENT_TEAM = F2D64HKJXK;
 				ENABLE_PREVIEWS = YES;
@@ -1241,7 +1381,7 @@
 				CODE_SIGN_ENTITLEMENTS = Farepay/Farepay.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 54;
+				CURRENT_PROJECT_VERSION = 65;
 				DEVELOPMENT_ASSET_PATHS = "\"Farepay/Preview Content\"";
 				DEVELOPMENT_TEAM = F2D64HKJXK;
 				ENABLE_PREVIEWS = YES;
@@ -1413,7 +1553,7 @@
 				CODE_SIGN_ENTITLEMENTS = Farepay/Farepay.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 54;
+				CURRENT_PROJECT_VERSION = 65;
 				DEVELOPMENT_ASSET_PATHS = "\"Farepay/Preview Content\"";
 				DEVELOPMENT_TEAM = F2D64HKJXK;
 				ENABLE_PREVIEWS = YES;
@@ -1463,7 +1603,7 @@
 				CODE_SIGN_ENTITLEMENTS = Farepay/Farepay.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 54;
+				CURRENT_PROJECT_VERSION = 65;
 				DEVELOPMENT_ASSET_PATHS = "\"Farepay/Preview Content\"";
 				DEVELOPMENT_TEAM = F2D64HKJXK;
 				ENABLE_PREVIEWS = YES;

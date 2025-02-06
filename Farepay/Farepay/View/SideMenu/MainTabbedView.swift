@@ -72,10 +72,6 @@ struct MainTabbedView: View {
         }
     }
     
-//    func urlSafari(url: String){
-//        @Environment(\.openURL) var openURL
-//        openURL(URL(string: url)!)
-//    }
 }
 struct WebView: UIViewRepresentable {
     
@@ -89,97 +85,5 @@ struct WebView: UIViewRepresentable {
         let request = URLRequest(url: url)
         wkwebView.load(request)
         return wkwebView
-        
     }
-    
 }
-
-//struct BrowserView: View {
-//
-//    @StateObject var browserViewModel = BrowserViewModel()
-//    
-//    var body: some View {
-//        VStack {
-//            HStack {
-//                Button(action: {
-//                    browserViewModel.goBack()
-//                }) {
-//                    Image(systemName: "chevron.backward")
-//                }
-//                .disabled(!browserViewModel.canGoBack)
-//
-//                Button(action: {
-//                    browserViewModel.goForward()
-//                }) {
-//                    Image(systemName: "chevron.forward")
-//                }
-//                .disabled(!browserViewModel.canGoForward)
-//
-//                .padding(.trailing, 5)
-//
-//                TextField("URL", text: $browserViewModel.urlString, onCommit: {
-//                     browserViewModel.loadURLString()
-//                 })
-//                 .textFieldStyle(RoundedBorderTextFieldStyle())
-//
-//                Button(action: {
-//                    browserViewModel.reload()
-//                }) {
-//                    Image(systemName: "arrow.clockwise")
-//                }
-//            }
-//            .padding(.horizontal)
-//
-//            if let url =  URL(string: browserViewModel.urlString) {
-//                BrowserWebView(url: url,
-//                               viewModel: browserViewModel)
-//                .edgesIgnoringSafeArea(.all)
-//            } else {
-//                Text("Please, enter a url.")
-//            }
-//        }
-//    }
-//}
-
-//struct BrowserWebView: UIViewRepresentable {
-//    let url: URL
-//    @ObservedObject var viewModel: BrowserViewModel
-//    func makeUIView(context: Context) -> WKWebView {
-//        let webView = WKWebView()
-//        viewModel.webView = webView
-//        webView.load(URLRequest(url: url))
-//        return webView
-//    }
-//    func updateUIView(_ uiView: WKWebView, context: Context) {
-//    }
-//}
-//
-//class BrowserViewModel: NSObject, ObservableObject, WKNavigationDelegate {
-//    weak var webView: WKWebView? {
-//        didSet {
-//            webView?.navigationDelegate = self
-//        }
-//    }
-//
-//    @Published var urlString = "https://www.apple.com"
-//    @Published var canGoBack = false
-//    @Published var canGoForward = false
-//
-//    func loadURLString() {
-//        if let url = URL(string: urlString) {
-//            webView?.load(URLRequest(url: url))
-//        }
-//    }
-//
-//    func goBack() {
-//        webView?.goBack()
-//    }
-//
-//    func goForward() {
-//        webView?.goForward()
-//    }
-//
-//    func reload() {
-//        webView?.reload()
-//    }
-//}

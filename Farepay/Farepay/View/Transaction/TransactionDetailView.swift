@@ -67,7 +67,9 @@ struct TransactionDetailView: View {
                 serviceFeeGstStr = formatter.string(from: serviceFeeGst as NSNumber) ?? "N/A"
                     totalChargresWithTax = (serviceFee + serviceFeeGst + amount).roundToDecimal(2)
                     
-                if let formattedString = formatter.string(from: (Decimal(totalAmount)) as NSNumber) {
+                let transAmount = Double( transactionType.amount ?? 0) / 100
+                
+                if let formattedString = formatter.string(from: (Decimal(transAmount)) as NSNumber) {
                     AmountDetail.instance.totalChargresWithTax = formattedString
                 }
 //                    AmountDetail.instance.totalChargresWithTax = String(totalAmount) //String(totalChargresWithTax)

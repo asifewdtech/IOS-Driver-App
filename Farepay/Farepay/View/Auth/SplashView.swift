@@ -9,6 +9,7 @@ import SwiftUI
 import ActivityIndicatorView
 import FirebaseAuth
 import FirebaseFirestore
+
 struct SplashView: View {
     
     // MARK: - State Variables

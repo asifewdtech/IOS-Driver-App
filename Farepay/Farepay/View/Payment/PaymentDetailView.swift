@@ -106,9 +106,11 @@ struct PaymentDetailView: View {
                 Text("")
 //                EmptyView()
                     .onAppear {
-                        readerManager.disconnectReader()
-                        showLoadingIndicator = false
-                        willMoveToQr = true
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 3){
+                            readerManager.disconnectReader()
+                            showLoadingIndicator = false
+                            willMoveToQr = true
+                        }
                     }
                 
             case .failed:
@@ -430,7 +432,7 @@ extension PaymentDetailView{
             switch response.result {
             case let .success(value):
                 if let results = (value as AnyObject).object(forKey: "results")  as? [NSDictionary] {
-                    print("getAddressFromLatLong: ",results)
+//                    print("getAddressFromLatLong: ",results)
                     if let addressComponents = results[1]["address_components"] as? [NSDictionary] {
                         for component in addressComponents {
                             if let temp = component.object(forKey: "types") as? [String] {
@@ -536,8 +538,9 @@ extension PaymentDetailView{
                     serviceFeeGst = formatter.string(for: serviceFeeGstValue) ?? "0.00"
                     totalChargresWithTax = formatter.string(for: totalFeeValue) ?? "0.00"
                     
+                    let cost = Double(farePriceText.trimmingCharacters(in: .whitespaces))
                     AmountDetail.instance.totalChargresWithTax = formatter.string(for: totalFeeValue) ?? "0.00"
-                    AmountDetail.instance.totalAmount = formatter.string(for: totalFeeValue) ?? "0.00"
+                    AmountDetail.instance.totalAmount = formatter.string(for: cost) ?? "0.00"
                     AmountDetail.instance.serviceFee = serviceFeeValue
                     AmountDetail.instance.serviceFeeGst = serviceFeeGstValue
                     AmountDetail.instance.collectionStrFee = serviceFeeGst
@@ -939,6 +942,19 @@ class PaymentInitiationManager: ObservableObject {
             formatter.maximumFractionDigits = 2
             formatter.minimumIntegerDigits = 1
             
+            var applicationFee: String = ""
+            // Parse serviceFee and serviceFeeGST as Decimal for precise calculations
+            guard let serviceFeeDecimal = Decimal(string: serviceFee),
+                  let serviceFeeGSTDecimal = Decimal(string: serviceFeeGST) else {
+                print("Error: Unable to parse serviceFee or serviceFeeGST as Decimal")
+                return
+            }
+            
+            // Sum serviceFee and serviceFeeGST
+            let totalServiceFee = serviceFeeDecimal + serviceFeeGSTDecimal
+            print("Total Service Fee (sum of serviceFee and serviceFeeGST): \(totalServiceFee)")
+            applicationFee = formatter.string(from: (totalServiceFee) as NSNumber) ?? "0.00" //"\(totalServiceFee)"
+            
             let developer = amount
             let array = developer.split(separator: ".").map(String.init)
             let arrAmount = "\(array[0])\(array[1])"
@@ -946,9 +962,16 @@ class PaymentInitiationManager: ObservableObject {
               
             print("serviceFeeGST amount: ",serviceFeeGST)
             
-            let srvGArray = serviceFeeGST.split(separator: ".").map(String.init)
-            let srvGAmount = "\(srvGArray[0])\(srvGArray[1])"
-            print("srvArray GST amount: ",srvGAmount)
+            let srvGArray = applicationFee.split(separator: ".").map(String.init)
+            var srvGAmount: String = ""
+            
+            if srvGArray.count == 2 { // Ensure the split result has two components
+                srvGAmount = "\(srvGArray[0])\(srvGArray[1])"
+                print("srvArray GST amount: ", srvGAmount)
+            } else {
+                srvGAmount = "\(srvGArray[0])\("00")"
+                print("Error: applicationFee format is invalid")
+            }
             
             print("srvArr amount: ",srvGAmount.toUInt() as Any)
             let tNumber = UserDefaults.standard.string(forKey: "txNumber") ?? "0"

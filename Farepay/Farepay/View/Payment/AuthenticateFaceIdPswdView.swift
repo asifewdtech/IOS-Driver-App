@@ -92,42 +92,6 @@ extension AuthenticateFaceIdPswdView{
         }
     }
     
-//    func authenticateAppPswd (){
-//        
-//        context.canEvaluatePolicy(.deviceOwnerAuthentication, error: nil)
-//        context.localizedCancelTitle = "Cancel"
-//        // First check if we have the needed hardware support.
-//        var error: NSError?
-//        guard context.canEvaluatePolicy(.deviceOwnerAuthentication, error: &error) else {
-//            print(error?.localizedDescription ?? "Can't evaluate policy")
-//            
-//            // Fall back to a asking for username and password.
-//            // ...
-//            return
-//        }
-//        Task {
-//            do {
-////                try await context.evaluatePolicy(.deviceOwnerAuthentication, localizedReason: "Log in to your account")
-////                willMoveToMainView = true
-//                
-//                let reason = "We need to unlock your data."
-//
-//                        context.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: reason) { success, authenticationError in
-//                            // authentication has now completed
-//                            if success {
-//                                willMoveToMainView = true
-//                            } else {
-//                                // there was a problem
-//                            }
-//                        }
-//                
-//            } catch let error {
-//                print(error.localizedDescription)
-//                
-//            }
-//        }
-//    }
-    
     func authenticateAppPswd() {
         let context = LAContext()
         context.localizedCancelTitle = "Cancel"
