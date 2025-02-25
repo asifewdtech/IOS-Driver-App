@@ -2,7 +2,7 @@
 //  TapToPayGuidlinesView.swift
 //  Farepay
 //
-//  Created by Apple on 24/04/2024.
+//  Created by Mursil on 24/04/2024.
 //
 
 import SwiftUI

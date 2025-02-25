@@ -2,7 +2,7 @@
 //  UserAuthViewModel.swift
 //  Farepay
 //
-//  Created by Asfand Hafeez on 10/10/2023.
+//  Created by Mursil on 10/10/2023.
 //
 
 import SwiftUI

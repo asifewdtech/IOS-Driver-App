@@ -2,7 +2,7 @@
 //  GiftCardDetailView.swift
 //  Farepay
 //
-//  Created by Arslan on 09/09/2023.
+//  Created by Mursil on 09/09/2023.
 //
 
 import SwiftUI

@@ -2,7 +2,7 @@
 //  LoginView.swift
 //  Farepay
 //
-//  Created by Arslan on 24/08/2023.
+//  Created by Mursil on 24/08/2023.
 //
 
 import SwiftUI
@@ -49,19 +49,18 @@ struct LoginView: View {
             ZStack{
                 Color(.bgColor)
                     .edgesIgnoringSafeArea(.all)
-                VStack{
-//                    ScrollView(showsIndicators: false){
-                        VStack(spacing: 40){
-                            topArea
-                            textArea
-//                            Spacer()
-                            buttonArea
-                        }
-//                    }
-                }
-                .toastView(toast: $toast)
-                .padding(.all, 15)
-                .environment(\.rootPresentationMode, $userAuth.isAccountCreated)
+                // Add ScrollView to handle content overflow on smaller screens
+                            ScrollView(showsIndicators: false) {
+                                VStack(spacing: 20) { // Reduced from 40 to be more compact
+                                    topArea
+                                    textArea
+                                    buttonArea
+                                }
+                                .padding(.horizontal, 15)
+                                .padding(.vertical, 10) // Reduced padding
+                            }
+                            .toastView(toast: $toast)
+                            .environment(\.rootPresentationMode, $userAuth.isAccountCreated)
                 
                 .onAppear(perform: {
                     

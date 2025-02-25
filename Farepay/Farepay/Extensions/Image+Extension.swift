@@ -2,7 +2,7 @@
 //  Image+Extension.swift
 //  Farepay
 //
-//  Created by Arslan on 24/08/2023.
+//  Created by Mursil on 24/08/2023.
 //
 
 import Foundation
@@ -42,6 +42,8 @@ extension UIImage{
     static let ic_Qr = UIImage(named: "ic_Qr") ?? .image_placeholder
     static let ic_userPlaceholder = UIImage(named: "userPlaceholder") ?? .image_placeholder
     static let ic_iconPencil = UIImage(named: "ic_iconPencil") ?? .image_placeholder
+    static let splashBg = UIImage(named: "splashBg") ?? .image_placeholder
+    static let splashLogo = UIImage(named: "splashLogo") ?? .image_placeholder
     
     static let ic_FareCharge = UIImage(named: "ic_FareCharge") ?? .image_placeholder
     static let ic_GiftCards = UIImage(named: "ic_GiftCards") ?? .image_placeholder

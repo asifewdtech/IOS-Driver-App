@@ -38,6 +38,20 @@
 		18CF66622D51F2E800A53322 /* RepresentativeView.md in Resources */ = {isa = PBXBuildFile; fileRef = 18CF66612D51F2E800A53322 /* RepresentativeView.md */; };
 		18D4F27A2C50D24F00EEEE6B /* ConfigurationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18D4F2792C50D24F00EEEE6B /* ConfigurationManager.swift */; };
 		18D7CF8C2B1DA4640022FBBE /* ActivityIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18D7CF8B2B1DA4640022FBBE /* ActivityIndicator.swift */; };
+		18F4F4F62D5B1DE30029507D /* AccountView.md in Resources */ = {isa = PBXBuildFile; fileRef = 18F4F4F52D5B1DE30029507D /* AccountView.md */; };
+		18F4F4F92D5B1E540029507D /* AccountInfoView.md in Resources */ = {isa = PBXBuildFile; fileRef = 18F4F4F82D5B1E540029507D /* AccountInfoView.md */; };
+		18F4F4FB2D5B1EA00029507D /* EditAccountView.md in Resources */ = {isa = PBXBuildFile; fileRef = 18F4F4FA2D5B1EA00029507D /* EditAccountView.md */; };
+		18F4F4FE2D5B1F1E0029507D /* ChangePasswordView.md in Resources */ = {isa = PBXBuildFile; fileRef = 18F4F4FD2D5B1F1E0029507D /* ChangePasswordView.md */; };
+		18F4F5012D5B1F7D0029507D /* BankAccountView.md in Resources */ = {isa = PBXBuildFile; fileRef = 18F4F5002D5B1F7D0029507D /* BankAccountView.md */; };
+		18F4F5032D5B1FBB0029507D /* AddNewBankAccountView.md in Resources */ = {isa = PBXBuildFile; fileRef = 18F4F5022D5B1FBB0029507D /* AddNewBankAccountView.md */; };
+		18F4F5052D5B200A0029507D /* OtpView.md in Resources */ = {isa = PBXBuildFile; fileRef = 18F4F5042D5B200A0029507D /* OtpView.md */; };
+		18F4F5082D5B20900029507D /* PrivacyPolicyView.md in Resources */ = {isa = PBXBuildFile; fileRef = 18F4F5072D5B20900029507D /* PrivacyPolicyView.md */; };
+		18F4F50B2D5B20E20029507D /* TermsView.md in Resources */ = {isa = PBXBuildFile; fileRef = 18F4F50A2D5B20E20029507D /* TermsView.md */; };
+		18F4F50E2D5B215B0029507D /* TapToPayGuidlinesView.md in Resources */ = {isa = PBXBuildFile; fileRef = 18F4F50D2D5B215B0029507D /* TapToPayGuidlinesView.md */; };
+		18F4F5112D5B21BD0029507D /* ReferAFriendView.md in Resources */ = {isa = PBXBuildFile; fileRef = 18F4F5102D5B21BD0029507D /* ReferAFriendView.md */; };
+		18F4F5132D5B22010029507D /* FriendlistView.md in Resources */ = {isa = PBXBuildFile; fileRef = 18F4F5122D5B22010029507D /* FriendlistView.md */; };
+		18F4F5162D5B22520029507D /* PayoutView.md in Resources */ = {isa = PBXBuildFile; fileRef = 18F4F5152D5B22520029507D /* PayoutView.md */; };
+		18F4F5182D5B23040029507D /* FarepayApp.md in Resources */ = {isa = PBXBuildFile; fileRef = 18F4F5172D5B23040029507D /* FarepayApp.md */; };
 		322FC4222AFA44F80053C82C /* TransectionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 322FC4212AFA44F80053C82C /* TransectionViewModel.swift */; };
 		3230C1322AD3C74C005E182B /* SplashView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F51193902A97C6ED00554604 /* SplashView.swift */; };
 		323856FE2AFE4C670082272B /* AccountModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 323856FD2AFE4C670082272B /* AccountModel.swift */; };
@@ -175,6 +189,20 @@
 		18D4F2792C50D24F00EEEE6B /* ConfigurationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigurationManager.swift; sourceTree = "<group>"; };
 		18D7CF8B2B1DA4640022FBBE /* ActivityIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityIndicator.swift; sourceTree = "<group>"; };
 		18E395692B7B571000A4036D /* Farepay.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Farepay.entitlements; sourceTree = "<group>"; };
+		18F4F4F52D5B1DE30029507D /* AccountView.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = AccountView.md; sourceTree = "<group>"; };
+		18F4F4F82D5B1E540029507D /* AccountInfoView.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = AccountInfoView.md; sourceTree = "<group>"; };
+		18F4F4FA2D5B1EA00029507D /* EditAccountView.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = EditAccountView.md; sourceTree = "<group>"; };
+		18F4F4FD2D5B1F1E0029507D /* ChangePasswordView.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = ChangePasswordView.md; sourceTree = "<group>"; };
+		18F4F5002D5B1F7D0029507D /* BankAccountView.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = BankAccountView.md; sourceTree = "<group>"; };
+		18F4F5022D5B1FBB0029507D /* AddNewBankAccountView.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = AddNewBankAccountView.md; sourceTree = "<group>"; };
+		18F4F5042D5B200A0029507D /* OtpView.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = OtpView.md; sourceTree = "<group>"; };
+		18F4F5072D5B20900029507D /* PrivacyPolicyView.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = PrivacyPolicyView.md; sourceTree = "<group>"; };
+		18F4F50A2D5B20E20029507D /* TermsView.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = TermsView.md; sourceTree = "<group>"; };
+		18F4F50D2D5B215B0029507D /* TapToPayGuidlinesView.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = TapToPayGuidlinesView.md; sourceTree = "<group>"; };
+		18F4F5102D5B21BD0029507D /* ReferAFriendView.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = ReferAFriendView.md; sourceTree = "<group>"; };
+		18F4F5122D5B22010029507D /* FriendlistView.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = FriendlistView.md; sourceTree = "<group>"; };
+		18F4F5152D5B22520029507D /* PayoutView.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = PayoutView.md; sourceTree = "<group>"; };
+		18F4F5172D5B23040029507D /* FarepayApp.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = FarepayApp.md; sourceTree = "<group>"; };
 		322FC4212AFA44F80053C82C /* TransectionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransectionViewModel.swift; sourceTree = "<group>"; };
 		323856FD2AFE4C670082272B /* AccountModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountModel.swift; sourceTree = "<group>"; };
 		323856FF2AFE4D820082272B /* BankAccountViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BankAccountViewModel.swift; sourceTree = "<group>"; };
@@ -375,10 +403,17 @@
 		18CF66602D51F2B000A53322 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				187EC9912D54A0E200F300AA /* Transaction */,
-				187AE62B2D5348B8006697DC /* SideMenu */,
-				187AE61A2D533462006697DC /* Payment */,
+				18F4F5172D5B23040029507D /* FarepayApp.md */,
 				18CF665F2D51F2A200A53322 /* Auth */,
+				187AE61A2D533462006697DC /* Payment */,
+				187AE62B2D5348B8006697DC /* SideMenu */,
+				18F4F5142D5B221F0029507D /* Payout */,
+				187EC9912D54A0E200F300AA /* Transaction */,
+				18F4F50F2D5B21800029507D /* ReferAFriend */,
+				18F4F5062D5B20430029507D /* PrivacyPolicy */,
+				18F4F5092D5B20A60029507D /* Terms */,
+				18F4F50C2D5B212C0029507D /* TapToPayGuidlines */,
+				18F4F4F42D5B1D580029507D /* Account */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -392,6 +427,85 @@
 				18D4F2792C50D24F00EEEE6B /* ConfigurationManager.swift */,
 			);
 			path = Configuration;
+			sourceTree = "<group>";
+		};
+		18F4F4F42D5B1D580029507D /* Account */ = {
+			isa = PBXGroup;
+			children = (
+				18F4F4F52D5B1DE30029507D /* AccountView.md */,
+				18F4F4F72D5B1E090029507D /* AccountInfo */,
+				18F4F4FC2D5B1EE20029507D /* ChangePassword */,
+				18F4F4FF2D5B1F460029507D /* BankAccount */,
+			);
+			path = Account;
+			sourceTree = "<group>";
+		};
+		18F4F4F72D5B1E090029507D /* AccountInfo */ = {
+			isa = PBXGroup;
+			children = (
+				18F4F4F82D5B1E540029507D /* AccountInfoView.md */,
+				18F4F4FA2D5B1EA00029507D /* EditAccountView.md */,
+			);
+			path = AccountInfo;
+			sourceTree = "<group>";
+		};
+		18F4F4FC2D5B1EE20029507D /* ChangePassword */ = {
+			isa = PBXGroup;
+			children = (
+				18F4F4FD2D5B1F1E0029507D /* ChangePasswordView.md */,
+			);
+			path = ChangePassword;
+			sourceTree = "<group>";
+		};
+		18F4F4FF2D5B1F460029507D /* BankAccount */ = {
+			isa = PBXGroup;
+			children = (
+				18F4F5002D5B1F7D0029507D /* BankAccountView.md */,
+				18F4F5022D5B1FBB0029507D /* AddNewBankAccountView.md */,
+				18F4F5042D5B200A0029507D /* OtpView.md */,
+			);
+			path = BankAccount;
+			sourceTree = "<group>";
+		};
+		18F4F5062D5B20430029507D /* PrivacyPolicy */ = {
+			isa = PBXGroup;
+			children = (
+				18F4F5072D5B20900029507D /* PrivacyPolicyView.md */,
+			);
+			path = PrivacyPolicy;
+			sourceTree = "<group>";
+		};
+		18F4F5092D5B20A60029507D /* Terms */ = {
+			isa = PBXGroup;
+			children = (
+				18F4F50A2D5B20E20029507D /* TermsView.md */,
+			);
+			path = Terms;
+			sourceTree = "<group>";
+		};
+		18F4F50C2D5B212C0029507D /* TapToPayGuidlines */ = {
+			isa = PBXGroup;
+			children = (
+				18F4F50D2D5B215B0029507D /* TapToPayGuidlinesView.md */,
+			);
+			path = TapToPayGuidlines;
+			sourceTree = "<group>";
+		};
+		18F4F50F2D5B21800029507D /* ReferAFriend */ = {
+			isa = PBXGroup;
+			children = (
+				18F4F5102D5B21BD0029507D /* ReferAFriendView.md */,
+				18F4F5122D5B22010029507D /* FriendlistView.md */,
+			);
+			path = ReferAFriend;
+			sourceTree = "<group>";
+		};
+		18F4F5142D5B221F0029507D /* Payout */ = {
+			isa = PBXGroup;
+			children = (
+				18F4F5152D5B22520029507D /* PayoutView.md */,
+			);
+			path = Payout;
 			sourceTree = "<group>";
 		};
 		326495F22AE7B4AD006629DC /* Stripe */ = {
@@ -820,32 +934,46 @@
 			buildActionMask = 2147483647;
 			files = (
 				187EC98C2D549FB000F300AA /* MainTabbedView.md in Resources */,
+				18F4F5012D5B1F7D0029507D /* BankAccountView.md in Resources */,
 				187AE62A2D5348AB006697DC /* UnderReviewView.md in Resources */,
+				18F4F4FE2D5B1F1E0029507D /* ChangePasswordView.md in Resources */,
+				18F4F5112D5B21BD0029507D /* ReferAFriendView.md in Resources */,
 				F51193A12A97CFF900554604 /* Poppins-SemiBold.ttf in Resources */,
 				18CF66542D51ED5B00A53322 /* CompanyView.md in Resources */,
+				18F4F5132D5B22010029507D /* FriendlistView.md in Resources */,
 				187AE61E2D53467F006697DC /* PaymentDetailView.md in Resources */,
 				187AE6262D5347ED006697DC /* PayQRView.md in Resources */,
 				187AE61C2D5345EA006697DC /* PaymentView.md in Resources */,
+				18F4F50B2D5B20E20029507D /* TermsView.md in Resources */,
 				32E005CE2AD51DFF008CA8ED /* GoogleService-Info.plist in Resources */,
 				187EC9952D54A16D00F300AA /* ExportPopUpView.md in Resources */,
 				18CF665E2D51F13500A53322 /* ImagePreView.md in Resources */,
 				187EC9972D54A1A700F300AA /* TransactionDetailView.md in Resources */,
 				F51193852A97C4E200554604 /* Preview Assets.xcassets in Resources */,
+				18F4F50E2D5B215B0029507D /* TapToPayGuidlinesView.md in Resources */,
 				187AE6222D53475A006697DC /* TapToPayView.md in Resources */,
+				18F4F5082D5B20900029507D /* PrivacyPolicyView.md in Resources */,
 				187EC9902D54A0B600F300AA /* SideMenuView.md in Resources */,
 				187AE6242D5347AF006697DC /* TryAgainView.md in Resources */,
 				18CF66522D51E01900A53322 /* SignUpView.md in Resources */,
 				187EC9932D54A12B00F300AA /* TransactionView.md in Resources */,
+				18F4F5182D5B23040029507D /* FarepayApp.md in Resources */,
 				187AE6282D534848006697DC /* ReaderConnectView.md in Resources */,
 				18CF66562D51EEE100A53322 /* StepsView.md in Resources */,
+				18F4F4F92D5B1E540029507D /* AccountInfoView.md in Resources */,
 				F511939F2A97CFDB00554604 /* Poppins-Medium.ttf in Resources */,
 				F51193A32A97D02B00554604 /* Poppins-Thin.ttf in Resources */,
+				18F4F5162D5B22520029507D /* PayoutView.md in Resources */,
+				18F4F4F62D5B1DE30029507D /* AccountView.md in Resources */,
 				18CF66622D51F2E800A53322 /* RepresentativeView.md in Resources */,
 				18CF66582D51EFF800A53322 /* ForgotPasswordView.md in Resources */,
 				F511939D2A97CFC800554604 /* Poppins-Bold.ttf in Resources */,
 				18CF665A2D51F05D00A53322 /* NewsView.md in Resources */,
+				18F4F5052D5B200A0029507D /* OtpView.md in Resources */,
 				F51193822A97C4E200554604 /* Assets.xcassets in Resources */,
 				187EC98E2D54A06C00F300AA /* SideMenu.md in Resources */,
+				18F4F4FB2D5B1EA00029507D /* EditAccountView.md in Resources */,
+				18F4F5032D5B1FBB0029507D /* AddNewBankAccountView.md in Resources */,
 				187AE6202D534714006697DC /* AuthenticateFaceIdPswdView.md in Resources */,
 				18CF665C2D51F0AE00A53322 /* SplashView.md in Resources */,
 				18CF66502D51DDA700A53322 /* LoginView.md in Resources */,
@@ -1051,7 +1179,7 @@
 				CODE_SIGN_ENTITLEMENTS = Farepay/Farepay.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 65;
+				CURRENT_PROJECT_VERSION = 66;
 				DEVELOPMENT_ASSET_PATHS = "\"Farepay/Preview Content\"";
 				DEVELOPMENT_TEAM = F2D64HKJXK;
 				ENABLE_PREVIEWS = YES;
@@ -1062,6 +1190,7 @@
 				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "This app uses Bluetooth to connect to supported card readers.";
 				INFOPLIST_KEY_NSBluetoothPeripheralUsageDescription = "Bluetooth access is required to connect to supported card readers.";
 				INFOPLIST_KEY_NSCameraUsageDescription = "We need access to your camera to take photos.";
+				INFOPLIST_KEY_NSFaceIDUsageDescription = "Use Face ID instead of a password to access your account.";
 				INFOPLIST_KEY_NSLocationUsageDescription = "Location access is required to accept the payments.";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Location access is required to accept payments.";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "We need access to your photo library to select images.";
@@ -1085,9 +1214,10 @@
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = "Debug-Dev";
 		};
@@ -1165,7 +1295,7 @@
 				CODE_SIGN_ENTITLEMENTS = Farepay/Farepay.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 65;
+				CURRENT_PROJECT_VERSION = 66;
 				DEVELOPMENT_ASSET_PATHS = "\"Farepay/Preview Content\"";
 				DEVELOPMENT_TEAM = F2D64HKJXK;
 				ENABLE_PREVIEWS = YES;
@@ -1176,6 +1306,7 @@
 				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "This app uses Bluetooth to connect to supported card readers.";
 				INFOPLIST_KEY_NSBluetoothPeripheralUsageDescription = "Bluetooth access is required to connect to supported card readers.";
 				INFOPLIST_KEY_NSCameraUsageDescription = "We need access to your camera to take photos.";
+				INFOPLIST_KEY_NSFaceIDUsageDescription = "Use Face ID instead of a password to access your account.";
 				INFOPLIST_KEY_NSLocationUsageDescription = "Location access is required to accept the payments.";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Location access is required to accept payments.";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "We need access to your photo library to select images.";
@@ -1199,9 +1330,10 @@
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = "Debug-Stagging";
 		};
@@ -1273,7 +1405,7 @@
 				CODE_SIGN_ENTITLEMENTS = Farepay/Farepay.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 65;
+				CURRENT_PROJECT_VERSION = 66;
 				DEVELOPMENT_ASSET_PATHS = "\"Farepay/Preview Content\"";
 				DEVELOPMENT_TEAM = F2D64HKJXK;
 				ENABLE_PREVIEWS = YES;
@@ -1284,6 +1416,7 @@
 				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "This app uses Bluetooth to connect to supported card readers.";
 				INFOPLIST_KEY_NSBluetoothPeripheralUsageDescription = "Bluetooth access is required to connect to supported card readers.";
 				INFOPLIST_KEY_NSCameraUsageDescription = "We need access to your camera to take photos.";
+				INFOPLIST_KEY_NSFaceIDUsageDescription = "Use Face ID instead of a password to access your account.";
 				INFOPLIST_KEY_NSLocationUsageDescription = "Location access is required to accept the payments.";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Location access is required to accept payments.";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "We need access to your photo library to select images.";
@@ -1307,9 +1440,10 @@
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = "Release-Dev";
 		};
@@ -1381,7 +1515,7 @@
 				CODE_SIGN_ENTITLEMENTS = Farepay/Farepay.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 65;
+				CURRENT_PROJECT_VERSION = 66;
 				DEVELOPMENT_ASSET_PATHS = "\"Farepay/Preview Content\"";
 				DEVELOPMENT_TEAM = F2D64HKJXK;
 				ENABLE_PREVIEWS = YES;
@@ -1392,6 +1526,7 @@
 				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "This app uses Bluetooth to connect to supported card readers.";
 				INFOPLIST_KEY_NSBluetoothPeripheralUsageDescription = "Bluetooth access is required to connect to supported card readers.";
 				INFOPLIST_KEY_NSCameraUsageDescription = "We need access to your camera to take photos.";
+				INFOPLIST_KEY_NSFaceIDUsageDescription = "Use Face ID instead of a password to access your account.";
 				INFOPLIST_KEY_NSLocationUsageDescription = "Location access is required to accept the payments.";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Location access is required to accept payments.";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "We need access to your photo library to select images.";
@@ -1415,9 +1550,10 @@
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = "Release-Stagging";
 		};
@@ -1553,7 +1689,7 @@
 				CODE_SIGN_ENTITLEMENTS = Farepay/Farepay.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 65;
+				CURRENT_PROJECT_VERSION = 66;
 				DEVELOPMENT_ASSET_PATHS = "\"Farepay/Preview Content\"";
 				DEVELOPMENT_TEAM = F2D64HKJXK;
 				ENABLE_PREVIEWS = YES;
@@ -1564,6 +1700,7 @@
 				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "This app uses Bluetooth to connect to supported card readers.";
 				INFOPLIST_KEY_NSBluetoothPeripheralUsageDescription = "Bluetooth access is required to connect to supported card readers.";
 				INFOPLIST_KEY_NSCameraUsageDescription = "We need access to your camera to take photos.";
+				INFOPLIST_KEY_NSFaceIDUsageDescription = "Use Face ID instead of a password to access your account.";
 				INFOPLIST_KEY_NSLocationUsageDescription = "Location access is required to accept the payments.";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Location access is required to accept payments.";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "We need access to your photo library to select images.";
@@ -1587,9 +1724,10 @@
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = "Debug-PRO";
 		};
@@ -1603,7 +1741,7 @@
 				CODE_SIGN_ENTITLEMENTS = Farepay/Farepay.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 65;
+				CURRENT_PROJECT_VERSION = 66;
 				DEVELOPMENT_ASSET_PATHS = "\"Farepay/Preview Content\"";
 				DEVELOPMENT_TEAM = F2D64HKJXK;
 				ENABLE_PREVIEWS = YES;
@@ -1614,6 +1752,7 @@
 				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "This app uses Bluetooth to connect to supported card readers.";
 				INFOPLIST_KEY_NSBluetoothPeripheralUsageDescription = "Bluetooth access is required to connect to supported card readers.";
 				INFOPLIST_KEY_NSCameraUsageDescription = "We need access to your camera to take photos.";
+				INFOPLIST_KEY_NSFaceIDUsageDescription = "Use Face ID instead of a password to access your account.";
 				INFOPLIST_KEY_NSLocationUsageDescription = "Location access is required to accept the payments.";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Location access is required to accept payments.";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "We need access to your photo library to select images.";
@@ -1637,9 +1776,10 @@
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = "Release-PRO";
 		};

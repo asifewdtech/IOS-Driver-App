@@ -2,7 +2,7 @@
 //  AccountInfoView.swift
 //  Farepay
 //
-//  Created by Arslan on 19/09/2023.
+//  Created by Mursil on 19/09/2023.
 //
 
 import SwiftUI

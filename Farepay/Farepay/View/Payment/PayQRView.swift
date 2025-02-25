@@ -2,7 +2,7 @@
 //  PayQRView.swift
 //  Farepay
 //
-//  Created by Arslan on 01/09/2023.
+//  Created by Mursil on 01/09/2023.
 //
 
 import SwiftUI

@@ -2,7 +2,7 @@
 //  NewsView.swift
 //  Farepay
 //
-//  Created by Arslan on 27/09/2023.
+//  Created by Mursil on 27/09/2023.
 //
 
 import SwiftUI

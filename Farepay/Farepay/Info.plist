@@ -31,11 +31,6 @@
 		<string>Poppins-Thin.ttf</string>
 	</array>
 	<key>UIBackgroundModes</key>
-	<array>
-		<string>bluetooth-central</string>
-		<string>location</string>
-	</array>
-	<key>NSFaceIDUsageDescription</key>
-	<string>Use Face ID instead of a password to access your account.</string>
+	<array/>
 </dict>
 </plist>

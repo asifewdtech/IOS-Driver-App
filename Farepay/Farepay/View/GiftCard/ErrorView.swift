@@ -2,7 +2,7 @@
 //  ErrorView.swift
 //  Farepay
 //
-//  Created by Arslan on 12/09/2023.
+//  Created by Mursil on 12/09/2023.
 //
 
 import SwiftUI

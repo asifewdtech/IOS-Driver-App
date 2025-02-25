@@ -2,7 +2,7 @@
 //  SplashView.swift
 //  Farepay
 //
-//  Created by Arslan on 24/08/2023.
+//  Created by Mursil on 24/08/2023.
 //
 
 import SwiftUI
@@ -53,15 +53,30 @@ struct SplashView: View {
                 NavigationLink("", destination: Farepay.RepresentativeView().toolbar(.hidden, for: .navigationBar), isActive: $willMoveToForm2 ).isDetailLink(false)
                 
                 // Splash screen UI elements
-                Color(.bgColor)
-                    .edgesIgnoringSafeArea(.all)
+//                Color(.bgColor)
+//                    .edgesIgnoringSafeArea(.all)
+                // Gradient background
+//                LinearGradient(
+//                    gradient: Gradient(colors: [
+//                        Color(red: 0.8, green: 0, blue: 0.8),      // Brighter purple
+//                        Color(red: 0.4, green: 0, blue: 0.4),      // Darker purple transition
+//                        Color(red: 0, green: 0, blue: 0.15),       // Very dark blue/black
+//                        Color(red: 0, green: 0.15, blue: 0.25)     // Deep teal-blue
+//                    ]),
+//                    startPoint: .bottom,
+//                    endPoint: .top
+//                )
+                Image(uiImage: .splashBg)
+                    .resizable()
+                    .scaledToFill()
+                .ignoresSafeArea()
                 HStack(spacing: 20){
-                    Image(uiImage: .logo)
+                    Image(uiImage: .splashLogo)
                         .resizable()
-                        .frame(width: 60, height: 60)
-                    Text(verbatim: .appName)
-                        .font(.custom(.poppinsBold, size: 45))
-                        .foregroundColor(.white)
+                        .frame(width: 300, height: 300)
+//                    Text(verbatim: .appName)
+//                        .font(.custom(.poppinsBold, size: 45))
+//                        .foregroundColor(.white)
                 }
                 
                 // Loading indicator

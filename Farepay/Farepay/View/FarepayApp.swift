@@ -2,7 +2,7 @@
 //  FarepayApp.swift
 //  Farepay
 //
-//  Created by Arslan on 24/08/2023.
+//  Created by Mursil on 24/08/2023.
 //
 
 import SwiftUI

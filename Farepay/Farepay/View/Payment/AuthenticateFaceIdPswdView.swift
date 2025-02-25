@@ -95,51 +95,54 @@ extension AuthenticateFaceIdPswdView{
     func authenticateAppPswd() {
         let context = LAContext()
         context.localizedCancelTitle = "Cancel"
-        
-        // First check if we have the needed hardware support for biometrics.
         var error: NSError?
+        
+        // First check if biometrics is available
         if context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error) {
             let reason = "We need to unlock your data."
             
             context.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: reason) { success, authenticationError in
-                // Handle success or failure
                 if success {
                     DispatchQueue.main.async {
-//                        willMoveToMainView = true
                         let firstTimeFaceID = UserDefaults.standard.integer(forKey: "firstTimeFaceID")
                         if firstTimeFaceID == 1 {
                             willMoveToMainView = true
                             UserDefaults.standard.removeObject(forKey: "firstTimeFaceID")
-                        }else{
+                        } else {
                             dismiss()
                         }
                     }
                 } else {
-                    // Biometrics failed, fallback to passcode if needed.
-                    if let authError = authenticationError {
-                        print(authError.localizedDescription)
-                    }
-                }
-            }
-        } else if context.canEvaluatePolicy(.deviceOwnerAuthentication, error: &error) {
-            // Fallback to passcode if biometrics isn't available.
-            let reason = "Please authenticate to continue."
-            
-            context.evaluatePolicy(.deviceOwnerAuthentication, localizedReason: reason) { success, authenticationError in
-                if success {
-                    DispatchQueue.main.async {
-//                        willMoveToMainView = true
-                        dismiss()
-                    }
-                } else {
-                    if let authError = authenticationError {
-                        print(authError.localizedDescription)
-                    }
+                    // If biometrics fails, automatically fall back to passcode
+                    self.fallbackToPasscode(context: context)
                 }
             }
         } else {
-            // No biometrics or passcode available.
-            print(error?.localizedDescription ?? "Can't evaluate policy")
+            // If biometrics isn't available, directly try passcode
+            fallbackToPasscode(context: context)
+        }
+    }
+
+    private func fallbackToPasscode(context: LAContext) {
+        let reason = "Please enter your passcode to continue."
+        
+        context.evaluatePolicy(.deviceOwnerAuthentication, localizedReason: reason) { success, authenticationError in
+            DispatchQueue.main.async {
+                if success {
+                    dismiss()
+                } else if let error = authenticationError as? LAError {
+                    switch error.code {
+                    case .userCancel:
+                        print("User cancelled")
+                    case .userFallback:
+                        print("User tapped Enter Password")
+                    case .authenticationFailed:
+                        print("Authentication failed")
+                    default:
+                        print("Authentication failed: \(error.localizedDescription)")
+                    }
+                }
+            }
         }
     }
 }

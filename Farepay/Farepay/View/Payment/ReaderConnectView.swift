@@ -2,7 +2,7 @@
 //  ReaderConnectView.swift
 //  Farepay
 //
-//  Created by Asfand Hafeez on 14/11/2023.
+//  Created by Mursil on 14/11/2023.
 //
 
 import SwiftUI

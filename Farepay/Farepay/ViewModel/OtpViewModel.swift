@@ -2,7 +2,7 @@
 //  OtpViewModel.swift
 //  Farepay
 //
-//  Created by Asfand Hafeez on 16/10/2023.
+//  Created by Mursil on 16/10/2023.
 //
 
 import Foundation
